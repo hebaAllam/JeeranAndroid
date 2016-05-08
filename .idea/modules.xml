@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Jeeran.iml" filepath="$PROJECT_DIR$/Jeeran.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JeeranAndroid.iml" filepath="$PROJECT_DIR$/JeeranAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/JeeranAndroid1.iml" filepath="$PROJECT_DIR$/JeeranAndroid1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

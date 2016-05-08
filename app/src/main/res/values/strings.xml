@@ -14,7 +14,7 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password </string>
     <string name="prompt_confirm_password">Confirm Password </string>
-    <string name="action_sign_in">register with facebook</string>
+    <string name="action_sign_in">Login</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -24,5 +24,10 @@
         completions."
     </string>
     <string name="title_activity_register_with_facebook">Register With Facebook</string>
+    <string name="create_account">Create Account</string>
+    <string name="action_sign_in_fb">Login With Facebook</string>
+    <string name="action_forgot_password">Forgot Your Password?!</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="facebook_app_id">1592022801113372</string>
 
 </resources>
