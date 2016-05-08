@@ -2,12 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#0179B5</color>
 
+    <color name="background">#C6F3F9</color>
+    <color name="registerBackground">#0179B5</color>
+    <color name="registerWithFbBtn">#303F9F</color>
 
-    <color name="facebookBtn">#003399</color>
-    <color name="btn">#0066CC</color>
-    <color name="editText">#333366</color>
-    <color name="btnText">#ffffff</color>
-
+    <color name="iron">#CCCCCC</color>
+    <color name="white">#FFFFFF</color>
 </resources>
