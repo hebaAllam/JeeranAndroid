@@ -13,28 +13,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".apps.gn4me.com.activity.SplashActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".apps.gn4me.com.activity.LoginActivity">
+        <activity
+            android:name=".apps.gn4me.com.activity.SplashActivity"
+            android:theme="@style/SplashTheme">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity android:name=".apps.gn4me.com.activity.LoginActivity"></activity>
         <activity
             android:name=".apps.gn4me.com.activity.CreateAccount"
             android:label="@string/create_account" />
-
         <activity
             android:name=".apps.gn4me.com.activity.RegisterWithFacebook"
             android:label="@string/title_activity_register_with_facebook" />
@@ -42,7 +34,7 @@
         <activity
             android:name=".apps.gn4me.com.activity.LoginActivity"
             android:label="@string/title_activity_login"></activity>
-            -->
+        -->
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -55,6 +47,8 @@
             android:value="@string/facebook_app_id" />
 
         <uses-permission android:name="android.permission.INTERNET" />
+
+        <activity android:name=".apps.gn4me.com.activity.SelectAreaScreen"></activity>
     </application>
 
 </manifest>

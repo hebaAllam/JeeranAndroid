@@ -78,6 +78,7 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
+
     }
 
     private void sendRegistrationDataWithFb() {
