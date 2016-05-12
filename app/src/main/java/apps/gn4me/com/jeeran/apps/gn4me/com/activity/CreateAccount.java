@@ -4,11 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -23,18 +30,47 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
 
     //all create account activity components
     EditText userNameEditTxt , passwordEditTxt , retypePassEditTxt , emailEditTxt;
-    Button   registerBtn , registerWithFbBtn;
+    Button   registerBtn;
+    LoginButton registerWithFbBtn;
     User myUser;
-
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+
         setContentView(R.layout.activity_create_account);
 
         bindComponents();
         assignUserData();
         setListeners();
+
+
+        registerWithFbBtn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.i("Success :::" ,
+                        "User ID: "
+                                + loginResult.getAccessToken().getUserId()
+                                + "\n" +
+                                "Auth Token: "
+                                + loginResult.getAccessToken().getToken()
+                );
+            }
+
+            @Override
+            public void onCancel() {
+                Log.i("Cancel :::" , "Login attempt canceled.");
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+                Log.i("Error :::" ,"Login attempt failed.");
+            }
+        });
     }
 
     //method to bind xml components with objects
@@ -45,7 +81,12 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
         emailEditTxt      = (EditText)findViewById(R.id.emailEditTxt_createAccountActivity);
 
         registerBtn       = (Button)findViewById(R.id.registerBtn_createAccountActivity);
-        registerWithFbBtn = (Button)findViewById(R.id.registerWithFbBtn_createAccountActivity);
+        registerWithFbBtn = (LoginButton)findViewById(R.id.registerWithFbBtn_createAccountActivity);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
     //method that fills user data with xml components
     private void assignUserData() {
@@ -67,9 +108,9 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
                 openDialog();
             }
         }
-        else if(componentID == R.id.registerWithFbBtn_createAccountActivity){
-            sendRegistrationDataWithFb();
-        }
+//        else if(componentID == R.id.registerWithFbBtn_createAccountActivity){
+//            sendRegistrationDataWithFb();
+//        }
     }
 
     private void openDialog() {
@@ -79,11 +120,6 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-    }
-
-    private void sendRegistrationDataWithFb() {
-        Intent myIntent = new Intent(CreateAccount.this, RegisterWithFacebook.class);
-        startActivity(myIntent);
     }
 
     private boolean isEmpty() {

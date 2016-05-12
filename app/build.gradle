@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'gn4me'
             keyPassword 'goodnews4me'
-            storeFile file('C:/MAD/GraduationProject/newKeyStore.jks')
+            storeFile file('E:/Android/androidproject/newKeyStore.jks')
             storePassword 'goodnews4me'
         }
     }
@@ -47,4 +47,6 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
+    compile project(path: ':library')
+    compile project(path: ':library')
 }
