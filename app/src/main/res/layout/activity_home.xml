@@ -25,7 +25,7 @@
             android:id="@+id/fab12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fab_add"
+            android:src="@drawable/com_facebook_tooltip_black_bottomnub"
             style="@style/Theme.AppCompat.CompactMenu" />
 
 
@@ -33,7 +33,7 @@
             android:id="@+id/fab22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fab_add"
+            android:src="@drawable/com_facebook_tooltip_blue_background"
             style="@style/Theme.AppCompat.CompactMenu" />
 
 
@@ -41,7 +41,7 @@
             android:id="@+id/fab32"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/fab_add"
+            android:src="@drawable/ic_user_name"
             style="@style/Theme.AppCompat.CompactMenu" />
 
     </com.github.clans.fab.FloatingActionMenu>

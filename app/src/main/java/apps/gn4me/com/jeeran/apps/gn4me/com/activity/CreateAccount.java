@@ -16,9 +16,9 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
+//import com.google.gson.JsonObject;
+//import com.koushikdutta.async.future.FutureCallback;
+//import com.koushikdutta.ion.Ion;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -184,31 +184,31 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
-    private void sendRequestToWebService(){
-        Ion.with(getApplicationContext())
-                .load("http://10.118.49.82:8088/RestFulServiceTest/rest/WService/query")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-//                        progressDialog.dismiss();
-                        if(result==null){
-                            Toast.makeText(getApplicationContext(),"Check Your Internet Acess Please",Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            String status=(result.get("status")).toString();
-                            Toast.makeText(getBaseContext(),status,Toast.LENGTH_SHORT).show();
-                            if(status.equals("\"SUCCESS\""))
-                            {
-//                                SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE).edit();
-//                                editor.putString("name", user_name);
-//                                editor.putString("pass", user_pass);
-//                                editor.commit();
-//                                Intent intent=new Intent(SignIn.this,MedicineHome.class);
-//                                intent.putExtra("getDataFromService","medsdata");
-//                                startActivity(intent);
-                            }
-                        }}
-                });
-    }
+//    private void sendRequestToWebService(){
+//        Ion.with(getApplicationContext())
+//                .load("http://10.118.49.82:8088/RestFulServiceTest/rest/WService/query")
+//                .asJsonObject()
+//                .setCallback(new FutureCallback<JsonObject>() {
+//                    @Override
+//                    public void onCompleted(Exception e, JsonObject result) {
+////                        progressDialog.dismiss();
+//                        if(result==null){
+//                            Toast.makeText(getApplicationContext(),"Check Your Internet Acess Please",Toast.LENGTH_SHORT).show();
+//                        }
+//                        else{
+//                            String status=(result.get("status")).toString();
+//                            Toast.makeText(getBaseContext(),status,Toast.LENGTH_SHORT).show();
+//                            if(status.equals("\"SUCCESS\""))
+//                            {
+////                                SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE).edit();
+////                                editor.putString("name", user_name);
+////                                editor.putString("pass", user_pass);
+////                                editor.commit();
+////                                Intent intent=new Intent(SignIn.this,MedicineHome.class);
+////                                intent.putExtra("getDataFromService","medsdata");
+////                                startActivity(intent);
+//                            }
+//                        }}
+//                });
+//    }
 }

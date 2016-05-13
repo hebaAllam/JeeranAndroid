@@ -32,6 +32,9 @@ android {
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://github.com/Clans/FloatingActionButton.git'
+    }
 }
 
 
@@ -42,11 +45,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     //for Ion
-    compile 'com.koushikdutta.ion:ion:2.+'
+    //compile 'com.github.clans:fab:1.6.3'
+
+//    compile 'com.github.clans : fab : 1.6.3'
     //for sign up
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
-    compile project(path: ':library')
+//    compile project(path: ':library')
+//    compile project(path: ':library')
     compile project(path: ':library')
 }
