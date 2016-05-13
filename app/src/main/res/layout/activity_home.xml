@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".apps.gn4me.com.activity.HomeActivity">
 
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu_yellow"
         android:layout_width="wrap_content"
@@ -44,5 +45,4 @@
             style="@style/Theme.AppCompat.CompactMenu" />
 
     </com.github.clans.fab.FloatingActionMenu>
-
 </RelativeLayout>

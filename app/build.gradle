@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'gn4me'
-            keyPassword 'goodnews4me'
-            storeFile file('E:/Android/androidproject/newKeyStore.jks')
-            storePassword 'goodnews4me'
-        }
+//        config {
+//            keyAlias 'gn4me'
+//            keyPassword 'goodnews4me'
+////            storeFile file('E:/Android/androidproject/newKeyStore.jks')
+//            storePassword 'goodnews4me'
+//        }
     }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -24,7 +24,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
         }
     }
 }

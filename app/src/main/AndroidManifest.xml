@@ -18,6 +18,7 @@
             android:name=".apps.gn4me.com.activity.SplashActivity"
             android:theme="@style/SplashTheme">
             >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,7 +46,13 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".apps.gn4me.com.activity.SelectAreaScreen" />
-        <activity android:name=".apps.gn4me.com.activity.HomeActivity"></activity>
+        <activity android:name=".apps.gn4me.com.activity.HomeActivity" />
+        <activity
+            android:name=".apps.gn4me.com.activity.AddServiceActivity"
+            android:label="@string/title_activity_add_service"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>
