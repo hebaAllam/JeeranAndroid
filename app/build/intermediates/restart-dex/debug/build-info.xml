@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="x86"
+    api-level="22"
+    density="xhdpi"
+    format="7"
+    timestamp="660687134783937" >
+
+    <task
+        name="javac"
+        duration="0" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="0" />
+    <task
+        name="verifier"
+        duration="0" />
+
+    <artifact
+        location="C:\Users\menna\AndroidStudioProjects\JeeranAndroid4\app\build\intermediates\res\resources-debug.ap_"
+        type="RESOURCES" />
+
+    <build timestamp="659587098302522" >
+        <artifact
+            location="C:\Users\menna\AndroidStudioProjects\JeeranAndroid4\app\build\outputs\apk\app-debug.apk"
+            type="MAIN" />
+    </build>
+    <build
+        timestamp="660059628255053"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="C:\Users\menna\AndroidStudioProjects\JeeranAndroid4\app\build\intermediates\builds\debug\660059628255053\classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build timestamp="660499413194462" >
+        <artifact
+            location="C:\Users\menna\AndroidStudioProjects\JeeranAndroid4\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_8\classes.dex"
+            type="DEX" />
+    </build>
+    <build timestamp="660687134783937" >
+        <artifact
+            location="C:\Users\menna\AndroidStudioProjects\JeeranAndroid4\app\build\intermediates\res\resources-debug.ap_"
+            type="RESOURCES" />
+    </build>
+
+</instant-run>

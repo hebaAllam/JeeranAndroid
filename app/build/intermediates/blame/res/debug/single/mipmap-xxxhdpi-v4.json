@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\menna\\AndroidStudioProjects\\JeeranAndroid4\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\menna\\AndroidStudioProjects\\JeeranAndroid4\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\menna\\AndroidStudioProjects\\JeeranAndroid4\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\ic_logo.png",
+        "source": "C:\\Users\\menna\\AndroidStudioProjects\\JeeranAndroid4\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_logo.png"
+    }
+]
