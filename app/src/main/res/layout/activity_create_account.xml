@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/background">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".apps.gn4me.com.activity.CreateAccount"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:paddingTop="50dp"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_create_account"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_name"
+            android:id="@+id/userNameEditTxt_createAccountActivity"
+            android:drawableRight="@drawable/ic_user_name"
+            android:inputType="textWebEditText"
+            android:textCursorDrawable="@drawable/cursur_color"
+            android:cursorVisible="true"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:id="@+id/passwordEditTxt_createAccountActivity"
+            android:drawableRight="@drawable/ic_lock_password"
+            android:inputType="textWebPassword"
+            android:textCursorDrawable="@drawable/cursur_color"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/retype_password"
+            android:id="@+id/retypePassEditTxt_createAccountActivity"
+            android:drawableRight="@drawable/ic_lock_password"
+            android:inputType="textWebPassword"
+            android:textCursorDrawable="@drawable/cursur_color" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email_address"
+        android:id="@+id/emailEditTxt_createAccountActivity"
+        android:drawableRight="@drawable/ic_email_address"
+        android:inputType="textWebEmailAddress"
+        android:textCursorDrawable="@drawable/cursur_color" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/registerBackground"
+        android:text="@string/register"
+        android:id="@+id/registerBtn_createAccountActivity"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:padding="12dp"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/registerWithFbBtn"
+        android:text="@string/register_with_fb"
+        android:id="@+id/registerWithFbBtn_createAccountActivity"/>
+    </android.support.design.widget.TextInputLayout>
+</LinearLayout>
+</ScrollView>
