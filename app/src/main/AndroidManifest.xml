@@ -48,7 +48,11 @@
 
         <uses-permission android:name="android.permission.INTERNET" />
 
+        <!-- if you want to load images from a file OR from the internet -->
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
         <activity android:name=".activity.SelectAreaScreen"></activity>
+        <activity android:name=".activity.HomeActivity"></activity>
     </application>
 
 </manifest>
