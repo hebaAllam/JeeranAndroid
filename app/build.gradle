@@ -44,4 +44,8 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.daimajia.androidanimations:library:1.0.3@aar'
+
+    //floating action button
+    compile 'com.melnykov:floatingactionbutton:1.2.0'
+    compile 'com.github.clans:fab:1.6.3'
 }

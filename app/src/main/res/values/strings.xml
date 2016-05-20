@@ -29,5 +29,26 @@
     <string name="action_forgot_password">Forgot Your Password?!</string>
     <string name="title_activity_login">Sign in</string>
     <string name="facebook_app_id">1303282329685203</string>
+    <string name="title_activity_add_service">AddService</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    //for add service
+    <string name="logo_pic">Logo Picture \n (Optional)</string>
+    <string name="optional">(Optional) </string>
+    <string name="take_or_choose_pic">Take Or Choose \n 8 Photos</string>
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="sub_category">Sub Category</string>
+    <string name="description">Description</string>
+    <string name="location">Location</string>
+    <string name="phone">Phone</string>
+    <string name="opening_hours">Opening Hours</string>
+    <string name="saveBtn">Save</string>
+
+
+    <string name="action_settings">Settings</string>
 
 </resources>

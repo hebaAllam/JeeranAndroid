@@ -17,13 +17,9 @@
             android:name=".activity.SplashActivity"
             android:theme="@style/SplashTheme">
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity" />
         <activity
             android:name=".activity.CreateAccount"
             android:label="@string/create_account" />
@@ -51,8 +47,20 @@
         <!-- if you want to load images from a file OR from the internet -->
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-        <activity android:name=".activity.SelectAreaScreen"></activity>
-        <activity android:name=".activity.HomeActivity"></activity>
+        <activity android:name=".activity.SelectAreaScreen" />
+        <activity android:name=".activity.HomeActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.AddService"
+            android:label="@string/title_activity_add_service"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>
