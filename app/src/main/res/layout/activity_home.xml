@@ -54,67 +54,86 @@ tools:context=".activity.HomeActivity"
 
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
         android:layout_below="@+id/slider"
-        android:background="@color/home_service"
-        android:id="@+id/serviceLayout"
-        >
-
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/serviceBtn"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_service_icon"
-            android:text="Service"
-            android:textColor="#fff"
-            android:background="@android:color/transparent"
-            />
-    </FrameLayout>
-
-    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/serviceLayout"
-        android:background="@color/home_descusion"
-        android:id="@+id/discussionLayout"
+        android:layout_height="@dimen/smallSeparatorHeight"
+        android:background="@color/colorAccent"
+        android:id="@+id/separatorLayout"
         >
-
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/discussionBtn"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_discusion_icon"
-            android:text="Discussion"
-            android:textColor="#fff"
-            android:background="@android:color/transparent"
-            />
     </FrameLayout>
 
-    <FrameLayout
+
+    <LinearLayout
+        android:layout_below="@+id/separatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/discussionLayout"
-        android:background="@color/home_realEstate"
-        android:id="@+id/realEstateLayout"
-        >
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:background="@color/home_service"
+            android:id="@+id/serviceLayout"
+            android:layout_weight="1"
+            android:layout_height="0dp">
 
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/realEstateBtn"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_realestate_icon"
-            android:text="Real Estate"
-            android:textColor="#fff"
-            android:background="@android:color/transparent"
-            />
-    </FrameLayout>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/serviceBtn"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_service_icon"
+                android:text="Service"
+                android:textColor="#fff"
+                android:background="@android:color/transparent"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/home_descusion"
+            android:id="@+id/discussionLayout"
+            android:layout_weight="1"
+            >
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/discussionBtn"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_discusion_icon"
+                android:text="Discussion"
+                android:textColor="#fff"
+                android:background="@android:color/transparent"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/home_realEstate"
+            android:id="@+id/realEstateLayout"
+            android:layout_weight="1"
+            >
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/realEstateBtn"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_realestate_icon"
+                android:text="Real Estate"
+                android:textColor="#fff"
+                android:background="@android:color/transparent"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu"

@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -52,10 +53,10 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
 
 
-    private Button mEmailSignInButton ;
-    private Button forgotPasswordButton ;
+    private AppCompatButton mEmailSignInButton ;
+    private AppCompatButton forgotPasswordButton ;
     private LoginButton loginButton ;
-    private Button createAccountButton ;
+    private AppCompatButton createAccountButton ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
 
-        createAccountButton = (Button) findViewById(R.id.sign_up);
+        createAccountButton = (AppCompatButton) findViewById(R.id.sign_up);
         createAccountButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,13 +200,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return false;
+        }
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 8;
     }
 
     /**
