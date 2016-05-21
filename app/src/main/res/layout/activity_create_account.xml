@@ -12,10 +12,11 @@
     android:layout_height="match_parent"
     tools:context=".activity.CreateAccount"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@drawable/background"
     android:paddingTop="50dp"
     android:paddingLeft="24dp"
-    android:paddingRight="24dp">
+    android:paddingRight="24dp"
+    >
 
     <ImageView
         android:layout_width="wrap_content"
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/user_name"
             android:id="@+id/userNameEditTxt_createAccountActivity"
-            android:drawableRight="@drawable/ic_user_name"
+            android:drawableRight="@drawable/ic_username_icon"
             android:inputType="textWebEditText"
             android:textCursorDrawable="@drawable/cursur_color"
             android:cursorVisible="true"/>
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:id="@+id/passwordEditTxt_createAccountActivity"
-            android:drawableRight="@drawable/ic_lock_password"
+            android:drawableRight="@drawable/ic_lock_icon"
             android:inputType="textWebPassword"
             android:textCursorDrawable="@drawable/cursur_color"/>
 
@@ -66,7 +67,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/retype_password"
             android:id="@+id/retypePassEditTxt_createAccountActivity"
-            android:drawableRight="@drawable/ic_lock_password"
+            android:drawableRight="@drawable/ic_lock_icon"
             android:inputType="textWebPassword"
             android:textCursorDrawable="@drawable/cursur_color" />
 
@@ -80,7 +81,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/email_address"
         android:id="@+id/emailEditTxt_createAccountActivity"
-        android:drawableRight="@drawable/ic_email_address"
+        android:drawableRight="@drawable/ic_email"
         android:inputType="textWebEmailAddress"
         android:textCursorDrawable="@drawable/cursur_color" />
 

@@ -22,7 +22,9 @@
         <activity android:name=".activity.LoginActivity" />
         <activity
             android:name=".activity.CreateAccount"
-            android:label="@string/create_account" />
+            android:label="@string/create_account" >
+
+        </activity>
         <activity
             android:name=".activity.RegisterWithFacebook"
             android:label="@string/title_activity_register_with_facebook" />

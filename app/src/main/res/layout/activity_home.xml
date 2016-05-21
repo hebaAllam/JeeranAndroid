@@ -57,7 +57,7 @@ tools:context=".activity.HomeActivity"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@+id/slider"
-        android:background="@color/colorPrimary"
+        android:background="@color/home_service"
         android:id="@+id/serviceLayout"
         >
 
@@ -67,7 +67,7 @@ tools:context=".activity.HomeActivity"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/bird"
+            android:drawableLeft="@drawable/ic_service_icon"
             android:text="Service"
             android:textColor="#fff"
             android:background="@android:color/transparent"
@@ -78,7 +78,7 @@ tools:context=".activity.HomeActivity"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@+id/serviceLayout"
-        android:background="@color/colorAccent"
+        android:background="@color/home_descusion"
         android:id="@+id/discussionLayout"
         >
 
@@ -88,7 +88,7 @@ tools:context=".activity.HomeActivity"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/bird"
+            android:drawableLeft="@drawable/ic_discusion_icon"
             android:text="Discussion"
             android:textColor="#fff"
             android:background="@android:color/transparent"
@@ -99,7 +99,7 @@ tools:context=".activity.HomeActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/discussionLayout"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/home_realEstate"
         android:id="@+id/realEstateLayout"
         >
 
@@ -109,7 +109,7 @@ tools:context=".activity.HomeActivity"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/bird"
+            android:drawableLeft="@drawable/ic_realestate_icon"
             android:text="Real Estate"
             android:textColor="#fff"
             android:background="@android:color/transparent"
@@ -117,7 +117,7 @@ tools:context=".activity.HomeActivity"
     </FrameLayout>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu_red"
+        android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -132,6 +132,7 @@ tools:context=".activity.HomeActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/messenger_bubble_small_blue"
+            android:background="@color/orange"
             />
 
         <com.github.clans.fab.FloatingActionButton
@@ -139,6 +140,7 @@ tools:context=".activity.HomeActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/com_facebook_close"
+            android:background="@color/orange"
             />
 
         <com.github.clans.fab.FloatingActionButton
@@ -146,7 +148,7 @@ tools:context=".activity.HomeActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_user_name"
-
+            android:background="@color/orange"
             />
     </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>

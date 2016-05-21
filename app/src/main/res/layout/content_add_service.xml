@@ -50,6 +50,27 @@
         android:layout_height="wrap_content"
         android:textAlignment="center" >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logo_pic"
+            android:textAlignment="center"
+            android:layout_weight=".5" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/com_facebook_button_login_silver_background_color"
+            android:textAlignment="center"
+            android:layout_gravity="center"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/take_or_choose_pic"
+            android:textAlignment="center"
+            android:layout_weight=".5" />
         </android.support.v7.widget.LinearLayoutCompat>
 
         <android.support.v7.widget.LinearLayoutCompat
