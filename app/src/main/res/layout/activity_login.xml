@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +7,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activity.LoginActivity">
+    tools:context=".activity.LoginActivity"
+    android:background="@drawable/bg"
+    android:orientation="vertical"
+
+    >
 
 
     <ImageView
@@ -19,7 +23,6 @@
 
     <!-- Login progress -->
     <ProgressBar
-        android:layout_below="@+id/logoImg"
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
@@ -29,8 +32,7 @@
 
 
     <LinearLayout
-        android:layout_below="@+id/login_progress"
-        android:id="@+id/email_login_form"
+        android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -46,6 +48,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
                 android:drawableRight="@drawable/ic_user_name"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
@@ -60,6 +64,8 @@
 
             <EditText
                 android:id="@+id/password"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
@@ -144,4 +150,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
