@@ -1,20 +1,39 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.internal.Utility;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.pojo.User;
@@ -25,7 +44,8 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
     EditText userNameEditTxt , passwordEditTxt , retypePassEditTxt , emailEditTxt;
     Button   registerBtn , registerWithFbBtn;
     User myUser;
-
+    private static int RESULT_LOAD_IMG = 1;
+    String imgDecodableString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,31 +168,22 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
-    private void sendRequestToWebService(){
-        Ion.with(getApplicationContext())
-                .load("http://10.118.49.82:8088/RestFulServiceTest/rest/WService/query")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-//                        progressDialog.dismiss();
-                        if(result==null){
-                            Toast.makeText(getApplicationContext(),"Check Your Internet Acess Please",Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            String status=(result.get("status")).toString();
-                            Toast.makeText(getBaseContext(),status,Toast.LENGTH_SHORT).show();
-                            if(status.equals("\"SUCCESS\""))
-                            {
-//                                SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE).edit();
-//                                editor.putString("name", user_name);
-//                                editor.putString("pass", user_pass);
-//                                editor.commit();
-//                                Intent intent=new Intent(SignIn.this,MedicineHome.class);
-//                                intent.putExtra("getDataFromService","medsdata");
-//                                startActivity(intent);
-                            }
-                        }}
-                });
+    public static final int RESULT_GALLERY = 0;
+
+    // Trigger gallery selection for a photo
+    public void onPickPhoto(View view) {
+
+//        Intent intent = new Intent();
+//        intent.setAction(android.content.Intent.ACTION_GET_CONTENT);
+//        intent.setType("image/*");
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+
+        Intent galleryIntent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent , RESULT_GALLERY );
     }
+
+
 }

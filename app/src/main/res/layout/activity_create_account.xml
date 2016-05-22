@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/background">
+
+    >
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,70 +13,100 @@
     android:layout_height="match_parent"
     tools:context=".activity.CreateAccount"
     android:orientation="vertical"
-    android:background="@drawable/background"
-    android:paddingTop="50dp"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
+    android:background="@drawable/bg_create"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
     >
 
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:onClick="onPickPhoto">
     <ImageView
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_create_account"
+        android:src="@drawable/default_profile_pic"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="10dp"
         />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:text="Add Photo"
+            android:capitalize="sentences"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:clickable="false" />
+    </android.support.v7.widget.LinearLayoutCompat>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
+        >
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/user_name"
+            android:textColorHint="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColor="@color/white"
+            android:textColorLink="@color/white"
+            android:shadowColor="@color/white"
             android:id="@+id/userNameEditTxt_createAccountActivity"
             android:drawableRight="@drawable/ic_username_icon"
             android:inputType="textWebEditText"
-            android:textCursorDrawable="@drawable/cursur_color"
-            android:cursorVisible="true"/>
+            />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
+        style="@style/editTxtBorder">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
+            android:textColor="@color/white"
+            android:textColorLink="@color/white"
+            style="@style/editTxtBorder"
             android:id="@+id/passwordEditTxt_createAccountActivity"
             android:drawableRight="@drawable/ic_lock_icon"
             android:inputType="textWebPassword"
-            android:textCursorDrawable="@drawable/cursur_color"/>
+            android:textColorHint="@color/white" />
 
     </android.support.design.widget.TextInputLayout>
 
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white" >
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textColorLink="@color/white"
             android:hint="@string/retype_password"
             android:id="@+id/retypePassEditTxt_createAccountActivity"
             android:drawableRight="@drawable/ic_lock_icon"
             android:inputType="textWebPassword"
-            android:textCursorDrawable="@drawable/cursur_color" />
+            android:textColorHint="@color/white" />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,23 +114,32 @@
         android:id="@+id/emailEditTxt_createAccountActivity"
         android:drawableRight="@drawable/ic_email"
         android:inputType="textWebEmailAddress"
+        android:textColor="@color/white"
+        android:textColorLink="@color/white"
         android:textCursorDrawable="@drawable/cursur_color" />
 
     <android.support.v7.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/registerBackground"
+        android:background="@drawable/rounded_btn"
+
         android:text="@string/register"
         android:id="@+id/registerBtn_createAccountActivity"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
-        android:padding="12dp"/>
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        />
 
     <android.support.v7.widget.AppCompatButton
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/registerWithFbBtn"
         android:text="@string/register_with_fb"
+
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_btn"
+
+        android:textColor="@color/white"
+        android:textAllCaps="false"
         android:id="@+id/registerWithFbBtn_createAccountActivity"/>
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>

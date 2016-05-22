@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#0179B5</color>
+    <color name="colorAccent">#000</color>
 
     <color name="background">#f2f2f2</color>
     <color name="registerBackground">#0179B5</color>
@@ -10,6 +10,8 @@
 
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="btnColor">#0079b4</color>
 
     //floating action button
     <color name="orange">#f4940d</color>
