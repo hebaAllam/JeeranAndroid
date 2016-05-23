@@ -112,6 +112,16 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        forgotPasswordButton =  (AppCompatButton) findViewById(R.id.forgot_password);
+        forgotPasswordButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(LoginActivity.this,ResetPasswordActivity.class);
+                startActivity(in);
+            }
+        });
+
+
         loginButton = (LoginButton)findViewById(R.id.login_with_facebook);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -123,6 +133,9 @@ public class LoginActivity extends AppCompatActivity {
                                 "Auth Token: "
                                 + loginResult.getAccessToken().getToken()
                 );
+
+                Intent in = new Intent(LoginActivity.this,HomeActivity.class);
+                startActivity(in);
             }
 
             @Override
