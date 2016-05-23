@@ -1,7 +1,9 @@
 package apps.gn4me.com.jeeran.activity;
 
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +24,9 @@ import apps.gn4me.com.jeeran.R;
 public class HomeActivity extends ActionBarActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
     private SliderLayout mDemoSlider;
-
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
 
     private AppCompatButton serviceBtn ;
     private AppCompatButton discussionBtn ;
@@ -32,7 +36,7 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
         String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -104,6 +108,50 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
         });
 
         ///////////////
+        init_navigator();
+
+    }
+    private void init_navigator(){
+        // Navigation Drawer
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_DrawerLayout);
+        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.primaryDark));
+        mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.main_activity_navigation_drawer_rootLayout);
+
+        mActionBarDrawerToggle = new ActionBarDrawerToggle
+                (
+                        this,
+                        mDrawerLayout,
+                        R.string.navigation_drawer_opened,
+                        R.string.navigation_drawer_closed
+                )
+        {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset)
+            {
+                // Disables the burger/arrow animation by default
+                super.onDrawerSlide(drawerView, 0);
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+
+        mActionBarDrawerToggle.syncState();
+
+        // Navigation Drawer layout width
+        int possibleMinDrawerWidth = UtilsDevice.getScreenWidth(this) -
+                UtilsMiscellaneous.getThemeAttributeDimensionSize(this, android.R.attr.actionBarSize);
+        int maxDrawerWidth = getResources().getDimensionPixelSize(R.dimen.navigation_drawer_max_width);
+
+        mScrimInsetsFrameLayout.getLayoutParams().width = Math.min(possibleMinDrawerWidth, maxDrawerWidth);
+        // Set the first item as selected for the first time
+        getSupportActionBar().setTitle(R.string.toolbar_title_home);
 
 
     }
