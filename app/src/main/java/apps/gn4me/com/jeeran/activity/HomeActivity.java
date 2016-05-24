@@ -5,6 +5,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import apps.gn4me.com.jeeran.R;
 
 public class HomeActivity extends ActionBarActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
-
+    private Toolbar toolbar;
     private SliderLayout mDemoSlider;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -36,6 +37,7 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
         String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
@@ -79,7 +81,7 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
         mDemoSlider.setDuration(4000);
         mDemoSlider.addOnPageChangeListener(this);
 
-
+        init_navigator();
         //////////////
 
         serviceBtn = (AppCompatButton) findViewById(R.id.serviceBtn);
@@ -108,7 +110,7 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
         });
 
         ///////////////
-        init_navigator();
+
 
     }
     private void init_navigator(){
@@ -121,6 +123,7 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
                 (
                         this,
                         mDrawerLayout,
+
                         R.string.navigation_drawer_opened,
                         R.string.navigation_drawer_closed
                 )
