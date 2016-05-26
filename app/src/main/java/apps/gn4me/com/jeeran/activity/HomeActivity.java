@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.activity;
 
+
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -7,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -23,12 +25,12 @@ import java.util.HashMap;
 import apps.gn4me.com.jeeran.R;
 
 public class HomeActivity extends ActionBarActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
-    private Toolbar toolbar;
+
     private SliderLayout mDemoSlider;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
-
+    private Toolbar toolbar;
     private AppCompatButton serviceBtn ;
     private AppCompatButton discussionBtn ;
     private AppCompatButton realEstateBtn ;
@@ -38,7 +40,6 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
         String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -134,18 +135,18 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
                 // Disables the burger/arrow animation by default
                 super.onDrawerSlide(drawerView, 0);
             }
+
+
         };
 
         mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
 
-        if (getSupportActionBar() != null)
-        {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-        }
 
-        mActionBarDrawerToggle.syncState();
+
+
 
         // Navigation Drawer layout width
         int possibleMinDrawerWidth = UtilsDevice.getScreenWidth(this) -
@@ -155,7 +156,7 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
         mScrimInsetsFrameLayout.getLayoutParams().width = Math.min(possibleMinDrawerWidth, maxDrawerWidth);
         // Set the first item as selected for the first time
         getSupportActionBar().setTitle(R.string.toolbar_title_home);
-
+        mActionBarDrawerToggle.syncState();
 
     }
 
@@ -181,4 +182,11 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
 
     @Override
     public void onPageScrollStateChanged(int state) {}
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content view
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
 }
