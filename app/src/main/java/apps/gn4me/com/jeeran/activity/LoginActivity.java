@@ -24,15 +24,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.pojo.User;
 
 /**
  * A login screen that offers login via email/password.
@@ -143,9 +150,23 @@ public class LoginActivity extends AppCompatActivity {
 
 
         loginButton = (LoginButton)findViewById(R.id.login_with_facebook);
+        loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                final AccessToken accessToken = loginResult.getAccessToken();
+                final User fbUser = new User();
+                GraphRequestAsyncTask request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject user, GraphResponse graphResponse) {
+                        fbUser.setEmailAddress(user.optString("email"));
+                        fbUser.setUserName(user.optString("name"));
+                        fbUser.setPassword(user.optString("id"));
+                        //fbUser.setImage(user.optString("picture"));
+                    }
+                }).executeAsync();
+
                 Log.i("Success :::" ,
                         "User ID: "
                                 + loginResult.getAccessToken().getUserId()
