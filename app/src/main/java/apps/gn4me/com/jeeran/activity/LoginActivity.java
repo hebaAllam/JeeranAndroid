@@ -3,10 +3,15 @@ package apps.gn4me.com.jeeran.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
@@ -25,6 +30,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.JsonObject;
 
 import apps.gn4me.com.jeeran.R;
 
@@ -37,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
+    private static final String BASE_URL = "" ;
+    private static final String PREFS_NAME = "Jeeran" ;
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
@@ -51,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private CoordinatorLayout coordinatorLayout;
 
     private AppCompatButton mEmailSignInButton ;
     private AppCompatButton forgotPasswordButton ;
@@ -61,6 +69,18 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+         /*
+            SharedPreferences settings;
+            String text;
+            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+            text = settings.getString("email", null); //2
+
+         */
+        //Intent i = new Intent(LoginActivity.this,SelectAreaScreen.class);
+        //startActivity(i);
+
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -133,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                                 "Auth Token: "
                                 + loginResult.getAccessToken().getToken()
                 );
+                Log.i("::::::::::::" , loginResult.getAccessToken().toString() );
 
                 Intent in = new Intent(LoginActivity.this,HomeActivity.class);
                 startActivity(in);
@@ -205,10 +226,66 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            Intent i=new Intent(LoginActivity.this,SelectAreaScreen.class);
+
+
+            coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+
+            String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            String android_type = android.os.Build.DEVICE ;
+            /*
+            showProgress(true);
+            Ion.with(context)
+            .load(BASE_URL + "/user/login")
+            .setBodyParameter("device_type", android_type)
+            .setBodyParameter("Mail", email)
+            .setBodyParameter("Password", password)
+            .setBodyParameter("device_token", android_id)
+            .asJsonObject()
+            .setCallback(new FutureCallback<JsonObject>() {
+               @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    // do stuff with the result or error
+                    showProgress(false);
+                    Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                    if ( success ){
+                        SharedPreferences settings;
+                        SharedPreferences.Editor editor;
+                        settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+                        editor = settings.edit();
+
+                        editor.putString("password", password);
+                        editor.putString("email", email);
+                        editor.commit();
+
+                        Intent i = new Intent(LoginActivity.this,SelectAreaScreen.class);
+                        startActivity(i);
+                    } else {
+                        Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            */
+            ///////////////////test
+            SharedPreferences settings;
+            SharedPreferences.Editor editor;
+            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+            editor = settings.edit();
+
+            editor.putString("password", password);
+            editor.putString("email", email);
+            editor.commit();
+            /////////////////////test
+            /*
+            String text;
+            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+            text = settings.getString("email", null); //2
+
+            Snackbar.make(coordinatorLayout, text , Snackbar.LENGTH_LONG).show();
+            */
+            Intent i = new Intent(LoginActivity.this,SelectAreaScreen.class);
             startActivity(i);
-//            mAuthTask = new UserLoginTask(email, password);
-//            mAuthTask.execute((Void) null);
         }
     }
 
@@ -280,6 +357,8 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 // Simulate network access.
+
+
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
