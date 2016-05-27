@@ -13,29 +13,27 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/SplashTheme">
             >
         </activity>
         <activity android:name=".activity.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".activity.CreateAccount"
-            android:label="@string/create_account"></activity>
+            android:label="@string/create_account" />
         <activity
             android:name=".activity.RegisterWithFacebook"
             android:label="@string/title_activity_register_with_facebook" />
-
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -52,14 +50,23 @@
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
         <activity android:name=".activity.SelectAreaScreen" />
-        <activity android:name=".activity.HomeActivity">
-
-        </activity>
+        <activity android:name=".activity.HomeActivity"></activity>
         <activity
             android:name=".activity.AddService"
             android:label="@string/title_activity_add_service"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.ResetPasswordActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ResetPasswordActivity" />
+        <activity
+            android:name=".activity.AddRealEstate"
+            android:label="@string/title_activity_add_real_estate"
+            android:parentActivityName=".activity.HomeActivity" >
+        android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

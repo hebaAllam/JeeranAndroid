@@ -91,5 +91,14 @@
     <!-- Typeface names -->
     <string name="typeface_roboto_regular">Roboto-Regular</string>
     <string name="typeface_roboto_medium">Roboto-Medium</string>
+    <string name="title_activity_add_real_estate">AddRealEstate</string>
+
+
+    //for real estate
+    <string name="email_real">Email</string>
+    <string name="take_or_choose_pic_real">Take Or Choose 8 Photos</string>
+    <string name="location_real">Location</string>
+    <string name="address_real">Address</string>
+    <string name="contact_person_real">Contact Person</string>
 
 </resources>

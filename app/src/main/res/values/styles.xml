@@ -11,9 +11,6 @@
     </style>
 
 
-
-
-
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
         <item name="colorAccent">@color/white</item>
         <item name="android:textColorPrimary">@color/iron</item>
@@ -38,10 +35,10 @@
     </style>
 
     <!--<style name="MenuButtonsSmall">-->
-        <!--<item name="fab_size">mini</item>-->
-        <!--<item name="fab_colorNormal">@color/orange</item>-->
-        <!--<item name="fab_colorPressed">@color/orange</item>-->
-        <!--<item name="fab_colorRipple">@color/orange</item>-->
+    <!--<item name="fab_size">mini</item>-->
+    <!--<item name="fab_colorNormal">@color/orange</item>-->
+    <!--<item name="fab_colorPressed">@color/orange</item>-->
+    <!--<item name="fab_colorRipple">@color/orange</item>-->
     <!--</style>-->
 
     <style name="ScrimInsetsLayout">
