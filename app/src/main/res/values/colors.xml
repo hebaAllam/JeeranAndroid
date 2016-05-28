@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#000</color>
+    <color name="colorAccent">#FFF</color>
 
     <color name="background">#f2f2f2</color>
     <color name="registerBackground">#0179B5</color>
@@ -35,6 +35,21 @@
     <color name="drawerBackground">#112c44</color>
     <color name="fontColor">#FFFFFF</color>
     <color name="tabsScrollColor">#004D40</color>
+
+
+    <!-- MyFavorite -->
+    <!--Indigo 500-->
+    <color name="primary_500">#3F51B5</color>
+    <!--Indigo 700-->
+    <color name="primary_700">#303F9F</color>
+    <!--Pink 500-->
+    <color name="accent_500">#E91E63</color>
+    <!--Pink 700-->
+    <color name="accent_700">#C2185B</color>
+    <color name="bg_light">#FAFAFA</color>
+
+    <!-- End MyFavorite -->
+
 
     <!-- App Main Palette -->
     <color name="primary">@color/green_500</color>
