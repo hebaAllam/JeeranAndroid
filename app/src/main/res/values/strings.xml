@@ -100,5 +100,6 @@
     <string name="location_real">Location</string>
     <string name="address_real">Address</string>
     <string name="contact_person_real">Contact Person</string>
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
 
 </resources>
