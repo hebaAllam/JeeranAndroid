@@ -36,6 +36,21 @@
     <color name="fontColor">#FFFFFF</color>
     <color name="tabsScrollColor">#004D40</color>
 
+
+    <!-- MyFavorite -->
+    <!--Indigo 500-->
+    <color name="primary_500">#3F51B5</color>
+    <!--Indigo 700-->
+    <color name="primary_700">#303F9F</color>
+    <!--Pink 500-->
+    <color name="accent_500">#E91E63</color>
+    <!--Pink 700-->
+    <color name="accent_700">#C2185B</color>
+    <color name="bg_light">#FAFAFA</color>
+
+    <!-- End MyFavorite -->
+
+
     <!-- App Main Palette -->
     <color name="primary">@color/green_500</color>
     <color name="primaryDark">@color/green_700</color>

@@ -164,6 +164,8 @@ public class LoginActivity extends AppCompatActivity {
                         fbUser.setUserName(user.optString("name"));
                         fbUser.setPassword(user.optString("id"));
                         //fbUser.setImage(user.optString("picture"));
+                        //Snackbar.make(coordinatorLayout, "Login Success " + fbUser.getUserName() , Snackbar.LENGTH_LONG).show();
+
                     }
                 }).executeAsync();
 
@@ -176,8 +178,8 @@ public class LoginActivity extends AppCompatActivity {
                 );
                 Log.i("::::::::::::" , loginResult.getAccessToken().toString() );
 
-                Intent in = new Intent(LoginActivity.this,HomeActivity.class);
-                startActivity(in);
+                //Intent in = new Intent(LoginActivity.this,HomeActivity.class);
+                //startActivity(in);
             }
 
             @Override
