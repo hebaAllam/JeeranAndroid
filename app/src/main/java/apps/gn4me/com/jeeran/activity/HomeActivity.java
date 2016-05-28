@@ -1,6 +1,7 @@
 package apps.gn4me.com.jeeran.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -92,21 +93,27 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
         serviceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeActivity.this,"service",Toast.LENGTH_SHORT).show();
+                Intent serviceIntent=new Intent(HomeActivity.this,ModulesActivity.class);
+                serviceIntent.putExtra("uniqueId","from_service");
+                startActivity(serviceIntent);
             }
         });
 
         discussionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeActivity.this,"discussion",Toast.LENGTH_SHORT).show();
+                Intent dicussionIntent=new Intent(HomeActivity.this,ModulesActivity.class);
+                dicussionIntent.putExtra("uniqueId","from_discussion");
+                startActivity(dicussionIntent);
             }
         });
 
         realEstateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeActivity.this,"real estate",Toast.LENGTH_SHORT).show();
+                Intent realEstateIntent=new Intent(HomeActivity.this,ModulesActivity.class);
+                realEstateIntent.putExtra("uniqueId","from_realEstate");
+                startActivity(realEstateIntent);
             }
         });
 

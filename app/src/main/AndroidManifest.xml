@@ -41,6 +41,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             -->
+
+        </activity>
+        <activity android:name=".activity.ModulesActivity"
+            android:theme="@style/MyMaterialTheme">
+
+
         </activity>
         <activity
             android:name=".activity.CreateAccount"
@@ -58,6 +64,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+
         <uses-permission android:name="android.permission.INTERNET" />
 
         <!-- if you want to load images from a file OR from the internet -->
@@ -73,8 +80,10 @@
         <activity
             android:name=".activity.AddRealEstate"
             android:label="@string/title_activity_add_real_estate"
-            android:parentActivityName=".activity.HomeActivity">
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".activity.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

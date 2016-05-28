@@ -7,7 +7,7 @@
     <color name="background">#f2f2f2</color>
     <color name="registerBackground">#0179B5</color>
     <color name="registerWithFbBtn">#303F9F</color>
-
+   <color name="titlecolor">#0079b4</color>
     <color name="iron">#CCCCCC</color>
 
 
@@ -20,7 +20,7 @@
     <color name="home_service">#dd614f</color>
     <color name="home_descusion">#74b9a7</color>
     <color name="home_realEstate">#f4940d</color>
-
+   <color name="serviceCategoryFontColor">#62747c</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>

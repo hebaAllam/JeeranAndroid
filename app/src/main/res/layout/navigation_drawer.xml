@@ -99,7 +99,7 @@
                     <apps.gn4me.com.jeeran.activity.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_account"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_account_name"
+                        android:src="@drawable/ic_account_icon"
                         tools:ignore="ContentDescription"
                         tools:tint="@color/nav_drawer_item_icon_selected"
 
@@ -128,7 +128,7 @@
                     <apps.gn4me.com.jeeran.activity.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_services"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_services_icon"
+                        android:src="@drawable/ic_service_icon"
                         tools:ignore="ContentDescription" />
 
                     <TextView
@@ -153,7 +153,7 @@
                     <apps.gn4me.com.jeeran.activity.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_real_estate"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_real_esate_icon"
+                        android:src="@drawable/ic_real_estate_icon"
                         tools:ignore="ContentDescription" />
 
                     <TextView
@@ -175,7 +175,7 @@
                     <apps.gn4me.com.jeeran.activity.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_dicussion"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_dicussions_icon"
+                        android:src="@drawable/ic_discussion_icon"
                         tools:ignore="ContentDescription" />
 
                     <TextView
@@ -219,7 +219,7 @@
                     <apps.gn4me.com.jeeran.activity.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_settings"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_settings_icon"
+                        android:src="@drawable/ic_setting_icon"
                         tools:ignore="ContentDescription" />
 
                     <TextView

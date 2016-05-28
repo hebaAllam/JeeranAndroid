@@ -12,7 +12,7 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="tab_padding_bottom">16dp</dimen>
     <dimen name="tab_label">12sp</dimen>
-    <dimen name="custom_tab_layout_height">65dp</dimen>
+    <dimen name="custom_tab_layout_height">49dp</dimen>
     <dimen name="nav_drawer_width">260dp</dimen>
     <dimen name="navigation_drawer_max_width">288dp</dimen>
 
