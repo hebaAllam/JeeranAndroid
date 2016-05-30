@@ -8,27 +8,55 @@
 
 
     >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="#fff"
+        android:id="@+id/frameLayout">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SuperMarktes Services"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/titlecolor"
+
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backIcon"
+        android:gravity="left"
+        android:src="@drawable/ic_back_icon"
+
+
+
+        />
+    </FrameLayout>
     <com.daimajia.slider.library.SliderLayout
-        android:id="@+id/sliderfrag"
+
+        android:id="@+id/sliderSuperMarkets"
         android:layout_width="match_parent"
         custom:pager_animation="Accordion"
         custom:auto_cycle="true"
         custom:indicator_visibility="visible"
         custom:pager_animation_span="1100"
-        android:layout_height="170dp"/>
+        android:layout_height="170dp"
+        android:layout_alignTop="@+id/spinner1Area" />
 
     <Spinner
-        android:id="@+id/spinner1frag"
+        android:id="@+id/spinner1Area"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
-        android:layout_marginLeft="100dp"
 
-        />
+        android:layout_below="@+id/frameLayout"
+        android:layout_alignLeft="@+id/custom_indicatorSuperMartes"
+        android:layout_alignStart="@+id/custom_indicatorSuperMartes" />
 
     <com.daimajia.slider.library.Indicators.PagerIndicator
-        android:id="@+id/custom_indicatorfrag"
+        android:id="@+id/custom_indicatorSuperMartes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -49,14 +77,14 @@
         android:layout_marginBottom="20dp"
         />
     <com.daimajia.slider.library.Indicators.PagerIndicator
-        android:id="@+id/custom_indicator2frag"
+        android:id="@+id/custom_indicator2SuperMarkets"
         style="@style/AndroidImageSlider_Corner_Oval_Orange"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         />
     <FrameLayout
-        android:layout_below="@+id/slider"
+        android:layout_below="@+id/sliderSuperMarkets"
         android:layout_width="match_parent"
         android:layout_height="@dimen/smallSeparatorHeight"
         android:background="@color/colorAccent"
@@ -64,13 +92,14 @@
         >
     </FrameLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_below="@+id/sliderfrag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recycler_view"
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/sliderSuperMarkets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/superMarkets_recycleView"
 
-            >
+        >
 
-        </android.support.v7.widget.RecyclerView>
+    </android.support.v7.widget.RecyclerView>
+
 </RelativeLayout>

@@ -120,7 +120,29 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
             @Override
             public void onClick(View view, int position) {
               ServicesCategory servicecat=  servicesCatList.get(position);
-                Toast.makeText(getContext(), servicecat.getServiceCatName()+ " is selected!", Toast.LENGTH_SHORT).show();
+
+                switch (servicecat.getServiceCatId()){
+                    case 1:
+                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        Intent superMarketsIntent=new Intent(getContext(),SuperMarketsServices.class);
+                        startActivity(superMarketsIntent);
+                        break;
+                    case 2:
+                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 5:
+                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6:
+                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
             }
 
             @Override
@@ -133,35 +155,17 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
 
     private void prepareData() {
 
-        ServicesCategory serviceCat=new ServicesCategory();
-        serviceCat.setServiceCatIcon(R.drawable.ic_food_icon);
-        serviceCat.setServiceCatName("Food and Beverages");
-        serviceCat.setServiceCatNumber("10");
+        ServicesCategory serviceCat=new ServicesCategory(1,R.drawable.ic_food_icon,"Food and Beverages","10");
         servicesCatList.add(serviceCat);
-        ServicesCategory servicecat2=new ServicesCategory();
-        servicecat2.setServiceCatIcon(R.drawable.ic_shopping_icon);
-        servicecat2.setServiceCatName("Shopping");
-        servicecat2.setServiceCatNumber("16");
+        ServicesCategory servicecat2=new ServicesCategory(2,R.drawable.ic_shopping_icon,"Shopping","16");
         servicesCatList.add(servicecat2);
-        ServicesCategory servicecat3=new ServicesCategory();
-        servicecat3.setServiceCatIcon(R.drawable.ic_supermarket_icon);
-        servicecat3.setServiceCatName("SuperMarkets");
-        servicecat3.setServiceCatNumber("23");
+        ServicesCategory servicecat3=new ServicesCategory(3,R.drawable.ic_supermarket_icon,"SuperMarkets","23"); ;
         servicesCatList.add(servicecat3);
-        ServicesCategory servicecat4=new ServicesCategory();
-        servicecat4.setServiceCatIcon(R.drawable.ic_pharmacies_icon);
-        servicecat4.setServiceCatName("Pharmacies");
-        servicecat4.setServiceCatNumber("40");
+        ServicesCategory servicecat4=new ServicesCategory(4,R.drawable.ic_pharmacies_icon,"Pharmacies","40");
         servicesCatList.add(servicecat4);
-        ServicesCategory servicecat5=new ServicesCategory();
-        servicecat5.setServiceCatIcon(R.drawable.ic_education_icon);
-        servicecat5.setServiceCatName("Education");
-        servicecat5.setServiceCatNumber("11");
+        ServicesCategory servicecat5=new ServicesCategory(5,R.drawable.ic_education_icon,"Education","11");
         servicesCatList.add(servicecat5);
-        ServicesCategory servicecat6=new ServicesCategory();
-        servicecat6.setServiceCatIcon(R.drawable.ic_entertainment_icon);
-        servicecat6.setServiceCatName("Entertainment");
-        servicecat6.setServiceCatNumber("15");
+        ServicesCategory servicecat6=new ServicesCategory(6,R.drawable.ic_entertainment_icon,"Entertainment","15");
         servicesCatList.add(servicecat6);
         myAdapter.notifyDataSetChanged();
 
