@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
-
+import apps.gn4me.com.jeeran.activity.FoodAndBeveragesService;
 import apps.gn4me.com.jeeran.activity.Services;
 
 /**
@@ -37,6 +37,9 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
             }
         });
     }
+
+
+
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {

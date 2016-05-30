@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,6 +28,7 @@ public class RestaurantDetails extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RestaurantAdapter adapter;
     private List<Restaurant> restaurantList;
+    private ImageView backIcon;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -38,6 +40,7 @@ public class RestaurantDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_detailes);
         Button allReviews=(Button)findViewById(R.id.allReviews);
+        backIcon=(ImageView)findViewById(R.id.backFromRestaurantDetails);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -63,7 +66,12 @@ public class RestaurantDetails extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         allReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -123,7 +123,8 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
 
                 switch (servicecat.getServiceCatId()){
                     case 1:
-                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
+                        Intent foodServices=new Intent(getContext(),FoodAndBeveragesService.class);
+                        startActivity(foodServices);
                         break;
                     case 3:
                         Intent superMarketsIntent=new Intent(getContext(),Service.class);

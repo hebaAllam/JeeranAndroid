@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +20,15 @@ public class Reviews extends AppCompatActivity {
     RecyclerView reviewsRecyclerView;
     ReviewAdapter myAdapter;
     private List<UserReview> reviewList=new ArrayList<>();
-
+  private ImageView backeIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(
-                R.layout.activity_reviews);
+        setContentView(R.layout.activity_reviews);
 
         reviewsRecyclerView = (RecyclerView) findViewById(R.id.recycle_reviews);
+        backeIcon=(ImageView)findViewById(R.id.backFromReviews);
         reviewList.clear();
         myAdapter=new ReviewAdapter(this,reviewList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -35,6 +37,12 @@ public class Reviews extends AppCompatActivity {
         reviewsRecyclerView.setAdapter(myAdapter);
         reviewsRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         prepareData();
+        backeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void prepareData() {

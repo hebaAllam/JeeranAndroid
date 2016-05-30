@@ -10,24 +10,24 @@ import android.widget.TextView;
 import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
-import apps.gn4me.com.jeeran.pojo.SuperMarket;
+import apps.gn4me.com.jeeran.pojo.Service;
 
 /**
  * Created by acer on 5/28/2016.
  */
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHolder>{
-    List<SuperMarket> superMarketsList;
+    List<Service> ServicesList;
 
-    public ServiceAdapter(List<SuperMarket> superMarketsList) {
-        this.superMarketsList = superMarketsList;
+    public ServiceAdapter(List<Service> ServicesList) {
+        this.ServicesList = ServicesList;
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public ImageView superMarketlogo;
-        public TextView superMarketName;
+        public ImageView servicelogo;
+        public TextView serviceName;
         public MyViewHolder(View view) {
             super(view);
-            superMarketName= (TextView) view.findViewById(R.id.superMarketName);
-            superMarketlogo = (ImageView) view.findViewById(R.id.superMarketImage);
+            serviceName= (TextView) view.findViewById(R.id.superMarketName);
+            servicelogo = (ImageView) view.findViewById(R.id.superMarketImage);
         }
     }
     @Override
@@ -42,14 +42,14 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        SuperMarket superMarket= superMarketsList.get(position);
-        holder.superMarketName.setText(superMarket.getName());
-        holder.superMarketlogo.setImageResource(superMarket.getLogoImg());
+        Service service = ServicesList.get(position);
+        holder.serviceName.setText(service.getName());
+        holder.servicelogo.setImageResource(service.getLogoImg());
     }
 
     @Override
     public int getItemCount() {
-        return superMarketsList.size();
+        return ServicesList.size();
     }
 
 

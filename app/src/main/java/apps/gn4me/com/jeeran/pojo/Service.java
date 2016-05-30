@@ -3,13 +3,13 @@ package apps.gn4me.com.jeeran.pojo;
 /**
  * Created by acer on 5/28/2016.
  */
-public class SuperMarket {
+public class Service {
     private int logoImg;
     private String Name;
     private long lat;
     private long lang;
 
-    public SuperMarket(int logoImg, String name, long lat, long lang) {
+    public Service(int logoImg, String name, long lat, long lang) {
         this.logoImg = logoImg;
         Name = name;
         this.lat = lat;
