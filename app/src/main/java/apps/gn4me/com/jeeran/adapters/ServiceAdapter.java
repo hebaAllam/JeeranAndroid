@@ -15,10 +15,10 @@ import apps.gn4me.com.jeeran.pojo.SuperMarket;
 /**
  * Created by acer on 5/28/2016.
  */
-public class SuperMarketsAdapters extends RecyclerView.Adapter<SuperMarketsAdapters.MyViewHolder>{
+public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHolder>{
     List<SuperMarket> superMarketsList;
 
-    public SuperMarketsAdapters(List<SuperMarket> superMarketsList) {
+    public ServiceAdapter(List<SuperMarket> superMarketsList) {
         this.superMarketsList = superMarketsList;
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -34,7 +34,7 @@ public class SuperMarketsAdapters extends RecyclerView.Adapter<SuperMarketsAdapt
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.single_supermarket, parent, false);
+                .inflate(R.layout.single_service, parent, false);
 
         return new MyViewHolder(itemView);
 

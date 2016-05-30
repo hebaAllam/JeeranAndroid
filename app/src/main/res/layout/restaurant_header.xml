@@ -98,7 +98,7 @@
                <ImageView
                    android:layout_width="25dp"
                    android:layout_height="25dp"
-                   android:src="@drawable/ic_locations_icon"
+                   android:src="@drawable/ic_location_icon"
                    android:layout_marginLeft="5dp"
                    />
                 <TextView

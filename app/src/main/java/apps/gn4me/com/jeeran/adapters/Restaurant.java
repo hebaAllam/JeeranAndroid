@@ -1,6 +1,10 @@
-package apps.gn4me.com.jeeran.pojo;
+package apps.gn4me.com.jeeran.adapters;
 
 /**
+ * Created by acer on 5/30/2016.
+ package apps.gn4me.com.jeeran.pojo;
+
+ /**
  * Created by acer on 5/29/2016.
  */
 public class Restaurant {

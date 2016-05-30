@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
-import apps.gn4me.com.jeeran.pojo.Restaurant;
 
 /**
  * Created by acer on 5/29/2016.

@@ -12,8 +12,6 @@ import java.util.List;
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.ReviewAdapter;
-import apps.gn4me.com.jeeran.adapters.SuperMarketsAdapters;
-import apps.gn4me.com.jeeran.pojo.SuperMarket;
 import apps.gn4me.com.jeeran.pojo.UserReview;
 
 public class Reviews extends AppCompatActivity {

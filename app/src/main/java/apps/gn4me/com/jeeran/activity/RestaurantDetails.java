@@ -3,20 +3,15 @@ package apps.gn4me.com.jeeran.activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.net.Uri;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -25,7 +20,7 @@ import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.RestaurantAdapter;
-import apps.gn4me.com.jeeran.pojo.Restaurant;
+import apps.gn4me.com.jeeran.adapters.Restaurant;
 
 public class RestaurantDetails extends AppCompatActivity {
 
@@ -118,7 +113,7 @@ public class RestaurantDetails extends AppCompatActivity {
                 R.drawable.reslogo
                 };
 
-        Restaurant  a= new Restaurant( logos[0],"Coupa", 13.6);
+        Restaurant a= new Restaurant( logos[0],"Coupa", 13.6);
         restaurantList.add(a);
         restaurantList.add(a);
         restaurantList.add(a);
