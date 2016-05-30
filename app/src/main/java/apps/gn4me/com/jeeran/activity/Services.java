@@ -126,7 +126,7 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
                         Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
                         break;
                     case 3:
-                        Intent superMarketsIntent=new Intent(getContext(),SuperMarketsServices.class);
+                        Intent superMarketsIntent=new Intent(getContext(),Service.class);
                         startActivity(superMarketsIntent);
                         break;
                     case 2:
