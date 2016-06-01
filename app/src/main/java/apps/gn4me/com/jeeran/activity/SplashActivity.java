@@ -1,6 +1,8 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -44,8 +46,19 @@ public class SplashActivity extends BaseActivity implements AdapterView.OnItemSe
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    SharedPreferences settings;
+                    String email , password  , token ;
+                    settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+                    email = settings.getString("email", null);
+                    password = settings.getString("email", null);
+                    token = settings.getString("token", null);
+                    if ( email != null && password != null && token != null ) {
+                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
         };

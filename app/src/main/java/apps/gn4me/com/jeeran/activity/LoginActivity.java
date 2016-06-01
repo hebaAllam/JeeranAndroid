@@ -58,7 +58,6 @@ public class LoginActivity extends BaseActivity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
     private CallbackManager callbackManager;
 
     // UI references.
@@ -76,18 +75,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-         /*
-            SharedPreferences settings;
-            String text;
-            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-            text = settings.getString("email", null); //2
-
-         */
-        //Intent i = new Intent(LoginActivity.this,HomeActivity.class);
-        //startActivity(i);
-
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -216,9 +203,6 @@ public class LoginActivity extends BaseActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -257,7 +241,6 @@ public class LoginActivity extends BaseActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
 
-
             coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
             String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
@@ -289,7 +272,7 @@ public class LoginActivity extends BaseActivity {
                         editor.putString("password", "123456789");
                         editor.putString("email", "testhsmsss@test.com");
                         editor.putString("device_token", "bbbbbbdnssbbsxbxb");
-                        editor.putString("token", "bbbbbbdnssbbsxbxb");
+                        editor.putString("token",  result.getAsJsonPrimitive("token").getAsString());
                         editor.commit();
 
                         Intent i = new Intent(LoginActivity.this,HomeActivity.class);
@@ -301,23 +284,6 @@ public class LoginActivity extends BaseActivity {
                 }
             });
 
-            ///////////////////test
-            SharedPreferences settings;
-            SharedPreferences.Editor editor;
-            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-            editor = settings.edit();
-
-            editor.putString("password", password);
-            editor.putString("email", email);
-            editor.commit();
-            /////////////////////test
-            /*
-            String text;
-            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-            text = settings.getString("email", null); //2
-
-            Snackbar.make(coordinatorLayout, text , Snackbar.LENGTH_LONG).show();
-            */
             //Intent i = new Intent(LoginActivity.this,HomeActivity.class);
             //startActivity(i);
         }
@@ -370,65 +336,5 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-
-
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
 
