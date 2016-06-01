@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.HomeActivity">
+
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        custom:auto_cycle="true"
+        custom:indicator_visibility="visible"
+        custom:pager_animation="Accordion"
+        custom:pager_animation_span="1100" />
+
+    <Spinner
+
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
+
+
+
+
+
+
+    <FrameLayout
+        android:id="@+id/separatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/smallSeparatorHeight"
+        android:layout_below="@+id/slider"
+        android:background="@color/colorAccent"></FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/separatorLayout"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <FrameLayout
+            android:id="@+id/serviceLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/home_service">
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/serviceBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:drawableLeft="@drawable/ic_service_icon"
+                android:text="Service"
+                android:textColor="#fff" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/discussionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/home_descusion">
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/discussionBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:drawableLeft="@drawable/ic_discussion_icon"
+                android:text="Discussion"
+                android:textColor="#fff" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/realEstateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/home_realEstate">
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/realEstateBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:drawableLeft="@drawable/ic_real_estate_icon"
+                android:text="Real Estate"
+                android:textColor="#fff" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
