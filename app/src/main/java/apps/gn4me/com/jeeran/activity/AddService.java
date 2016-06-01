@@ -18,7 +18,7 @@ import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import apps.gn4me.com.jeeran.R;
 
-public class AddService extends AppCompatActivity
+public class AddService extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     String[] categoryList = {"c1", "c2", "c3"};

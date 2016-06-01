@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -29,7 +30,7 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
 
     private SliderLayout mDemoSlider;
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mActionBarDrawerToggle;
+//    private ActionBarDrawerToggle mActionBarDrawerToggle;
     private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
     private Toolbar toolbar;
     private AppCompatButton serviceBtn ;
@@ -122,37 +123,20 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
 
     }
     private void init_navigator(){
+        setupToolbar();
+
         // Navigation Drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_DrawerLayout);
-        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.primaryDark));
-        mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.main_activity_navigation_drawer_rootLayout);
 
-        mActionBarDrawerToggle = new ActionBarDrawerToggle
-                (
-                        this,
-                        mDrawerLayout,
-
-                        R.string.navigation_drawer_opened,
-                        R.string.navigation_drawer_closed
-                )
-        {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset)
-            {
-                // Disables the burger/arrow animation by default
-                super.onDrawerSlide(drawerView, 0);
-            }
-
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
         };
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
-        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
-
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-
-
+//        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.primaryDark));
+        mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.main_activity_navigation_drawer_rootLayout);
 
 
         // Navigation Drawer layout width
@@ -163,9 +147,21 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
         mScrimInsetsFrameLayout.getLayoutParams().width = Math.min(possibleMinDrawerWidth, maxDrawerWidth);
         // Set the first item as selected for the first time
         getSupportActionBar().setTitle(R.string.toolbar_title_home);
-        mActionBarDrawerToggle.syncState();
 
     }
+
+
+
+    public void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+//            ((TextView) findViewById(R.id.title)).setText(getTitle());
+//            setTitle("");
+        }
+
+    }
+
 
     @Override
     protected void onStop() {

@@ -28,7 +28,7 @@
     <string name="action_sign_in_fb">Login With Facebook</string>
     <string name="action_forgot_password">Forgot Your Password?!</string>
     <string name="title_activity_login">Sign in</string>
-    <string name="facebook_app_id">1303282329685203</string>
+    <string name="facebook_app_id" translatable="false">1303282329685203</string>
     <string name="title_activity_add_service">AddService</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -103,9 +103,23 @@
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
 
     <!-- strings related to restaurants card view -->
-    <string name="action_add_favourite">Add to Favourites</string>
+    <string name="action_add_favourite" translatable="false">Add to Favourites</string>
     <string name="action_play_next">Play Next</string>
     <string name="backdrop_title">LOVE MUSIC</string>
     <string name="backdrop_subtitle">This season top 20 albums</string>
+
+    //for splash screen
+    <string name="where_do_you_live">Where do you live </string>
+    <string-array name="select_area_arrays">
+        <item>El Tagammoa El khames</item>
+        <item>El Shorouk</item>
+        <item>El Rehab City</item>
+        <item>Madenty</item>
+    </string-array>
+    <string name="title_activity_get_location">Map</string>
+
+
+    // google key
+    <string name="google_maps_key"></string>
 
 </resources>

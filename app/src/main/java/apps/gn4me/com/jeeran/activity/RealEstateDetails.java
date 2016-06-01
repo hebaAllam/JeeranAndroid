@@ -1,14 +1,13 @@
+
 package apps.gn4me.com.jeeran.activity;
 
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.Spinner;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -16,32 +15,25 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import apps.gn4me.com.jeeran.R;
-import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
-import apps.gn4me.com.jeeran.adapters.ServiceAdapter;
-import apps.gn4me.com.jeeran.pojo.Service;
 
-public class SuperMarketsServices extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+import apps.gn4me.com.jeeran.R;
+
+public class RealEstateDetails extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+
+
     private SliderLayout mDemoSlider;
-    private RecyclerView recyclerView;
-    private ServiceAdapter myAdapter;
-    private List<Service> servicesList = new ArrayList<>();
-    private ImageView backIcon;
+    private DrawerLayout mDrawerLayout;
+    //    private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_super_markets_services);
-        backIcon=(ImageView)findViewById(R.id.backFromSuperMarkets);
-        Spinner dropdown = (Spinner)findViewById(R.id.spinner1Area);
-        String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
+        setContentView(R.layout.activity_real_estate_details);
 
-
-        mDemoSlider = (SliderLayout)findViewById(R.id.sliderSuperMarkets);
+        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
         HashMap<String,String> url_maps = new HashMap<String, String>();
         url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
@@ -76,32 +68,21 @@ public class SuperMarketsServices extends BaseActivity implements BaseSliderView
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         mDemoSlider.setDuration(4000);
         mDemoSlider.addOnPageChangeListener(this);
-        //recycle view
-        recyclerView = (RecyclerView) findViewById(R.id.superMarkets_recycleView);
-        servicesList.clear();
-        myAdapter=new ServiceAdapter(servicesList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(myAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        prepareData();
-        backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+
+        setupToolbar();
+    }
+
+
+    public void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+//            ((TextView) findViewById(R.id.title)).setText(getTitle());
+//            setTitle("");
+        }
 
     }
 
-    private void prepareData() {
-        Service sup1=new Service(R.drawable.ic_account_circle_white_64dp,"Hyper 1",3434,343);
-        servicesList.add(sup1);
-        Service sup2=new Service(R.drawable.ic_account_circle_white_64dp,"Mole El3rab",3434,343);
-        servicesList.add(sup2);
-        myAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

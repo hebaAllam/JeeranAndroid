@@ -17,7 +17,7 @@ import java.util.List;
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.fragments.*;
 
-public class MyFavoritesActivity extends AppCompatActivity {
+public class MyFavoritesActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

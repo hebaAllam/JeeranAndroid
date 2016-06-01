@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
@@ -34,6 +35,7 @@ import com.facebook.internal.Utility;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +51,7 @@ import java.util.List;
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.pojo.User;
 
-public class CreateAccount extends AppCompatActivity implements View.OnClickListener{
+public class CreateAccount extends BaseActivity implements View.OnClickListener{
 
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 1;
     //all create account activity components
@@ -60,11 +62,19 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
     String imgDecodableString;
     Uri outputFileUri;
     ImageView preview;
+    private  int android_type = 0;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+
+        hideKeyboard();
+
+        progressDialog = new ProgressDialog(CreateAccount.this,
+                R.style.AppTheme_Dark_Dialog);
 
         bindComponents();
         assignUserData();
@@ -97,10 +107,10 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
         int componentID = createAccountView.getId();
 
         if(componentID == R.id.registerBtn_createAccountActivity){
-            if(!isEmpty() && isValidPassword(passwordEditTxt.getText().toString()) && isConfirmedPassword(passwordEditTxt.getText().toString(), retypePassEditTxt.getText().toString()) && isValidEmailAddress(emailEditTxt.getText().toString())) {
+            //if(!isEmpty() && isValidPassword(passwordEditTxt.getText().toString()) && isConfirmedPassword(passwordEditTxt.getText().toString(), retypePassEditTxt.getText().toString()) && isValidEmailAddress(emailEditTxt.getText().toString())) {
                 sendRegistrationData();
-                openDialog();
-            }
+                //openDialog();
+            //}
         }
         else if(componentID == R.id.registerWithFbBtn_createAccountActivity){
             sendRegistrationDataWithFb();
@@ -108,8 +118,7 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
     }
 
     private void openDialog() {
-        final ProgressDialog progressDialog = new ProgressDialog(CreateAccount.this,
-                R.style.AppTheme_Dark_Dialog);
+
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
@@ -173,6 +182,43 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
     }
     public void sendRegistrationData(){
         Toast.makeText(getApplicationContext(),"sending....",Toast.LENGTH_SHORT).show();
+        Ion.with(getApplicationContext())
+                .load(BASE_URL + "/user/register")
+                .setBodyParameter("Mail", emailEditTxt.getText().toString())
+                .setBodyParameter("Password", passwordEditTxt.getText().toString())
+//                .setBodyParameter("Profile", myImg)
+                .setBodyParameter("Confirmpassword", retypePassEditTxt.getText().toString())
+                .setBodyParameter("Fullname", userNameEditTxt.getText().toString())
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+//                        showProgress(false);
+                        Log.i("All Result ::: " , result.toString());
+                        /*
+                        Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                        if ( success ){
+                            SharedPreferences settings;
+                            SharedPreferences.Editor editor;
+                            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+                            editor = settings.edit();
+
+                            editor.putString("password", passwordEditTxt.getText().toString());
+                            editor.putString("email", emailEditTxt.getText().toString());
+                            editor.commit();
+                            progressDialog.dismiss();
+
+                            Intent i = new Intent(CreateAccount.this,HomeActivity.class);
+                            startActivity(i);
+                        } else {
+                            progressDialog.dismiss();
+//                            Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"Registeration Failed",Toast.LENGTH_LONG).show();
+                        }
+                        */
+                    }
+                });
         try {
             Toast.makeText(getApplicationContext(), createJsonObject().get("userName").toString() , Toast.LENGTH_LONG).show();
         } catch (JSONException e) {
@@ -228,6 +274,7 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
                 final boolean isCamera;
@@ -264,6 +311,11 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
                         InputStream input = getContentResolver().openInputStream(selectedImageUri);
                         final Bitmap bitmap = BitmapFactory.decodeStream(input);
                         preview.setImageBitmap(bitmap);
+
+                        Picasso.with(this)
+                                .load(selectedImageUri)
+                                .noFade()
+                                .into(preview);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

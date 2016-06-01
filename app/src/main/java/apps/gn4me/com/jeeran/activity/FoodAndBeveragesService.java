@@ -33,7 +33,7 @@ import apps.gn4me.com.jeeran.listeners.RecyclerTouchListener;
 import apps.gn4me.com.jeeran.pojo.Service;
 import apps.gn4me.com.jeeran.pojo.ServicesCategory;
 
-public class FoodAndBeveragesService extends AppCompatActivity  implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class FoodAndBeveragesService extends BaseActivity  implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
     private SliderLayout mDemoSlider;
     private RecyclerView recyclerView;
     private ServiceAdapter myAdapter;

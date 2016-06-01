@@ -35,6 +35,8 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import org.json.JSONObject;
 
@@ -44,21 +46,18 @@ import apps.gn4me.com.jeeran.pojo.User;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String BASE_URL = "" ;
-    private static final String PREFS_NAME = "Jeeran" ;
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
     private CallbackManager callbackManager;
 
     // UI references.
@@ -76,18 +75,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-         /*
-            SharedPreferences settings;
-            String text;
-            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-            text = settings.getString("email", null); //2
-
-         */
-        //Intent i = new Intent(LoginActivity.this,SelectAreaScreen.class);
-        //startActivity(i);
-
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -157,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 final AccessToken accessToken = loginResult.getAccessToken();
                 final User fbUser = new User();
-                GraphRequestAsyncTask request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject user, GraphResponse graphResponse) {
                         fbUser.setEmailAddress(user.optString("email"));
@@ -167,7 +154,13 @@ public class LoginActivity extends AppCompatActivity {
                         //Snackbar.make(coordinatorLayout, "Login Success " + fbUser.getUserName() , Snackbar.LENGTH_LONG).show();
 
                     }
-                }).executeAsync();
+                });
+
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,picture,first_name,last_name");
+                request.setParameters(parameters);
+                request.executeAsync();
 
                 Log.i("Success :::" ,
                         "User ID: "
@@ -196,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
     }
 
     @Override
@@ -209,9 +203,6 @@ public class LoginActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -250,20 +241,19 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
 
-
             coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
             String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                     Settings.Secure.ANDROID_ID);
             String android_type = android.os.Build.DEVICE ;
-            /*
+
             showProgress(true);
-            Ion.with(context)
+            Ion.with(getApplicationContext())
             .load(BASE_URL + "/user/login")
-            .setBodyParameter("device_type", android_type)
-            .setBodyParameter("Mail", email)
-            .setBodyParameter("Password", password)
-            .setBodyParameter("device_token", android_id)
+            .setBodyParameter("device_type", "0")
+            .setBodyParameter("email", "testhsmsss@test.com")
+            .setBodyParameter("password", "123456789")
+            .setBodyParameter("device_token", "bbbbbbdnssbbsxbxb")
             .asJsonObject()
             .setCallback(new FutureCallback<JsonObject>() {
                @Override
@@ -272,43 +262,30 @@ public class LoginActivity extends AppCompatActivity {
                     showProgress(false);
                     Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                     if ( success ){
+                        Log.i("Done ::: success" , result.toString() );
+
                         SharedPreferences settings;
                         SharedPreferences.Editor editor;
                         settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
                         editor = settings.edit();
 
-                        editor.putString("password", password);
-                        editor.putString("email", email);
+                        editor.putString("password", "123456789");
+                        editor.putString("email", "testhsmsss@test.com");
+                        editor.putString("device_token", "bbbbbbdnssbbsxbxb");
+                        editor.putString("token",  result.getAsJsonPrimitive("token").getAsString());
                         editor.commit();
 
-                        Intent i = new Intent(LoginActivity.this,SelectAreaScreen.class);
+                        Intent i = new Intent(LoginActivity.this,HomeActivity.class);
                         startActivity(i);
                     } else {
-                        Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
+                        Log.i( "Login Failed ::: " , result.toString() );
+                        Snackbar.make(coordinatorLayout, "Login Failed" , Snackbar.LENGTH_LONG).show();
                     }
                 }
             });
 
-            */
-            ///////////////////test
-            SharedPreferences settings;
-            SharedPreferences.Editor editor;
-            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-            editor = settings.edit();
-
-            editor.putString("password", password);
-            editor.putString("email", email);
-            editor.commit();
-            /////////////////////test
-            /*
-            String text;
-            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-            text = settings.getString("email", null); //2
-
-            Snackbar.make(coordinatorLayout, text , Snackbar.LENGTH_LONG).show();
-            */
-            Intent i = new Intent(LoginActivity.this,SelectAreaScreen.class);
-            startActivity(i);
+            //Intent i = new Intent(LoginActivity.this,HomeActivity.class);
+            //startActivity(i);
         }
     }
 
@@ -359,65 +336,5 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-
-
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
 

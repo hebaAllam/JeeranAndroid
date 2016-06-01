@@ -45,7 +45,7 @@ import java.util.List;
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.pojo.RealEstate;
 
-public class AddRealEstate extends AppCompatActivity
+public class AddRealEstate extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 1;

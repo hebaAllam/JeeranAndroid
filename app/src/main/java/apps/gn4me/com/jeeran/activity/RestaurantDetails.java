@@ -23,7 +23,7 @@ import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.RestaurantAdapter;
 import apps.gn4me.com.jeeran.adapters.Restaurant;
 
-public class RestaurantDetails extends AppCompatActivity {
+public class RestaurantDetails extends BaseActivity {
 
     private RecyclerView recyclerView;
     private RestaurantAdapter adapter;

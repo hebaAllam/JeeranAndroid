@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import apps.gn4me.com.jeeran.R;
 
-public class ResetPasswordActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

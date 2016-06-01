@@ -19,7 +19,7 @@ import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
 
-public class ModulesActivity extends AppCompatActivity {
+public class ModulesActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private  TextView moduleLabel;

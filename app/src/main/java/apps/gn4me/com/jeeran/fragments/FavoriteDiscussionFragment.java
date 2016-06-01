@@ -25,10 +25,10 @@ public  class FavoriteDiscussionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dummy_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_real_estate, container, false);
 
-        final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.dummyfrag_bg);
-        frameLayout.setBackgroundColor(color);
+//        final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.dummyfrag_bg);
+//        frameLayout.setBackgroundColor(color);
         
 
         return view;

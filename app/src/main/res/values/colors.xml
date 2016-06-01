@@ -11,9 +11,10 @@
     <color name="iron">#CCCCCC</color>
 
 
-    <color name="btnColor">#0079b4</color>
+ <color name="btnColor">#200079b4</color>
+ <color name="borderColor">#0079b4</color>
 
-    //floating action button
+ //floating action button
     <color name="orange">#f4940d</color>
 
     //for home
@@ -102,4 +103,10 @@
     <color name="black_alpha_50">#80000000</color>
  <color name="viewBg">#f1f5f8</color>
  <color name="album_title">#4c4c4c</color>
+
+ //real estate details
+ <color name="business">#b8c7cf</color>
+ <color name="seller_type">#e6e6e8</color>
+ <color name="dark_cells">#b8c7cf</color>
+ <color name="light_cells">#f1f1f3</color>
 </resources>

@@ -24,6 +24,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView servicelogo;
         public TextView serviceName;
+
         public MyViewHolder(View view) {
             super(view);
             serviceName= (TextView) view.findViewById(R.id.superMarketName);

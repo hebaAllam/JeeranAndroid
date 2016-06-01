@@ -11,7 +11,7 @@ import android.view.View;
 
 import apps.gn4me.com.jeeran.R;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends BaseActivity {
 
     AppCompatButton resetPassword ;
 
