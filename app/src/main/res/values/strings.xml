@@ -1,0 +1,125 @@
+<resources>
+    <string name="app_name">Jeeran</string>
+
+
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="retype_password">Retype Password</string>
+    <string name="email_address">Email Address</string>
+    <string name="register">Register</string>
+    <string name="register_with_fb">Register With Facebook</string>
+    <string name="title_activity_register_account">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password </string>
+    <string name="prompt_confirm_password">Confirm Password </string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_register_with_facebook">Register With Facebook</string>
+    <string name="create_account">Create Account</string>
+    <string name="action_sign_in_fb">Login With Facebook</string>
+    <string name="action_forgot_password">Forgot Your Password?!</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="facebook_app_id" translatable="false">1303282329685203</string>
+    <string name="title_activity_add_service">AddService</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    //for add service
+    <string name="logo_pic">Logo Picture \n (Optional)</string>
+    <string name="optional">(Optional) </string>
+    <string name="take_or_choose_pic">Take Or Choose \n 8 Photos</string>
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="sub_category">Sub Category</string>
+    <string name="description">Description</string>
+    <string name="location">Location</string>
+    <string name="phone">Phone</string>
+    <string name="opening_hours">Opening Hours</string>
+    <string name="saveBtn">Save</string>
+
+    <string name="action_settings">Settings</string>
+    //for tabs and navigation drawer
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="nav_item_home">Home</string>
+    <string name="nav_item_friends">Friends</string>
+    <string name="nav_item_notifications">Messages</string>
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_home</item>
+        <item>@string/nav_item_friends</item>
+        <item>@string/nav_item_notifications</item>
+    </string-array>
+
+    <string name="title_messages">Messages</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_home">Home</string>
+
+    <string name="hello_world">Hello world!</string>
+    >
+
+    <!-- Toolbar titles -->
+    <string name="toolbar_title_home">Home</string>
+    <string name="toolbar_title_explore">Explore</string>
+    <string name="other_activity">Other Activity</string>
+
+    <!-- Navigation Drawer -->
+    <string name="nav_drawer_item_home">Home</string>
+    <string name="nav_drawer_item_explore">Explore</string>
+    <string name="nav_drawer_help_and_feedback"><![CDATA[Help & feedback]]></string>
+    <string name="nav_drawer_about">About</string>
+    <string name="navigation_drawer_opened">The navigation drawer is opened</string>
+    <string name="navigation_drawer_closed">The navigation drawer is closed</string>
+    <string name="tag_nav_drawer_main_entry">nav_drawer_main_entry</string>
+    <string name="tag_nav_drawer_special_entry">nav_drawer_special_entry</string>
+    <string name="tools_text_account_information_username">Username</string>
+    <string name="tools_text_account_information_email">user@mail.com</string>
+
+    <!-- Typeface names -->
+    <string name="typeface_roboto_regular">Roboto-Regular</string>
+    <string name="typeface_roboto_medium">Roboto-Medium</string>
+    <string name="title_activity_add_real_estate">AddRealEstate</string>
+
+
+    //for real estate
+    <string name="email_real">Email</string>
+    <string name="take_or_choose_pic_real">Take Or Choose 8 Photos</string>
+    <string name="location_real">Location</string>
+    <string name="address_real">Address</string>
+    <string name="contact_person_real">Contact Person</string>
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
+
+    <!-- strings related to restaurants card view -->
+    <string name="action_add_favourite" translatable="false">Add to Favourites</string>
+    <string name="action_play_next">Play Next</string>
+    <string name="backdrop_title">LOVE MUSIC</string>
+    <string name="backdrop_subtitle">This season top 20 albums</string>
+
+    //for splash screen
+    <string name="where_do_you_live">Where do you live </string>
+    <string-array name="select_area_arrays">
+        <item>El Tagammoa El khames</item>
+        <item>El Shorouk</item>
+        <item>El Rehab City</item>
+        <item>Madenty</item>
+    </string-array>
+    <string name="title_activity_get_location">Map</string>
+
+
+    // google key
+    <string name="google_maps_key"></string>
+
+</resources>

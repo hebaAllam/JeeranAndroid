@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/MyMaterialTheme"
+    android:orientation="vertical"
+    android:paddingTop="2dp"
+
+    >
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:background="#fff"
+  >
+    <TextView
+        android:id="@+id/selected_module"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Services"
+       android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/titlecolor"
+
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backIcon"
+        android:gravity="left"
+        android:src="@drawable/ic_back_icon"
+
+
+
+        />
+</FrameLayout>
+        />
+<!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_height="wrap_content"-->
+
+
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/custom_tab_layout_height"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabPaddingStart="0dp"
+        app:tabPaddingEnd="0dp"
+        app:tabIndicatorHeight="3dp"
+        app:tabIndicatorColor="@color/fontColor"
+        android:background="#fff"
+
+
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+
+</LinearLayout>
