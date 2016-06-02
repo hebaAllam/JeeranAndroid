@@ -30,7 +30,7 @@
                 android:onClick="onPickPhoto"
                 android:orientation="vertical">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -135,18 +135,22 @@
                 android:background="@drawable/rounded_btn"
                 android:text="@string/register"
                 android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                />
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/registerWithFbBtn_createAccountActivity"
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_with_facebook"
+                android:minHeight="35dp"
+                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/highSeparatorHeight"
+                android:layout_weight="1"
                 android:background="@drawable/rounded_btn"
-
-                android:text="@string/register_with_fb"
+                android:text="@string/action_sign_in_fb"
                 android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

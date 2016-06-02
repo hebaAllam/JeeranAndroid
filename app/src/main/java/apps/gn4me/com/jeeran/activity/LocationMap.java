@@ -12,14 +12,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import apps.gn4me.com.jeeran.R;
 
-public class GetLocation extends FragmentActivity implements OnMapReadyCallback {
+public class LocationMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_location);
+        setContentView(R.layout.activity_location_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

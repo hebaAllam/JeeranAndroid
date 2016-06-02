@@ -8,15 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
-import apps.gn4me.com.jeeran.adapters.RVAdapter;
-import apps.gn4me.com.jeeran.adapters.ServiceAdapter;
 import apps.gn4me.com.jeeran.adapters.ServiceFavoriteAdapter;
 import apps.gn4me.com.jeeran.pojo.RealEstate;
 
@@ -50,7 +47,7 @@ public  class FavoriteServiceFragment extends Fragment {
 //        rv.setHasFixedSize(true);
         llm = new LinearLayoutManager(view.getContext());
         rv.setLayoutManager(llm);
-        rv.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
+        rv.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         initializeData();
 
         adapter = new ServiceFavoriteAdapter(realEstates);
