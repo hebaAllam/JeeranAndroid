@@ -1,30 +1,19 @@
 package apps.gn4me.com.jeeran.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
+import android.content.ClipData;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,9 +25,6 @@ import com.koushikdutta.ion.Ion;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,10 +41,14 @@ public class AddRealEstate extends BaseActivity
     RealEstate realEstate;
     ProgressDialog progressDialog;
 
+    int PICK_IMAGE_MULTIPLE = 1;
+    String imageEncoded;
+    List<String> imagesEncodedList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_real_estate);
+        setContentView(R.layout.content_add_real_estate+986);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -87,7 +77,7 @@ public class AddRealEstate extends BaseActivity
 //            }
 //        });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        android.support.v4.widget.DrawerLayout drawer = (android.support.v4.widget.DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -196,9 +186,9 @@ public class AddRealEstate extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        android.support.v4.widget.DrawerLayout drawer = (android.support.v4.widget.DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(android.support.v4.view.GravityCompat.START)) {
+            drawer.closeDrawer(android.support.v4.view.GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -246,99 +236,89 @@ public class AddRealEstate extends BaseActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        android.support.v4.widget.DrawerLayout drawer = (android.support.v4.widget.DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(android.support.v4.view.GravityCompat.START);
         return true;
     }
 
    public void  uploadImg(View view){
-       final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "amfb" + File.separator);
-       root.mkdir();
-       final String fname = "img_" + System.currentTimeMillis() + ".jpg";
-       final File sdImageMainDirectory = new File(root, fname);
-       outputFileUri = Uri.fromFile(sdImageMainDirectory);
+//       final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "amfb" + File.separator);
+//       root.mkdir();
+//       final String fname = "img_" + System.currentTimeMillis() + ".jpg";
+//       final File sdImageMainDirectory = new File(root, fname);
+//       outputFileUri = Uri.fromFile(sdImageMainDirectory);
+//
+//       // Camera.
+//       final List<Intent> cameraIntents = new ArrayList<Intent>();
+//       final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//       final PackageManager packageManager = getPackageManager();
+//       final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+//       for (ResolveInfo res : listCam){
+//           final String packageName = res.activityInfo.packageName;
+//           final Intent intent = new Intent(captureIntent);
+//           intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+//           intent.setPackage(packageName);
+////            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+//           cameraIntents.add(intent);
+//       }
 
-       // Camera.
-       final List<Intent> cameraIntents = new ArrayList<Intent>();
-       final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-       final PackageManager packageManager = getPackageManager();
-       final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-       for (ResolveInfo res : listCam){
-           final String packageName = res.activityInfo.packageName;
-           final Intent intent = new Intent(captureIntent);
-           intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-           intent.setPackage(packageName);
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-           cameraIntents.add(intent);
-       }
-
-       //FileSystem
-       final Intent galleryIntent = new Intent();
-       galleryIntent.setType("image/");
-       galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
-       // Chooser of filesystem options.
-       final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-       // Add the camera options.
-       chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
-       startActivityForResult(chooserIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+       Intent intent = new Intent();
+       intent.setType("image/*");
+       intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+       intent.setAction(Intent.ACTION_GET_CONTENT);
+       startActivityForResult(Intent.createChooser(intent,"Select Picture"), 1);
    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // When an Image is picked
+        if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
+                && null != data) {
+            // Get the Image from data
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-                final boolean isCamera;
-                if (data == null) {
-                    isCamera = true;
-                } else {
-                    final String action = data.getAction();
-                    if (action == null) {
-                        isCamera = false;
-                    } else {
-                        isCamera = action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
-                    }
-                }
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            imagesEncodedList = new ArrayList<String>();
+            if(data.getData()!=null){
 
-                Uri selectedImageUri;
-                if (isCamera) {
-                    selectedImageUri = outputFileUri;
-                    //Bitmap factory
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    // downsizing image as it throws OutOfMemory Exception for larger
-                    // images
-                    options.inSampleSize = 8;
-                    final Bitmap bitmap = BitmapFactory.decodeFile(selectedImageUri.getPath(), options);
-//                    preview.setImageBitmap(bitmap);
-                } else {
-                    selectedImageUri = data == null ? null : data.getData();
-                    Log.d("ImageURI", selectedImageUri.getLastPathSegment());
-                    // /Bitmap factory
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    // downsizing image as it throws OutOfMemory Exception for larger
-                    // images
-                    options.inSampleSize = 8;
-                    try {//Using Input Stream to get uri did the trick
-                        InputStream input = getContentResolver().openInputStream(selectedImageUri);
-                        final Bitmap bitmap = BitmapFactory.decodeStream(input);
-//                        preview.setImageBitmap(bitmap);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                Uri mImageUri=data.getData();
+
+                // Get the cursor
+                Cursor cursor = getContentResolver().query(mImageUri,
+                        filePathColumn, null, null, null);
+                // Move to first row
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imageEncoded  = cursor.getString(columnIndex);
+                cursor.close();
+
+            }else {
+                if (data.getClipData() != null) {
+                    ClipData mClipData = data.getClipData();
+                    ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+                    for (int i = 0; i < mClipData.getItemCount(); i++) {
+
+                        ClipData.Item item = mClipData.getItemAt(i);
+                        Uri uri = item.getUri();
+                        mArrayUri.add(uri);
+                        // Get the cursor
+                        Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
+                        // Move to first row
+                        cursor.moveToFirst();
+
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        imageEncoded  = cursor.getString(columnIndex);
+                        imagesEncodedList.add(imageEncoded);
+                        cursor.close();
+
                     }
+                    Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
                 }
             }
-        } else if (resultCode == RESULT_CANCELED) {
-            // user cancelled Image capture
-            Toast.makeText(getApplicationContext(),
-                    "You cancelled image capture", Toast.LENGTH_SHORT)
-                    .show();
         } else {
-            // failed to capture image
-            Toast.makeText(getApplicationContext(),
-                    "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this, "You haven't picked Image",
+                    Toast.LENGTH_LONG).show();
         }
     }
 

@@ -1,13 +1,9 @@
 
 package apps.gn4me.com.jeeran.activity;
 
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -42,9 +38,9 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
 
         HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Hannibal",R.drawable.hannibal);
-        file_maps.put("Big Bang Theory",R.drawable.bigbang);
-        file_maps.put("House of Cards",R.drawable.house);
+        file_maps.put("Hannibal", R.drawable.hannibal);
+        file_maps.put("Big Bang Theory", R.drawable.bigbang);
+        file_maps.put("House of Cards", R.drawable.house);
         file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
 
         for(String name : file_maps.keySet()){

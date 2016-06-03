@@ -11,6 +11,7 @@
         android:paddingLeft="5dp"
         android:paddingBottom="5dp"
         android:paddingTop="10dp"
+        android:background="@color/background"
         xmlns:android="http://schemas.android.com/apk/res/android"
         >
 
@@ -19,14 +20,13 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/grey_200"
-            android:padding="16dp">
+            android:padding="10dp">
 
             <RelativeLayout
                 android:id="@+id/sigleItem"
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
 
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
