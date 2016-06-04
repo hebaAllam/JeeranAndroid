@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 //class that holds component of user data
 public class User implements Serializable{
+
+    private int id ;
     private String userName;
     private String password;
     private String emailAddress;
@@ -15,12 +17,29 @@ public class User implements Serializable{
 
     public User() {
     }
+
+    public User( int id , String name , String image ) {
+        this.userName = name;
+        this.image = image;
+        this.id = id ;
+    }
+
     public User(String userName, String password, String emailAddress, String image) {
         this.userName = userName;
         this.password = password;
         this.emailAddress = emailAddress;
         this.image = image;
     }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public String getUserName() {
         return userName;

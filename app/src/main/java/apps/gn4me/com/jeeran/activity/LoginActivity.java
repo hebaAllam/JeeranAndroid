@@ -6,6 +6,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,7 +40,12 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.pojo.User;
@@ -146,13 +153,67 @@ public class LoginActivity extends BaseActivity {
                 final User fbUser = new User();
                 GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
                     @Override
-                    public void onCompleted(JSONObject user, GraphResponse graphResponse) {
+                    public void onCompleted(final JSONObject user, GraphResponse graphResponse) {
                         Log.i("FB Data:: Email" , user.optString("email"));
                         Log.i("FB Data:: Id" , user.optString("id"));
                         Log.i("FB Data:: Name" , user.optString("name"));
-                        //fbUser.setImage(user.optString("picture"));
-                        //Snackbar.make(coordinatorLayout, "Login Success " + fbUser.getUserName() , Snackbar.LENGTH_LONG).show();
+                        Log.i("FB Picture:: Picture" , user.optString("picture"));
 
+                        String img = null ;
+
+                        try {
+                            img = user.getJSONObject("picture").getJSONObject("data").getString("url");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        /*
+                        /// test login by fb
+
+                        final String saveImgURl = img ;
+                        final String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
+                        showProgress(true);
+                        Ion.with(getApplicationContext())
+                                .load(BASE_URL + "/user/loginfb")
+                                .setBodyParameter("device_type", "0") //android => 0
+                                .setBodyParameter("email", user.optString("email"))
+                                .setBodyParameter("fb_id", user.optString("id"))
+                                .setBodyParameter("image", img )
+                                .setBodyParameter("device_token", android_id)
+                                .asJsonObject()
+                                .setCallback(new FutureCallback<JsonObject>() {
+                                    @Override
+                                    public void onCompleted(Exception e, JsonObject result) {
+                                        // do stuff with the result or error
+                                        showProgress(false);
+                                        Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                                        if ( success ){
+                                            Log.i("Done ::: success" , result.toString() );
+
+                                            SharedPreferences settings;
+                                            SharedPreferences.Editor editor;
+                                            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+                                            editor = settings.edit();
+                                            if ( saveImgURl != null ) {
+                                                editor.putString("profile", saveImgURl);
+                                            }
+                                            editor.putString("fb_id", user.optString("id"));
+                                            editor.putString("email",  user.optString("email"));
+                                            editor.putString("device_token", android_id);
+                                            editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
+                                            editor.commit();
+
+                                            Intent i = new Intent(LoginActivity.this,HomeActivity.class);
+                                            startActivity(i);
+                                        } else {
+                                            Log.i( "Login Failed ::: " , result.toString() );
+                                            Snackbar.make(coordinatorLayout, "Login Failed" , Snackbar.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+
+                                */
                     }
                 });
 
@@ -191,6 +252,30 @@ public class LoginActivity extends BaseActivity {
         mProgressView = findViewById(R.id.login_progress);
 
     }
+
+
+    /*
+
+    public static Bitmap getFacebookProfilePicture(String url){
+        URL facebookProfileURL= null;
+        Bitmap bitmap = null;
+        try {
+            facebookProfileURL = new URL(url);
+            bitmap = BitmapFactory.decodeStream(facebookProfileURL.openConnection().getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+
+
+
+    Bitmap profilePic = getFacebookProfilePicture(profilePicUrl);
+    mImageView.setBitmap(profilePic);
+
+    */
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

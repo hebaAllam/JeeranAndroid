@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,9 +34,12 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
 //    private ActionBarDrawerToggle mActionBarDrawerToggle;
     private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
     private Toolbar toolbar;
-    private AppCompatButton serviceBtn ;
-    private AppCompatButton discussionBtn ;
-    private AppCompatButton realEstateBtn ;
+    //private AppCompatButton serviceBtn ;
+    private FrameLayout discussionBtn ;
+    private FrameLayout realEstateBtn ;
+
+    private FrameLayout serviceBtn ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +91,9 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
         init_navigator();
         //////////////
 
-        serviceBtn = (AppCompatButton) findViewById(R.id.serviceBtn);
-        discussionBtn = (AppCompatButton) findViewById(R.id.discussionBtn);
-        realEstateBtn = (AppCompatButton) findViewById(R.id.realEstateBtn);
+        serviceBtn = (FrameLayout) findViewById(R.id.serviceLayout);
+        discussionBtn = (FrameLayout) findViewById(R.id.discussionLayout);
+        realEstateBtn = (FrameLayout) findViewById(R.id.realEstateLayout);
 
         serviceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
