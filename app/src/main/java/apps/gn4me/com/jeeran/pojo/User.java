@@ -11,11 +11,11 @@ public class User implements Serializable{
     private String userName;
     private String password;
     private String emailAddress;
-    private String[] image;
+    private String image;
 
     public User() {
     }
-    public User(String userName, String password, String emailAddress, String[] image) {
+    public User(String userName, String password, String emailAddress, String image) {
         this.userName = userName;
         this.password = password;
         this.emailAddress = emailAddress;
@@ -46,11 +46,11 @@ public class User implements Serializable{
         this.emailAddress = emailAddress;
     }
 
-    public String[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(String[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }
