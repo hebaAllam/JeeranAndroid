@@ -57,7 +57,6 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:textColor="@color/white"
-
                     android:textColorHint="@color/white"
                     android:layout_height="0dp"
                     android:layout_weight="2">
@@ -68,6 +67,7 @@
                         android:layout_height="match_parent"
                         android:drawableRight="@drawable/ic_username_icon"
                         android:hint="@string/prompt_email"
+                        android:textColor="@color/white"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -88,6 +88,7 @@
                         android:layout_height="match_parent"
                         android:drawableRight="@drawable/ic_lock_icon"
                         android:hint="@string/prompt_password"
+                        android:textColor="@color/white"
                         android:imeActionId="@+id/login"
                         android:imeActionLabel="@string/action_sign_in_short"
                         android:imeOptions="actionUnspecified"
