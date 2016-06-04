@@ -53,7 +53,7 @@ public class SplashActivity extends BaseActivity implements AdapterView.OnItemSe
                     password = settings.getString("email", null);
                     token = settings.getString("token", null);
                     if ( email != null && password != null && token != null ) {
-                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }else {
                         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);

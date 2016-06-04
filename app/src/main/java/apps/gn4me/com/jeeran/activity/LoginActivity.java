@@ -147,9 +147,9 @@ public class LoginActivity extends BaseActivity {
                 GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject user, GraphResponse graphResponse) {
-                        fbUser.setEmailAddress(user.optString("email"));
-                        fbUser.setUserName(user.optString("name"));
-                        fbUser.setPassword(user.optString("id"));
+                        Log.i("FB Data:: Email" , user.optString("email"));
+                        Log.i("FB Data:: Id" , user.optString("id"));
+                        Log.i("FB Data:: Name" , user.optString("name"));
                         //fbUser.setImage(user.optString("picture"));
                         //Snackbar.make(coordinatorLayout, "Login Success " + fbUser.getUserName() , Snackbar.LENGTH_LONG).show();
 
@@ -272,7 +272,7 @@ public class LoginActivity extends BaseActivity {
                         editor.putString("password", "123456789");
                         editor.putString("email", "testhsmsss@test.com");
                         editor.putString("device_token", "bbbbbbdnssbbsxbxb");
-                        editor.putString("token",  result.getAsJsonPrimitive("token").getAsString());
+                        editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
                         editor.commit();
 
                         Intent i = new Intent(LoginActivity.this,HomeActivity.class);
