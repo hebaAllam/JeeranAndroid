@@ -59,7 +59,7 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-      v= inflater.inflate(R.layout.service_fragment, container, false);
+        v = inflater.inflate(R.layout.service_fragment, container, false);
         //Slider
 
         Spinner dropdown = (Spinner)v.findViewById(R.id.spinner1frag);
