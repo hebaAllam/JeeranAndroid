@@ -17,14 +17,15 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.pojo.ServiceDetailsPojo;
 
 /**
  * Created by acer on 5/29/2016.
  */
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.MyViewHolder> {
+public class ServiceDetailsAdapter extends RecyclerView.Adapter<ServiceDetailsAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Restaurant> restaurantList;
+    private List<ServiceDetailsPojo> serviceDetailsList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView restaurantName, restaurantRates;
@@ -40,9 +41,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.My
     }
 
 
-    public RestaurantAdapter(Context mContext, List<Restaurant> restaurantList) {
+    public ServiceDetailsAdapter(Context mContext, List<ServiceDetailsPojo> serviceDetailsList) {
         this.mContext = mContext;
-        this.restaurantList = restaurantList;
+        this.serviceDetailsList = serviceDetailsList;
     }
 
     @Override
@@ -55,10 +56,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Restaurant restaurant = restaurantList.get(position);
-        holder.restaurantName.setText(restaurant.getResName());
-        holder.restaurantRates.setText(restaurant.getRates() + "*");
-        Glide.with(mContext).load(restaurant.getResLogo()).into(holder.restaurantImage);
+        ServiceDetailsPojo serviceDetails = serviceDetailsList.get(position);
+        holder.restaurantName.setText(serviceDetails.getResName());
+        holder.restaurantRates.setText(serviceDetails.getRates() + "*");
+        Glide.with(mContext).load(serviceDetails.getResLogo()).into(holder.restaurantImage);
         holder.moreOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,6 +106,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.My
 
     @Override
     public int getItemCount() {
-        return restaurantList.size();
+        return serviceDetailsList.size();
     }
 }

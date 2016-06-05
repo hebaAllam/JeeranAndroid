@@ -8,31 +8,12 @@
 
 
     >
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="#fff"
-        android:id="@+id/frameLayout">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Food and Beverages Services"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/titlecolor"
+    <include
+        android:id="@+id/toolLayout"
+        layout="@layout/tool_bar"
+        />
 
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/backFromFood"
-            android:gravity="left"
-            android:src="@drawable/ic_back_icon"
-
-            />
-    </FrameLayout>
     <com.daimajia.slider.library.SliderLayout
-
         android:id="@+id/sliderFood"
         android:layout_width="match_parent"
         custom:pager_animation="Accordion"
@@ -40,7 +21,7 @@
         custom:indicator_visibility="visible"
         custom:pager_animation_span="1100"
         android:layout_height="170dp"
-        android:layout_alignTop="@+id/spinner1AreaFood" />
+        android:layout_below="@+id/toolLayout" />
 
     <Spinner
         android:id="@+id/spinner1AreaFood"
@@ -49,9 +30,11 @@
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
 
-        android:layout_below="@+id/frameLayout"
-        android:layout_alignLeft="@+id/custom_indicatorFood"
-        android:layout_alignStart="@+id/custom_indicatorFood" />
+        android:layout_below="@+id/toolLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/custom_indicatorFood"
+        android:layout_toEndOf="@+id/custom_indicatorFood" />
 
     <com.daimajia.slider.library.Indicators.PagerIndicator
         android:id="@+id/custom_indicatorFood"

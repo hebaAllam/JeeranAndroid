@@ -1,4 +1,4 @@
-package apps.gn4me.com.jeeran.adapters;
+package apps.gn4me.com.jeeran.pojo;
 
 /**
  * Created by acer on 5/30/2016.
@@ -7,13 +7,13 @@ package apps.gn4me.com.jeeran.adapters;
  /**
  * Created by acer on 5/29/2016.
  */
-public class Restaurant {
+public class ServiceDetailsPojo {
 
     private int resLogo;
     private String resName;
     private double rates;
 
-    public Restaurant(int resLogo, String resName, double rates) {
+    public ServiceDetailsPojo(int resLogo, String resName, double rates) {
         this.resLogo = resLogo;
         this.resName = resName;
         this.rates = rates;

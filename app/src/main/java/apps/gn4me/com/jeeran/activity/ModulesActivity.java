@@ -6,10 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,42 +27,44 @@ public class ModulesActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modules);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            setTitle("MainServices");
+
+            // ((TextView) findViewById(R.id.title)).setText(getTitle());
+
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         Intent intent = this.getIntent();
-          moduleLabel=(TextView)findViewById(R.id.selected_module) ;
-        backImg=(ImageView)findViewById(R.id.backIcon);
+//      moduleLabel=(TextView)findViewById(R.id.selected_module) ;
+//     backImg=(ImageView)findViewById(R.id.backIcon);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-        if(intent!=null){
+        if(intent!=null && intent.getExtras()!=null){
             String activityIdentifier=intent.getExtras().getString("uniqueId");
             switch (activityIdentifier){
                 case "from_service":
                     viewPager.setCurrentItem(0);
-                    moduleLabel.setText("Services");
                     break;
                 case "from_discussion":
                     viewPager.setCurrentItem(1);
-                    moduleLabel.setText("discussions");
+
                     break;
                 case "from_realEstate":
                     viewPager.setCurrentItem(2);
-                    moduleLabel.setText("Real Estates");
+
                     break;
                 default:
                     viewPager.setCurrentItem(3);
-                    moduleLabel.setText("Notifications");
                     break;
             }
-
         }
-        backImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
     private void setupTabIcons() {
 
@@ -75,10 +76,8 @@ public class ModulesActivity extends BaseActivity {
 
         tabLayout.getTabAt(3).setCustomView(tabNotification);
 
-
-
         TextView tabServices = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabServices.setText("Services");
+        tabServices.setText("MainServices");
         tabServices.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_service_icon, 0, 0);
         tabServices.setBackgroundColor(getResources().getColor(R.color.servicesColor));
 
@@ -102,7 +101,7 @@ public class ModulesActivity extends BaseActivity {
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Services(), "Services");
+        adapter.addFragment(new MainServices(), "MainServices");
         adapter.addFragment(new Discussion(), "Discussion");
         adapter.addFragment(new RealEstate(), "RealEstate");
         adapter.addFragment(new Notification(),"Notification");

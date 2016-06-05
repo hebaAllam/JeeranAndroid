@@ -1,20 +1,16 @@
 package apps.gn4me.com.jeeran.activity;
 
-import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -35,7 +31,7 @@ import apps.gn4me.com.jeeran.pojo.ServicesCategory;
 /**
  * Created by acer on 5/27/2016.
  */
-public class Services extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class MainServices extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
     private SliderLayout mDemoSlider;
     View v;
     private RecyclerView recyclerView;
@@ -43,7 +39,7 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
 
 
     private List<ServicesCategory> servicesCatList = new ArrayList<>();
-    public Services() {
+    public MainServices() {
         // Required empty public constructor
     }
 
@@ -59,7 +55,7 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.service_fragment, container, false);
+      v= inflater.inflate(R.layout.service_fragment, container, false);
         //Slider
 
         Spinner dropdown = (Spinner)v.findViewById(R.id.spinner1frag);
@@ -77,9 +73,9 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
         url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
 
         HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Hannibal",R.drawable.hannibal);
-        file_maps.put("Big Bang Theory",R.drawable.bigbang);
-        file_maps.put("House of Cards",R.drawable.house);
+        file_maps.put("Hannibal", R.drawable.hannibal);
+        file_maps.put("Big Bang Theory", R.drawable.bigbang);
+        file_maps.put("House of Cards", R.drawable.house);
         file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
 
         for(String name : file_maps.keySet()){
@@ -114,36 +110,17 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-       prepareData();
+
         //services category list listener
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
               ServicesCategory servicecat=  servicesCatList.get(position);
+                Intent subService=new Intent(getContext(),SubServices.class);
+                subService.putExtra("serviceCatId",servicecat.getServiceCatId());
+                subService.putExtra("serviceCatName",servicecat.getServiceCatName());
+                startActivity(subService);
 
-                switch (servicecat.getServiceCatId()){
-                    case 1:
-                        Intent foodServices=new Intent(getContext(),FoodAndBeveragesService.class);
-                        startActivity(foodServices);
-                        break;
-                    case 3:
-                        Intent superMarketsIntent=new Intent(getContext(),Service.class);
-                        startActivity(superMarketsIntent);
-                        break;
-                    case 2:
-                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 4:
-                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 5:
-                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 6:
-                        Toast.makeText(getContext(),"we will go to "+servicecat.getServiceCatName()+" services ",Toast.LENGTH_SHORT).show();
-                        break;
-
-                }
             }
 
             @Override
@@ -151,22 +128,23 @@ public class Services extends Fragment implements BaseSliderView.OnSliderClickLi
 
             }
         }));
+        prepareData();
         return v;
     }
 
     private void prepareData() {
 
-        ServicesCategory serviceCat=new ServicesCategory(1,R.drawable.ic_food_icon,"Food and Beverages","10");
+        ServicesCategory serviceCat=new ServicesCategory(1, R.drawable.ic_food_icon,"Food and Beverages","10");
         servicesCatList.add(serviceCat);
-        ServicesCategory servicecat2=new ServicesCategory(2,R.drawable.ic_shopping_icon,"Shopping","16");
+        ServicesCategory servicecat2=new ServicesCategory(2, R.drawable.ic_shopping_icon,"Shopping","16");
         servicesCatList.add(servicecat2);
-        ServicesCategory servicecat3=new ServicesCategory(3,R.drawable.ic_supermarket_icon,"SuperMarkets","23"); ;
+        ServicesCategory servicecat3=new ServicesCategory(3, R.drawable.ic_supermarket_icon,"SuperMarkets","23"); ;
         servicesCatList.add(servicecat3);
-        ServicesCategory servicecat4=new ServicesCategory(4,R.drawable.ic_pharmacies_icon,"Pharmacies","40");
+        ServicesCategory servicecat4=new ServicesCategory(4, R.drawable.ic_pharmacies_icon,"Pharmacies","40");
         servicesCatList.add(servicecat4);
-        ServicesCategory servicecat5=new ServicesCategory(5,R.drawable.ic_education_icon,"Education","11");
+        ServicesCategory servicecat5=new ServicesCategory(5, R.drawable.ic_education_icon,"Education","11");
         servicesCatList.add(servicecat5);
-        ServicesCategory servicecat6=new ServicesCategory(6,R.drawable.ic_entertainment_icon,"Entertainment","15");
+        ServicesCategory servicecat6=new ServicesCategory(6, R.drawable.ic_entertainment_icon,"Entertainment","15");
         servicesCatList.add(servicecat6);
         myAdapter.notifyDataSetChanged();
 

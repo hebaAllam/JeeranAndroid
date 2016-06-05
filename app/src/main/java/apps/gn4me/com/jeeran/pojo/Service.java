@@ -4,18 +4,37 @@ package apps.gn4me.com.jeeran.pojo;
  * Created by acer on 5/28/2016.
  */
 public class Service {
+    private int serviceId;
     private int logoImg;
     private String Name;
     private long lat;
     private long lang;
 
-    public Service(int logoImg, String name, long lat, long lang) {
+
+
+    public Service(int serviceId, int logoImg, String name, long lat, long lang) {
+        this.serviceId = serviceId;
         this.logoImg = logoImg;
         Name = name;
         this.lat = lat;
         this.lang = lang;
     }
 
+    public Service(int logoImg, String name, long lat, long lang) {
+
+        this.logoImg = logoImg;
+        Name = name;
+        this.lat = lat;
+        this.lang = lang;
+    }
+    public void setServiceId(int serviceId) {
+        this.serviceId = serviceId;
+    }
+
+    public int getServiceId() {
+
+        return serviceId;
+    }
     public int getLogoImg() {
         return logoImg;
     }
