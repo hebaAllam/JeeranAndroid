@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -218,6 +219,7 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
         }
         return true;
     }
+    /*
     private JSONObject createJsonObject(){
         JSONObject jsonUser = new JSONObject();
         try {
@@ -233,12 +235,12 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
     public void sendRegistrationData(){
         Toast.makeText(getApplicationContext(),"sending....",Toast.LENGTH_SHORT).show();
 
 
-        preview.setImageResource(R.drawable.arrow_icon);
+        preview.getDrawable();
         byte[] myImg = convertBitmapToByteArray(convertImgViewToBtitmap(preview));
         String img = Base64.encodeToString(myImg,  Base64.NO_WRAP + Base64.URL_SAFE);
 
@@ -270,17 +272,19 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        final String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
         Ion.with(getApplicationContext())
                 .load(BASE_URL + "/user/register")
                 .setMultipartFile("image",f)
 //                .setMultipartParameter("first_name","heba")
-                .setMultipartParameter("full_name","hebaAllam")
-                .setMultipartParameter("email","heba.allam9@gmail.com")
-                .setMultipartParameter("password","123456789")
-                .setMultipartParameter("password_confirmation","123456789")
+                .setMultipartParameter("full_name",userNameEditTxt.getText().toString())
+                .setMultipartParameter("email",emailEditTxt.getText().toString())
+                .setMultipartParameter("password",passwordEditTxt.getText().toString())
+                .setMultipartParameter("password_confirmation",retypePassEditTxt.getText().toString())
                 .setMultipartParameter("device_type","1")
-                .setMultipartParameter("device_token","bbbbbbdnssbbsxbxb")
+                .setMultipartParameter("device_token",android_id)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -311,11 +315,11 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
 
                     }
                 });
-        try {
-            Toast.makeText(getApplicationContext(), createJsonObject().get("userName").toString() , Toast.LENGTH_LONG).show();
-        } catch (JSONException e) {
-            Toast.makeText(getApplicationContext(), "registering....", Toast.LENGTH_SHORT).show();
-        }
+//        try {
+////            Toast.makeText(getApplicationContext(), createJsonObject().get("userName").toString() , Toast.LENGTH_LONG).show();
+//        } catch (JSONException e) {
+//            Toast.makeText(getApplicationContext(), "registering....", Toast.LENGTH_SHORT).show();
+//        }
     }
     private Bitmap convertImgViewToBtitmap(ImageView imageView){
 //        imageView.setDrawingCacheEnabled(true);

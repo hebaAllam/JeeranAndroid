@@ -1,7 +1,8 @@
-package apps.gn4me.com.jeeran;
+package apps.gn4me.com.jeeran.activity;
 
 import android.app.Application;
 
+import apps.gn4me.com.jeeran.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
