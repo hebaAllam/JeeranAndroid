@@ -31,13 +31,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@style/AppThemeNoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppThemeNoActionBar"></activity>
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppThemeNoActionBar" />
@@ -82,10 +76,15 @@
         <activity
             android:name=".activity.CommentsActivity"
             android:theme="@style/AppThemeNoActionBar" />
-
         <activity
             android:name=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:theme="@style/AppThemeNoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.AddService"
             android:label="@string/title_activity_add_service"
@@ -109,12 +108,6 @@
             android:name=".activity.ForgotPasswordActivity"
             android:label="@string/title_activity_forgot_password"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.SuperMarketsServices"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name=".activity.RestaurantDetails"
-            android:theme="@style/MyMaterialTheme" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -123,14 +116,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".activity.Reviews"
-            android:theme="@style/MyMaterialTheme" />
-        <activity android:name=".activity.FoodAndBeveragesService" />
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDbPwYzkVtHRSHjR7G83VI1dFSLHav707g" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -141,12 +126,40 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key1" />
 
         <activity
             android:name=".activity.GetLocation"
             android:label="@string/title_activity_get_location" />
-        <activity android:name=".activity.RealEstateDetails"></activity>
+        <activity android:name=".activity.RealEstateDetails" />
+
+        <!-- services activities -->
+        <activity
+            android:name=".activity.ServiceDetails"
+            android:parentActivityName=".activity.ServicesList"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".activity.ServicesList"
+            android:parentActivityName=".activity.SubServices"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".activity.SubServices"
+            android:parentActivityName=".activity.ModulesActivity"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".activity.ShowServiceLocation"
+            android:label="@string/title_activity_show_service_location" />
+        <activity
+            android:name=".activity.Reviews"
+            android:parentActivityName=".activity.ServiceDetails"
+            android:theme="@style/MyMaterialTheme" />
+        <activity android:name=".activity.ShowServicesImages"
+                  android:theme="@style/MyMaterialTheme"
+                  android:parentActivityName=".activity.ServiceDetails"
+            >
+
+
+        </activity>
     </application>
 
 </manifest>

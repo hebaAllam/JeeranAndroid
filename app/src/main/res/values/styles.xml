@@ -9,7 +9,12 @@
 
 
     </style>
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/titlecolor</item>
+        <item name="android:textColorSecondary">@color/titlecolor</item>
+        <item name="actionMenuTextColor">@color/titlecolor</item>
 
+    </style>
 
     <!-- Base application theme. -->
     <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
@@ -17,11 +22,12 @@
     </style>
 
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/myColorPrimary</item>
+        <item name="colorPrimaryDark">@color/myColorPrimaryDark</item>
+        <item name="colorAccent">@color/myColorAccent</item>
     </style>
-
 
     <style name="AppThemeNoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>

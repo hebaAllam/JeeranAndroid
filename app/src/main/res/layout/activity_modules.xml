@@ -8,33 +8,11 @@
     android:paddingTop="2dp"
 
     >
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="35dp"
-    android:background="#fff"
-  >
-    <TextView
-        android:id="@+id/selected_module"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Services"
-       android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/titlecolor"
 
-        />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/backIcon"
-        android:gravity="left"
-        android:src="@drawable/ic_back_icon"
+      <include
 
-
-
-        />
-</FrameLayout>
-        />
+          layout="@layout/tool_bar"
+          />
 <!--<LinearLayout-->
     <!--android:layout_width="match_parent"-->
     <!--android:orientation="vertical"-->

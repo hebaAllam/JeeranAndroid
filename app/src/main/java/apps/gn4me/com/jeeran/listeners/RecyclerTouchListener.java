@@ -1,15 +1,12 @@
 package apps.gn4me.com.jeeran.listeners;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-
-
-import apps.gn4me.com.jeeran.activity.Services;
+import apps.gn4me.com.jeeran.activity.MainServices;
 
 /**
  * Created by acer on 4/19/2016.
@@ -18,8 +15,8 @@ import apps.gn4me.com.jeeran.activity.Services;
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
     Context context;
     private GestureDetector gestureDetector;
-    private Services.ClickListener clickListener;
-    public RecyclerTouchListener(Context context,final RecyclerView recyclerView, final Services.ClickListener clickListener) {
+    private MainServices.ClickListener clickListener;
+    public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final MainServices.ClickListener clickListener) {
         this.context=context;
         this.clickListener=clickListener;
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
@@ -37,6 +34,9 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
             }
         });
     }
+
+
+
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {

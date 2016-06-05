@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/viewBg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="apps.gn4me.com.jeeran.activity.RestaurantDetails"
-    tools:showIn="@layout/activity_restaurant_detailes">
+    tools:context=".activity.ServiceDetails"
+    tools:showIn="@layout/activity_service_detailes">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/restaurant_recycleView"

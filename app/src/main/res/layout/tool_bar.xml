@@ -4,15 +4,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    android:theme="@style/AppTheme.AppBarOverlay">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        app:elevation="0dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        app:theme="@style/ToolBarStyle"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_titile"
+            android:textColor="@color/titlecolor"
+            android:layout_marginStart="100dp"
+            android:layout_marginLeft="100dp"
+            android:textSize="20dp"
 
+            />
 
+    </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

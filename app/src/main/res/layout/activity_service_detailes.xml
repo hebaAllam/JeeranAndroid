@@ -2,42 +2,24 @@
 <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     >
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="#fff"
-        android:id="@+id/frameLayout">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/backFromRestaurantDetails"
-            android:gravity="left"
-            android:src="@drawable/ic_back_icon"
+   <include
+       layout="@layout/tool_bar"
+       android:id="@+id/mytoolbarlayout"
+       />
 
 
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Reviews"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/titlecolor"
-
-            android:layout_gravity="center_horizontal|top" />
-    </FrameLayout>
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_margin="10dp"
             android:id="@+id/mycard"
-            android:layout_below="@+id/frameLayout"
+            android:layout_below="@+id/mytoolbarlayout"
             >
             <include
-                layout="@layout/restaurant_header"
+                layout="@layout/service_header"
                 />
         </android.support.v7.widget.CardView>
 <TextView

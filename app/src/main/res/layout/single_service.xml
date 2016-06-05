@@ -43,44 +43,10 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignRight="@+id/topLinearLayout"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_toRightOf="@+id/superMarketImage"
                 android:text="hello asmaa"
                 android:textSize="15sp" />
-
-            <LinearLayout
-                android:id="@+id/topLinearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/superMarketName"
-                android:layout_toRightOf="@+id/superMarketImage"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_location_icon" />
-
-                    <TextView
-                        android:id="@+id/medDesc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="Click to show location" />
-
-
-                </LinearLayout>
-
-            </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
