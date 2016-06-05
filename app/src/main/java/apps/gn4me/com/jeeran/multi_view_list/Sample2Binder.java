@@ -1,6 +1,7 @@
 package apps.gn4me.com.jeeran.multi_view_list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.activity.CommentsActivity;
 import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
 
 /**
@@ -71,10 +73,18 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
             }
         });
 
+        final Context context = holder.context ;
+        final int disc_id = mList.get(index).getId() ;
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Log.i("CardView :::" , "comment clicked of card no. " + index);
+
+                Intent i = new Intent( context , CommentsActivity.class);
+                i.putExtra("disc_id" , disc_id);
+                context.startActivity(i);
+
             }
         });
 

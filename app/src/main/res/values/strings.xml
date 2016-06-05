@@ -122,4 +122,9 @@
     // google key
     <string name="google_maps_key"></string>
 
+
+    //discussion
+    <string name="prompt_comment">Add Comment</string>
+    <string name="comment_btn"> > </string>
+
 </resources>

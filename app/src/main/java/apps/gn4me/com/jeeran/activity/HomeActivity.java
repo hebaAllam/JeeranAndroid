@@ -107,6 +107,7 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
         discussionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent dicussionIntent=new Intent(HomeActivity.this,ModulesActivity.class);
                 dicussionIntent.putExtra("uniqueId","from_discussion");
                 startActivity(dicussionIntent);

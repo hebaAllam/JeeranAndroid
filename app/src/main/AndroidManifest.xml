@@ -80,6 +80,10 @@
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
         <activity
+            android:name=".activity.CommentsActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+
+        <activity
             android:name=".activity.HomeActivity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
