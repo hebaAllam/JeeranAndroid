@@ -49,6 +49,11 @@ public class SplashActivity extends BaseActivity implements AdapterView.OnItemSe
                     SharedPreferences settings;
                     String email , password  , token ;
                     settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+
+                    //SharedPreferences.Editor editor = settings.edit();
+                    //editor.remove("token");
+                    //editor.commit();
+
                     email = settings.getString("email", null);
                     password = settings.getString("email", null);
                     token = settings.getString("token", null);

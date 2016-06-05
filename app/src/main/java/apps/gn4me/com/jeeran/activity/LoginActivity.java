@@ -294,8 +294,8 @@ public class LoginActivity extends BaseActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -328,7 +328,7 @@ public class LoginActivity extends BaseActivity {
 
             coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
-            String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+            final String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                     Settings.Secure.ANDROID_ID);
             String android_type = android.os.Build.DEVICE ;
 
@@ -336,9 +336,9 @@ public class LoginActivity extends BaseActivity {
             Ion.with(getApplicationContext())
             .load(BASE_URL + "/user/login")
             .setBodyParameter("device_type", "0")
-            .setBodyParameter("email", "testhsmsss@test.com")
-            .setBodyParameter("password", "123456789")
-            .setBodyParameter("device_token", "bbbbbbdnssbbsxbxb")
+            .setBodyParameter("email", email ) //"testhsmsss@test.com"
+            .setBodyParameter("password", password ) //"123456789"
+            .setBodyParameter("device_token", android_id ) //"bbbbbbdnssbbsxbxb"
             .asJsonObject()
             .setCallback(new FutureCallback<JsonObject>() {
                @Override
@@ -354,9 +354,9 @@ public class LoginActivity extends BaseActivity {
                         settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
                         editor = settings.edit();
 
-                        editor.putString("password", "123456789");
-                        editor.putString("email", "testhsmsss@test.com");
-                        editor.putString("device_token", "bbbbbbdnssbbsxbxb");
+                        editor.putString("password", password);
+                        editor.putString("email", email );
+                        editor.putString("device_token", android_id);
                         editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
                         editor.commit();
 
