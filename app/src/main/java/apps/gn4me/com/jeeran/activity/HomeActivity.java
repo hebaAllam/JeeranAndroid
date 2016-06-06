@@ -1,7 +1,9 @@
 package apps.gn4me.com.jeeran.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -22,12 +24,15 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import java.util.HashMap;
 
 import apps.gn4me.com.jeeran.R;
 
-public class HomeActivity extends ActionBarActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class HomeActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
     private SliderLayout mDemoSlider;
     private DrawerLayout mDrawerLayout;
@@ -123,8 +128,29 @@ public class HomeActivity extends ActionBarActivity implements BaseSliderView.On
             }
         });
 
+
         ///////////////
 
+        /*
+        SharedPreferences settings;
+        String token ;
+        settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+
+        token = settings.getString("token", null);
+
+        Ion.with(getApplicationContext())
+                .load(BASE_URL + "/discussion/list")
+                .setHeader("Authorization",token)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+                        Log.i("::: data discussion", e.getMessage() );
+
+                    }
+                });
+        */
 
     }
     private void init_navigator(){

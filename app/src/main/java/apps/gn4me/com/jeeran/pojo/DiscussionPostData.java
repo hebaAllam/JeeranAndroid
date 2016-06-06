@@ -7,6 +7,7 @@ public class DiscussionPostData {
     private User user ;
 
     public DiscussionPostData() {
+        user = new User();
     }
 
     public DiscussionPostData(int id , int userId , String name, String image, String details, String profilePic, String timeStamp, String title) {

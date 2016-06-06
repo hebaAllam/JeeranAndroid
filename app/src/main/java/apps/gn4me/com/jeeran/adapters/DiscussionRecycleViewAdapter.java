@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import apps.gn4me.com.jeeran.multi_view_list.Sample1Binder;
@@ -82,6 +83,11 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
 
     public void insert(DiscussionPostData post, int position) {
         ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).insert(post,position);
+    }
+
+
+    public void insertAll(List<DiscussionPostData> posts) {
+        ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).addAll(posts);
     }
 
     public void remove(int position) {

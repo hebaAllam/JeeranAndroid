@@ -1,6 +1,7 @@
 package apps.gn4me.com.jeeran.activity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
@@ -64,12 +69,13 @@ public class Discussion extends Fragment {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new DiscussionRecycleViewAdapter(getArrayList());
+        customAdapter = new DiscussionRecycleViewAdapter(mList);//getArrayList());
 
         linearLayoutManager = new LinearLayoutManager(context);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(customAdapter);
 
+        initArrayList();
         ultimateRecyclerView.enableLoadmore();
 
         addCustomLoaderView();
@@ -81,57 +87,84 @@ public class Discussion extends Fragment {
     }
 
 
-    public List<DiscussionPostData> getArrayList(){
+    public void initArrayList(){
 
         //first ws call
+        SharedPreferences settings;
+        String token ;
+        settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
 
-        /*
+        token = settings.getString("token", null);
 
-        Ion.with(getApplicationContext())
+        Ion.with(context)
                 .load(BASE_URL + "/discussion/list")
-                .setBodyParameter("neighborhood_id", "")
+                //.setBodyParameter("neighborhood_id", "")
                 //.setBodyParameter("topic_id", "")
                 //.setBodyParameter("user_id", "")
                 //.setBodyParameter("keyword", "")
+                .setHeader("Authorization",token)
                 .setBodyParameter("start", "0")
-                .setBodyParameter("count", "5")
+                .setBodyParameter("count", "4")
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
-                        Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+
+                        boolean success = false ;
+
+                        if (e != null ) {
+                            Log.i(":::::::::::::::", e.getMessage());
+                        }
+
+                        if (result != null ) {
+                             success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                        }
+
                         if ( success ){
-                            JsonArray discussions = result.getAsJsonObject("response").getAsJsonArray("discussions");
+
+                            Log.i(":::::::::::::::",result.toString());
+                            JsonArray discussions = result.getAsJsonObject("response").getAsJsonArray("discussionlist");
 
                             for (int i=0 ; i<discussions.size() ; i++) {
                                 DiscussionPostData post = new DiscussionPostData();
-                                post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("disc_id").getAsInt());
+                                post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_id").getAsInt());
                                 post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comments_no").getAsInt());
                                 post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
+
+                                Log.i("Titleeeeeeee1" ,  discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
+
                                 post.setDetails( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("details").getAsString());
                                 post.setTimeStamp( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
-                                post.setCategory( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("topic_en").getAsString());
+                                post.setCategory( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
                                 JsonArray imgs = discussions.get(i).getAsJsonObject().getAsJsonArray("disc_imgs") ;
+
+                                post.getUser().setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_id").getAsInt());
+                                post.getUser().setUserName( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("first_name").getAsString());
+                                post.getUser().setImage( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_image").getAsString());
+
                                 if ( imgs != null && imgs.size() > 0 ){
                                     post.setImage( imgs.get(0).getAsString() );
                                 }
                                 mList.add(post);
+
+                                customAdapter.insertAll(mList);
                             }
-
                         }
-                    }
-                });
-        */
 
+                    }
+
+                });
+
+        /*
 
         for (int index = 0; index < 20; index++) {
             DiscussionPostData obj = new DiscussionPostData(index , index , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
                     "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-            mList.add(index, obj);
+            //mList.add(index, obj);
         }
-        return mList;
 
+        return mList;
+        */
     }
 
     public void addCustomLoaderView(){
@@ -149,6 +182,7 @@ public class Discussion extends Fragment {
                 handler.postDelayed(new Runnable() {
                     public void run() {
 
+                        /*
                         DiscussionPostData obj = new DiscussionPostData(moreNum , moreNum++ , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
                                 "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
                         customAdapter.insert(obj , customAdapter.getAdapterItemCount());
@@ -160,6 +194,72 @@ public class Discussion extends Fragment {
                         obj = new DiscussionPostData(moreNum , moreNum++ , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
                                 "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
                         customAdapter.insert(obj , customAdapter.getAdapterItemCount());
+                        */
+
+                        SharedPreferences settings;
+                        String token ;
+                        settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+
+                        token = settings.getString("token", null);
+
+                        Integer start = customAdapter.getAdapterItemCount() ;
+
+                        Ion.with(context)
+                                .load(BASE_URL + "/discussion/list")
+                                //.setBodyParameter("neighborhood_id", "")
+                                //.setBodyParameter("topic_id", "")
+                                //.setBodyParameter("user_id", "")
+                                //.setBodyParameter("keyword", "")
+                                .setHeader("Authorization",token)
+                                .setBodyParameter("start", start.toString())
+                                .setBodyParameter("count", "2")
+                                .asJsonObject()
+                                .setCallback(new FutureCallback<JsonObject>() {
+                                    @Override
+                                    public void onCompleted(Exception e, JsonObject result) {
+
+                                        boolean success = false ;
+
+
+                                        if (e != null ) {
+                                            Log.i(":::::::::::::::", e.getMessage());
+                                        }
+
+                                        if (result != null ) {
+                                            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                                        }
+
+                                        if ( success ){
+
+                                            Log.i(":::::::::::::::",result.toString());
+                                            JsonArray discussions = result.getAsJsonObject("response").getAsJsonArray("discussionlist");
+
+                                            for (int i=0 ; i<discussions.size() ; i++) {
+                                                DiscussionPostData post = new DiscussionPostData();
+                                                post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_id").getAsInt());
+                                                post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comments_no").getAsInt());
+                                                post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
+
+                                                post.setDetails( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("details").getAsString());
+                                                post.setTimeStamp( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
+                                                post.setCategory( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
+                                                JsonArray imgs = discussions.get(i).getAsJsonObject().getAsJsonArray("disc_imgs") ;
+
+                                                post.getUser().setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_id").getAsInt());
+                                                post.getUser().setUserName( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("first_name").getAsString());
+                                                post.getUser().setImage( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_image").getAsString());
+
+                                                if ( imgs != null && imgs.size() > 0 ){
+                                                    post.setImage( imgs.get(0).getAsString() );
+                                                }
+                                                customAdapter.insert(post,customAdapter.getAdapterItemCount());
+                                            }
+                                        }
+
+                                    }
+
+                                });
+
 
                     }
                 }, 1000);

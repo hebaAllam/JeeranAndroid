@@ -31,7 +31,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
     private ArrayList<DiscussionPostData> mList;
     public Sample2Binder(UltimateDifferentViewTypeAdapter dataBindAdapter, List<DiscussionPostData> mList) {
         super(dataBindAdapter);
-        this.mList= (ArrayList<DiscussionPostData>) mList;
+        this.mList = (ArrayList<DiscussionPostData>) mList;
     }
 
     @Override
@@ -44,7 +44,9 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
     @Override
     public void bindViewHolder(ViewHolder holder, final int position) {
 
-        final int index = position -1 ;
+        final int index = position - 1 ;
+
+        Log.i("Titleeeeeeee2" , mList.get(index).getTitle());
 
         holder.name.setText(mList.get(index).getUser().getUserName());
         holder.title.setText(mList.get(index).getTitle());
@@ -52,12 +54,13 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         holder.details.setText(mList.get(index).getDetails());
         holder.timeStamp.setText(mList.get(index).getTimeStamp());
 
+        /*
         Picasso.with( holder.context )
                 .load( mList.get(index).getUser().getImage() )
                 .error(R.drawable.ic_error )
                 .placeholder( R.drawable.progress_animation )
                 .into(holder.profilePic);
-
+        */
 
         Picasso.with( holder.context )
                 .load(mList.get(index).getImage())

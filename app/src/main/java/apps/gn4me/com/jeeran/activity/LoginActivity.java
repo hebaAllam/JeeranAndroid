@@ -345,9 +345,10 @@ public class LoginActivity extends BaseActivity {
                 public void onCompleted(Exception e, JsonObject result) {
                     // do stuff with the result or error
                     showProgress(false);
-                    Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                   Log.i("Done ::: success" , result.toString() );
+
+                   Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                     if ( success ){
-                        Log.i("Done ::: success" , result.toString() );
 
                         SharedPreferences settings;
                         SharedPreferences.Editor editor;
