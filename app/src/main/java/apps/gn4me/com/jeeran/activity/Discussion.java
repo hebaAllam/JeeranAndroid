@@ -61,6 +61,7 @@ public class Discussion extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.discussion_fragment, container, false) ;
 
         this.view = view ;
@@ -109,6 +110,7 @@ public class Discussion extends Fragment {
                 .setBodyParameter("count", "4")
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
+
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
 
@@ -221,7 +223,6 @@ public class Discussion extends Fragment {
                                     public void onCompleted(Exception e, JsonObject result) {
 
                                         boolean success = false ;
-
 
                                         if (e != null ) {
                                             Log.i(":::::::::::::::", e.getMessage());

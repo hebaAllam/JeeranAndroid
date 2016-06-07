@@ -102,27 +102,29 @@ public  class FavoriteRealEsateFragment extends Fragment {
 //        if ( token != null ) {
             Ion.with(view.getContext())
                     .load(BASE_URL + "/realstatefavorite/list")
-                    .setHeader("Authorization", token)
-//                    .setBodyParameter("token",token)
+                    .setHeader("Authorization",token)
+                    .setBodyParameter("start", "0")
+                    .setBodyParameter("count", "4")
                     .asJsonObject()
                     .setCallback(new FutureCallback<JsonObject>() {
                         @Override
                         public void onCompleted(Exception e, JsonObject result) {
                             // do stuff with the result or error
-//                        showProgress(false);
-                            Log.i("-*-*-*Exception:: ", e.getMessage());
-                            Log.i("All Result ::: " , result.toString());
+                            //showProgress(false);
+                            if ( e != null ) {
+                                Log.i("Exception:: ", e.getMessage());
+                            }
+                            Boolean success = false ;
+                            if ( result != null ) {
+                                Log.i("All Result ::: " , result.toString());
+                                success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                            }
 
-                            Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                             if ( success ){
-
                                 progressDialog.dismiss();
-
-
-
                             } else {
                                 progressDialog.dismiss();
-//                            Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
+//                              Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
                                 Toast.makeText(view.getContext(),"reading Failed",Toast.LENGTH_LONG).show();
                             }
 

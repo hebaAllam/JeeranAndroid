@@ -59,7 +59,7 @@ public class SplashActivity extends BaseActivity implements AdapterView.OnItemSe
                     token = settings.getString("token", null);
                     if ( token != null ) {
                         Log.i("-*-*-* token : ", token);
-                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(SplashActivity.this, MyFavoritesActivity.class);
                         startActivity(intent);
                     }else {
                         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
