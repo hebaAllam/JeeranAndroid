@@ -359,6 +359,7 @@ public class LoginActivity extends BaseActivity {
                         editor.putString("email", email );
                         editor.putString("device_token", android_id);
                         editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
+//                        Log.i("-*-*-*-* token : ")
                         editor.commit();
 
                         Intent i = new Intent(LoginActivity.this,HomeActivity.class);

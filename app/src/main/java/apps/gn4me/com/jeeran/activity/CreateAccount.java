@@ -272,8 +272,7 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        final String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+
 
         Ion.with(getApplicationContext())
                 .load(BASE_URL + "/user/register")
