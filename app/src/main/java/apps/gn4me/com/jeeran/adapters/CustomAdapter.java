@@ -39,6 +39,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
         holder.timeStamp.setText(mList.get(position).getTimeStamp());
 
 
+
         Picasso.with(holder.context)
                 .load(mList.get(position).getUser().getImage())
                 .error(R.drawable.ic_error )
@@ -74,7 +75,14 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
 
 
     public void insert(DiscussionCommentData comment, int position) {
-        insertInternal(mList, comment , position);
+        //insertInternal(mList, comment , position);
+        notifyDataSetChanged();
+    }
+
+    public void insertAll(List<DiscussionCommentData> comments) {
+        //insertInternal(mList, comment , position);
+        mList.addAll(comments);
+        notifyDataSetChanged();
     }
 
     public void remove(int position) {

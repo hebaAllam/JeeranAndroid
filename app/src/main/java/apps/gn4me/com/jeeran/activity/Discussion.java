@@ -18,6 +18,7 @@ import com.koushikdutta.ion.Ion;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
@@ -93,8 +94,8 @@ public class Discussion extends Fragment {
         SharedPreferences settings;
         String token ;
         settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-
         token = settings.getString("token", null);
+
 
         Ion.with(context)
                 .load(BASE_URL + "/discussion/list")
@@ -103,6 +104,7 @@ public class Discussion extends Fragment {
                 //.setBodyParameter("user_id", "")
                 //.setBodyParameter("keyword", "")
                 .setHeader("Authorization",token)
+                //.setBodyParameter("refresh",(new Date()).toString() )
                 .setBodyParameter("start", "0")
                 .setBodyParameter("count", "4")
                 .asJsonObject()
@@ -146,21 +148,21 @@ public class Discussion extends Fragment {
                                     post.setImage( imgs.get(0).getAsString() );
                                 }
                                 mList.add(post);
-
-                                customAdapter.insertAll(mList);
                             }
+                            customAdapter.insertAll(mList);
                         }
 
                     }
 
                 });
 
-        /*
 
+
+        /*
         for (int index = 0; index < 20; index++) {
             DiscussionPostData obj = new DiscussionPostData(index , index , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
                     "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-            //mList.add(index, obj);
+            mList.add(index, obj);
         }
 
         return mList;

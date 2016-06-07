@@ -54,13 +54,13 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         holder.details.setText(mList.get(index).getDetails());
         holder.timeStamp.setText(mList.get(index).getTimeStamp());
 
-        /*
+
         Picasso.with( holder.context )
                 .load( mList.get(index).getUser().getImage() )
                 .error(R.drawable.ic_error )
                 .placeholder( R.drawable.progress_animation )
                 .into(holder.profilePic);
-        */
+
 
         Picasso.with( holder.context )
                 .load(mList.get(index).getImage())
@@ -77,15 +77,13 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         });
 
         final Context context = holder.context ;
-        final int disc_id = mList.get(index).getId() ;
+        final Integer disc_id = mList.get(index).getId() ;
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Log.i("CardView :::" , "comment clicked of card no. " + index);
-
                 Intent i = new Intent( context , CommentsActivity.class);
-                i.putExtra("disc_id" , disc_id);
+                i.putExtra("disc_id" , disc_id.toString());
                 context.startActivity(i);
 
             }

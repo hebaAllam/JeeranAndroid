@@ -1,13 +1,20 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
@@ -36,12 +43,12 @@ public class CommentsActivity extends BaseActivity {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new CustomAdapter(getArrayList());
+        customAdapter = new CustomAdapter(initArrayList());
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(customAdapter);
-
+        initArrayList();
         //ultimateRecyclerView.enableLoadmore();
 
         addCustomLoaderView();
@@ -49,46 +56,62 @@ public class CommentsActivity extends BaseActivity {
         //infinite_Insertlist();
     }
 
-    public List<DiscussionCommentData> getArrayList(){
+    public List<DiscussionCommentData> initArrayList(){
 
         //first ws call
+        Log.i("C Here" , "::::::");
+        final String discId = getIntent().getStringExtra("disc_id");
 
+        SharedPreferences settings;
+        String token ;
+        settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+
+        token = settings.getString("token", null);
 
         /*
 
         Ion.with(getApplicationContext())
-                .load(BASE_URL + "/discussioncomment/list")
-                .setBodyParameter("user_id", "")
-                .setBodyParameter("disc_id", "")
-                .setBodyParameter("authorization", "")
-                .setBodyParameter("start", "0")
-                .setBodyParameter("count", "5")
+                .load(BASE_URL + "/discussioncomments/list")
+                .setHeader("Authorization", token)
+                .setBodyParameter("disc_id", discId)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         // do stuff with the result or error
-                        Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                        boolean success = false ;
+
+                        if (e != null ) {
+                            Log.i(":::::::::::::::", e.getMessage());
+                        }
+
+                        if (result != null ) {
+                            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                        }
+
                         if ( success ){
-                            JsonArray commentsList = result.getAsJsonObject("response").getAsJsonArray("comments");
+                            JsonArray commentsList = result.getAsJsonArray("response");
 
                             for (int i=0 ; i<commentsList.size() ; i++) {
                                 DiscussionCommentData comment = new DiscussionCommentData();
-                                comment.getUser().setId( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("user_id").getAsInt());
-                                comment.getUser().setName( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("user_name").getAsString());
-                                comment.getUser().setProfileImage( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("user_image").getAsString());
-                                comment.setId( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("disc_id").getAsInt());
+                                comment.getUser().setId( commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_id").getAsInt());
+                                comment.getUser().setUserName( commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("first_name").getAsString()
+                                        + " " + commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("last_name").getAsString());
+                                comment.getUser().setImage( commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_image").getAsString());
+                                comment.setId( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_comment_id").getAsInt());
                                 comment.setComment( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("comment").getAsString());
                                 comment.setTimeStamp( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
-                                comment.setOwnerFlag(commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("is_owner").getAsBoolean());
+                                //comment.setOwnerFlag(commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("is_owner").getAsBoolean());
                                 mList.add(comment);
                             }
-
+                            customAdapter.insertAll(mList);
                         }
                     }
                 });
 
-         */
+        */
+
+
 
         for (int index = 0; index < 20; index++) {
             DiscussionCommentData obj = new DiscussionCommentData(index , index , "name" , "https://ssl.gstatic.com/images/icons/gplus-32.png" , "comment" , "time");
