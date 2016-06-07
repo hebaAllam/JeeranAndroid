@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,15 +27,18 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class BaseActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    protected static final String PREFS_NAME = "Jeeran" ;
-    protected static final String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1" ;
+    public static final String PREFS_NAME = "Jeeran" ;
+    public static final String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1" ;
     protected View progress;
+    String android_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
         hideKeyboard();
+        android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
     }
 
 

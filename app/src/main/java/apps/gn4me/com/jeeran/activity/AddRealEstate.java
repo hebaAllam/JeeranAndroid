@@ -48,25 +48,25 @@ public class AddRealEstate extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_add_real_estate+986);
+        setContentView(R.layout.content_add_real_estate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        getSupportActionBar().setLogo(R.drawable.arrow_icon);
-        getSupportActionBar().setWindowTitle("Add Real Estate");
-        toolbar.setNavigationIcon(R.drawable.arrow_icon);
+//        getSupportActionBar().setWindowTitle("Add Real Estate");
+//        toolbar.setNavigationIcon(R.drawable.arrow_icon);
 
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //What to do on back clicked
-                finish();
-                onBackPressed();
-            }
-        });
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                What to do on back clicked
+//                finish();
+//                onBackPressed();
+//            }
+//        });
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -77,14 +77,14 @@ public class AddRealEstate extends BaseActivity
 //            }
 //        });
 
-        android.support.v4.widget.DrawerLayout drawer = (android.support.v4.widget.DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        android.support.v4.widget.DrawerLayout drawer = (android.support.v4.widget.DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
 
         bindComponents();
 
@@ -124,7 +124,7 @@ public class AddRealEstate extends BaseActivity
 
     private void sendData(){
         Ion.with(getApplicationContext())
-                .load("http://realstate/add")
+                .load(BaseActivity.BASE_URL + "/realstatefavorite/add")
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
