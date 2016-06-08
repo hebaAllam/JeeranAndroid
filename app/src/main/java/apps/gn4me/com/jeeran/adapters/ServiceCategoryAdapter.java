@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -19,9 +22,12 @@ import apps.gn4me.com.jeeran.pojo.ServicesCategory;
  */
 public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategoryAdapter.MyViewHolder>{
     List<ServicesCategory> ServiceList;
-    CardView cardView;
-    public ServiceCategoryAdapter(List<ServicesCategory> ServiceList) {
+   Context context;
+
+    public ServiceCategoryAdapter(List<ServicesCategory> ServiceList, Context context) {
         this.ServiceList = ServiceList;
+        this.context=context;
+
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView serviceName;
@@ -50,8 +56,8 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
     public void onBindViewHolder(MyViewHolder holder, int position) {
         ServicesCategory servicesCategory = ServiceList.get(position);
         holder.serviceName.setText(servicesCategory.getServiceCatName());
-        holder.serviceNumber.setText(servicesCategory.getServiceCatNumber());
-       holder.serviceIcon.setImageResource(servicesCategory.getServiceCatIcon());
+        holder.serviceNumber.setText(servicesCategory.getServiceSubCatNumber());
+        Glide.with(context).load(servicesCategory.getServiceCatLogo()).into( holder.serviceIcon);
     }
 
     @Override

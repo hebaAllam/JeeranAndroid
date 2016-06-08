@@ -5,9 +5,22 @@ package apps.gn4me.com.jeeran.pojo;
  */
 public class ServicesCategory {
     private int ServiceCatId;
-   private int serviceCatIcon;
+    private int serviceCatIcon;
+    private String serviceCatLogo;
     private String serviceCatName;
     private String serviceCatNumber;
+
+    public ServicesCategory() {
+    }
+
+    public void setServiceCatLogo(String serviceCatLogo) {
+        this.serviceCatLogo = serviceCatLogo;
+    }
+
+    public String getServiceCatLogo() {
+
+        return serviceCatLogo;
+    }
 
     public ServicesCategory(int serviceCatId, int serviceCatIcon, String serviceCatName, String serviceCatNumber) {
         ServiceCatId = serviceCatId;
@@ -32,7 +45,7 @@ public class ServicesCategory {
         return serviceCatName;
     }
 
-    public String getServiceCatNumber() {
+    public String getServiceSubCatNumber() {
         return serviceCatNumber;
     }
 
@@ -40,7 +53,7 @@ public class ServicesCategory {
         this.serviceCatName = serviceCatName;
     }
 
-    public void setServiceCatNumber(String serviceCatNumber) {
+    public void setServiceSubCatNumber(String serviceCatNumber) {
         this.serviceCatNumber = serviceCatNumber;
     }
 

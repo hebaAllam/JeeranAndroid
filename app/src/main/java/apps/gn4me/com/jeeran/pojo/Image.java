@@ -5,7 +5,25 @@ package apps.gn4me.com.jeeran.pojo;
  */
 public class Image {
     private int serviceImage;
+    private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    private String timestamp;
     public void setServiceImage(int serviceImage) {
         this.serviceImage = serviceImage;
     }

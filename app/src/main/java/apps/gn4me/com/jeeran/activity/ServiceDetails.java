@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,12 +31,11 @@ public class ServiceDetails extends BaseActivity {
     private RecyclerView recyclerView;
     private ServiceDetailsAdapter adapter;
     private List<ServiceDetailsPojo> serviceDetailsList;
-    private  TextView activityTitle;
-
     int serviceId;
     String serviceName;
-    ImageView showLocation;
-
+    ImageView showLocation,rateService,favoriteService,serviceLogo;
+    String serviceSubCat;
+    private  TextView activityTitle,serviceTitle,serviceAddress,serviceOpeningHours,serviceNumberOfRates,serviceDiscHeader,serviceDisc;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -49,7 +49,15 @@ public class ServiceDetails extends BaseActivity {
         setContentView(R.layout.activity_service_detailes);
 
         showLocation=(ImageView)findViewById(R.id.showLocation) ;
-
+        rateService=(ImageView)findViewById(R.id.rateService);
+        favoriteService=(ImageView)findViewById(R.id.favoriteService);
+        serviceLogo=(ImageView)findViewById(R.id.service_logo);
+       serviceTitle=(TextView)findViewById(R.id.service_title);
+        serviceAddress=(TextView)findViewById(R.id.service_address);
+        serviceOpeningHours=(TextView)findViewById(R.id.service_opiningHours);
+        serviceNumberOfRates=(TextView)findViewById(R.id.service_numberofRates);
+        serviceDiscHeader=(TextView)findViewById(R.id.disc_header);
+        serviceDisc=(TextView)findViewById(R.id.service_disc);
         //------------setting tool bar-----
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -66,7 +74,8 @@ public class ServiceDetails extends BaseActivity {
         if(i.hasExtra("UniqueServiceId")){
         serviceId= i.getExtras().getInt("UniqueServiceId");
         serviceName=i.getExtras().getString("ServiceDetailsName");
-            activityTitle.setText(serviceName+" Details");
+            serviceSubCat=i.getExtras().getString("serviceSubCatName");
+           setTitle(serviceName+" Details");
 
        // activityTitle.setText(serviceName);
 
@@ -182,5 +191,16 @@ public class ServiceDetails extends BaseActivity {
     public  void showServiceImages(View view){
      Intent intent=new Intent(ServiceDetails.this,ShowServicesImages.class);
         startActivity(intent);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent i=new Intent(ServiceDetails.this,ServicesList.class);
+                i.putExtra("serviceSubCatName",serviceSubCat);
+                startActivity(i);
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

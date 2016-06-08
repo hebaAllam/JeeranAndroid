@@ -6,7 +6,7 @@
         android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:src="@drawable/logo_image"
-        android:id="@+id/imageView3"
+        android:id="@+id/service_logo"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -19,9 +19,9 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
         android:layout_alignParentTop="true"
-        android:id="@+id/restauantNameTxt"
-        android:layout_toRightOf="@+id/imageView3"
-        android:layout_toEndOf="@+id/imageView3"
+        android:id="@+id/service_title"
+        android:layout_toRightOf="@+id/service_logo"
+        android:layout_toEndOf="@+id/service_logo"
         android:textColor="@color/titlecolor"
         android:textSize="18dp"
         />
@@ -31,10 +31,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Addess1:"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/restauantNameTxt"
-        android:layout_alignLeft="@+id/restauantNameTxt"
-        android:layout_alignStart="@+id/restauantNameTxt" />
+        android:id="@+id/service_address"
+        android:layout_below="@+id/service_title"
+        android:layout_alignLeft="@+id/service_title"
+        android:layout_alignStart="@+id/service_title" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,9 +42,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="add1"
         android:id="@+id/restaurantAddress1"
-        android:layout_below="@+id/restauantNameTxt"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2" />
+        android:layout_below="@+id/service_title"
+        android:layout_toRightOf="@+id/service_address"
+        android:layout_toEndOf="@+id/service_address" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,9 +52,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Opening Hours:"
         android:id="@+id/textView3"
-        android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/service_address"
+        android:layout_alignLeft="@+id/service_address"
+        android:layout_alignStart="@+id/service_address"
 
         />
 
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="0AM-0PM"
-        android:id="@+id/textView4"
+        android:id="@+id/service_opiningHours"
         android:layout_alignTop="@+id/textView3"
         android:layout_toRightOf="@+id/textView3"
         android:layout_toEndOf="@+id/textView3" />
@@ -72,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
         android:background="@color/drawerItemSperator"
-        android:layout_below="@+id/imageView3"
+        android:layout_below="@+id/service_logo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_margin="10dp"
@@ -138,6 +138,7 @@
                 android:layout_height="wrap_content"
                 android:text="Rates"
                 android:textSize="10dp"
+                android:id="@+id/service_numberofRates"
                 />
 
             />
@@ -261,7 +262,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="About Pizza Express"
-        android:id="@+id/textView5"
+        android:id="@+id/disc_header"
         android:layout_below="@+id/view2"
         android:layout_alignLeft="@+id/view2"
         android:layout_alignStart="@+id/view2"
@@ -274,10 +275,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Located in Canada, Brannigans Restaurant has seen 25 years of serving food especially to Victorians and tourists in British Columbia."
-        android:id="@+id/textView6"
-        android:layout_below="@+id/textView5"
-        android:layout_alignLeft="@+id/textView5"
-        android:layout_alignStart="@+id/textView5"
+        android:id="@+id/service_disc"
+        android:layout_below="@+id/disc_header"
+        android:layout_alignLeft="@+id/disc_header"
+        android:layout_alignStart="@+id/disc_header"
         android:textSize="12dp"
 
         />

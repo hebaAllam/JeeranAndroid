@@ -8,17 +8,25 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +36,7 @@ import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.ServiceAdapter;
 import apps.gn4me.com.jeeran.pojo.Service;
+import apps.gn4me.com.jeeran.pojo.ServicesCategory;
 
 public class ServicesList extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
     private SliderLayout mDemoSlider;
@@ -36,6 +45,13 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
     private TextView serviceTitle;
     private List<Service> servicesList = new ArrayList<>();
     Spinner dropdown;
+    String ServiceSubName;
+    String serviceCatName;
+    int serviceListIdentifier;
+    private static final String TAG_SERVICES= "response";
+    private static final String TAG_SERVICES_ID = "service_place_id";
+    private static final String TAG_SERVICES_LOGO = "logo";
+    private static final String TAG_SERVICES_TITLE = "title";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +79,16 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
         //------------------Check which service should listed--------------
         Intent intent=getIntent();
        if(intent.hasExtra("serviceSubCatId")){
-           int serviceListIdentifier = intent.getExtras().getInt("serviceSubCatId");
-           String ServiceName=intent.getExtras().getString("serviceSubCatName");
-            serviceTitle.setText(ServiceName);
+           serviceListIdentifier  = intent.getExtras().getInt("serviceSubCatId");
+           ServiceSubName=intent.getExtras().getString("serviceSubCatName");
+           serviceCatName=intent.getExtras().getString("serviceCatName");
 
+            setTitle(ServiceSubName);
         }
+        else{
+           ServiceSubName=intent.getExtras().getString("serviceSubCatName");
+           setTitle(ServiceSubName);
+       }
 
            /*here I will connect web service and get all services by serviceListIdentifier
            -------------------------------------------
@@ -83,7 +104,7 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
     private void ListAllServices() {
         setSlider();
         servicesList.clear();
-        myAdapter=new ServiceAdapter(servicesList);
+        myAdapter=new ServiceAdapter(servicesList,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -96,6 +117,7 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
                 Service service=servicesList.get(position);
                 serviceDetailes.putExtra("UniqueServiceId",service.getServiceId());
                 serviceDetailes.putExtra("ServiceDetailsName",service.getName());
+                serviceDetailes.putExtra("serviceSubCatName",ServiceSubName);
                 startActivity(serviceDetailes);
 
             }
@@ -155,11 +177,42 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
 
 
     private void prepareServiceData() {
-        Service service1=new Service(R.drawable.ic_account_circle_white_64dp,"Hyper 1",3434,343);
-        servicesList.add(service1);
-        Service service2=new Service(R.drawable.ic_account_circle_white_64dp,"Mole El3rab",3434,343);
-        servicesList.add(service2);
-        myAdapter.notifyDataSetChanged();
+//        Service service1=new Service(R.drawable.ic_account_circle_white_64dp,"Hyper 1",3434,343);
+//        servicesList.add(service1);
+//        Service service2=new Service(R.drawable.ic_account_circle_white_64dp,"Mole El3rab",3434,343);
+//        servicesList.add(service2);
+//        myAdapter.notifyDataSetChanged();
+        Ion.with(getBaseContext())
+                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplace/list")
+                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mzg1ODU3LCJleHAiOjE0NjUzODk0NTcsIm5iZiI6MTQ2NTM4NTg1NywianRpIjoiMDAxN2UwZWRlMGYxZTdjMjhmZDQ2YWZjY2U5MTAyZGMifQ.HKNlXf00trYOOzSkHCHfvFAQnS2cIu9anDTzZVEc-WE")
+                .setBodyParameter("service_sub_category_id","6")
+                .asString()
+                .setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                        if(result!=null){
+                            Toast.makeText(getApplicationContext(),result, Toast.LENGTH_SHORT).show();
+                            try {
+                                JSONObject jsonObject=new JSONObject(result);
+                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES);
+                                for(int i=0;i<jsonArr.length();i++){
+                                    JSONObject service1=jsonArr.getJSONObject(i);
+                                    Service service=new Service();
+                                    service.setServiceId(service1.getInt(TAG_SERVICES_ID));
+                                    service.setName(service1.getString(TAG_SERVICES_TITLE));
+                                    service.setLogo(service1.getString(TAG_SERVICES_LOGO));
+                                    servicesList.add(service);
+                                    myAdapter.notifyDataSetChanged();
+                                }
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+
+
+                        }
+
+                    }
+                });
     }
 @Override
 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -231,6 +284,17 @@ public void onSliderClick(BaseSliderView slider) {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+     switch (item.getItemId()){
+         case android.R.id.home:
+             Intent i=new Intent(ServicesList.this,SubServices.class);
+             i.putExtra("serviceCatName",serviceCatName);
+             startActivity(i);
+             finish();
+     }
+        return super.onOptionsItemSelected(item);
+    }
 }
 
 

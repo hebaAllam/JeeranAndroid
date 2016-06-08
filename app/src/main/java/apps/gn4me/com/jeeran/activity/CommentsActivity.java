@@ -43,7 +43,7 @@ public class CommentsActivity extends BaseActivity {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new CustomAdapter(initArrayList());
+        customAdapter = new CustomAdapter(mList);
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
@@ -56,11 +56,13 @@ public class CommentsActivity extends BaseActivity {
         //infinite_Insertlist();
     }
 
-    public List<DiscussionCommentData> initArrayList(){
+    public void initArrayList(){
 
         //first ws call
         Log.i("C Here" , "::::::");
         final String discId = getIntent().getStringExtra("disc_id");
+
+        Log.i("Disc Id" , discId);
 
         SharedPreferences settings;
         String token ;
@@ -68,12 +70,17 @@ public class CommentsActivity extends BaseActivity {
 
         token = settings.getString("token", null);
 
-        /*
+        for (int index = 0; index < 20; index++) {
+            DiscussionCommentData obj = new DiscussionCommentData(index , index , "name" , "https://ssl.gstatic.com/images/icons/gplus-32.png" , "comment" , "time");
+            //mList.add(index, obj);
+        }
+        //customAdapter.insertAll(mList);
 
         Ion.with(getApplicationContext())
                 .load(BASE_URL + "/discussioncomments/list")
+                .noCache()
                 .setHeader("Authorization", token)
-                .setBodyParameter("disc_id", discId)
+                .setBodyParameter("disc_id", "1")
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -81,6 +88,7 @@ public class CommentsActivity extends BaseActivity {
                         // do stuff with the result or error
                         boolean success = false ;
 
+                        Log.i("comments here -_________-" , ":::::");
                         if (e != null ) {
                             Log.i(":::::::::::::::", e.getMessage());
                         }
@@ -92,33 +100,26 @@ public class CommentsActivity extends BaseActivity {
                         if ( success ){
                             JsonArray commentsList = result.getAsJsonArray("response");
 
+                            String msg = "" ;
                             for (int i=0 ; i<commentsList.size() ; i++) {
                                 DiscussionCommentData comment = new DiscussionCommentData();
-                                comment.getUser().setId( commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_id").getAsInt());
-                                comment.getUser().setUserName( commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("first_name").getAsString()
-                                        + " " + commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("last_name").getAsString());
-                                comment.getUser().setImage( commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_image").getAsString());
+                                //comment.getUser().setId( commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_id").getAsInt());
+                                //comment.getUser().setUserName( commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("first_name").getAsString() + " " + commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("last_name").getAsString());
+                                //comment.getUser().setImage( commentsList.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_image").getAsString());
                                 comment.setId( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_comment_id").getAsInt());
                                 comment.setComment( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("comment").getAsString());
                                 comment.setTimeStamp( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
                                 //comment.setOwnerFlag(commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("is_owner").getAsBoolean());
                                 mList.add(comment);
+                                msg = comment.getComment();
                             }
+                            Log.i("comments data" , msg);
                             customAdapter.insertAll(mList);
                         }
                     }
                 });
 
-        */
-
-
-
-        for (int index = 0; index < 20; index++) {
-            DiscussionCommentData obj = new DiscussionCommentData(index , index , "name" , "https://ssl.gstatic.com/images/icons/gplus-32.png" , "comment" , "time");
-            mList.add(index, obj);
-        }
-        return mList;
-
+        //return mList;
     }
 
     public void addCustomLoaderView(){
