@@ -167,15 +167,15 @@ public class LoginActivity extends BaseActivity {
                             e.printStackTrace();
                         }
 
-                        /*
+
                         /// test login by fb
 
                         final String saveImgURl = img ;
-                        final String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                                Settings.Secure.ANDROID_ID);
+
                         showProgress(true);
                         Ion.with(getApplicationContext())
                                 .load(BASE_URL + "/user/loginfb")
+                                .noCache()
                                 .setBodyParameter("device_type", "0") //android => 0
                                 .setBodyParameter("email", user.optString("email"))
                                 .setBodyParameter("fb_id", user.optString("id"))
@@ -200,10 +200,10 @@ public class LoginActivity extends BaseActivity {
                                             }
                                             editor.putString("fb_id", user.optString("id"));
                                             editor.putString("email",  user.optString("email"));
-                                            editor.putString("device_token", android_id);
                                             editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
                                             editor.commit();
 
+                                            validateToken();
                                             Intent i = new Intent(LoginActivity.this,HomeActivity.class);
                                             startActivity(i);
                                         } else {
@@ -213,7 +213,7 @@ public class LoginActivity extends BaseActivity {
                                     }
                                 });
 
-                                */
+
                     }
                 });
 
@@ -223,6 +223,7 @@ public class LoginActivity extends BaseActivity {
                 request.setParameters(parameters);
                 request.executeAsync();
 
+                /*
                 Log.i("Success :::" ,
                         "User ID: "
                                 + loginResult.getAccessToken().getUserId()
@@ -234,6 +235,7 @@ public class LoginActivity extends BaseActivity {
 
                 //Intent in = new Intent(LoginActivity.this,HomeActivity.class);
                 //startActivity(in);
+                */
             }
 
             @Override
@@ -335,6 +337,7 @@ public class LoginActivity extends BaseActivity {
             showProgress(true);
             Ion.with(getApplicationContext())
             .load(BASE_URL + "/user/login")
+                    .noCache()
             .setBodyParameter("device_type", "0")
             .setBodyParameter("email", email ) //"testhsmsss@test.com"
             .setBodyParameter("password", password ) //"123456789"
@@ -362,6 +365,7 @@ public class LoginActivity extends BaseActivity {
 //                        Log.i("-*-*-*-* token : ")
                         editor.commit();
 
+                        validateToken();
                         Intent i = new Intent(LoginActivity.this,HomeActivity.class);
                         startActivity(i);
                     } else {

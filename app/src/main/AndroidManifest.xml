@@ -170,11 +170,14 @@
             android:theme="@style/MyMaterialTheme" />
         <activity android:name=".activity.ShowServicesImages"
                   android:theme="@style/MyMaterialTheme"
-                  android:parentActivityName=".activity.ServiceDetails"
-            >
+                  android:parentActivityName=".activity.ServiceDetails"/>
 
 
-        </activity>
+
+        <receiver android:name=".broadcast_receiver.TokenValidation">
+
+        </receiver>
+
     </application>
 
 </manifest>

@@ -100,11 +100,13 @@ public class Discussion extends Fragment {
 
         Ion.with(context)
                 .load(BASE_URL + "/discussion/list")
+                .noCache()
                 //.setBodyParameter("neighborhood_id", "")
                 //.setBodyParameter("topic_id", "")
                 //.setBodyParameter("user_id", "")
                 //.setBodyParameter("keyword", "")
                 .setHeader("Authorization",token)
+                //.setHeader("refresh",(new Date()).toString())
                 //.setBodyParameter("refresh",(new Date()).toString() )
                 .setBodyParameter("start", "0")
                 .setBodyParameter("count", "4")
@@ -210,6 +212,7 @@ public class Discussion extends Fragment {
 
                         Ion.with(context)
                                 .load(BASE_URL + "/discussion/list")
+                                .noCache()
                                 //.setBodyParameter("neighborhood_id", "")
                                 //.setBodyParameter("topic_id", "")
                                 //.setBodyParameter("user_id", "")
