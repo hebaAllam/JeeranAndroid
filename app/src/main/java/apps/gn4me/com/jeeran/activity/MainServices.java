@@ -1,27 +1,35 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.ServiceCategoryAdapter;
@@ -36,19 +44,41 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
     View v;
     private RecyclerView recyclerView;
     private ServiceCategoryAdapter myAdapter;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    private static final String TAG_SERVICES_MAIN_CATEGORY = "response";
+    private static final String TAG_SERVICES_MAIN_CATEGORY_ID = "service_main_category_id";
+    private static final String TAG_SERVICES_MAIN_CATEGORY_LOGO = "logo";
+    private static final String TAG_SERVICES_MAIN_CATEGORY_TITLE = "title_en";
+    private static final String TAG_SERVICES_MAIN_CATEGORY_SUB_CATEGORY = "subcats";
+    SharedPreferences sharedpreferences;
 
 
-    private List<ServicesCategory> servicesCatList = new ArrayList<>();
+    private List<ServicesCategory> servicesCatList ;
     public MainServices() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Ion.with(getContext())
+                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list")
+                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mjk2MDIyLCJleHAiOjE0NjUyOTk2MjIsIm5iZiI6MTQ2NTI5NjAyMiwianRpIjoiMjFiMTM2NmVhOWFhMjVhZjEzNThiZmI0NzBlYmFmN2QifQ.0_oD1thM3vuKJ6fcJ9jUDHNT9SZLXXKvShLUd8jTm04")
+                .setBodyParameter("main_category", "0")
+                .asString()
+                .setCallback(new FutureCallback<String>() {
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                        if(result!=null){
+                            sharedpreferences = getContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString("mainCategoryJsonObject",result);
+                            editor.commit();
 
+                        }
 
-
+                    }
+                });
     }
 
     @Override
@@ -102,9 +132,10 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
 
 
      //services category list
+        servicesCatList = new ArrayList<>();
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         servicesCatList.clear();
-        myAdapter=new ServiceCategoryAdapter(servicesCatList);
+        myAdapter=new ServiceCategoryAdapter(servicesCatList,getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -128,27 +159,85 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
 
             }
         }));
-        prepareData();
+        prepareDataFromServer();
+
         return v;
     }
 
-    private void prepareData() {
+    private void prepareDataFromServer() {
+        SharedPreferences prefs = getContext().getSharedPreferences(MyPREFERENCES,0);
+       String JsonResult= prefs.getString("mainCategoryJsonObject","noObject");
+        try {
+                                JSONObject jsonObject=new JSONObject(JsonResult);
+                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_MAIN_CATEGORY);
+                                for(int i=0;i<jsonArr.length();i++){
+                                    JSONObject service1=jsonArr.getJSONObject(i);
+                                    ServicesCategory servicesCategory=new ServicesCategory();
+                                    servicesCategory.setServiceCatId(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_ID));
+                                    servicesCategory.setServiceCatName(service1.getString(TAG_SERVICES_MAIN_CATEGORY_TITLE));
+                                    servicesCategory.setServiceCatLogo(service1.getString(TAG_SERVICES_MAIN_CATEGORY_LOGO));
+                                    String subCatNum=Integer.toString(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_SUB_CATEGORY));
+                                    servicesCategory.setServiceSubCatNumber(subCatNum);
+                                    servicesCatList.add(servicesCategory);
+                                    myAdapter.notifyDataSetChanged();
+                                }
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
 
-        ServicesCategory serviceCat=new ServicesCategory(1, R.drawable.ic_food_icon,"Food and Beverages","10");
-        servicesCatList.add(serviceCat);
-        ServicesCategory servicecat2=new ServicesCategory(2, R.drawable.ic_shopping_icon,"Shopping","16");
-        servicesCatList.add(servicecat2);
-        ServicesCategory servicecat3=new ServicesCategory(3, R.drawable.ic_supermarket_icon,"SuperMarkets","23"); ;
-        servicesCatList.add(servicecat3);
-        ServicesCategory servicecat4=new ServicesCategory(4, R.drawable.ic_pharmacies_icon,"Pharmacies","40");
-        servicesCatList.add(servicecat4);
-        ServicesCategory servicecat5=new ServicesCategory(5, R.drawable.ic_education_icon,"Education","11");
-        servicesCatList.add(servicecat5);
-        ServicesCategory servicecat6=new ServicesCategory(6, R.drawable.ic_entertainment_icon,"Entertainment","15");
-        servicesCatList.add(servicecat6);
-        myAdapter.notifyDataSetChanged();
 
+//        Ion.with(getContext())
+//                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list")
+//                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mjk2MDIyLCJleHAiOjE0NjUyOTk2MjIsIm5iZiI6MTQ2NTI5NjAyMiwianRpIjoiMjFiMTM2NmVhOWFhMjVhZjEzNThiZmI0NzBlYmFmN2QifQ.0_oD1thM3vuKJ6fcJ9jUDHNT9SZLXXKvShLUd8jTm04")
+//                .setBodyParameter("main_category", "0")
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String result) {
+//                        Toast.makeText(getContext(),result,Toast.LENGTH_LONG).show();
+//                        if(result!=null){
+//                            try {
+//                                JSONObject jsonObject=new JSONObject(result);
+//                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_MAIN_CATEGORY);
+//                                for(int i=0;i<jsonArr.length();i++){
+//                                    JSONObject service1=jsonArr.getJSONObject(i);
+//                                    ServicesCategory servicesCategory=new ServicesCategory();
+//                                    servicesCategory.setServiceCatId(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_ID));
+//                                    servicesCategory.setServiceCatName(service1.getString(TAG_SERVICES_MAIN_CATEGORY_TITLE));
+//                                    servicesCategory.setServiceCatLogo(service1.getString(TAG_SERVICES_MAIN_CATEGORY_LOGO));
+//                                    String subCatNum=Integer.toString(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_SUB_CATEGORY));
+//                                    servicesCategory.setServiceSubCatNumber(subCatNum);
+//                                    servicesCatList.add(servicesCategory);
+//                                    myAdapter.notifyDataSetChanged();
+//                                }
+//                            } catch (JSONException e1) {
+//                                e1.printStackTrace();
+//                            }
+//
+//
+//                        }
+//
+//                    }
+//                });
     }
+
+//    private void prepareData() {
+//
+//        ServicesCategory serviceCat=new ServicesCategory(1, R.drawable.ic_food_icon,"Food and Beverages","10");
+//        servicesCatList.add(serviceCat);
+//        ServicesCategory servicecat2=new ServicesCategory(2, R.drawable.ic_shopping_icon,"Shopping","16");
+//        servicesCatList.add(servicecat2);
+//        ServicesCategory servicecat3=new ServicesCategory(3, R.drawable.ic_supermarket_icon,"SuperMarkets","23"); ;
+//        servicesCatList.add(servicecat3);
+//        ServicesCategory servicecat4=new ServicesCategory(4, R.drawable.ic_pharmacies_icon,"Pharmacies","40");
+//        servicesCatList.add(servicecat4);
+//        ServicesCategory servicecat5=new ServicesCategory(5, R.drawable.ic_education_icon,"Education","11");
+//        servicesCatList.add(servicecat5);
+//        ServicesCategory servicecat6=new ServicesCategory(6, R.drawable.ic_entertainment_icon,"Entertainment","15");
+//        servicesCatList.add(servicecat6);
+//        myAdapter.notifyDataSetChanged();
+//
+//    }
 
 
     @Override
@@ -174,5 +263,11 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
         void onClick(View view, int position);
 
         void onLongClick(View view, int position);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }

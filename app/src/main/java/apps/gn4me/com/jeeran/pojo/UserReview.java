@@ -4,33 +4,51 @@ package apps.gn4me.com.jeeran.pojo;
  * Created by acer on 5/30/2016.
  */
 public class UserReview {
-    private int restaurantId;
+    private int serviceId;
+    private User user;
     private int userImage;
-    private String userName;
-    private int numberOfRates;
-    private String reviewDate;
-    private String userReview;
+    private String username;
 
-    public UserReview(int restaurantId, int userImage, String userName, int numberOfRates, String reviewDate, String userReview) {
-        this.restaurantId = restaurantId;
-        this.userImage = userImage;
-        this.userName = userName;
-        this.numberOfRates = numberOfRates;
-        this.reviewDate = reviewDate;
-        this.userReview = userReview;
-    }
-
-    public int getRestaurantId() {
-        return restaurantId;
+    public String getUserName() {
+        return username;
     }
 
     public int getUserImage() {
         return userImage;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setUserImage(int userImage) {
+        this.userImage = userImage;
     }
+
+    public void setUserName(String username) {
+        this.username = username;
+    }
+
+    private int numberOfRates;
+    private String reviewDate;
+    private String userReview;
+
+    public UserReview(int restaurantId, int numberOfRates, String reviewDate, String userReview) {
+        this. serviceId = restaurantId;
+        this.numberOfRates = numberOfRates;
+        this.reviewDate = reviewDate;
+        this.userReview = userReview;
+    }
+
+    public UserReview(int serviceId, int userImage, String username, int numberOfRates, String reviewDate, String userReview) {
+        this.serviceId = serviceId;
+        this.userImage = userImage;
+        this.username = username;
+        this.numberOfRates = numberOfRates;
+        this.reviewDate = reviewDate;
+        this.userReview = userReview;
+    }
+
+    public int getRestaurantId() {
+        return  serviceId;
+    }
+
 
     public int getNumberOfRates() {
         return numberOfRates;
@@ -45,15 +63,7 @@ public class UserReview {
     }
 
     public void setRestaurantId(int restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
-    public void setUserImage(int userImage) {
-        this.userImage = userImage;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+        this. serviceId = restaurantId;
     }
 
     public void setNumberOfRates(int numberOfRates) {

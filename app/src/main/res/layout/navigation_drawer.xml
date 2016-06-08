@@ -50,7 +50,6 @@
                     android:id="@+id/navigation_drawer_user_account_picture_profile"
                     android:layout_width="@dimen/navigation_drawer_profile_image_size"
                     android:layout_height="@dimen/navigation_drawer_profile_image_size"
-
                     android:src="@drawable/ic_account_circle_white_64dp" />
 
                      <ImageView
@@ -101,7 +100,7 @@
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/ic_account_icon"
                         tools:ignore="ContentDescription"
-                        tools:tint="@color/nav_drawer_item_icon_selected"
+
 
                         />
 
@@ -110,8 +109,8 @@
                         style="@style/NavDrawerRowItemText"
                         android:text="My account"
                         tools:fontFamily="sans-serif-medium"
-                        tools:textColor="@color/nav_drawer_item_text_selected"
-                        android:textColor="@color/textColorPrimary"
+                        tools:textColor="@color/textColorPrimary"
+
                         />
 
                 </FrameLayout>
@@ -197,7 +196,7 @@
                     <apps.gn4me.com.jeeran.activity.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_favorites"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_favorites_icon"
+                        android:src="@drawable/ic_favorite_icon"
                         tools:ignore="ContentDescription" />
 
                     <TextView
