@@ -1,5 +1,7 @@
 package apps.gn4me.com.jeeran.pojo;
 
+import java.util.Date;
+
 /**
  * Created by ESCA on 5/27/2016.
  */
@@ -9,6 +11,21 @@ public class RealEstate {
     int id;
     String description;
     String Location;
+    int type;
+    int numOfRooms;
+    int numOfBathreeoms;
+    int price;
+    String area;
+    double longitude,latitude;
+    int language;
+    boolean isHide;
+    Date creationDate;
+    Date updateDate;
+    boolean onHome;
+
+    String img;
+    boolean isFeature;
+    int amenitiesId;
     String address;
     String contactPerson;
     String phone;
@@ -28,6 +45,151 @@ public class RealEstate {
         Email = email;
     }
 
+    public RealEstate(String title, int id, String description, String location, int type, int numOfRooms, int numOfBathreeoms, int price, String area, double longitude, double latitude, int language, boolean isHide, Date creationDate, Date updateDate, boolean onHome, String img, boolean isFeature, int amenitiesId, String address, String contactPerson, String phone, String email) {
+        this.title = title;
+        this.id = id;
+        this.description = description;
+        Location = location;
+        this.type = type;
+        this.numOfRooms = numOfRooms;
+        this.numOfBathreeoms = numOfBathreeoms;
+        this.price = price;
+        this.area = area;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.language = language;
+        this.isHide = isHide;
+        this.creationDate = creationDate;
+        this.updateDate = updateDate;
+        this.onHome = onHome;
+        this.img = img;
+        this.isFeature = isFeature;
+        this.amenitiesId = amenitiesId;
+        this.address = address;
+        this.contactPerson = contactPerson;
+        this.phone = phone;
+        Email = email;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getNumOfRooms() {
+        return numOfRooms;
+    }
+
+    public void setNumOfRooms(int numOfRooms) {
+        this.numOfRooms = numOfRooms;
+    }
+
+    public int getNumOfBathreeoms() {
+        return numOfBathreeoms;
+    }
+
+    public void setNumOfBathreeoms(int numOfBathreeoms) {
+        this.numOfBathreeoms = numOfBathreeoms;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public int getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(int language) {
+        this.language = language;
+    }
+
+    public boolean isHide() {
+        return isHide;
+    }
+
+    public void setHide(boolean hide) {
+        isHide = hide;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public boolean isOnHome() {
+        return onHome;
+    }
+
+    public void setOnHome(boolean onHome) {
+        this.onHome = onHome;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public boolean isFeature() {
+        return isFeature;
+    }
+
+    public void setFeature(boolean feature) {
+        isFeature = feature;
+    }
+
+    public int getAmenitiesId() {
+        return amenitiesId;
+    }
+
+    public void setAmenitiesId(int amenitiesId) {
+        this.amenitiesId = amenitiesId;
+    }
 
     public String getTitle() {
         return title;

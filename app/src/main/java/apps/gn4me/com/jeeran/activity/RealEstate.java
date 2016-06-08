@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +22,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -46,9 +48,18 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
     View view;
     private SliderLayout mDemoSlider;
     LinearLayoutManager llm;
+    ProgressDialog progressDialog;
 
     FloatingActionButton search, addRealEstate, home;
 
+    private void openDialog() {
+        progressDialog = new ProgressDialog(getContext(),
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+    }
     public RealEstate() {
         // Required empty public constructor
     }
@@ -63,6 +74,7 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.real_estate_fragment, container, false);
+        openDialog();
 
         Spinner dropdown = (Spinner)view.findViewById(R.id.spinner1frag);
         String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
@@ -114,7 +126,7 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
         rv.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         initializeData();
 
-        myAdapter = new RVAdapter(realEstates);
+//        myAdapter = new RVAdapter(realEstates);
         rv.setAdapter(myAdapter);
 
         home = (FloatingActionButton) view.findViewById(R.id.fab34);
@@ -140,53 +152,82 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
 
     private void initializeData(){
         realEstates = new ArrayList<>();
+        final apps.gn4me.com.jeeran.pojo.RealEstate mReal = new apps.gn4me.com.jeeran.pojo.RealEstate();
+        Log.i("-*-*-*-* ", "inside ");
 
-//        SharedPreferences settings;
-//        String token ;
-//        settings = getContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-//        token = settings.getString("token", null);
+        SharedPreferences settings;
+        String token ;
+        settings = getContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+        token = settings.getString("token", null);
 //        if ( token != null ) {
-//            Log.i("/*/*/* ", "inside if");
-//            Ion.with(getContext())
-//                    .load("http://jeeran.gn4me.com/jeeran_v1/realstate/list?type= ")
-//                    .setHeader("Authorization", token)
-////                    .setBodyParameter("type", " ")
-//                    .asJsonObject()
-//                    .setCallback(new FutureCallback<JsonObject>() {
+        Ion.with(view.getContext())
+                .load(BaseActivity.BASE_URL + "/realstate/list?type= ")
+                .setHeader("Authorization",token)
+//                .setBodyParameter("type"," ")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+                        //showProgress(false);
+                        if ( e != null ) {
+                                Log.i("Exception:: ", e.getMessage());
+                        }
+//                        Log.i("-*-*-*-* ", "inside callback");
+                        Boolean success = false ;
+                        if ( result != null ) {
+                            Log.i("All Result ::: " , result.toString());
+                            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                        }
+
+                        if ( success ){
+                            progressDialog.dismiss();
+
+                            JsonArray myRealEstates = result.getAsJsonObject("response").getAsJsonArray("real_state");
+
+                            for (int i=0 ; i<myRealEstates.size() ; i++) {
+                                mReal.setId(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("favorite_real_estate_ad_id").getAsInt());
+                                mReal.setPhone(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
+                                mReal.setEmail(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
+                                mReal.setContactPerson(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+//                                    mReal.setCreationDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
+//                                    mReal.setUpdateDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+                                mReal.setTitle(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
+                                mReal.setAddress(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("address").getAsString());
+                                mReal.setLocation(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("location").getAsString());
+                                mReal.setType(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("type").getAsInt());
+                                mReal.setNumOfRooms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_rooms").getAsInt());
+                                mReal.setNumOfBathreeoms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_bathrooms").getAsInt());
+                                mReal.setPrice(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("price").getAsInt());
+                                mReal.setArea(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("area").getAsString());
+                                mReal.setLanguage(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("language").getAsInt());
+                                mReal.setLongitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("longitude").getAsDouble());
+                                mReal.setLatitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("latitude").getAsDouble());
+                                mReal.setImg(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString());
 //
-//                        @Override
-//                        public void onCompleted(Exception e, JsonObject result) {
-//                            // do stuff with the result or error
-////                        showProgress(false);
-//                            Log.i("/*/*/* exception :: ", e.getMessage());
-//                            Log.i("All Result ::: ", result.toString());
-//
-//                            Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
-//                            if (success) {
-////                            SharedPreferences settings;
-////                            SharedPreferences.Editor editor;
-////                            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-////                            editor = settings.edit();
-//
-////                            editor.putString("password", passwordEditTxt.getText().toString());
-////                            editor.putString("email", emailEditTxt.getText().toString());
-////                            editor.commit();
-////                            progressDialog.dismiss();
-//
-//
-//                            } else {
-////                            progressDialog.dismiss();
-////                            Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
-//                                Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
-//                            }
-//
-//                        }
-//                    });
+                                realEstates.add(mReal);
+
+//                                    mList.add(post);
+                            }
+
+                        } else {
+                            progressDialog.dismiss();
+//                              Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
+                            Toast.makeText(view.getContext(),"reading Failed",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+//        }else
+//        {
+//            Toast.makeText(getContext(),"you didn't registered..",Toast.LENGTH_LONG).show();
 //        }
 
-        realEstates.add(new apps.gn4me.com.jeeran.pojo.RealEstate("Flat1","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
-        realEstates.add(new apps.gn4me.com.jeeran.pojo.RealEstate("Flat2","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
-        realEstates.add(new apps.gn4me.com.jeeran.pojo.RealEstate("Flat3","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+
+
+//        realEstates.add(new RealEstate("Flat1","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+//        realEstates.add(new RealEstate("Flat2","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+//        realEstates.add(new RealEstate("Flat3","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
     }
 
     @Override
