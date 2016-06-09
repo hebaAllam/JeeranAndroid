@@ -88,7 +88,7 @@ public class CommentsActivity extends BaseActivity {
                         // do stuff with the result or error
                         boolean success = false ;
 
-                        Log.i("comments here -_________-" , ":::::");
+                        //Log.i("comments here -_________-" , ":::::");
                         if (e != null ) {
                             Log.i(":::::::::::::::", e.getMessage());
                         }

@@ -36,7 +36,7 @@ public class BaseActivity extends AppCompatActivity {
     Toolbar toolbar;
     public static final String PREFS_NAME = "Jeeran";
     public static final String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1";
-    public static final Long EXPIRATION_Duration = AlarmManager.INTERVAL_FIFTEEN_MINUTES ;
+    public static final Long EXPIRATION_Duration = AlarmManager.INTERVAL_FIFTEEN_MINUTES - 10000 ;
 
 
     protected View progress;

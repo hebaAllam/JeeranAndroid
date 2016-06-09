@@ -18,9 +18,16 @@ import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
  */
 public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapter {
 
-    public DiscussionRecycleViewAdapter(List<DiscussionPostData> dataSet) {
-        putBinder(SampleViewType.SAMPLE1, new Sample1Binder(this));
-        putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this, dataSet));
+    private int viewType ;
+
+    public DiscussionRecycleViewAdapter(List<DiscussionPostData> dataSet , int viewType) {
+        this.viewType = viewType ;
+        if ( viewType == 0 ) {
+            putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this, dataSet,0));
+        }else if (viewType == 1){
+            putBinder(SampleViewType.SAMPLE1, new Sample1Binder(this));
+            putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this, dataSet ,1));
+        }
     }
 
     @Override
@@ -45,11 +52,14 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(position == 0 ){
-            ((Sample1Binder) getDataBinder(SampleViewType.SAMPLE1)).bindViewHolder((Sample1Binder.ViewHolder)holder,position);
-        }
-        else{
-            ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).bindViewHolder((Sample2Binder.ViewHolder)holder,position);
+        if ( viewType == 0 ) {
+            ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).bindViewHolder((Sample2Binder.ViewHolder) holder, position);
+        }else if ( viewType == 1 ){
+            if (position == 0) {
+                ((Sample1Binder) getDataBinder(SampleViewType.SAMPLE1)).bindViewHolder((Sample1Binder.ViewHolder) holder, position);
+            } else {
+                ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).bindViewHolder((Sample2Binder.ViewHolder) holder, position);
+            }
         }
     }
 
@@ -65,10 +75,14 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
 
     @Override
     public Enum getEnumFromPosition(int position) {
-        if (position == 0) {
-            return SampleViewType.SAMPLE1;
-        } else {
+        if ( viewType == 0 ) {
             return SampleViewType.SAMPLE2;
+        }else {
+            if (position == 0) {
+                return SampleViewType.SAMPLE1;
+            } else {
+                return SampleViewType.SAMPLE2;
+            }
         }
     }
 
@@ -85,6 +99,10 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
         ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).insert(post,position);
     }
 
+
+    public void refresh() {
+        ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).updateList();
+    }
 
     public void insertAll(List<DiscussionPostData> posts) {
         ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).addAll(posts);

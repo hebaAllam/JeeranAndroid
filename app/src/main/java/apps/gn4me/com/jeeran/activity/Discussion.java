@@ -37,6 +37,7 @@ public class Discussion extends Fragment {
     private Context context ;
     private int moreNum = 2;
 
+    public String discussionViewType = "ALL";
     private View view ;
     private List<DiscussionPostData> mList = new ArrayList<>();
 
@@ -71,7 +72,7 @@ public class Discussion extends Fragment {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new DiscussionRecycleViewAdapter(mList);//getArrayList());
+        customAdapter = new DiscussionRecycleViewAdapter(mList,1);//getArrayList());
 
         linearLayoutManager = new LinearLayoutManager(context);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
@@ -153,7 +154,7 @@ public class Discussion extends Fragment {
                                 }
                                 mList.add(post);
                             }
-                            customAdapter.insertAll(mList);
+                            customAdapter.refresh();
                         }
 
                     }
@@ -258,7 +259,8 @@ public class Discussion extends Fragment {
                                                 if ( imgs != null && imgs.size() > 0 ){
                                                     post.setImage( imgs.get(0).getAsString() );
                                                 }
-                                                customAdapter.insert(post,customAdapter.getAdapterItemCount());
+                                                mList.add(post);
+                                                customAdapter.refresh(); ///customAdapter.getAdapterItemCount());
                                             }
                                         }
 

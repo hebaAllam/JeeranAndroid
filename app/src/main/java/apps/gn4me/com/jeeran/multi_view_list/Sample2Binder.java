@@ -29,8 +29,11 @@ import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
  */
 public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
     private ArrayList<DiscussionPostData> mList;
-    public Sample2Binder(UltimateDifferentViewTypeAdapter dataBindAdapter, List<DiscussionPostData> mList) {
+    private int startIndex ;
+
+    public Sample2Binder(UltimateDifferentViewTypeAdapter dataBindAdapter, List<DiscussionPostData> mList , int startIndex) {
         super(dataBindAdapter);
+        this.startIndex = startIndex ;
         this.mList = (ArrayList<DiscussionPostData>) mList;
     }
 
@@ -44,7 +47,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
     @Override
     public void bindViewHolder(ViewHolder holder, final int position) {
 
-        final int index = position - 1 ;
+        final int index = position - startIndex ;
 
         Log.i("Titleeeeeeee2" , mList.get(index).getTitle());
 
@@ -151,6 +154,11 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         mList.addAll(dataSet);
         notifyBinderDataSetChanged();
     }
+
+    public void updateList() {
+        notifyBinderDataSetChanged();
+    }
+
     public void insert(DiscussionPostData post, int position) {
         mList.add(post);
         notifyBinderDataSetChanged();

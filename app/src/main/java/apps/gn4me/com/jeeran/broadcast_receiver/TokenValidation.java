@@ -61,7 +61,6 @@ public class TokenValidation extends BroadcastReceiver {
                                 editor = settings.edit();
                                 editor.putString("token", "Bearer " + result.getAsJsonPrimitive("token").getAsString());
                                 editor.commit();
-
                             }
                         }
                     });

@@ -6,14 +6,31 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
+    <!-- My Favorite -->
+    <style name="MyFavoriteTabStyle">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColorPrimary">@color/titlecolor</item>
+        <item name="android:textColorSecondary">@color/titlecolor</item>
+    </style>
+
+
+    <style name="MyFavoriteToolBarStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/background</item>
+        <item name="colorPrimaryDark">@color/titlecolor</item>
+        <item name="colorAccent">@color/titlecolor</item>
+        <item name="android:textColor">@color/titlecolor</item>
 
     </style>
+
+
+
     <style name="ToolBarStyle" parent="Theme.AppCompat">
         <item name="android:textColorPrimary">@color/titlecolor</item>
         <item name="android:textColorSecondary">@color/titlecolor</item>
         <item name="actionMenuTextColor">@color/titlecolor</item>
-
     </style>
 
     <!-- Base application theme. -->

@@ -59,7 +59,7 @@
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:drawableLeft="@drawable/ic_service_icon"
-                android:text="Service"
+                android:text="@string/service"
                 android:textColor="#fff" />
         </FrameLayout>
 
@@ -79,7 +79,7 @@
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:drawableLeft="@drawable/ic_discussion_icon"
-                android:text="Discussion"
+                android:text="@string/discussion"
                 android:textColor="#fff" />
         </FrameLayout>
 
@@ -99,7 +99,7 @@
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:drawableLeft="@drawable/ic_real_estate_icon"
-                android:text="Real Estate"
+                android:text="@string/realestate"
                 android:textColor="#fff" />
         </FrameLayout>
 
