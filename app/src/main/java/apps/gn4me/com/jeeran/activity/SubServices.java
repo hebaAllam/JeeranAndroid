@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -32,10 +43,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.ServiceCategoryAdapter;
+import apps.gn4me.com.jeeran.helper.AppController;
 import apps.gn4me.com.jeeran.pojo.ServicesCategory;
 
 public class SubServices extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
@@ -52,6 +65,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
     private static final String TAG_SERVICES_MAIN_CATEGORY_LOGO = "logo";
     private static final String TAG_SERVICES_MAIN_CATEGORY_TITLE = "title_en";
     private static final String TAG_SERVICES_MAIN_CATEGORY_SUB_CATEGORY = "subcats";
+    private static final String TAG="++++++++++";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,41 +127,42 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
             }
         }));
 
-        Ion.with(getApplicationContext())
-                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list")
-                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mzc2NzQ5LCJleHAiOjE0NjUzODAzNDksIm5iZiI6MTQ2NTM3Njc0OSwianRpIjoiNjgwMzM1MDliYjBkNGJkNTAzMWJjZGUxZjkzMzYzYWEifQ.GJENOSy_9JtfbEeqexobcAik7iVPgH8VdGcZ4eTH4ZU")
-                .setBodyParameter("main_category","5")
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
-                        Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
-
-                        if(result!=null){
-                            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
-
-                            try {
-
-                                JSONObject jsonObject=new JSONObject(result);
-                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_MAIN_CATEGORY);
-                                for(int i=0;i<jsonArr.length();i++){
-                                    JSONObject service1=jsonArr.getJSONObject(i);
-                                    ServicesCategory servicesCategory=new ServicesCategory();
-                                    servicesCategory.setServiceCatId(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_ID));
-                                    servicesCategory.setServiceCatName(service1.getString(TAG_SERVICES_MAIN_CATEGORY_TITLE));
-                                    servicesCategory.setServiceCatLogo(service1.getString(TAG_SERVICES_MAIN_CATEGORY_LOGO));
-                                    subServicesList.add(servicesCategory);
-                                    myAdapter.notifyDataSetChanged();
-                                }
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
-
-
-                        }
-
-                    }
-                });
+//        Ion.with(this)
+//                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list")
+//                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mzc2NzQ5LCJleHAiOjE0NjUzODAzNDksIm5iZiI6MTQ2NTM3Njc0OSwianRpIjoiNjgwMzM1MDliYjBkNGJkNTAzMWJjZGUxZjkzMzYzYWEifQ.GJENOSy_9JtfbEeqexobcAik7iVPgH8VdGcZ4eTH4ZU")
+//                .setBodyParameter("main_category","5")
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String result) {
+//                        Toast.makeText(SubServices.this,result,Toast.LENGTH_LONG).show();
+//
+//                        if(result!=null){
+//                            Toast.makeText(SubServices.this,result,Toast.LENGTH_LONG).show();
+//
+//                            try {
+//
+//                                JSONObject jsonObject=new JSONObject(result);
+//                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_MAIN_CATEGORY);
+//                                for(int i=0;i<jsonArr.length();i++){
+//                                    JSONObject service1=jsonArr.getJSONObject(i);
+//                                    ServicesCategory servicesCategory=new ServicesCategory();
+//                                    servicesCategory.setServiceCatId(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_ID));
+//                                    servicesCategory.setServiceCatName(service1.getString(TAG_SERVICES_MAIN_CATEGORY_TITLE));
+//                                    servicesCategory.setServiceCatLogo(service1.getString(TAG_SERVICES_MAIN_CATEGORY_LOGO));
+//                                    subServicesList.add(servicesCategory);
+//                                    myAdapter.notifyDataSetChanged();
+//                                }
+//                            } catch (JSONException e1) {
+//                                e1.printStackTrace();
+//                            }
+//
+//
+//                        }
+//
+//                    }
+//                });
+        makeJsonObjReq();
 
 
 
@@ -156,9 +171,54 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
 
     }
 
+    private void makeJsonObjReq() {
+        String  tag_string_req = "string_req";
+
+        String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list";
+
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                pDialog.hide();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("main_category", "5");
 
 
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NDE4NDg3LCJleHAiOjE0NjU0MjIwODcsIm5iZiI6MTQ2NTQxODQ4NywianRpIjoiM2JkY2IxOGFkYjcwNGM4OWZlNWM4OTQwN2E5MzAyOTMifQ.Vb4Q-NEQDkG-BMQ3uoKMegfpYSBJnwWrfmeTwXDrar4");
+                return headers;
+            }
 
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+    }
 
 
     private void setSpinner(){
