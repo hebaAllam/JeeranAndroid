@@ -199,7 +199,7 @@ public class Discussion extends Fragment {
 
 
 
-    private void getDiscussionData(int start , int count , JsonObject result){
+    private void getDiscussionData(JsonObject result){
         boolean success = false ;
 
         if (result != null ) {
@@ -244,7 +244,7 @@ public class Discussion extends Fragment {
 
     }
 
-    private void requestJsonObject(final int start , final int count) {
+    private void requestJsonObject(final Integer start , final Integer count) {
         String  tag_string_req = "string_req";
 
         final String TAG = "Volley";
@@ -265,7 +265,7 @@ public class Discussion extends Fragment {
                 //pDialog.hide();
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
-                getDiscussionData(start,count,result);
+                getDiscussionData(result);
             }
         }, new Response.ErrorListener() {
 
@@ -279,8 +279,8 @@ public class Discussion extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("start", "0");
-                params.put("count","4");
+                params.put("start", start.toString());
+                params.put("count",count.toString());
 
                 return params;
             }

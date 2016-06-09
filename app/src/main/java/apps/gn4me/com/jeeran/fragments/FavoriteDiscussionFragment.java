@@ -23,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
@@ -96,77 +97,7 @@ public  class FavoriteDiscussionFragment extends Fragment {
 
     public void initArrayList(){
 
-        //first ws call
-        SharedPreferences settings;
-        String token ;
-        settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-        token = settings.getString("token", null);
-
-
-        Ion.with(context)
-                .load(BASE_URL + "/discussionfavorite/list")
-                .noCache()
-                //.setBodyParameter("neighborhood_id", "")
-                //.setBodyParameter("topic_id", "")
-                //.setBodyParameter("user_id", "")
-                //.setBodyParameter("keyword", "")
-                .setHeader("Authorization",token)
-                //.setHeader("refresh",(new Date()).toString())
-                //.setBodyParameter("refresh",(new Date()).toString() )
-                .setBodyParameter("start", "0")
-                .setBodyParameter("count", "4")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-
-                        boolean success = false ;
-
-                        if (e != null ) {
-                            Log.i(":::::::::::::::", e.getMessage());
-                        }
-
-                        if (result != null ) {
-                            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
-                        }
-
-                        if ( success ){
-
-                            Log.i(":::::::::::::::",result.toString());
-                            JsonArray discussions = result.getAsJsonArray("response");
-
-                            for (int i=0 ; i<discussions.size() ; i++) {
-                                DiscussionPostData post = new DiscussionPostData();
-                                post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("favorite_discussion_id").getAsInt());
-                                post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comment_no").getAsInt());
-                                post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("title").getAsString());
-
-                                Log.i("Titleeeeeeee1" ,  discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("title").getAsString());
-
-                                post.setDetails( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("details").getAsString());
-                                post.setTimeStamp( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("created_at").getAsString());
-                                //post.setCategory( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
-                                //topics_id
-                                JsonArray imgs = discussions.get(i).getAsJsonObject().getAsJsonArray("disc_imgs") ;
-
-                                post.getUser().setId( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_id").getAsInt());
-                                post.getUser().setUserName( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("first_name").getAsString());
-                                post.getUser().setImage( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("image").getAsString());
-
-                                if ( imgs != null && imgs.size() > 0 ){
-                                    post.setImage( imgs.get(0).getAsString() );
-                                }
-                                mList.add(post);
-                            }
-                            customAdapter.refresh();
-                        }
-
-                    }
-
-                });
-
-
+        requestJsonObject(0,4);
 
         /*
         for (int index = 0; index < 20; index++) {
@@ -180,7 +111,54 @@ public  class FavoriteDiscussionFragment extends Fragment {
     }
 
 
-    private void makeJsonObjReq() {
+    public void addCustomLoaderView(){
+        customAdapter.setCustomLoadMoreView(LayoutInflater.from(context)
+                .inflate(R.layout.custom_bottom_progressbar, null));
+    }
+
+
+    private void getDiscussionData(JsonObject result){
+        boolean success = false ;
+
+        if (result != null ) {
+            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+        }
+
+        if ( success ){
+
+            Log.i(":::::::::::::::",result.toString());
+            JsonArray discussions = result.getAsJsonArray("response");
+
+            for (int i=0 ; i<discussions.size() ; i++) {
+                DiscussionPostData post = new DiscussionPostData();
+                post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("favorite_discussion_id").getAsInt());
+                post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comment_no").getAsInt());
+                post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("title").getAsString());
+
+                Log.i("Titleeeeeeee1" ,  discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("title").getAsString());
+
+                post.setDetails( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("details").getAsString());
+                post.setTimeStamp( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("created_at").getAsString());
+                //post.setCategory( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
+                //topics_id
+                JsonArray imgs = discussions.get(i).getAsJsonObject().getAsJsonArray("disc_imgs") ;
+
+                post.getUser().setId( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_id").getAsInt());
+                post.getUser().setUserName( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("first_name").getAsString());
+                post.getUser().setImage( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("image").getAsString());
+
+                if ( imgs != null && imgs.size() > 0 ){
+                    post.setImage( imgs.get(0).getAsString() );
+                }
+                mList.add(post);
+            }
+            customAdapter.refresh();
+        }
+
+
+    }
+
+    private void requestJsonObject(final Integer start , final Integer count) {
         String  tag_string_req = "string_req";
 
         final String TAG = "Volley";
@@ -199,7 +177,9 @@ public  class FavoriteDiscussionFragment extends Fragment {
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
                 //pDialog.hide();
-                JsonObject result = new JsonObject();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                getDiscussionData(result);
             }
         }, new Response.ErrorListener() {
 
@@ -213,8 +193,8 @@ public  class FavoriteDiscussionFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("start", "0");
-                params.put("count","4");
+                params.put("start", start.toString());
+                params.put("count",count.toString());
 
                 return params;
             }
@@ -236,10 +216,6 @@ public  class FavoriteDiscussionFragment extends Fragment {
         queue.add(strReq);
     }
 
-    public void addCustomLoaderView(){
-        customAdapter.setCustomLoadMoreView(LayoutInflater.from(context)
-                .inflate(R.layout.custom_bottom_progressbar, null));
-    }
 
 
     public  void infinite_Insertlist(){
@@ -265,73 +241,7 @@ public  class FavoriteDiscussionFragment extends Fragment {
                         customAdapter.insert(obj , customAdapter.getAdapterItemCount());
                         */
 
-                        SharedPreferences settings;
-                        String token ;
-                        settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-
-                        token = settings.getString("token", null);
-
-                        Integer start = customAdapter.getAdapterItemCount() ;
-
-                        Ion.with(context)
-                                .load(BASE_URL + "/discussionfavorite/list")
-                                .noCache()
-                                //.setBodyParameter("neighborhood_id", "")
-                                //.setBodyParameter("topic_id", "")
-                                //.setBodyParameter("user_id", "")
-                                //.setBodyParameter("keyword", "")
-                                .setHeader("Authorization",token)
-                                .setBodyParameter("start", start.toString())
-                                .setBodyParameter("count", "2")
-                                .asJsonObject()
-                                .setCallback(new FutureCallback<JsonObject>() {
-                                    @Override
-                                    public void onCompleted(Exception e, JsonObject result) {
-
-                                        boolean success = false ;
-
-                                        if (e != null ) {
-                                            Log.i(":::::::::::::::", e.getMessage());
-                                        }
-
-                                        if (result != null ) {
-                                            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
-                                        }
-
-                                        if ( success ){
-
-                                            Log.i(":::::::::::::::",result.toString());
-                                            JsonArray discussions = result.getAsJsonArray("response");
-
-                                            for (int i=0 ; i<discussions.size() ; i++) {
-                                                DiscussionPostData post = new DiscussionPostData();
-                                                post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("favorite_discussion_id").getAsInt());
-                                                post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comment_no").getAsInt());
-                                                post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("title").getAsString());
-
-                                                Log.i("Titleeeeeeee1" ,  discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("title").getAsString());
-
-                                                post.setDetails( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("details").getAsString());
-                                                post.setTimeStamp( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("created_at").getAsString());
-                                                //post.setCategory( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
-                                                //topics_id
-                                                JsonArray imgs = discussions.get(i).getAsJsonObject().getAsJsonArray("disc_imgs") ;
-
-                                                post.getUser().setId( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_id").getAsInt());
-                                                post.getUser().setUserName( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("first_name").getAsString());
-                                                post.getUser().setImage( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("image").getAsString());
-
-                                                if ( imgs != null && imgs.size() > 0 ){
-                                                    post.setImage( imgs.get(0).getAsString() );
-                                                }
-                                                customAdapter.insert(post,customAdapter.getAdapterItemCount());
-                                            }
-                                        }
-
-                                    }
-
-                                });
-
+                        requestJsonObject(customAdapter.getAdapterItemCount(),2);
 
                     }
                 }, 1000);

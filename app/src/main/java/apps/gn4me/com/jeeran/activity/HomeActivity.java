@@ -53,7 +53,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
     private FrameLayout realEstateBtn ;
 
     private FrameLayout serviceBtn ;
-
+    private FrameLayout myFavorites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +102,19 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         mDemoSlider.setDuration(4000);
         mDemoSlider.addOnPageChangeListener(this);
 
+        ////////////////
         init_navigator();
         //////////////
+        myFavorites = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_myFavorites);
+        myFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(HomeActivity.this,MyFavoritesActivity.class);
+                startActivity(in);
+            }
+        });
 
+        /////////////
         serviceBtn = (FrameLayout) findViewById(R.id.serviceLayout);
         discussionBtn = (FrameLayout) findViewById(R.id.discussionLayout);
         realEstateBtn = (FrameLayout) findViewById(R.id.realEstateLayout);

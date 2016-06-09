@@ -14,7 +14,7 @@ public class DiscussionCommentData {
 
 
     public DiscussionCommentData(){
-
+        user = new User();
     }
     public DiscussionCommentData(int id , int userid , String name , String userImage, String comment , String timeStamp ) {
         user = new User(userid , name , userImage);

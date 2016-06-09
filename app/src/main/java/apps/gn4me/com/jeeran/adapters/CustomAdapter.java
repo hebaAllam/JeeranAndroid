@@ -33,13 +33,12 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
     @Override
     public void onBindViewHolder(final SimpleAdapterViewHolder holder, int position) {
         Log.i("index here :::" , "" + mList.size());
-        //holder.name.setText(mList.get(position).getUser().getUserName());
+        holder.name.setText(mList.get(position).getUser().getUserName());
         holder.comment.setText(mList.get(position).getComment());
 
         holder.timeStamp.setText(mList.get(position).getTimeStamp());
 
 
-        /*
 
         Picasso.with(holder.context)
                 .load(mList.get(position).getUser().getImage())
@@ -47,7 +46,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
                 .placeholder( R.drawable.progress_animation )
                 .into(holder.profilePic);
 
-`       */
+
         holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
