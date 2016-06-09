@@ -4,6 +4,7 @@ public class DiscussionPostData {
     private int id , commentsNum ;
     private String  details , image , timeStamp, title , category ;
 
+    int isOwner = 0 , isFav = 0 ;
     private User user ;
 
     public DiscussionPostData() {
@@ -17,6 +18,22 @@ public class DiscussionPostData {
         this.details = details;
         this.timeStamp = timeStamp;
         this.title = title;
+    }
+
+    public int getIsOwner() {
+        return isOwner;
+    }
+
+    public void setIsOwner(int isOwner) {
+        this.isOwner = isOwner;
+    }
+
+    public int getIsFav() {
+        return isFav;
+    }
+
+    public void setIsFav(int isFav) {
+        this.isFav = isFav;
     }
 
     public int getCommentsNum() {

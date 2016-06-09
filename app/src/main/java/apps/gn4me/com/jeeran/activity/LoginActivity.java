@@ -26,6 +26,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -46,6 +54,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.pojo.User;
@@ -256,6 +266,82 @@ public class LoginActivity extends BaseActivity {
     }
 
 
+    private void makeJsonObjReq(final int type , final String[] parameter) {
+        String  tag_string_req = "string_req";
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL ;
+        if (type == 0 ) {
+            url += "/user/login";
+        }else{
+            url += "/user/loginfb";
+        }
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonObject result = new JsonObject();
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                if ( type == 0 ) {
+                    params.put("device_type", "0");
+                    params.put("email", email);
+                    params.put("password", password);
+                    params.put("device_token", android_id);
+                }else{
+                    params.put("fb_id", parameter[0]);
+                    params.put("email", parameter[1]);
+                    params.put("image", parameter[2]);
+                    params.put("device_type", "0");
+                    params.put("device_token", android_id);
+                }
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(strReq);
+    }
+
+
     /*
 
     public static Bitmap getFacebookProfilePicture(String url){
@@ -305,6 +391,10 @@ public class LoginActivity extends BaseActivity {
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }else if (TextUtils.isEmpty(password)){
+            mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
