@@ -182,7 +182,7 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
 //        Service service2=new Service(R.drawable.ic_account_circle_white_64dp,"Mole El3rab",3434,343);
 //        servicesList.add(service2);
 //        myAdapter.notifyDataSetChanged();
-        Ion.with(getBaseContext())
+        Ion.with(this)
                 .load("http://jeeran.gn4me.com/jeeran_v1/serviceplace/list")
                 .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mzg1ODU3LCJleHAiOjE0NjUzODk0NTcsIm5iZiI6MTQ2NTM4NTg1NywianRpIjoiMDAxN2UwZWRlMGYxZTdjMjhmZDQ2YWZjY2U5MTAyZGMifQ.HKNlXf00trYOOzSkHCHfvFAQnS2cIu9anDTzZVEc-WE")
                 .setBodyParameter("service_sub_category_id","6")
@@ -191,7 +191,7 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
                     @Override
                     public void onCompleted(Exception e, String result) {
                         if(result!=null){
-                            Toast.makeText(getApplicationContext(),result, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ServicesList.this,result, Toast.LENGTH_SHORT).show();
                             try {
                                 JSONObject jsonObject=new JSONObject(result);
                                 JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES);

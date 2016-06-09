@@ -29,7 +29,8 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="android.support.multidex.MultiDexApplication"
+        android:name="apps.gn4me.com.jeeran.helper.AppController"
+
         >
 
         <activity

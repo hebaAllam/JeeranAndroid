@@ -124,7 +124,7 @@ public class Discussion extends Fragment {
                         }
 
                         if (result != null ) {
-                             success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                          //   success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                         }
 
                         if ( success ){
