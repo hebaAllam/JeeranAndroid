@@ -45,6 +45,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -92,6 +93,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -233,19 +236,6 @@ public class LoginActivity extends BaseActivity {
                 request.setParameters(parameters);
                 request.executeAsync();
 
-                /*
-                Log.i("Success :::" ,
-                        "User ID: "
-                                + loginResult.getAccessToken().getUserId()
-                                + "\n" +
-                                "Auth Token: "
-                                + loginResult.getAccessToken().getToken()
-                );
-                Log.i("::::::::::::" , loginResult.getAccessToken().toString() );
-
-                //Intent in = new Intent(LoginActivity.this,HomeActivity.class);
-                //startActivity(in);
-                */
             }
 
             @Override
@@ -265,8 +255,39 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    public void getLoginData(JsonObject result){
 
-    private void makeJsonObjReq(final int type , final String[] parameter) {
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
+
+        Boolean success = false ;
+        if ( result != null ) {
+            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+        }
+
+        if ( success ){
+
+            SharedPreferences settings;
+            SharedPreferences.Editor editor;
+            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+            editor = settings.edit();
+
+            editor.putString("password", password);
+            editor.putString("email", email );
+            editor.putString("device_token", android_id);
+            editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
+            editor.commit();
+
+            validateToken();
+            Intent i = new Intent(LoginActivity.this,HomeActivity.class);
+            startActivity(i);
+        } else {
+            Log.i( "Login Failed ::: " , result.toString() );
+            Snackbar.make(coordinatorLayout, "Login Failed" , Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    private void requestJsonObject(final int type , final String[] parameter) {
         String  tag_string_req = "string_req";
 
         final String TAG = "Volley";
@@ -292,8 +313,9 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
-                //pDialog.hide();
-                JsonObject result = new JsonObject();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                getLoginData(result);
             }
         }, new Response.ErrorListener() {
 
@@ -417,53 +439,7 @@ public class LoginActivity extends BaseActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-
-            coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-
-            final String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
-            String android_type = android.os.Build.DEVICE ;
-
-            showProgress(true);
-            Ion.with(getApplicationContext())
-            .load(BASE_URL + "/user/login")
-                    .noCache()
-            .setBodyParameter("device_type", "0")
-            .setBodyParameter("email", email ) //"testhsmsss@test.com"
-            .setBodyParameter("password", password ) //"123456789"
-            .setBodyParameter("device_token", android_id ) //"bbbbbbdnssbbsxbxb"
-            .asJsonObject()
-            .setCallback(new FutureCallback<JsonObject>() {
-               @Override
-                public void onCompleted(Exception e, JsonObject result) {
-                    // do stuff with the result or error
-                    showProgress(false);
-                   Log.i("Done ::: success" , result.toString() );
-
-                   Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
-                    if ( success ){
-
-                        SharedPreferences settings;
-                        SharedPreferences.Editor editor;
-                        settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-                        editor = settings.edit();
-
-                        editor.putString("password", password);
-                        editor.putString("email", email );
-                        editor.putString("device_token", android_id);
-                        editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
-//                        Log.i("-*-*-*-* token : ")
-                        editor.commit();
-
-                        validateToken();
-                        Intent i = new Intent(LoginActivity.this,HomeActivity.class);
-                        startActivity(i);
-                    } else {
-                        Log.i( "Login Failed ::: " , result.toString() );
-                        Snackbar.make(coordinatorLayout, "Login Failed" , Snackbar.LENGTH_LONG).show();
-                    }
-                }
-            });
+            requestJsonObject(0,null);
 
             //Intent i = new Intent(LoginActivity.this,HomeActivity.class);
             //startActivity(i);

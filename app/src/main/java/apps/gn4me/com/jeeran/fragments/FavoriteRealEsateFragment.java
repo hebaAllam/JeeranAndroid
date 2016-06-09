@@ -67,7 +67,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        openDialog();
+        //openDialog();
         view = inflater.inflate(R.layout.fragment_real_estate, container, false);
 
 
