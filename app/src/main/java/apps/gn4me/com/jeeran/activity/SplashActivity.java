@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.intent_service.ValidateTokenService;
 
 public class SplashActivity extends BaseActivity implements AdapterView.OnItemSelectedListener{
 
@@ -50,9 +51,9 @@ public class SplashActivity extends BaseActivity implements AdapterView.OnItemSe
                     String email , password  , token ;
                     settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
 
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.remove("token");
-                    editor.commit();
+//                    SharedPreferences.Editor editor = settings.edit();
+//                    editor.remove("token");
+//                    editor.commit();
 
 
                     email = settings.getString("email", null);
@@ -61,6 +62,11 @@ public class SplashActivity extends BaseActivity implements AdapterView.OnItemSe
 
                     if ( token != null ) {
                         Log.i("-*-*-* token : ", token);
+
+                        //start service to keep token valid
+                        Intent in = new Intent(SplashActivity.this , ValidateTokenService.class);
+                        startService(in);
+
                         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                         startActivity(intent);
                     }else {

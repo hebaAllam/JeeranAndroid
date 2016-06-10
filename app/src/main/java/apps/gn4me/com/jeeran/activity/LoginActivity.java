@@ -59,6 +59,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.intent_service.ValidateTokenService;
 import apps.gn4me.com.jeeran.pojo.User;
 
 /**
@@ -180,51 +181,25 @@ public class LoginActivity extends BaseActivity {
                             e.printStackTrace();
                         }
 
+                        SharedPreferences settings;
+                        SharedPreferences.Editor editor;
+                        settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+                        editor = settings.edit();
+                        if ( img != null ) {
+                            editor.putString("profile", img);
+                        }
+                        editor.putString("name", user.optString("name"));
+                        editor.putString("image", img);
+                        editor.putString("fb_id", user.optString("id"));
+                        editor.putString("email",  user.optString("email"));
+                        editor.commit();
 
+
+                        String []param = {user.optString("name"),user.optString("id"),user.optString("email"),img} ;
+
+                        requestJsonObject(1,param);
                         /// test login by fb
 
-                        final String saveImgURl = img ;
-
-                        showProgress(true);
-                        Ion.with(getApplicationContext())
-                                .load(BASE_URL + "/user/loginfb")
-                                .noCache()
-                                .setBodyParameter("device_type", "0") //android => 0
-                                .setBodyParameter("email", user.optString("email"))
-                                .setBodyParameter("fb_id", user.optString("id"))
-                                .setBodyParameter("image", img )
-                                .setBodyParameter("device_token", android_id)
-                                .asJsonObject()
-                                .setCallback(new FutureCallback<JsonObject>() {
-                                    @Override
-                                    public void onCompleted(Exception e, JsonObject result) {
-                                        // do stuff with the result or error
-                                        showProgress(false);
-                                        Boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
-                                        if ( success ){
-                                            Log.i("Done ::: success" , result.toString() );
-
-                                            SharedPreferences settings;
-                                            SharedPreferences.Editor editor;
-                                            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-                                            editor = settings.edit();
-                                            if ( saveImgURl != null ) {
-                                                editor.putString("profile", saveImgURl);
-                                            }
-                                            editor.putString("fb_id", user.optString("id"));
-                                            editor.putString("email",  user.optString("email"));
-                                            editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
-                                            editor.commit();
-
-                                            validateToken();
-                                            Intent i = new Intent(LoginActivity.this,HomeActivity.class);
-                                            startActivity(i);
-                                        } else {
-                                            Log.i( "Login Failed ::: " , result.toString() );
-                                            Snackbar.make(coordinatorLayout, "Login Failed" , Snackbar.LENGTH_LONG).show();
-                                        }
-                                    }
-                                });
 
 
                     }
@@ -257,9 +232,6 @@ public class LoginActivity extends BaseActivity {
 
     public void getLoginData(JsonObject result){
 
-        final String email = mEmailView.getText().toString();
-        final String password = mPasswordView.getText().toString();
-
         Boolean success = false ;
         if ( result != null ) {
             success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
@@ -272,13 +244,13 @@ public class LoginActivity extends BaseActivity {
             settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
             editor = settings.edit();
 
-            editor.putString("password", password);
-            editor.putString("email", email );
-            editor.putString("device_token", android_id);
             editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
             editor.commit();
 
-            validateToken();
+            //start service to keep token valid
+            Intent in = new Intent(LoginActivity.this , ValidateTokenService.class);
+            startService(in);
+
             Intent i = new Intent(LoginActivity.this,HomeActivity.class);
             startActivity(i);
         } else {
@@ -336,24 +308,15 @@ public class LoginActivity extends BaseActivity {
                     params.put("password", password);
                     params.put("device_token", android_id);
                 }else{
-                    params.put("fb_id", parameter[0]);
-                    params.put("email", parameter[1]);
-                    params.put("image", parameter[2]);
+                    params.put("name", parameter[0]);
+                    params.put("fb_id", parameter[1]);
+                    params.put("email", parameter[2]);
+                    params.put("image", parameter[3]);
                     params.put("device_type", "0");
                     params.put("device_token", android_id);
                 }
 
                 return params;
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                SharedPreferences settings;
-                String token ;
-                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                token = settings.getString("token", null);
-                headers.put("Authorization", token);
-                return headers;
             }
 
         };
@@ -439,6 +402,16 @@ public class LoginActivity extends BaseActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            SharedPreferences settings;
+            SharedPreferences.Editor editor;
+            settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+            editor = settings.edit();
+
+            editor.putString("password", password);
+            editor.putString("email", email );
+
+            editor.commit();
+
             requestJsonObject(0,null);
 
             //Intent i = new Intent(LoginActivity.this,HomeActivity.class);

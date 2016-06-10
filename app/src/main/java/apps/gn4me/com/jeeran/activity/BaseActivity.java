@@ -8,8 +8,10 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,6 +30,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +40,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
-import apps.gn4me.com.jeeran.broadcast_receiver.TokenValidation;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -48,7 +50,7 @@ public class BaseActivity extends AppCompatActivity {
     Toolbar toolbar;
     public static final String PREFS_NAME = "Jeeran";
     public static final String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1";
-    public static final Long EXPIRATION_Duration = AlarmManager.INTERVAL_FIFTEEN_MINUTES - 10000 ;
+    //public static final Long EXPIRATION_Duration = 30 * 60 * 1000L ;
 
 
     protected View progress;
@@ -83,42 +85,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-
-    public void validateToken() {
-        SharedPreferences settings;
-        String email, password, token, dateStr;
-        settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
-
-        email = settings.getString("email", null);
-        password = settings.getString("password", null);
-        token = settings.getString("token", null);
-
-        Date when = new Date(System.currentTimeMillis());
-
-        try{
-            Intent someIntent = new Intent(getApplicationContext(),TokenValidation.class); // intent to be launched
-
-            // note this could be getActivity if you want to launch an activity
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    getApplicationContext(),
-                    0, // id, optional
-                    someIntent, // intent to launch
-                    PendingIntent.FLAG_CANCEL_CURRENT); // PendintIntent flag
-
-            AlarmManager alarms = (AlarmManager) getApplicationContext().getSystemService(
-                    Context.ALARM_SERVICE);
-
-            alarms.setRepeating(AlarmManager.RTC,
-                    when.getTime(),
-                    EXPIRATION_Duration,
-                    pendingIntent);
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
     }
 
 

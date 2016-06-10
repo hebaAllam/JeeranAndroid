@@ -23,16 +23,13 @@
         android:required="true" />
 
     <application
+        android:name=".helper.AppController"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name="apps.gn4me.com.jeeran.helper.AppController"
-
-        >
-
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/AppThemeNoActionBar">
@@ -48,13 +45,11 @@
         <activity
             android:name=".activity.MyFavoritesActivity"
             android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar">
-
-        </activity>
+            android:theme="@style/AppThemeNoActionBar"></activity>
         <activity
             android:name=".activity.ModulesActivity"
-            android:theme="@style/MyMaterialTheme"
-            android:parentActivityName=".activity.HomeActivity" />
+            android:parentActivityName=".activity.HomeActivity"
+            android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".activity.CreateAccount"
             android:label="@string/create_account"
@@ -82,8 +77,7 @@
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar">
-        </activity>
+            android:theme="@style/AppThemeNoActionBar"></activity>
         <activity
             android:name=".activity.AddService"
             android:label="@string/title_activity_add_service"
@@ -92,7 +86,6 @@
         <activity
             android:name=".activity.AddRealEstate"
             android:label="@string/title_activity_add_real_estate"
-
             android:parentActivityName=".activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -141,15 +134,11 @@
         <activity
             android:name=".activity.ServicesList"
             android:parentActivityName=".activity.SubServices"
-            android:theme="@style/MyMaterialTheme" >
-
-        </activity>
+            android:theme="@style/MyMaterialTheme"></activity>
         <activity
             android:name=".activity.SubServices"
             android:parentActivityName=".activity.ModulesActivity"
-            android:theme="@style/MyMaterialTheme" >
-
-        </activity>
+            android:theme="@style/MyMaterialTheme"></activity>
         <activity
             android:name=".activity.ShowServiceLocation"
             android:label="@string/title_activity_show_service_location" />
@@ -157,16 +146,15 @@
             android:name=".activity.Reviews"
             android:parentActivityName=".activity.ServiceDetails"
             android:theme="@style/MyMaterialTheme" />
-        <activity android:name=".activity.ShowServicesImages"
-                  android:theme="@style/MyMaterialTheme"
-                  android:parentActivityName=".activity.ServiceDetails"/>
+        <activity
+            android:name=".activity.ShowServicesImages"
+            android:parentActivityName=".activity.ServiceDetails"
+            android:theme="@style/MyMaterialTheme" />
 
 
-
-        <receiver android:name=".broadcast_receiver.TokenValidation">
-
-        </receiver>
-
+        <service
+            android:name=".intent_service.ValidateTokenService"
+            android:exported="false"></service>
     </application>
 
 </manifest>
