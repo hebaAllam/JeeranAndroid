@@ -45,8 +45,9 @@ public class BaseActivity extends AppCompatActivity {
     public static ArrayList<Title> discussionTopics = new ArrayList<>();
     public static ArrayList<Title> reportReasons = new ArrayList<>();
 
-
-    public static Title currentNeighborhoods ;
+    public static HashMap<String,String> url_maps = new HashMap<String, String>();
+    public static int realEstateCount = 0 , servicePlacesCount = 0 ;
+    public static Title currentNeighborhood ;
 
 
     protected View progress;
@@ -62,6 +63,7 @@ public class BaseActivity extends AppCompatActivity {
         requestNeighborhoodsListJson();
         requestDiscussionTopicsJson();
         requestReportReasonsJson();
+        requestHomeSliderImages();
     }
 
 
@@ -87,6 +89,82 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
+    private void getHomeSliderData(JsonObject result){
+        Boolean success = false ;
+        if ( result != null ) {
+            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+        }
+
+        if ( success ) {
+            JsonObject slider = result.getAsJsonObject("response").getAsJsonObject("slider");
+            JsonArray realstates = slider.getAsJsonArray("realstate");
+            JsonArray servicePlaces = slider.getAsJsonArray("servicePlace");
+            BaseActivity.realEstateCount = realstates.size() ;
+            BaseActivity.servicePlacesCount = servicePlaces.size();
+
+            for ( int i=0 ; i<realstates.size() ; i++ ){
+                BaseActivity.url_maps.put( realstates.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString() ,
+                    realstates.get(i).getAsJsonObject().getAsJsonPrimitive("image").getAsString()) ;
+            }
+            for ( int i=0 ; i<servicePlaces.size() ; i++ ){
+                BaseActivity.url_maps.put( servicePlaces.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString() ,
+                        servicePlaces.get(i).getAsJsonObject().getAsJsonPrimitive("image").getAsString()) ;
+            }
+        }
+
+    }
+
+    private void requestHomeSliderImages() {
+        String  tag_string_req = "string_req";
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/application/onhome";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                getHomeSliderData(result);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(strReq);
+    }
+
     private void getNeighborhoods(JsonObject result){
 
         Boolean success = false ;
@@ -104,7 +182,7 @@ public class BaseActivity extends AppCompatActivity {
                 neighborhood.setTitleEnglish(neighborhoodsJson.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
                 neighborhoods.add(neighborhood);
             }
-            currentNeighborhoods = neighborhoods.get(0);
+            currentNeighborhood = neighborhoods.get(0);
         }
     }
 

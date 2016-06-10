@@ -76,7 +76,7 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
         holder.problemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                discussionTopic = BaseActivity.discussionTopics.get(holder.problemSpinner.getSelectedItemPosition());
+                discussionTopic = BaseActivity.discussionTopics.get(position);
             }
 
             @Override
@@ -114,7 +114,7 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussion/add";
 
-        final Integer neighborhoodsId = BaseActivity.currentNeighborhoods.getId() ;
+        final Integer neighborhoodsId = BaseActivity.currentNeighborhood.getId() ;
         final Integer topicId = discussionTopic.getId() ;
 
         /*

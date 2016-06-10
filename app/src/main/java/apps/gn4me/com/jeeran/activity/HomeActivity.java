@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
@@ -33,9 +34,11 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,31 +64,51 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         setContentView(R.layout.activity_home);
 
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
-        String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
+        //String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
+
+        ArrayList<String> items = new ArrayList<>();
+        for (int i=0 ; i< BaseActivity.neighborhoods.size() ; i++ ){
+            items.add(BaseActivity.neighborhoods.get(i).getTitleEnglish());
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                BaseActivity.currentNeighborhood = BaseActivity.neighborhoods.get(position) ;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                BaseActivity.currentNeighborhood = BaseActivity.neighborhoods.get(0);
+            }
+        });
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
-        HashMap<String,String> url_maps = new HashMap<String, String>();
+        HashMap<String,String> url_maps = BaseActivity.url_maps;//new HashMap<String, String>();
+        /*
         url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
         url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
         url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
         url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-
+        */
+        /*
         HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
         file_maps.put("Hannibal",R.drawable.hannibal);
         file_maps.put("Big Bang Theory",R.drawable.bigbang);
         file_maps.put("House of Cards",R.drawable.house);
         file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
+        */
 
-        for(String name : file_maps.keySet()){
+        for(String name : url_maps.keySet()){
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView
                     .description(name)
-                    .image(file_maps.get(name))
+                    .image(url_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
 
@@ -173,54 +196,8 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
 
     }
 
-    private void makeJsonObjReq() {
-        String  tag_string_req = "string_req";
-
-        final String TAG = "Volley";
-        String url = BaseActivity.BASE_URL + "/application/onhome";
-
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, response.toString());
-                //pDialog.hide();
-                JsonObject result = new JsonObject();
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //pDialog.hide();
-            }
-        }) {
 
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                SharedPreferences settings;
-                String token ;
-                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                token = settings.getString("token", null);
-                headers.put("Authorization", token);
-                return headers;
-            }
-
-        };
-
-// Adding request to request queue
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(strReq);
-    }
 
     private void init_navigator(){
         setupToolbar();
