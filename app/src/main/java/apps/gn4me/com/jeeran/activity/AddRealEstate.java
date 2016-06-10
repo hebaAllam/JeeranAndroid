@@ -124,15 +124,19 @@ public class AddRealEstate extends BaseActivity
     }
 
     private void sendData(){
+
+
+
         Ion.with(getApplicationContext())
-                .load(BaseActivity.BASE_URL + "/realstatefavorite/add")
+                .load(BaseActivity.BASE_URL + "/realstate/add")
+//                .setHeader("Authorization",token)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         if(result==null){
                             Toast.makeText(getApplicationContext(),"Check Your Internet Acess Please",Toast.LENGTH_SHORT).show();
-                           // progressDialog.dismiss();
+                            progressDialog.dismiss();
                         }
                         else{
                             String status=(result.get("status")).toString();
@@ -149,25 +153,6 @@ public class AddRealEstate extends BaseActivity
                 });
     }
 
-    private JSONObject createJsonObject(RealEstate myRE){
-        JSONObject jsonUser = new JSONObject();
-        try {
-            jsonUser.put("title", myRE.getTitle());
-            jsonUser.put("description", myRE.getDescription());
-            jsonUser.put("location", myRE.getLocation());
-            jsonUser.put("address", myRE.getAddress());
-            jsonUser.put("contactPerson", myRE.getContactPerson());
-            jsonUser.put("phone", myRE.getPhone());
-            jsonUser.put("emailAddress", myRE.getEmail());
-
-            Toast.makeText(getApplicationContext(),"json user : " +jsonUser.get("title").toString(),Toast.LENGTH_LONG).show();
-
-            return jsonUser;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     private void bindComponents() {
         title = (EditText)findViewById(R.id.title_addRealEstateActivity);
