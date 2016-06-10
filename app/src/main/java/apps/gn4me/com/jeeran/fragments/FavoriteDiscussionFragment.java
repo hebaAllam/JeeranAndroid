@@ -77,7 +77,7 @@ public  class FavoriteDiscussionFragment extends Fragment {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new DiscussionRecycleViewAdapter(mList,0);//getArrayList());
+        customAdapter = new DiscussionRecycleViewAdapter(mList,0,context);//getArrayList());
 
         linearLayoutManager = new LinearLayoutManager(context);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);

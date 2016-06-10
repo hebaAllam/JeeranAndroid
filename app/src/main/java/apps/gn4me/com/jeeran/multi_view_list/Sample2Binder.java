@@ -28,13 +28,13 @@ import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
  * Created by cym on 15/5/18.
  */
 public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
-    private ArrayList<DiscussionPostData> mList;
+    private List<DiscussionPostData> mList;
     private int startIndex ;
 
     public Sample2Binder(UltimateDifferentViewTypeAdapter dataBindAdapter, List<DiscussionPostData> mList , int startIndex) {
         super(dataBindAdapter);
         this.startIndex = startIndex ;
-        this.mList = (ArrayList<DiscussionPostData>) mList;
+        this.mList = mList;
     }
 
     @Override

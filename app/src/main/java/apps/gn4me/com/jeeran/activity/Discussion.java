@@ -85,7 +85,7 @@ public class Discussion extends Fragment {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new DiscussionRecycleViewAdapter(mList,1);//getArrayList());
+        customAdapter = new DiscussionRecycleViewAdapter(mList,1,context);//getArrayList());
 
         linearLayoutManager = new LinearLayoutManager(context);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);

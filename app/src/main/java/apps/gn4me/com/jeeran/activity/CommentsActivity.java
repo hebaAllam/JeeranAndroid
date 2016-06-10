@@ -6,10 +6,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -45,10 +48,27 @@ public class CommentsActivity extends BaseActivity {
     private ItemTouchHelper mItemTouchHelper;
     List<DiscussionCommentData> mList = new ArrayList<>();
 
+
+    private EditText commentEditTxt ;
+    private AppCompatButton sendBtn ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments_list_view);
+
+        commentEditTxt = (EditText) findViewById(R.id.comment);
+        sendBtn = (AppCompatButton) findViewById(R.id.send);
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String comment = commentEditTxt.getText().toString();
+                if (!comment.isEmpty()){
+                    requestAddDiscussionComment();
+                }
+            }
+        });
 
         ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.comments_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
@@ -64,7 +84,82 @@ public class CommentsActivity extends BaseActivity {
 
         addCustomLoaderView();
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
+
+
+
+
         //infinite_Insertlist();
+    }
+
+
+    private void requestAddDiscussionComment(){
+        String  tag_string_req = "string_req";
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/discussioncomments/add";
+
+        final String discId = getIntent().getStringExtra("disc_id");
+        final String commentTxt = commentEditTxt.getText().toString() ;
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Boolean success = false ;
+                if ( result != null ) {
+                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                }
+                if(success){
+                    Log.i("comment added" , "true");
+                    DiscussionCommentData comment = new DiscussionCommentData();
+                    comment.setComment(commentTxt);
+                    mList.add(comment);
+                    customAdapter.refresh();
+                    //customAdapter.insert(comment,customAdapter.getItemCount());
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("disc_id" , discId);
+                params.put("comment" , commentTxt);
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(strReq);
     }
 
     public void initArrayList(){
@@ -97,7 +192,7 @@ public class CommentsActivity extends BaseActivity {
                 msg = comment.getComment();
             }
             Log.i("comments data" , msg);
-            customAdapter.insertAll(mList);
+            customAdapter.refresh();
         }
     }
 

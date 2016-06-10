@@ -23,8 +23,8 @@ import apps.gn4me.com.jeeran.pojo.DiscussionCommentData;
 
 
 public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapterViewHolder> {
-    private List<DiscussionCommentData> mList;
 
+    private List<DiscussionCommentData> mList;
     public CustomAdapter(List<DiscussionCommentData> mList) {
         this.mList = mList;
     }
@@ -82,6 +82,10 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
     public void insertAll(List<DiscussionCommentData> comments) {
         //insertInternal(mList, comment , position);
         mList.addAll(comments);
+        notifyDataSetChanged();
+    }
+
+    public void refresh(){
         notifyDataSetChanged();
     }
 

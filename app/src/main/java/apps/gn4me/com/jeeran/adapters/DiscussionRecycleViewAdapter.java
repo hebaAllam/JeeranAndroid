@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,12 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
 
     private int viewType ;
 
-    public DiscussionRecycleViewAdapter(List<DiscussionPostData> dataSet , int viewType) {
+    public DiscussionRecycleViewAdapter(List<DiscussionPostData> dataSet , int viewType , Context context) {
         this.viewType = viewType ;
         if ( viewType == 0 ) {
             putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this, dataSet,0));
         }else if (viewType == 1){
-            putBinder(SampleViewType.SAMPLE1, new Sample1Binder(this));
+            putBinder(SampleViewType.SAMPLE1, new Sample1Binder(this,dataSet,context));
             putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this, dataSet ,1));
         }
     }

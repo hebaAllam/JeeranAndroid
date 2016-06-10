@@ -41,9 +41,12 @@ public class BaseActivity extends AppCompatActivity {
     public static final String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1";
 
     public static final int EXPIRATION_Duration = 30 * 60 * 1000 ;
-    public ArrayList<Title> neighborhoods = new ArrayList<>();
-    public ArrayList<Title> discussionTopics = new ArrayList<>();
-    public ArrayList<Title> reportReasons = new ArrayList<>();
+    public static ArrayList<Title> neighborhoods = new ArrayList<>();
+    public static ArrayList<Title> discussionTopics = new ArrayList<>();
+    public static ArrayList<Title> reportReasons = new ArrayList<>();
+
+
+    public static Title currentNeighborhoods ;
 
 
     protected View progress;
@@ -84,56 +87,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    private void getReportReason() {
-        String  tag_string_req = "string_req";
-
-        final String TAG = "Volley";
-        String url = BaseActivity.BASE_URL + "/report/reasonlist";
-
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, response.toString());
-                //pDialog.hide();
-                JsonObject result = new JsonObject();
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //pDialog.hide();
-            }
-        }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                SharedPreferences settings;
-                String token ;
-                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                token = settings.getString("token", null);
-                headers.put("Authorization", token);
-                return headers;
-            }
-
-        };
-
-// Adding request to request queue
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(strReq);
-    }
-
-
     private void getNeighborhoods(JsonObject result){
 
         Boolean success = false ;
@@ -151,6 +104,7 @@ public class BaseActivity extends AppCompatActivity {
                 neighborhood.setTitleEnglish(neighborhoodsJson.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
                 neighborhoods.add(neighborhood);
             }
+            currentNeighborhoods = neighborhoods.get(0);
         }
     }
 
