@@ -2,8 +2,11 @@ package apps.gn4me.com.jeeran.activity;
 
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,17 +20,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.pojo.RealEstate;
@@ -42,9 +58,15 @@ public class AddRealEstate extends BaseActivity
     RealEstate realEstate;
     ProgressDialog progressDialog;
 
+
+    //multiple imgs
     int PICK_IMAGE_MULTIPLE = 1;
     String imageEncoded;
     List<String> imagesEncodedList;
+
+
+    private int PICK_IMAGE_REQUEST = 1;
+    ImageView preview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,28 +114,29 @@ public class AddRealEstate extends BaseActivity
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(titleIsEmpty(title.getText().toString()) && descriptionIsEmpty(description.getText().toString())){
+                if (titleIsEmpty(title.getText().toString()) && descriptionIsEmpty(description.getText().toString())) {
                     openDialog();
                     sendRealEstateData(realEstate);
 
-                    Toast.makeText(getApplicationContext(),"Saved" ,Toast.LENGTH_LONG ).show();
+                    Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
     private boolean sendRealEstateData(RealEstate myRealEstate) {
-        Toast.makeText(getApplicationContext(),"sending....",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "sending....", Toast.LENGTH_SHORT).show();
 //        try {
 
-            sendData();
+        sendData();
 //            progressDialog.dismiss();
-            Toast.makeText(getApplicationContext(), title.getText().toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), title.getText().toString(), Toast.LENGTH_LONG).show();
 //        } catch (JSONException e) {
 //            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
 //        }
         return false;
     }
+
     private void openDialog() {
         progressDialog = new ProgressDialog(AddRealEstate.this,
                 R.style.AppTheme_Dark_Dialog);
@@ -123,50 +146,128 @@ public class AddRealEstate extends BaseActivity
 
     }
 
-    private void sendData(){
+    private void sendData() {
 
 
+        String tag_string_req = "string_req";
 
-        Ion.with(getApplicationContext())
-                .load(BaseActivity.BASE_URL + "/realstate/add")
-//                .setHeader("Authorization",token)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        if(result==null){
-                            Toast.makeText(getApplicationContext(),"Check Your Internet Acess Please",Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }
-                        else{
-                            String status=(result.get("status")).toString();
-                            Toast.makeText(getBaseContext(),status,Toast.LENGTH_SHORT).show();
-                            if(status.equals("\"SUCCESS\""))
-                            {
-                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Saved..", Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                Toast.makeText(getBaseContext(),"Error...",Toast.LENGTH_SHORT).show();
-                            }
-                        }}
-                });
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstate/add";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Log.i("result :::::", result.toString());
+                progressDialog.dismiss();
+            }
+
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                progressDialog.dismiss();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("title", "title");
+                params.put("description", "desc");
+                params.put("location", "location");
+                params.put("type", "rent");
+                params.put("number_of_rooms", "5");
+                params.put("number_of_bathrooms", "2");
+                params.put("price", "10000000");
+                params.put("longitude", "30");
+                params.put("latitude", "35");
+                params.put("language", "1");
+                params.put("owner_name", "heba");
+                params.put("owner_mobile", "2365656");
+                params.put("owner_email", "my email");
+                params.put("neighbarhood_id", "2");
+                params.put("unit_type_id", "2");
+                params.put("amenities_id", "2");
+                params.put("area", "200");
+                params.put("amenities", "2");
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token;
+                settings = getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+
+
+//        Ion.with(getApplicationContext())
+//                .load(BaseActivity.BASE_URL + "/realstate/add")
+////                .setHeader("Authorization",token)
+//                .asJsonObject()
+//                .setCallback(new FutureCallback<JsonObject>() {
+//                    @Override
+//                    public void onCompleted(Exception e, JsonObject result) {
+//                        if(result==null){
+//                            Toast.makeText(getApplicationContext(),"Check Your Internet Acess Please",Toast.LENGTH_SHORT).show();
+//                            progressDialog.dismiss();
+//                        }
+//                        else{
+//                            String status=(result.get("status")).toString();
+//                            Toast.makeText(getBaseContext(),status,Toast.LENGTH_SHORT).show();
+//                            if(status.equals("\"SUCCESS\""))
+//                            {
+//                                progressDialog.dismiss();
+//                                Toast.makeText(getApplicationContext(), "Saved..", Toast.LENGTH_LONG).show();
+//                            }
+//                            else {
+//                                Toast.makeText(getBaseContext(),"Error...",Toast.LENGTH_SHORT).show();
+//                            }
+//                        }}
+//                });
     }
 
 
     private void bindComponents() {
-        title = (EditText)findViewById(R.id.title_addRealEstateActivity);
-        description = (EditText)findViewById(R.id.description_addRealEstateActivity);
-        email = (EditText)findViewById(R.id.email_addRealEstateActivity);
-        location = (EditText)findViewById(R.id.location_addRealEstateActivity);
-        address = (EditText)findViewById(R.id.address_addRealEstateActivity);
-        contactPerson = (EditText)findViewById(R.id.contactPerson_addRealEstateActivity);
-        phone = (EditText)findViewById(R.id.phone_addRealEstateActivity);
+        title = (EditText) findViewById(R.id.title_addRealEstateActivity);
+        description = (EditText) findViewById(R.id.description_addRealEstateActivity);
+        email = (EditText) findViewById(R.id.email_addRealEstateActivity);
+        location = (EditText) findViewById(R.id.location_addRealEstateActivity);
+        address = (EditText) findViewById(R.id.address_addRealEstateActivity);
+        contactPerson = (EditText) findViewById(R.id.contactPerson_addRealEstateActivity);
+        phone = (EditText) findViewById(R.id.phone_addRealEstateActivity);
 
         save = (Button) findViewById(R.id.saveBtn_addRealEstateActivity);
+        preview = (ImageView) findViewById(R.id.preview_addrealestate);
 
-       realEstate = new RealEstate(title.getText().toString(), description.getText().toString(), location.getText().toString(),
-                                    address.getText().toString(), contactPerson.getText().toString(), phone.getText().toString(), email.getText().toString());
+        realEstate = new RealEstate(title.getText().toString(), description.getText().toString(), location.getText().toString(),
+                address.getText().toString(), contactPerson.getText().toString(), phone.getText().toString(), email.getText().toString());
 
     }
 
@@ -227,7 +328,7 @@ public class AddRealEstate extends BaseActivity
         return true;
     }
 
-   public void  uploadImg(View view){
+    public void uploadImg(View view) {
 //       final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "amfb" + File.separator);
 //       root.mkdir();
 //       final String fname = "img_" + System.currentTimeMillis() + ".jpg";
@@ -238,7 +339,13 @@ public class AddRealEstate extends BaseActivity
 //       final List<Intent> cameraIntents = new ArrayList<Intent>();
 //       final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //       final PackageManager packageManager = getPackageManager();
-//       final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+//       final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureI
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
+
 //       for (ResolveInfo res : listCam){
 //           final String packageName = res.activityInfo.packageName;
 //           final Intent intent = new Intent(captureIntent);
@@ -248,39 +355,36 @@ public class AddRealEstate extends BaseActivity
 //           cameraIntents.add(intent);
 //       }
 
-       Intent intent = new Intent();
-       intent.setType("image/*");
-       intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-       intent.setAction(Intent.ACTION_GET_CONTENT);
-       startActivityForResult(Intent.createChooser(intent,"Select Picture"), 1);
-   }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // When an Image is picked
-        if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
-                && null != data) {
-            // Get the Image from data
 
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-            imagesEncodedList = new ArrayList<String>();
-            if(data.getData()!=null){
+        try
 
-                Uri mImageUri=data.getData();
+        {
+            // When an Image is picked
+            if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
+                    && null != data) {
+                // Get the Image from data
 
-                // Get the cursor
-                Cursor cursor = getContentResolver().query(mImageUri,
-                        filePathColumn, null, null, null);
-                // Move to first row
-                cursor.moveToFirst();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                imagesEncodedList = new ArrayList<String>();
+                if (data.getData() != null) {
 
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                imageEncoded  = cursor.getString(columnIndex);
-                cursor.close();
+                    Uri mImageUri = data.getData();
 
-            }else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    // Get the cursor
+                    Cursor cursor = getContentResolver().query(mImageUri,
+                            filePathColumn, null, null, null);
+                    // Move to first row
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    imageEncoded = cursor.getString(columnIndex);
+                    cursor.close();
+
+                } else {
                     if (data.getClipData() != null) {
                         ClipData mClipData = data.getClipData();
                         ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
@@ -295,7 +399,7 @@ public class AddRealEstate extends BaseActivity
                             cursor.moveToFirst();
 
                             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                            imageEncoded  = cursor.getString(columnIndex);
+                            imageEncoded = cursor.getString(columnIndex);
                             imagesEncodedList.add(imageEncoded);
                             cursor.close();
 
@@ -303,13 +407,24 @@ public class AddRealEstate extends BaseActivity
                         Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
                     }
                 }
+            } else {
+                Toast.makeText(this, "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
             }
-        } else {
-            Toast.makeText(this, "You haven't picked Image",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
+        } catch (
+                Exception e
+                )
 
+        {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
+        }
+
+        super.
+
+                onActivityResult(requestCode, resultCode, data);
+
+    }
     private boolean titleIsEmpty(String titleTxt){
         if(titleTxt.isEmpty()){
             title.setError("Empty Title");

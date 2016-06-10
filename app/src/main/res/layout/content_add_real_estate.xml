@@ -40,6 +40,7 @@
             android:src="@drawable/takephotos_image"
             android:foregroundGravity="center"
             android:paddingLeft="40dp"
+            android:id="@+id/preview_addrealestate"
             android:textAlignment="center" />
     </android.support.v7.widget.LinearLayoutCompat>
 

@@ -93,7 +93,7 @@ public class ModulesActivity extends BaseActivity {
 
         tabLayout.getTabAt(1).setCustomView(tabDiscussion);
         TextView tabRealEstate = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabRealEstate.setText("RealEstate");
+        tabRealEstate.setText("RealEstateActivty");
         tabRealEstate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_real_estate_icon, 0, 0);
         tabRealEstate.setBackgroundColor(getResources().getColor(R.color.realEstateColor));
         tabRealEstate.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -103,7 +103,7 @@ public class ModulesActivity extends BaseActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MainServices(), "MainServices");
         adapter.addFragment(new Discussion(), "Discussion");
-        adapter.addFragment(new RealEstate(), "RealEstate");
+        adapter.addFragment(new RealEstateActivty(), "RealEstateActivty");
         adapter.addFragment(new Notification(),"Notification");
         viewPager.setAdapter(adapter);
     }

@@ -20,6 +20,7 @@ public class RVAdapter extends RecyclerView.Adapter<ViewHolder>{
     private List<FavoriteRealEstate> mRealEstates = new ArrayList<>();
 
     private int size = 0;
+    private String typee = "rent";
 
     public RVAdapter(List<FavoriteRealEstate> mRealEstates) {
         this.mRealEstates = mRealEstates;
@@ -56,19 +57,31 @@ public class RVAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+
 //        setHasStableIds(true);
         for (int i=0; i<mRealEstates.size(); i++) {
+//            holder.next.setImageDrawable(mRealEstates.get(position).getMyRealEstate().getImg().);
+//            holder.type.setText(mRealEstates.get(position).getMyRealEstate().getType());
+//            holder.title
+            if (mRealEstates.get(position).getMyRealEstate().getType() == 0)
+                typee = "sale";
+            else
+            typee = "rent";
+            holder.title_realEstate.setText(mRealEstates.get(position).getMyRealEstate().getTitle()
+            + " For " + typee);
                 holder.location.setText(mRealEstates.get(position).getMyRealEstate().getLocation());
             holder.price.setText(mRealEstates.get(position).getMyRealEstate().getPhone());
-            holder.date.setText(mRealEstates.get(position).getMyRealEstate().getTitle());
+            holder.date.setText(mRealEstates.get(position).getMyRealEstate().getCreationDate().toString());
         }
 
         holder.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.i("*-*-*-*-*-"," Item : " + mRealEstates.get(position).getTitle());
+                Log.i("*-*-*-*-*-"," Item : " + mRealEstates.get(position).getMyRealEstate().getTitle());
             }
         });
+
+
     }
 
     @Override

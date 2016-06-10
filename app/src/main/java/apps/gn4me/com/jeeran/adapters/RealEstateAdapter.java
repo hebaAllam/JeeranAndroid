@@ -15,11 +15,12 @@ import apps.gn4me.com.jeeran.pojo.RealEstate;
 /**
  * Created by ESCA on 6/9/2016.
  */
-public class RealEstateAdapter extends RecyclerView.Adapter<ViewHolder>{
+public class RealEstateAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private List<RealEstate> mRealEstates = new ArrayList<>();
 
     private int size = 0;
+    private String typee = "rent";
 
     public RealEstateAdapter(List<RealEstate> mRealEstates) {
         this.mRealEstates = mRealEstates;
@@ -58,6 +59,12 @@ public class RealEstateAdapter extends RecyclerView.Adapter<ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, final int position) {
 //        setHasStableIds(true);
         for (int i=0; i<mRealEstates.size(); i++) {
+            if (mRealEstates.get(position).getType() == 0)
+                typee = "sale";
+            else
+                typee = "rent";
+            holder.title_realEstate.setText(mRealEstates.get(position).getTitle()
+                    + " For " + typee);
             holder.location.setText(mRealEstates.get(position).getLocation());
             holder.price.setText(mRealEstates.get(position).getPhone());
             holder.date.setText(mRealEstates.get(position).getTitle());
@@ -70,6 +77,7 @@ public class RealEstateAdapter extends RecyclerView.Adapter<ViewHolder>{
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

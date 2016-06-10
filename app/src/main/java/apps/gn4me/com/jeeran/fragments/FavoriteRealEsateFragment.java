@@ -91,6 +91,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
         llm = new LinearLayoutManager(view.getContext());
         rv.setLayoutManager(llm);
         rv.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        openDialog();
         initializeData();
 
 
@@ -114,7 +115,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
         final Context context = getContext();
 
         final String TAG = "Volley";
-        String url = BaseActivity.BASE_URL + "/discussion/list";
+        String url = BaseActivity.BASE_URL + "/realstatefavorite/list";
 
         /*
         final ProgressDialog pDialog = new ProgressDialog(context);
@@ -198,8 +199,8 @@ public  class FavoriteRealEsateFragment extends Fragment {
                 mRealEstate.setPhone(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
                 mRealEstate.setEmail(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
                 mRealEstate.setContactPerson(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
-//                                    mReal.setCreationDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
-//                                    mReal.setUpdateDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+                mRealEstate.setCreationDate(myRealEstates.getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
+                mRealEstate.setUpdateDate(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
                 mRealEstate.setTitle(myRealEstates.getAsJsonObject().getAsJsonPrimitive("title").getAsString());
 //                                    mRealEstate.setAddress(myRealEstates.getAsJsonObject().getAsJsonPrimitive("address").getAsString());
                 mRealEstate.setLocation(myRealEstates.getAsJsonObject().getAsJsonPrimitive("location").getAsString());
@@ -269,7 +270,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
 //
 //                                for (int i=0 ; i<myFavoriteRealEstates.size() ; i++) {
 //                                    mReal = new FavoriteRealEstate();
-//                                    mRealEstate = new RealEstate();
+//                                    mRealEstate = new RealEstateActivty();
 //
 //                                    mReal.setFavoriteRealEstateId(myFavoriteRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("favorite_real_estate_ad_id").getAsInt());
 //                                    mReal.setRealEstateAdId(myFavoriteRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("real_estate_ad_id").getAsInt());
@@ -322,8 +323,8 @@ public  class FavoriteRealEsateFragment extends Fragment {
 
 
 
-//        realEstates.add(new RealEstate("Flat1","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
-//        realEstates.add(new RealEstate("Flat2","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
-//        realEstates.add(new RealEstate("Flat3","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+//        realEstates.add(new RealEstateActivty("Flat1","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+//        realEstates.add(new RealEstateActivty("Flat2","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+//        realEstates.add(new RealEstateActivty("Flat3","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
     }
 }

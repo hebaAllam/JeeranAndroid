@@ -16,6 +16,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     public TextView price;
     public TextView location;
     public ImageView next;
+    public TextView title_realEstate;
 
     public ViewHolder(View view) {
         super(view);
@@ -23,8 +24,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         this.price = (TextView) view.findViewById(R.id.price_text);
         this.location = (TextView) view.findViewById(R.id.location_text);
         this.next = (ImageView)view.findViewById(R.id.next);
-
-
+        this.title_realEstate = (TextView)view.findViewById(R.id.title_txtView_real);
     }
 
 

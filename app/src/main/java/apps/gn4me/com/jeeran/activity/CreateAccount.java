@@ -1,7 +1,9 @@
 package apps.gn4me.com.jeeran.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -25,6 +35,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -35,6 +46,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.pojo.User;
@@ -49,6 +62,7 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
     private static int RESULT_LOAD_IMG = 1;
     String imgDecodableString;
     Uri outputFileUri;
+    File f;
 
     ImageView preview;
     private  int android_type = 0;
@@ -236,10 +250,81 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
         }
         return null;
     }*/
+
+    private void requestJsonObject() {
+        String  tag_string_req = "string_req";
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/register";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+
+                Log.i("Reslt", result.toString());
+                progressDialog.dismiss();
+
+                Intent i = new Intent(CreateAccount.this,LoginActivity.class);
+                startActivity(i);
+            }
+
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+//                params.put("image",f);
+                params.put("full_name",userNameEditTxt.getText().toString());
+                params.put("email",emailEditTxt.getText().toString());
+                params.put("password",passwordEditTxt.getText().toString());
+                params.put("password_confirmation",retypePassEditTxt.getText().toString());
+                params.put("device_type","1");
+                params.put("device_token",android_id);
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+
+                return headers;
+            }
+
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+    }
+
+
+
     public void sendRegistrationData(){
+
+
         Toast.makeText(getApplicationContext(),"sending....",Toast.LENGTH_SHORT).show();
-
-
+//
+//
         preview.getDrawable();
         byte[] myImg = convertBitmapToByteArray(convertImgViewToBtitmap(preview));
         String img = Base64.encodeToString(myImg,  Base64.NO_WRAP + Base64.URL_SAFE);
@@ -252,7 +337,7 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
 
 
         //create a file to write bitmap data
-        File f = new File(getApplicationContext().getCacheDir(), userNameEditTxt.getText().toString());
+        f = new File(getApplicationContext().getCacheDir(), userNameEditTxt.getText().toString());
         FileOutputStream fos  = null;
         try {
             f.createNewFile();
@@ -272,6 +357,12 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+     //   requestJsonObject();
+
+
+
 
 
         Ion.with(getApplicationContext())
@@ -314,11 +405,7 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
 
                     }
                 });
-//        try {
-////            Toast.makeText(getApplicationContext(), createJsonObject().get("userName").toString() , Toast.LENGTH_LONG).show();
-//        } catch (JSONException e) {
-//            Toast.makeText(getApplicationContext(), "registering....", Toast.LENGTH_SHORT).show();
-//        }
+        //            Toast.makeText(getApplicationContext(), createJsonObject().get("userName").toString() , Toast.LENGTH_LONG).show();
     }
     private Bitmap convertImgViewToBtitmap(ImageView imageView){
 //        imageView.setDrawingCacheEnabled(true);

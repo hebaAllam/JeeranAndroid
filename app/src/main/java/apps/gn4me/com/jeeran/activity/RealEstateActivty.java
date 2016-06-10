@@ -34,8 +34,7 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
+import com.marshalchen.ultimaterecyclerview.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,13 +43,13 @@ import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
-import apps.gn4me.com.jeeran.adapters.RVAdapter;
 import apps.gn4me.com.jeeran.adapters.RealEstateAdapter;
+import apps.gn4me.com.jeeran.pojo.RealEstate;
 
 /**
  * Created by acer on 5/17/2016.
  */
-public class RealEstate extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class RealEstateActivty extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
     int color;
 
@@ -73,7 +72,7 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
         progressDialog.show();
 
     }
-    public RealEstate() {
+    public RealEstateActivty() {
         // Required empty public constructor
     }
 
@@ -138,6 +137,16 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
         rv.setLayoutManager(llm);
         rv.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         initializeData();
+
+        rv.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        // TODO Handle item click
+                        Log.i("item ::: ", realEstates.get(position).getTitle());
+
+                    }
+                })
+        );
 
 //        myAdapter = new RVAdapter(realEstates);
         rv.setAdapter(myAdapter);
@@ -206,7 +215,7 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
 ////                                JsonObject realEstateAd = myRealEstates.getAsJsonObject();
 //
 //                                for (int i = 0; i < myRealEstates.size(); i++) {
-//                                    mReal = new apps.gn4me.com.jeeran.pojo.RealEstate();
+//                                    mReal = new apps.gn4me.com.jeeran.pojo.RealEstateActivty();
 //
 //                                    mReal.setPhone(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
 //                                    mReal.setEmail(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
@@ -254,9 +263,9 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
 
 
 
-//        realEstates.add(new RealEstate("Flat1","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
-//        realEstates.add(new RealEstate("Flat2","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
-//        realEstates.add(new RealEstate("Flat3","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+//        realEstates.add(new RealEstateActivty("Flat1","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+//        realEstates.add(new RealEstateActivty("Flat2","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+//        realEstates.add(new RealEstateActivty("Flat3","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
     }
 
     private void requestJsonObject(final Integer start , final Integer count) {
@@ -297,7 +306,7 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("type"," ");
+                params.put("type","");
                 params.put("start", start.toString());
                 params.put("count",count.toString());
 
@@ -321,6 +330,11 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strReq);
     }
+
+//    private void sendDataToDetails(RealEstate realEstate){
+////        Intent i = new Intent(RealEstateActivty.class, RealEstateDetails.class);
+//
+//    }
 
     private void getRealEstateData(JsonObject result) {
 
@@ -356,9 +370,9 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
                     mReal.setNumOfBathreeoms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_bathrooms").getAsInt());
                     mReal.setPrice(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("price").getAsInt());
                     mReal.setArea(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("area").getAsString());
-                    mReal.setLanguage(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("language").getAsInt());
-                    mReal.setLongitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("longitude").getAsDouble());
-                    mReal.setLatitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("latitude").getAsDouble());
+//                    mReal.setLanguage(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("language").getAsInt());
+//                    mReal.setLongitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("longitude").getAsDouble());
+//                    mReal.setLatitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("latitude").getAsDouble());
                     mReal.setImg(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString());
 //
                     realEstates.add(mReal);

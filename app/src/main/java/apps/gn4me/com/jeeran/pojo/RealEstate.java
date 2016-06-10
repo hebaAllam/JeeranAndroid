@@ -19,8 +19,8 @@ public class RealEstate {
     double longitude,latitude;
     int language;
     boolean isHide;
-    Date creationDate;
-    Date updateDate;
+    String creationDate;
+    String updateDate;
     boolean onHome;
 
     String img;
@@ -45,7 +45,7 @@ public class RealEstate {
         Email = email;
     }
 
-    public RealEstate(String title, int id, String description, String location, int type, int numOfRooms, int numOfBathreeoms, int price, String area, double longitude, double latitude, int language, boolean isHide, Date creationDate, Date updateDate, boolean onHome, String img, boolean isFeature, int amenitiesId, String address, String contactPerson, String phone, String email) {
+    public RealEstate(String title, int id, String description, String location, int type, int numOfRooms, int numOfBathreeoms, int price, String area, double longitude, double latitude, int language, boolean isHide, String creationDate, String updateDate, boolean onHome, String img, boolean isFeature, int amenitiesId, String address, String contactPerson, String phone, String email) {
         this.title = title;
         this.id = id;
         this.description = description;
@@ -143,19 +143,19 @@ public class RealEstate {
         isHide = hide;
     }
 
-    public Date getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Date getUpdateDate() {
+    public String getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
     }
 
