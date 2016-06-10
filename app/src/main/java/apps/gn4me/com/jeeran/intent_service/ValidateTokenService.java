@@ -51,6 +51,7 @@ public class ValidateTokenService extends IntentService {
 
             editor.putString("token",  "Bearer " + result.getAsJsonPrimitive("token").getAsString());
             editor.commit();
+            Log.i("Token Refresh" , "Bearer " + result.getAsJsonPrimitive("token").getAsString());
         }
     }
 
@@ -138,7 +139,7 @@ public class ValidateTokenService extends IntentService {
 
 
     private void refreshToken(){
-        final int delay = 30 * 60 * 1000; //milliseconds
+        final int delay = BaseActivity.EXPIRATION_Duration ;
         try {
             Thread.sleep(delay);
             Log.i("Service Called","Hereeee");

@@ -5,6 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.clans.fab.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,16 +33,19 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.RVAdapter;
+import apps.gn4me.com.jeeran.adapters.RealEstateAdapter;
 
 /**
  * Created by acer on 5/17/2016.
@@ -43,7 +55,8 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
     int color;
 
     private List<apps.gn4me.com.jeeran.pojo.RealEstate> realEstates;
-    private RecyclerView.Adapter myAdapter;
+    apps.gn4me.com.jeeran.pojo.RealEstate mReal;
+    private RealEstateAdapter myAdapter = new RealEstateAdapter();
     RecyclerView rv;
     View view;
     private SliderLayout mDemoSlider;
@@ -151,73 +164,89 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
     }
 
     private void initializeData(){
-        realEstates = new ArrayList<>();
-        final apps.gn4me.com.jeeran.pojo.RealEstate mReal = new apps.gn4me.com.jeeran.pojo.RealEstate();
-        Log.i("-*-*-*-* ", "inside ");
 
-        SharedPreferences settings;
-        String token ;
-        settings = getContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-        token = settings.getString("token", null);
-//        if ( token != null ) {
-        Ion.with(view.getContext())
-                .load(BaseActivity.BASE_URL + "/realstate/list?type= ")
-                .setHeader("Authorization",token)
-//                .setBodyParameter("type"," ")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
-                        //showProgress(false);
-                        if ( e != null ) {
-                                Log.i("Exception:: ", e.getMessage());
-                        }
-//                        Log.i("-*-*-*-* ", "inside callback");
-                        Boolean success = false ;
-                        if ( result != null ) {
-                            Log.i("All Result ::: " , result.toString());
-                            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
-                        }
+        requestJsonObject(0 , 4);
 
-                        if ( success ){
-                            progressDialog.dismiss();
-
-                            JsonArray myRealEstates = result.getAsJsonObject("response").getAsJsonArray("real_state");
-
-                            for (int i=0 ; i<myRealEstates.size() ; i++) {
-                                mReal.setId(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("favorite_real_estate_ad_id").getAsInt());
-                                mReal.setPhone(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
-                                mReal.setEmail(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
-                                mReal.setContactPerson(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
-//                                    mReal.setCreationDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
-//                                    mReal.setUpdateDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
-                                mReal.setTitle(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
-                                mReal.setAddress(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("address").getAsString());
-                                mReal.setLocation(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("location").getAsString());
-                                mReal.setType(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("type").getAsInt());
-                                mReal.setNumOfRooms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_rooms").getAsInt());
-                                mReal.setNumOfBathreeoms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_bathrooms").getAsInt());
-                                mReal.setPrice(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("price").getAsInt());
-                                mReal.setArea(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("area").getAsString());
-                                mReal.setLanguage(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("language").getAsInt());
-                                mReal.setLongitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("longitude").getAsDouble());
-                                mReal.setLatitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("latitude").getAsDouble());
-                                mReal.setImg(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString());
+//        realEstates = new ArrayList<>();
 //
-                                realEstates.add(mReal);
-
-//                                    mList.add(post);
-                            }
-
-                        } else {
-                            progressDialog.dismiss();
-//                              Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
-                            Toast.makeText(view.getContext(),"reading Failed",Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-                });
+//
+//        SharedPreferences settings;
+//        String token ;
+//        settings = getContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+//        token = settings.getString("token", null);
+////        if ( token != null ) {
+//        Ion.with(view.getContext())
+//                .load(BaseActivity.BASE_URL + "/realstate/list")
+//                .setHeader("Authorization",token)
+//                .setBodyParameter("type"," ")
+//                .setBodyParameter("start", "0")
+//                .setBodyParameter("count", "4")
+//                .asJsonObject()
+//                .setCallback(new FutureCallback<JsonObject>() {
+//                    @Override
+//                    public void onCompleted(Exception e, JsonObject result) {
+//                        // do stuff with the result or error
+//                        //showProgress(false);
+//                        if ( e != null ) {
+//                                Log.i("Exception:: ", e.getMessage());
+//                        }
+//                        Boolean success = false ;
+//                        if ( result != null ) {
+//                            Log.i("All Result ::: " , result.toString());
+//                            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+//                        }
+//
+//                        Log.i("success :::::: ", success.toString());
+//
+//                        if ( success ){
+//                            progressDialog.dismiss();
+//
+//                            JsonArray myRealEstates = result.getAsJsonArray("response");
+//                            if(myRealEstates != null) {
+////                                JsonObject realEstateAd = myRealEstates.getAsJsonObject();
+//
+//                                for (int i = 0; i < myRealEstates.size(); i++) {
+//                                    mReal = new apps.gn4me.com.jeeran.pojo.RealEstate();
+//
+//                                    mReal.setPhone(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
+//                                    mReal.setEmail(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
+//                                    mReal.setContactPerson(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+////                                    mReal.setCreationDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
+////                                    mReal.setUpdateDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+//                                    mReal.setTitle(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
+////                                    mRealEstate.setAddress(myRealEstates.getAsJsonObject().getAsJsonPrimitive("address").getAsString());
+//                                    mReal.setLocation(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("location").getAsString());
+//                                    mReal.setType(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("type").getAsInt());
+//                                    mReal.setNumOfRooms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_rooms").getAsInt());
+//                                    mReal.setNumOfBathreeoms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_bathrooms").getAsInt());
+//                                    mReal.setPrice(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("price").getAsInt());
+//                                    mReal.setArea(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("area").getAsString());
+//                                    mReal.setLanguage(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("language").getAsInt());
+//                                    mReal.setLongitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("longitude").getAsDouble());
+//                                    mReal.setLatitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("latitude").getAsDouble());
+//                                    mReal.setImg(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString());
+////
+//                                    realEstates.add(mReal);
+//
+////                                    Log.i("list /*/* / :" , mRealEstate.getTitle());
+////                                    adapter.insertItem(mReal);
+//
+//                                }
+//                            }
+//                            else
+//                            Toast.makeText(getContext(),"Null Data", Toast.LENGTH_LONG).show();
+//
+//                            myAdapter.insertAll(realEstates);
+////                            Log.i("items */*/*/*/ :: ", realEstates.get(0).getMyRealEstate().getTitle() + " " +realEstates.get(1).getMyRealEstate().getTitle() + realEstates.get(2).getMyRealEstate().getTitle());
+////                            progressDialog.dismiss();
+//                        } else {
+//                            progressDialog.dismiss();
+////                              Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
+//                            Toast.makeText(view.getContext(),"reading Failed",Toast.LENGTH_LONG).show();
+//                        }
+//
+//                    }
+//                });
 //        }else
 //        {
 //            Toast.makeText(getContext(),"you didn't registered..",Toast.LENGTH_LONG).show();
@@ -228,6 +257,127 @@ public class RealEstate extends Fragment implements BaseSliderView.OnSliderClick
 //        realEstates.add(new RealEstate("Flat1","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
 //        realEstates.add(new RealEstate("Flat2","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
 //        realEstates.add(new RealEstate("Flat3","my Flat", "2255", "address", "0123555333", "0321558875", "email"));
+    }
+
+    private void requestJsonObject(final Integer start , final Integer count) {
+        String  tag_string_req = "string_req";
+        final Context context = getContext();
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstate/list";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                getRealEstateData(result);
+            }
+
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("type"," ");
+                params.put("start", start.toString());
+                params.put("count",count.toString());
+
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(strReq);
+    }
+
+    private void getRealEstateData(JsonObject result) {
+
+        realEstates = new ArrayList<>();
+        Boolean success = false;
+        if (result != null) {
+            Log.i("All Result ::: ", result.toString());
+            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+        }
+
+        Log.i("success :::::: ", success.toString());
+
+        if (success) {
+            progressDialog.dismiss();
+
+            JsonArray myRealEstates = result.getAsJsonArray("response");
+            if (myRealEstates != null) {
+//                                JsonObject realEstateAd = myRealEstates.getAsJsonObject();
+
+                for (int i = 0; i < myRealEstates.size(); i++) {
+                    mReal = new apps.gn4me.com.jeeran.pojo.RealEstate();
+
+                    mReal.setPhone(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
+                    mReal.setEmail(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
+                    mReal.setContactPerson(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+//                                    mReal.setCreationDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
+//                                    mReal.setUpdateDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+                    mReal.setTitle(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
+//                                    mRealEstate.setAddress(myRealEstates.getAsJsonObject().getAsJsonPrimitive("address").getAsString());
+                    mReal.setLocation(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("location").getAsString());
+                    mReal.setType(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("type").getAsInt());
+                    mReal.setNumOfRooms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_rooms").getAsInt());
+                    mReal.setNumOfBathreeoms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_bathrooms").getAsInt());
+                    mReal.setPrice(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("price").getAsInt());
+                    mReal.setArea(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("area").getAsString());
+                    mReal.setLanguage(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("language").getAsInt());
+                    mReal.setLongitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("longitude").getAsDouble());
+                    mReal.setLatitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("latitude").getAsDouble());
+                    mReal.setImg(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString());
+//
+                    realEstates.add(mReal);
+
+//                                    Log.i("list /*/* / :" , mRealEstate.getTitle());
+//                                    adapter.insertItem(mReal);
+
+                }
+            } else
+                Toast.makeText(getContext(), "Null Data", Toast.LENGTH_LONG).show();
+
+            myAdapter.insertAll(realEstates);
+//                            Log.i("items */*/*/*/ :: ", realEstates.get(0).getMyRealEstate().getTitle() + " " +realEstates.get(1).getMyRealEstate().getTitle() + realEstates.get(2).getMyRealEstate().getTitle());
+//                            progressDialog.dismiss();
+        } else {
+            progressDialog.dismiss();
+//                              Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(), "reading Failed", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
