@@ -30,7 +30,16 @@ public class RealEstate {
     String contactPerson;
     String phone;
     String Email;
+    RealEstateImages imgs;
 
+
+    public RealEstateImages getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(RealEstateImages imgs) {
+        this.imgs = imgs;
+    }
 
     public RealEstate() {
     }

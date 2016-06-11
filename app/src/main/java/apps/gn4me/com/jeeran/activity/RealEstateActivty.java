@@ -141,6 +141,7 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
                         Log.i("item ::: ", realEstates.get(position).getNumOfRooms()+"");
 
                         Intent i = new Intent(view.getContext(),RealEstateDetails.class);
+                        i.putExtra("realestateID",realEstates.get(position).getId()+"");
                         i.putExtra("title",realEstates.get(position).getTitle());
                         i.putExtra("type",realEstates.get(position).getType());
                         i.putExtra("language",realEstates.get(position).getLanguage());
@@ -187,10 +188,10 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
 
     private void bindSliderImages() {
         String  tag_string_req = "string_req";
-        final Context context = getContext();
+    final Context context = getContext();
 
-        final String TAG = "Volley";
-        String url = BaseActivity.BASE_URL + "/realstate/imagefeature";
+    final String TAG = "Volley";
+    String url = BaseActivity.BASE_URL + "/realstate/imagefeature";
 
         /*
         final ProgressDialog pDialog = new ProgressDialog(context);
@@ -198,51 +199,51 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
         pDialog.show();
         */
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                url, new Response.Listener<String>() {
+    StringRequest strReq = new StringRequest(Request.Method.POST,
+            url, new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, response.toString());
-                //pDialog.hide();
-                JsonParser parser = new JsonParser();
-                JsonObject result = parser.parse(response).getAsJsonObject();
-                putSliderData(result);
-            }
+        @Override
+        public void onResponse(String response) {
+            Log.d(TAG, response.toString());
+            //pDialog.hide();
+            JsonParser parser = new JsonParser();
+            JsonObject result = parser.parse(response).getAsJsonObject();
+            putSliderData(result);
+        }
 
 
-        }, new Response.ErrorListener() {
+    }, new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //pDialog.hide();
-            }
-        }) {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            VolleyLog.d(TAG, "Error: " + error.getMessage());
+            //pDialog.hide();
+        }
+    }) {
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+        @Override
+        protected Map<String, String> getParams() {
+            Map<String, String> params = new HashMap<String, String>();
 
-                return params;
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                SharedPreferences settings;
-                String token ;
-                settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                token = settings.getString("token", null);
-                headers.put("Authorization", token);
-                return headers;
-            }
+            return params;
+        }
+        @Override
+        public Map<String, String> getHeaders() throws AuthFailureError {
+            HashMap<String, String> headers = new HashMap<String, String>();
+            SharedPreferences settings;
+            String token ;
+            settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+            token = settings.getString("token", null);
+            headers.put("Authorization", token);
+            return headers;
+        }
 
-        };
+    };
 
-        // Adding request to request queue
-        RequestQueue queue = Volley.newRequestQueue(context);
-        queue.add(strReq);
-    }
+    // Adding request to request queue
+    RequestQueue queue = Volley.newRequestQueue(context);
+    queue.add(strReq);
+}
 
     private void putSliderData(JsonObject result) {
 
@@ -470,19 +471,21 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
                 for (int i = 0; i < myRealEstates.size(); i++) {
                     mReal = new apps.gn4me.com.jeeran.pojo.RealEstate();
 
+                    mReal.setId(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("real_estate_ad_id").getAsInt());
                     mReal.setPhone(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
                     mReal.setEmail(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
                     mReal.setContactPerson(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
-//                                    mReal.setCreationDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
-//                                    mReal.setUpdateDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+                    mReal.setCreationDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
+                    mReal.setUpdateDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
                     mReal.setTitle(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
-//                                    mRealEstate.setAddress(myRealEstates.getAsJsonObject().getAsJsonPrimitive("address").getAsString());
+//                    mReal.setAddress(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("address").getAsString());
                     mReal.setLocation(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("location").getAsString());
                     mReal.setType(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("type").getAsInt());
                     mReal.setNumOfRooms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_rooms").getAsInt());
                     mReal.setNumOfBathreeoms(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("number_of_bathrooms").getAsInt());
                     mReal.setPrice(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("price").getAsInt());
                     mReal.setArea(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("area").getAsString());
+                    mReal.setArea(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("description").getAsString());
 //                    mReal.setLanguage(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("language").getAsInt());
 //                    mReal.setLongitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("longitude").getAsDouble());
 //                    mReal.setLatitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("latitude").getAsDouble());

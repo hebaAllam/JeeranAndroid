@@ -87,7 +87,7 @@
             android:name=".activity.AddRealEstate"
             android:label="@string/title_activity_add_real_estate"
             android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/MyAddRealEstate">
 
             <!--
             <intent-filter>
