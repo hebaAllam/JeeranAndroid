@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.intent_service.ValidateTokenService;
 
-public class SplashActivity extends BaseActivity implements AdapterView.OnItemSelectedListener{
+public class SplashActivity extends BaseActivity {
 
     Spinner selectArea ;
 
@@ -43,7 +43,7 @@ public class SplashActivity extends BaseActivity implements AdapterView.OnItemSe
         Thread timerThread = new Thread(){
             public void run(){
                 try{
-                    sleep(3000);
+                    sleep(5000);
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
@@ -60,19 +60,33 @@ public class SplashActivity extends BaseActivity implements AdapterView.OnItemSe
                     password = settings.getString("password", null);
                     token = settings.getString("token", null);
 
-                    if ( token != null ) {
-                        Log.i("-*-*-* token : ", token);
 
-                        //start service to keep token valid
-                        Intent in = new Intent(SplashActivity.this , ValidateTokenService.class);
-                        startService(in);
+                    Log.i("......."," item clicked..." + selectArea.getSelectedItem().toString());
 
-                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                    }else {
-                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                        startActivity(intent);
+                    String selection = selectArea.getSelectedItem().toString();
+                    if (selection != "" || selection != null){
+                        if ( token != null ) {
+                            Log.i("-*-*-* token : ", token);
+
+                            //start service to keep token valid
+                            Intent in = new Intent(SplashActivity.this , ValidateTokenService.class);
+                            startService(in);
+
+                            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                        }else {
+                            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
                     }
+                    else
+                        try {
+                            sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+
                 }
             }
         };
@@ -88,13 +102,13 @@ public class SplashActivity extends BaseActivity implements AdapterView.OnItemSe
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("......."," item clicked..." + parent.getItemAtPosition(position).toString());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+//    @Override
+//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//        Log.i("......."," item clicked..." + parent.getItemAtPosition(position).toString());
+//    }
+//
+//    @Override
+//    public void onNothingSelected(AdapterView<?> parent) {
+//
+//    }
 }

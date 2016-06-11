@@ -48,6 +48,7 @@ public class BaseActivity extends AppCompatActivity {
     public static HashMap<String,String> url_maps = new HashMap<String, String>();
     public static int realEstateCount = 0 , servicePlacesCount = 0 ;
     public static Title currentNeighborhood ;
+    public static int realEstateFeatureImgs;
 
 
     protected View progress;
@@ -64,8 +65,80 @@ public class BaseActivity extends AppCompatActivity {
         requestDiscussionTopicsJson();
         requestReportReasonsJson();
         requestHomeSliderImages();
+//        requestRealEstateSliderImages();
+    }
+/*
+    private void requestRealEstateSliderImages() {
+        {
+            String  tag_string_req = "string_req";
+
+            final String TAG = "Volley";
+            String url = BaseActivity.BASE_URL + "/realstate/imagefeature";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+/*
+            StringRequest strReq = new StringRequest(Request.Method.POST,
+                    url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    Log.d(TAG, response.toString());
+                    //pDialog.hide();
+                    JsonParser parser = new JsonParser();
+                    JsonObject result = parser.parse(response).getAsJsonObject();
+                    getRealEstateSliderData(result);
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    //pDialog.hide();
+                }
+            }) {
+
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    SharedPreferences settings;
+                    String token ;
+                    settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                    token = settings.getString("token", null);
+                    headers.put("Authorization", token);
+                    return headers;
+                }
+
+            };
+
+// Adding request to request queue
+            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+            queue.add(strReq);
+        }
     }
 
+    private void getRealEstateSliderData(JsonObject result) {
+        Boolean success = false ;
+        if ( result != null ) {
+            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+        }
+
+        if ( success ) {
+            JsonArray slider = result.getAsJsonArray("response");
+
+            BaseActivity.realEstateFeatureImgs = slider.size();
+
+            for (int i = 0; i < BaseActivity.realEstateFeatureImgs; i++) {
+                BaseActivity.url_maps.put(slider.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString(),
+                        slider.get(i).getAsJsonObject().getAsJsonPrimitive("image").getAsString());
+            }
+        }
+    }
+*/
 
     public void hideKeyboard() {
         InputMethodManager inputManager = (InputMethodManager)
@@ -114,7 +187,7 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    private void requestHomeSliderImages() {
+    private void requestHomeSliderImages(){
         String  tag_string_req = "string_req";
 
         final String TAG = "Volley";

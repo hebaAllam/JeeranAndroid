@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -62,6 +63,7 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
     LinearLayoutManager llm;
     ProgressDialog progressDialog;
 
+    HashMap<String, String> url_maps = new HashMap<String, String>();
     FloatingActionButton search, addRealEstate, home;
 
     private void openDialog() {
@@ -89,14 +91,30 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
         openDialog();
 
         Spinner dropdown = (Spinner)view.findViewById(R.id.spinner1frag);
-        String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
+        ArrayList<String> items = new ArrayList<>();
+        for (int i=0 ; i< BaseActivity.neighborhoods.size() ; i++ ){
+            items.add(BaseActivity.neighborhoods.get(i).getTitleEnglish());
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                BaseActivity.currentNeighborhood = BaseActivity.neighborhoods.get(position) ;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                BaseActivity.currentNeighborhood = BaseActivity.neighborhoods.get(0);
+            }
+        });
 
         mDemoSlider = (SliderLayout)view.findViewById(R.id.sliderfrag);
 
         bindSliderImages();
+
 
 
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
@@ -228,43 +246,42 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
 
     private void putSliderData(JsonObject result) {
 
-        JsonArray images = result.getAsJsonArray("response");
+//        JsonArray images = result.getAsJsonArray("response");
 
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
 
-        for (int i=0; i<images.size(); i++) {
-            url_maps.put(images.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString(), images.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString());
-//            url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
-//            url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-//            url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-
-//            String img = images.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString();
-//            int id = getResources().getIdentifier(img, "drawable", "apps.gn4me.com.jeeran.activity");
-
-//            file_maps.put(images.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString(), getResources().getDrawable(id));
-//            file_maps.put("Big Bang Theory", R.drawable.bigbang);
-//            file_maps.put("House of Cards", R.drawable.house);
-//            file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
-
-        }
-        for(String name : file_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(getContext());
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra",name);
-
-            mDemoSlider.addSlider(textSliderView);
+        Boolean success = false;
+        if (result != null) {
+            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
         }
 
+        if (success) {
+            JsonArray slider = result.getAsJsonArray("response");
+            Log.i(":::::::",slider.toString());
+
+            BaseActivity.realEstateFeatureImgs = slider.size();
+
+            for (int i = 0; i < BaseActivity.realEstateFeatureImgs; i++) {
+                url_maps.put(slider.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString(),
+                        slider.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString());
+            }
+
+            for(String name : url_maps.keySet()){
+                TextSliderView textSliderView = new TextSliderView(getContext());
+                // initialize a SliderLayout
+                textSliderView
+                        .description(name)
+                        .image(url_maps.get(name))
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                        .setOnSliderClickListener(this);
+
+                //add your extra information
+                textSliderView.bundle(new Bundle());
+                textSliderView.getBundle()
+                        .putString("extra",name);
+
+                mDemoSlider.addSlider(textSliderView);
+            }
+        }
     }
 
 
