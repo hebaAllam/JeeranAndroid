@@ -17,6 +17,161 @@
         custom:pager_animation="Accordion"
         custom:pager_animation_span="1100" />
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_below="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:id="@+id/iconsContainer"
+
+        android:gravity="center_vertical|center|center_horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_rating_icon"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/rateService"
+                android:onClick="rateService"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rates"
+                android:textSize="10dp"
+                android:id="@+id/service_numberofRates"
+                />
+
+            />
+
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="38dp"
+            android:background="@color/drawerItemSperator"
+            android:layout_marginLeft="15dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_favorites_icon"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/favoriteRealEstate"
+                android:onClick="addToRealEstateFavorite"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Favorites"
+                android:textSize="10dp"
+                />
+
+            />
+
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="38dp"
+            android:background="@color/drawerItemSperator"
+            android:layout_marginLeft="15dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_photos_icon"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/serviceImages"
+                android:onClick="showServiceImages"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Photos"
+                android:textSize="10dp"
+                />
+
+            />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/iconsContainer"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:id="@+id/buttonsContainer"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="Location On Map"
+            android:drawableLeft="@drawable/ic_allreviews_icon"
+            android:textAllCaps="false"
+            android:textColor="@color/fontColor"
+            android:background="@drawable/custom_but"
+            android:layout_marginTop="10dp"
+            android:id="@+id/locationOnMap"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="Call US"
+            android:drawableLeft="@drawable/ic_callus_icon"
+            android:textAllCaps="false"
+            android:textColor="@color/fontColor"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/custom_but"
+            android:id="@+id/callUs"
+            />
+
+    </LinearLayout>
+    <View
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/drawerItemSperator"
+        android:layout_below="@+id/buttonsContainer"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+
+        android:id="@+id/view2" />
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

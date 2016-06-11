@@ -88,30 +88,30 @@
         android:id="@+id/iconsContainer"
 
         >
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_location_icon"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/showLocation"
+                />
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:text="Location"
+                android:textSize="10dp"
+                />
 
-                >
+            />
 
-               <ImageView
-                   android:layout_width="25dp"
-                   android:layout_height="25dp"
-                   android:src="@drawable/ic_location_icon"
-                   android:layout_marginLeft="5dp"
-                   android:id="@+id/showLocation"
-                   />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Location"
-                    android:textSize="10dp"
-                    />
-
-             />
-
-            </LinearLayout>
+        </LinearLayout>
         <View
             android:layout_width="1dp"
             android:layout_height="38dp"
@@ -218,19 +218,19 @@
         android:layout_alignStart="@+id/textView3"
         android:id="@+id/buttonsContainer"
         >
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="25dp"
-    android:text="All Reviews"
-    android:drawableLeft="@drawable/ic_allreviews_icon"
-    android:textAllCaps="false"
-    android:textColor="@color/fontColor"
-    android:background="@drawable/custom_but"
-    android:layout_marginTop="10dp"
-    android:id="@+id/allReviews"
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="All Reviews"
+            android:drawableLeft="@drawable/ic_allreviews_icon"
+            android:textAllCaps="false"
+            android:textColor="@color/fontColor"
+            android:background="@drawable/custom_but"
+            android:layout_marginTop="10dp"
+            android:id="@+id/allReviews"
 
 
-    />
+            />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="25dp"

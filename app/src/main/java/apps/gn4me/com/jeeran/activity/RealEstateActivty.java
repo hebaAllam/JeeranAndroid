@@ -146,6 +146,8 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
 
                         Intent i = new Intent(view.getContext(),RealEstateDetails.class);
                         i.putExtra("realestateID",realEstates.get(position).getId()+"");
+                        i.putExtra("activityType","realEstateActivity");
+                        i.putExtra("realestateID",realEstates.get(position).getId()+"");
                         i.putExtra("title",realEstates.get(position).getTitle());
                         i.putExtra("type",realEstates.get(position).getType());
                         i.putExtra("language",realEstates.get(position).getLanguage());
