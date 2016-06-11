@@ -21,7 +21,7 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
 
     private int viewType ;
 
-    public DiscussionRecycleViewAdapter(List<DiscussionPostData> dataSet , int viewType , Context context) {
+    public DiscussionRecycleViewAdapter(List<DiscussionPostData> dataSet , int viewType , Context context){
         this.viewType = viewType ;
         if ( viewType == 0 ) {
             putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this, dataSet,0));

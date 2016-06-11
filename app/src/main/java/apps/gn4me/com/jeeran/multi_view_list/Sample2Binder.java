@@ -2,6 +2,7 @@ package apps.gn4me.com.jeeran.multi_view_list;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,15 +13,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.multiViewTypes.DataBinder;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.activity.BaseActivity;
 import apps.gn4me.com.jeeran.activity.CommentsActivity;
 import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
 
@@ -45,7 +58,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
     }
 
     @Override
-    public void bindViewHolder(ViewHolder holder, final int position) {
+    public void bindViewHolder(final ViewHolder holder, final int position) {
 
         final int index = position - startIndex ;
 
@@ -72,12 +85,31 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
                 .into(holder.feedImageView);
 
 
-        holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                return true;
+        if ( mList.get(index).getIsOwner() == 1 ){
+            holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
+            //toolbar.setTitle("Card Toolbar");
+            if (holder.toolbar != null) {
+                // inflate your menu
+                holder.toolbar.inflateMenu(R.menu.owner_menu);
+                holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        return true;
+                    }
+                });
             }
-        });
+        }else{
+            if (holder.toolbar != null) {
+                // inflate your menu
+                holder.toolbar.inflateMenu(R.menu.other_menu);
+                holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        return true;
+                    }
+                });
+            }
+        }
 
         final Context context = holder.context ;
         final Integer disc_id = mList.get(index).getId() ;
@@ -95,16 +127,77 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         holder.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                requestAddFavoriteDiscussion(holder.context,mList.get(index).getId());
             }
         });
 
-        holder.report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
+
+    public void requestAddFavoriteDiscussion(final Context context, final Integer discId){
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/discussionfavorite/add";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                boolean success = false ;
+
+                if (result != null ){
+                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                }
+                if ( success ) {
+                    Log.i(":::::::::::::::", result.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("disc_id","14" ) ; //discId.toString());
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(strReq);
+    }
+
+
+
+
 
     @Override
     public int getItemCount() {
@@ -121,12 +214,13 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         ImageView feedImageView;
         AppCompatButton comment ;
         AppCompatButton favorite ;
-        AppCompatButton report ;
+        //AppCompatButton report ;
         Toolbar toolbar ;
         Context context ;
-
+        View view ;
         public ViewHolder(View itemView) {
             super(itemView);
+            view = itemView ;
             context = itemView.getContext();
             name = (TextView) itemView.findViewById(R.id.name);
             timeStamp = (TextView) itemView.findViewById(R.id.timestamp);
@@ -139,15 +233,10 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
 
             comment = (AppCompatButton) itemView.findViewById(R.id.commentBtn);
             favorite = (AppCompatButton) itemView.findViewById(R.id.favoriteBtn);
-            report = (AppCompatButton) itemView.findViewById(R.id.reportBtn);
+            //report = (AppCompatButton) itemView.findViewById(R.id.reportBtn);
 
 
             toolbar = (Toolbar) itemView.findViewById(R.id.card_toolbar);
-            //toolbar.setTitle("Card Toolbar");
-            if (toolbar != null) {
-                // inflate your menu
-                toolbar.inflateMenu(R.menu.main);
-            }
         }
     }
     public void addAll(List<DiscussionPostData> dataSet) {

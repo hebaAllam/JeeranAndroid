@@ -166,7 +166,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
             //toolbar.setTitle("Card Toolbar");
             if (toolbar != null) {
                 // inflate your menu
-                toolbar.inflateMenu(R.menu.main);
+                toolbar.inflateMenu(R.menu.owner_menu);
             }
 
         }

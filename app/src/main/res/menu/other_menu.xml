@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.daimajia.slider.demo.MainActivity" >
 
-    <item android:id="@+id/action_custom_indicator"
-        android:title="Edit"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
     <item android:id="@+id/action_custom_child_animation"
         android:title="Report"
         android:orderInCategory="100"

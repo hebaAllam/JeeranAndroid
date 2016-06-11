@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/smallSeparatorHeight"
         android:layout_below="@+id/slider"
-        android:background="@color/colorAccent"></FrameLayout>
+        android:background="@color/colorAccent"/>
 
 
     <LinearLayout

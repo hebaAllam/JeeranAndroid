@@ -104,92 +104,7 @@ public class Discussion extends Fragment {
 
 
     public void initArrayList(){
-
-
-        requestJsonObject(0,4);
-
-        /*
-        //first ws call
-        SharedPreferences settings;
-        String token ;
-        settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-        token = settings.getString("token", null);
-
-
-        Ion.with(context)
-                .load(BASE_URL + "/discussion/list")
-                .noCache()
-                //.setBodyParameter("neighborhood_id", "")
-                //.setBodyParameter("topic_id", "")
-                //.setBodyParameter("user_id", "")
-                //.setBodyParameter("keyword", "")
-                .setHeader("Authorization",token)
-                //.setHeader("refresh",(new Date()).toString())
-                //.setBodyParameter("refresh",(new Date()).toString() )
-                .setBodyParameter("start", "0")
-                .setBodyParameter("count", "4")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-
-                        boolean success = false ;
-
-                        if (e != null ) {
-                            Log.i(":::::::::::::::", e.getMessage());
-                        }
-
-                        if (result != null ) {
-                          //   success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
-                        }
-
-                        if ( success ){
-
-                            Log.i(":::::::::::::::",result.toString());
-                            JsonArray discussions = result.getAsJsonObject("response").getAsJsonArray("discussionlist");
-
-                            for (int i=0 ; i<discussions.size() ; i++) {
-                                DiscussionPostData post = new DiscussionPostData();
-                                post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_id").getAsInt());
-                                post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comments_no").getAsInt());
-                                post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
-
-                                Log.i("Titleeeeeeee1" ,  discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
-
-                                post.setDetails( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("details").getAsString());
-                                post.setTimeStamp( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
-                                post.setCategory( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
-                                JsonArray imgs = discussions.get(i).getAsJsonObject().getAsJsonArray("disc_imgs") ;
-
-                                post.getUser().setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_id").getAsInt());
-                                post.getUser().setUserName( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("first_name").getAsString());
-                                post.getUser().setImage( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_image").getAsString());
-
-                                if ( imgs != null && imgs.size() > 0 ){
-                                    post.setImage( imgs.get(0).getAsString() );
-                                }
-                                mList.add(post);
-                            }
-                            customAdapter.refresh();
-                        }
-
-                    }
-
-                });
-
-        */
-
-
-        /*
-        for (int index = 0; index < 20; index++) {
-            DiscussionPostData obj = new DiscussionPostData(index , index , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
-                    "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-            mList.add(index, obj);
-        }
-
-        return mList;
-        */
+         requestJsonObject(0,4);
     }
 
     public void addCustomLoaderView(){
@@ -245,7 +160,6 @@ public class Discussion extends Fragment {
     }
 
     private void requestJsonObject(final Integer start , final Integer count) {
-        String  tag_string_req = "string_req";
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussion/list";

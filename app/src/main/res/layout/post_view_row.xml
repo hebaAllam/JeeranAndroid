@@ -120,38 +120,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="2">
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/favoriteBtn"
-                    android:layout_width="wrap_content"
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
-                    android:text="Favorite"
-                    android:textAllCaps="false"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_favorite_icon" />
+                    android:layout_weight="1">
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/favoriteBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:text="Favorite"
+                        android:layout_gravity="center"
+                        android:textAllCaps="false"
+                        android:minHeight="25dp"
+                        android:drawableLeft="@drawable/ic_favorite_icon_dark" />
+                </FrameLayout>
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/commentBtn"
-                    android:layout_width="wrap_content"
+
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
-                    android:text="Comment"
-                    android:layout_weight="1"
-                    android:textAllCaps="false"
-                    android:drawableLeft="@drawable/ic_comment_icon"/>
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/reportBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#fff"
-                    android:text="Report"
-                    android:textAllCaps="false"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_report_icon"/>
-
+                    android:layout_weight="1">
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/commentBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:text="Comment"
+                        android:layout_gravity="center"
+                        android:minHeight="25dp"
+                        android:textAllCaps="false"
+                        android:drawableLeft="@drawable/ic_comment_icon"/>
+                </FrameLayout>
             </LinearLayout>
 
         </LinearLayout>
