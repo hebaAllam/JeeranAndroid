@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,12 +41,13 @@ import java.util.List;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.pojo.FavoriteRealEstate;
 import apps.gn4me.com.jeeran.pojo.RealEstate;
 import apps.gn4me.com.jeeran.pojo.RealEstateImages;
 
 public class RealEstateDetails extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
-
+    int clickCount = 0;
     private SliderLayout mDemoSlider;
     private DrawerLayout mDrawerLayout;
     //    private ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -53,6 +56,9 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
    TextView title, date, location, price, description, area, numOfBathrooms, numOfRooms;
     ProgressDialog progressDialog;
     private RealEstate mReal;
+
+    String activityType;
+    ImageView favorite;
 
     private void openDialog() {
 
@@ -71,26 +77,9 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
                 R.style.AppTheme_Dark_Dialog);
 
         openDialog();
-//        Spinner dropdown = (Spinner)findViewById(R.id.spinner1frag);
-//        ArrayList<String> items = new ArrayList<>();
-//        for (int i=0 ; i< BaseActivity.neighborhoods.size() ; i++ ){
-//            items.add(BaseActivity.neighborhoods.get(i).getTitleEnglish());
-//        }
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-//        dropdown.setAdapter(adapter);
-//
-//        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                BaseActivity.currentNeighborhood = BaseActivity.neighborhoods.get(position) ;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                BaseActivity.currentNeighborhood = BaseActivity.neighborhoods.get(0);
-//            }
-//        });
+
+        Intent i = getIntent();
+        activityType = i.getStringExtra("activityType");
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
@@ -189,8 +178,164 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         area = (TextView)findViewById(R.id.areaNu);
         numOfRooms = (TextView)findViewById(R.id.bedRoomsNum);
         numOfBathrooms = (TextView)findViewById(R.id.bathRoomsNum);
+        favorite = (ImageView)findViewById(R.id.favoriteRealEstate);
+
+        if(activityType.equals("favoriteRealEstate") )
+            favorite.setBackgroundColor(getResources().getColor(R.color.red));
+    }
+    public void addToRealEstateFavorite(View view){
+        clickCount++;
+        if(clickCount >= 2)
+            clickCount=0;
+        if(activityType.equals("favoriteRealEstate") )
+            deleteRealEstateFromFavorites();
+        else
+            addRealEstateToFavorite();
     }
 
+    private void addRealEstateToFavorite() {
+        String  tag_string_req = "string_req";
+//        final Context context = getContext();
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstatefavorite/add";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Log.i("result in details ::: ",result.toString());
+                boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                if(success) {
+                    Toast.makeText(getApplicationContext(), result.getAsJsonObject("result").getAsJsonPrimitive("message").getAsString(), Toast.LENGTH_LONG).show();
+                    favorite.setBackgroundColor(getResources().getColor(R.color.red));
+                }else
+                    Toast.makeText(getApplicationContext(),"error...",Toast.LENGTH_LONG).show();
+            }
+
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                Intent i = getIntent();
+                String id = i.getStringExtra("realestateID");
+                params.put("realstate_id",id );
+//            params.put("start", start.toString());
+//            params.put("count",count.toString());
+
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+    }
+
+    private void deleteRealEstateFromFavorites() {
+            String  tag_string_req = "string_req";
+//        final Context context = getContext();
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstatefavorite/delete";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Log.i("result in details ::: ",result.toString());
+                boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                if(success) {
+                    Toast.makeText(getApplicationContext(), result.getAsJsonObject("result").getAsJsonPrimitive("message").getAsString(), Toast.LENGTH_LONG).show();
+//                    Intent i = new Intent(this, HomeActivity.class);
+                    favorite.setBackgroundColor(getResources().getColor(R.color.white));
+                    onBackPressed();
+                }else
+                    Toast.makeText(getApplicationContext(),"error...",Toast.LENGTH_LONG).show();
+            }
+
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                Intent i = getIntent();
+                String id = i.getStringExtra("realestateID");
+                params.put("favorite_id",id );
+//            params.put("start", start.toString());
+//            params.put("count",count.toString());
+
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+    }
 
     public void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);

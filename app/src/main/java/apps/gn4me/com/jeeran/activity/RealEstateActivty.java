@@ -36,6 +36,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.marshalchen.ultimaterecyclerview.RecyclerItemClickListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ import java.util.Map;
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.RealEstateAdapter;
+import apps.gn4me.com.jeeran.adapters.ViewHolder;
 import apps.gn4me.com.jeeran.pojo.RealEstate;
 
 /**
@@ -65,6 +67,7 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
 
     HashMap<String, String> url_maps = new HashMap<String, String>();
     FloatingActionButton search, addRealEstate, home;
+    private ViewHolder holder;
 
     private void openDialog() {
         progressDialog = new ProgressDialog(getContext(),
@@ -89,6 +92,7 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.real_estate_fragment, container, false);
         openDialog();
+        holder = new ViewHolder(view);
 
         Spinner dropdown = (Spinner)view.findViewById(R.id.spinner1frag);
         ArrayList<String> items = new ArrayList<>();
@@ -141,6 +145,8 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
                         Log.i("item ::: ", realEstates.get(position).getNumOfRooms()+"");
 
                         Intent i = new Intent(view.getContext(),RealEstateDetails.class);
+                        i.putExtra("realestateID",realEstates.get(position).getId()+"");
+                        i.putExtra("activityType","realEstateActivity");
                         i.putExtra("realestateID",realEstates.get(position).getId()+"");
                         i.putExtra("title",realEstates.get(position).getTitle());
                         i.putExtra("type",realEstates.get(position).getType());
@@ -491,11 +497,11 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
 //                    mReal.setLatitude(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("latitude").getAsDouble());
                     mReal.setImg(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString());
 //
+
                     realEstates.add(mReal);
 
 //                                    Log.i("list /*/* / :" , mRealEstate.getTitle());
-//                                    adapter.insertItem(mReal);
-
+//                                    adapter.insertItem(mReal)
                 }
             } else
                 Toast.makeText(getContext(), "Null Data", Toast.LENGTH_LONG).show();

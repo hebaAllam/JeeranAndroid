@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class RealEstateAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private int size = 0;
     private String typee = "rent";
+    View view;
 
     public RealEstateAdapter(List<RealEstate> mRealEstates) {
         this.mRealEstates = mRealEstates;
@@ -32,7 +35,7 @@ public class RealEstateAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_text_view,parent,false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_text_view,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -65,6 +68,11 @@ public class RealEstateAdapter extends RecyclerView.Adapter<ViewHolder> {
                 typee = "rent";
             holder.title_realEstate.setText(mRealEstates.get(position).getTitle()
                     + " For " + typee);
+            Picasso.with(view.getContext())
+                    .load(mRealEstates.get(position).getImg())
+                    .error(R.drawable.ic_error )
+                    .placeholder( R.drawable.progress_animation )
+                    .into(holder.img);
             holder.location.setText(mRealEstates.get(position).getLocation());
             holder.price.setText(mRealEstates.get(position).getPhone());
             holder.date.setText(mRealEstates.get(position).getTitle());

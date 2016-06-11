@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class RVAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     private int size = 0;
     private String typee = "rent";
+    View view;
 
     public RVAdapter(List<FavoriteRealEstate> mRealEstates) {
         this.mRealEstates = mRealEstates;
@@ -32,7 +35,7 @@ public class RVAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_text_view,parent,false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_text_view,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -45,7 +48,7 @@ public class RVAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     public void insertAll(List<FavoriteRealEstate> real){
         mRealEstates.addAll(real);
-        Log.i("inside adapter -*-*-* ", mRealEstates.get(0).getMyRealEstate().getTitle() + " " + mRealEstates.get(1).getMyRealEstate().getTitle()+ " " + mRealEstates.get(2).getMyRealEstate().getTitle() );
+//        Log.i("inside adapter -*-*-* ", mRealEstates.get(0).getMyRealEstate().getTitle() + " " + mRealEstates.get(1).getMyRealEstate().getTitle()+ " " + mRealEstates.get(2).getMyRealEstate().getTitle() );
         size = real.size();
         notifyDataSetChanged();
     }
@@ -69,7 +72,13 @@ public class RVAdapter extends RecyclerView.Adapter<ViewHolder>{
             typee = "rent";
             holder.title_realEstate.setText(mRealEstates.get(position).getMyRealEstate().getTitle()
             + " For " + typee);
-                holder.location.setText(mRealEstates.get(position).getMyRealEstate().getLocation());
+            Picasso.with(view.getContext())
+                    .load(mRealEstates.get(position).getMyRealEstate().getImg())
+                    .error(R.drawable.ic_error )
+                    .placeholder( R.drawable.progress_animation )
+                    .into(holder.img);
+
+            holder.location.setText(mRealEstates.get(position).getMyRealEstate().getLocation());
             holder.price.setText(mRealEstates.get(position).getMyRealEstate().getPhone());
             holder.date.setText(mRealEstates.get(position).getMyRealEstate().getCreationDate().toString());
         }

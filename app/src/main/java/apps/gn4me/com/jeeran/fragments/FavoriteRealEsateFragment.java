@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,6 +29,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.marshalchen.ultimaterecyclerview.RecyclerItemClickListener;
 
 import org.json.JSONObject;
 
@@ -40,6 +42,7 @@ import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.activity.BaseActivity;
 import apps.gn4me.com.jeeran.activity.HomeActivity;
 import apps.gn4me.com.jeeran.activity.LoginActivity;
+import apps.gn4me.com.jeeran.activity.RealEstateDetails;
 import apps.gn4me.com.jeeran.activity.SplashActivity;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.RVAdapter;
@@ -59,6 +62,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
     LinearLayoutManager llm;
     ProgressDialog progressDialog;
     private String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1";
+    FrameLayout favoriteLayout;
 
     public FavoriteRealEsateFragment() {
     }
@@ -93,6 +97,41 @@ public  class FavoriteRealEsateFragment extends Fragment {
         rv.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         openDialog();
         initializeData();
+        favoriteLayout = (FrameLayout)view.findViewById(R.id.myFavoriteLayout);
+
+        rv.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        // TODO Handle item click
+//                        Log.i("item ::: ", realEstates.get(position).getCreationDate());//null
+//                        Log.i("item ::: ", realEstates.get(position).getMyRealEstate().getPrice()+ "");
+//                        Log.i("item ::: ", realEstates.get(position).getMyRealEstate().getDescription()+"");
+//                        Log.i("item ::: ", realEstates.get(position).getNumOfRooms()+"");
+
+                        Intent i = new Intent(view.getContext(),RealEstateDetails.class);
+                        i.putExtra("realestateID",realEstates.get(position).getFavoriteRealEstateId()+"");
+                        i.putExtra("activityType","favoriteRealEstate");
+//                        i.putExtra("title",realEstates.get(position).getTitle());
+//                        i.putExtra("type",realEstates.get(position).getType());
+//                        i.putExtra("language",realEstates.get(position).getLanguage());
+//                        i.putExtra("latitude",realEstates.get(position).getLatitude());
+//                        i.putExtra("longitude",realEstates.get(position).getLongitude());
+//                        i.putExtra("location",realEstates.get(position).getLocation());
+//                        i.putExtra("owner_name",realEstates.get(position).get());
+//                        i.putExtra("creationDate",realEstates.get(position).getCreationDate());
+//                        i.putExtra("owner_mobile",realEstates.get(position).getPhone());
+//                        i.putExtra("owner_email",realEstates.get(position).getEmail());
+//                        i.putExtra("description",realEstates.get(position).getDescription());
+//                        i.putExtra("price",realEstates.get(position).getPrice());
+//                        i.putExtra("number_of_rooms",realEstates.get(position).getNumOfRooms());
+//                        i.putExtra("number_of_bathrooms",realEstates.get(position).getNumOfBathreeoms());
+
+                        startActivity(i);
+                    }
+                })
+        );
+
+
 
 
         rv.setAdapter(adapter);
@@ -109,6 +148,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
 //        progressDialog.show();
 //
 //    }
+
 
     private void requestJsonObject(final Integer start , final Integer count) {
         String  tag_string_req = "string_req";
@@ -176,6 +216,9 @@ public  class FavoriteRealEsateFragment extends Fragment {
         if (result != null) {
             Log.i("All Result ::: ", result.toString());
             success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+            int msg = result.getAsJsonObject("result").getAsJsonPrimitive("errorcode").getAsInt();
+            if(msg == 1)
+                favoriteLayout.setBackground(view.getResources().getDrawable(R.drawable.don_t_have));
         }
 
         if (success) {
@@ -195,7 +238,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
 
                 JsonObject myRealEstates = myFavoriteRealEstates.get(i).getAsJsonObject().getAsJsonObject("real_estate_ad");
 
-
+                mRealEstate.setId(myRealEstates.getAsJsonObject().getAsJsonPrimitive("real_estate_ad_id").getAsInt());
                 mRealEstate.setPhone(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
                 mRealEstate.setEmail(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
                 mRealEstate.setContactPerson(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
@@ -223,13 +266,19 @@ public  class FavoriteRealEsateFragment extends Fragment {
             }
 
             adapter.insertAll(realEstates);
-            Log.i("items */*/*/*/ :: ", realEstates.get(0).getMyRealEstate().getTitle() + " " + realEstates.get(1).getMyRealEstate().getTitle() + realEstates.get(2).getMyRealEstate().getTitle());
+//            Log.i("items */*/*/*/ :: ", realEstates.get(0).getMyRealEstate().getTitle() + " " + realEstates.get(1).getMyRealEstate().getTitle() + realEstates.get(2).getMyRealEstate().getTitle());
 
         } else {
             progressDialog.dismiss();
 //                              Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
             Toast.makeText(view.getContext(), "reading Failed", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initializeData();
     }
 
     private void initializeData(){
