@@ -1,13 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.daimajia.slider.demo.MainActivity" >
+    xmlns:tools="http://schemas.android.com/tools" >
 
-    <item android:id="@+id/action_custom_indicator"
+    <item android:id="@+id/edit"
         android:title="Edit"
         android:orderInCategory="100"
         app:showAsAction="never" />
-    <item android:id="@+id/action_custom_child_animation"
+    <item android:id="@+id/delete"
         android:title="Delete"
         android:orderInCategory="100"
         app:showAsAction="never" />

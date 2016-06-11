@@ -96,18 +96,7 @@ public  class FavoriteDiscussionFragment extends Fragment {
 
 
     public void initArrayList(){
-
         requestJsonObject(0,4);
-
-        /*
-        for (int index = 0; index < 20; index++) {
-            DiscussionPostData obj = new DiscussionPostData(index , index , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
-                    "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-            mList.add(index, obj);
-        }
-
-        return mList;
-        */
     }
 
 
@@ -131,7 +120,8 @@ public  class FavoriteDiscussionFragment extends Fragment {
 
             for (int i=0 ; i<discussions.size() ; i++) {
                 DiscussionPostData post = new DiscussionPostData();
-                post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("favorite_discussion_id").getAsInt());
+                post.setFavoriteId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("favorite_discussion_id").getAsInt());
+                post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_id").getAsInt());
                 post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comment_no").getAsInt());
                 post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("title").getAsString());
 

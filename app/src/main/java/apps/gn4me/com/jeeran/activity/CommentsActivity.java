@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -13,6 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -74,7 +78,7 @@ public class CommentsActivity extends BaseActivity {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new CustomAdapter(mList);
+        customAdapter = new CustomAdapter(mList,getApplicationContext());
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
@@ -93,7 +97,6 @@ public class CommentsActivity extends BaseActivity {
 
 
     private void requestAddDiscussionComment(){
-        String  tag_string_req = "string_req";
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussioncomments/add";
@@ -187,7 +190,7 @@ public class CommentsActivity extends BaseActivity {
                 comment.setId( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_comment_id").getAsInt());
                 comment.setComment( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("comment").getAsString());
                 comment.setTimeStamp( commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
-                //comment.setOwnerFlag(commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("is_owner").getAsBoolean());
+                comment.setIsOwner(commentsList.get(i).getAsJsonObject().getAsJsonPrimitive("is_owner").getAsInt());
                 mList.add(comment);
                 msg = comment.getComment();
             }

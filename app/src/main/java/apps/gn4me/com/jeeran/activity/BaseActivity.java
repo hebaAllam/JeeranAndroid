@@ -39,6 +39,13 @@ public class BaseActivity extends AppCompatActivity {
     Toolbar toolbar;
     public static final String PREFS_NAME = "Jeeran";
     public static final String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1";
+    public static final Integer DISCUSSION_REPORT = 4 ;
+    public static final Integer DISCUSSION_COMMENT_REPORT = 5 ;
+    public static final Integer REALESTATE_REPORT = 6 ;
+    public static final Integer REALESTATE_COMMENT_REPORT = 7 ;
+    public static final Integer SERVICE_PLACE_REPORT = 1 ;
+    public static final Integer SERVICE_PLACE_REVIEW_REPORT = 2 ;
+
 
     public static final int EXPIRATION_Duration = 30 * 60 * 1000 ;
     public static ArrayList<Title> neighborhoods = new ArrayList<>();
@@ -397,8 +404,8 @@ public class BaseActivity extends AppCompatActivity {
             for ( int i=0 ; i<reportReasonsJson.size() ; i++ ){
                 Title reportReason = new Title();
                 reportReason.setId(reportReasonsJson.get(i).getAsJsonObject().getAsJsonPrimitive("reason_id").getAsInt());
-                reportReason.setTitleArabic(reportReasonsJson.get(i).getAsJsonObject().getAsJsonPrimitive("reason_en").getAsString());
-                reportReason.setTitleEnglish(reportReasonsJson.get(i).getAsJsonObject().getAsJsonPrimitive("reason_ar").getAsString());
+                reportReason.setTitleArabic(reportReasonsJson.get(i).getAsJsonObject().getAsJsonPrimitive("reason_ar").getAsString());
+                reportReason.setTitleEnglish(reportReasonsJson.get(i).getAsJsonObject().getAsJsonPrimitive("reason_en").getAsString());
                 reportReasons.add(reportReason);
             }
         }

@@ -136,4 +136,10 @@
     <string name="prompt_comment">Add Comment</string>
     <string name="comment_btn"> > </string>
 
+    //report
+    <string name="report">Select Report Reason:</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="msg">Add Message: (Optional)</string>
+
 </resources>

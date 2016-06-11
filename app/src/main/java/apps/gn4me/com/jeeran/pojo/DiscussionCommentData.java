@@ -9,7 +9,7 @@ public class DiscussionCommentData {
     private String comment ;
     private int id ;
 
-    private boolean ownerFlag;
+    private int isOwner;
     private User user ;
 
 
@@ -23,30 +23,31 @@ public class DiscussionCommentData {
         this.timeStamp = timeStamp;
     }
 
-    public boolean isOwner(){ return ownerFlag ;}
-    public void setOwnerFlag(boolean ownerFlag){ this.ownerFlag = ownerFlag ;}
+
+    public int getIsOwner() {
+        return isOwner;
+    }
+    public void setIsOwner(int isOwner) {
+        this.isOwner = isOwner;
+    }
+
     public User getUser() {
         return user;
     }
-
     public void setUser(User user) {
         this.user = user ;
     }
 
-
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
-
     public String getTimeStamp() {
         return timeStamp;
     }
-
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
@@ -54,7 +55,6 @@ public class DiscussionCommentData {
     public String getComment() {
         return comment;
     }
-
     public void setComment(String comment) {
         this.comment = comment;
     }

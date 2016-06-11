@@ -141,7 +141,6 @@ public class Discussion extends Fragment {
                 post.setIsOwner( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("is_owner").getAsInt());
                 post.setIsFav( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("is_fav").getAsInt());
 
-
                 JsonArray imgs = discussions.get(i).getAsJsonObject().getAsJsonArray("disc_imgs") ;
                 post.getUser().setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_id").getAsInt());
                 post.getUser().setUserName( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("first_name").getAsString());
