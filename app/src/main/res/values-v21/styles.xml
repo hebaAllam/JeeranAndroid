@@ -10,4 +10,17 @@
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/com_facebook_tooltip_blue_topnub</item>
     </style>
+
+    <style name="MyAddRealEstate" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/material_blue_grey_950</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/myColorAccent</item>
+        <item name="android:textColorPrimaryInverse">
+            @color/abc_primary_text_disable_only_material_light
+        </item>
+        <item name="android:statusBarColor">@color/abc_input_method_navigation_guard</item>
+        <item name="android:textColorSecondaryInverse">@color/myColorAccent</item>
+    </style>
 </resources>

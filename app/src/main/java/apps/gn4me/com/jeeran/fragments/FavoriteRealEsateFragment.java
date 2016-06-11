@@ -146,8 +146,8 @@ public  class FavoriteRealEsateFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("start", start.toString());
-                params.put("count",count.toString());
+//                params.put("start", start.toString());
+//                params.put("count",count.toString());
 
                 return params;
             }

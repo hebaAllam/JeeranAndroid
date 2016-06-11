@@ -96,34 +96,9 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
 
         mDemoSlider = (SliderLayout)view.findViewById(R.id.sliderfrag);
 
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-        url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
-        url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-        url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
+        bindSliderImages();
 
-        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Hannibal", R.drawable.hannibal);
-        file_maps.put("Big Bang Theory", R.drawable.bigbang);
-        file_maps.put("House of Cards", R.drawable.house);
-        file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
 
-        for(String name : file_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(getContext());
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra",name);
-
-            mDemoSlider.addSlider(textSliderView);
-        }
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
@@ -142,8 +117,28 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         // TODO Handle item click
-                        Log.i("item ::: ", realEstates.get(position).getTitle());
+//                        Log.i("item ::: ", realEstates.get(position).getCreationDate());//null
+                        Log.i("item ::: ", realEstates.get(position).getPrice()+ "");
+                        Log.i("item ::: ", realEstates.get(position).getDescription()+"");
+                        Log.i("item ::: ", realEstates.get(position).getNumOfRooms()+"");
 
+                        Intent i = new Intent(view.getContext(),RealEstateDetails.class);
+                        i.putExtra("title",realEstates.get(position).getTitle());
+                        i.putExtra("type",realEstates.get(position).getType());
+                        i.putExtra("language",realEstates.get(position).getLanguage());
+                        i.putExtra("latitude",realEstates.get(position).getLatitude());
+                        i.putExtra("longitude",realEstates.get(position).getLongitude());
+                        i.putExtra("location",realEstates.get(position).getLocation());
+//                        i.putExtra("owner_name",realEstates.get(position).get());
+                        i.putExtra("creationDate",realEstates.get(position).getCreationDate());
+                        i.putExtra("owner_mobile",realEstates.get(position).getPhone());
+                        i.putExtra("owner_email",realEstates.get(position).getEmail());
+                        i.putExtra("description",realEstates.get(position).getDescription());
+                        i.putExtra("price",realEstates.get(position).getPrice());
+                        i.putExtra("number_of_rooms",realEstates.get(position).getNumOfRooms());
+                        i.putExtra("number_of_bathrooms",realEstates.get(position).getNumOfBathreeoms());
+
+                        startActivity(i);
                     }
                 })
         );
@@ -172,9 +167,110 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
         return view;
     }
 
+    private void bindSliderImages() {
+        String  tag_string_req = "string_req";
+        final Context context = getContext();
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstate/imagefeature";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                putSliderData(result);
+            }
+
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(strReq);
+    }
+
+    private void putSliderData(JsonObject result) {
+
+        JsonArray images = result.getAsJsonArray("response");
+
+        HashMap<String,String> url_maps = new HashMap<String, String>();
+        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
+
+        for (int i=0; i<images.size(); i++) {
+            url_maps.put(images.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString(), images.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString());
+//            url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
+//            url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
+//            url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
+
+//            String img = images.get(i).getAsJsonObject().getAsJsonPrimitive("cover_image").getAsString();
+//            int id = getResources().getIdentifier(img, "drawable", "apps.gn4me.com.jeeran.activity");
+
+//            file_maps.put(images.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString(), getResources().getDrawable(id));
+//            file_maps.put("Big Bang Theory", R.drawable.bigbang);
+//            file_maps.put("House of Cards", R.drawable.house);
+//            file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
+
+        }
+        for(String name : file_maps.keySet()){
+            TextSliderView textSliderView = new TextSliderView(getContext());
+            // initialize a SliderLayout
+            textSliderView
+                    .description(name)
+                    .image(file_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setOnSliderClickListener(this);
+
+            //add your extra information
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("extra",name);
+
+            mDemoSlider.addSlider(textSliderView);
+        }
+
+    }
+
+
     private void initializeData(){
 
-        requestJsonObject(0 , 4);
+        requestJsonObject(0 , 5);
 
 //        realEstates = new ArrayList<>();
 //
@@ -270,10 +366,10 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
 
     private void requestJsonObject(final Integer start , final Integer count) {
         String  tag_string_req = "string_req";
-        final Context context = getContext();
+    final Context context = getContext();
 
-        final String TAG = "Volley";
-        String url = BaseActivity.BASE_URL + "/realstate/list";
+    final String TAG = "Volley";
+    String url = BaseActivity.BASE_URL + "/realstate/list";
 
         /*
         final ProgressDialog pDialog = new ProgressDialog(context);
@@ -281,55 +377,55 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
         pDialog.show();
         */
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                url, new Response.Listener<String>() {
+    StringRequest strReq = new StringRequest(Request.Method.POST,
+            url, new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, response.toString());
-                //pDialog.hide();
-                JsonParser parser = new JsonParser();
-                JsonObject result = parser.parse(response).getAsJsonObject();
-                getRealEstateData(result);
-            }
-
-
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //pDialog.hide();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("type","");
-                params.put("start", start.toString());
-                params.put("count",count.toString());
+        @Override
+        public void onResponse(String response) {
+            Log.d(TAG, response.toString());
+            //pDialog.hide();
+            JsonParser parser = new JsonParser();
+            JsonObject result = parser.parse(response).getAsJsonObject();
+            getRealEstateData(result);
+        }
 
 
-                return params;
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                SharedPreferences settings;
-                String token ;
-                settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                token = settings.getString("token", null);
-                headers.put("Authorization", token);
-                return headers;
-            }
+    }, new Response.ErrorListener() {
 
-        };
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            VolleyLog.d(TAG, "Error: " + error.getMessage());
+            //pDialog.hide();
+        }
+    }) {
 
-// Adding request to request queue
-        RequestQueue queue = Volley.newRequestQueue(context);
-        queue.add(strReq);
-    }
+        @Override
+        protected Map<String, String> getParams() {
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("type","");
+//            params.put("start", start.toString());
+//            params.put("count",count.toString());
+
+
+            return params;
+        }
+        @Override
+        public Map<String, String> getHeaders() throws AuthFailureError {
+            HashMap<String, String> headers = new HashMap<String, String>();
+            SharedPreferences settings;
+            String token ;
+            settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+            token = settings.getString("token", null);
+            headers.put("Authorization", token);
+            return headers;
+        }
+
+    };
+
+    // Adding request to request queue
+    RequestQueue queue = Volley.newRequestQueue(context);
+    queue.add(strReq);
+}
 
 //    private void sendDataToDetails(RealEstate realEstate){
 ////        Intent i = new Intent(RealEstateActivty.class, RealEstateDetails.class);

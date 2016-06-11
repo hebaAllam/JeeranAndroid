@@ -404,7 +404,7 @@ public class AddRealEstate extends BaseActivity
                             cursor.close();
 
                         }
-                        Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
+                        Log.i("Selected Images :::::: ", mArrayUri.size() + "");
                     }
                 }
             } else {

@@ -1,9 +1,12 @@
 
 package apps.gn4me.com.jeeran.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -23,6 +26,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
     //    private ActionBarDrawerToggle mActionBarDrawerToggle;
     private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
     private Toolbar toolbar;
+   TextView title, date, location, price, description, area, numOfBathrooms, numOfRooms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,45 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         mDemoSlider.addOnPageChangeListener(this);
 
         setupToolbar();
+
+
+        bindComponents();
+//        Intent i = getIntent();
+//        i.getStringExtra("title");
+
+        assignVlues();
+    }
+
+    private void assignVlues() {
+        Intent i = getIntent();
+
+        String typee = "rent";
+        if(i.getIntExtra("type",3) == 0)
+            typee = "rent";
+        else if(i.getIntExtra("type",3) == 1)
+            typee = "sale";
+
+        Log.i("intent result ::::: ", i.getStringExtra("area")+ ", " +i.getStringExtra("number_of_bathrooms") );
+
+        title.setText(i.getStringExtra("title") + " For\t " + typee);
+        date.setText(i.getStringExtra("creationDate")+"");
+        location.setText(i.getStringExtra("location"));
+        price.setText(i.getIntExtra("price",0)+"");
+        description.setText(i.getStringExtra("description")+"");
+        area.setText(i.getStringExtra("area")+"");
+        numOfBathrooms.setText(i.getIntExtra("number_of_bathrooms",0)+"");
+        numOfRooms.setText(i.getIntExtra("number_of_rooms",0)+"");
+    }
+
+    private void bindComponents() {
+        title = (TextView)findViewById(R.id.title_detailsRealEstate);
+        date = (TextView)findViewById(R.id.date_text);
+        location = (TextView)findViewById(R.id.location_text);
+        price = (TextView)findViewById(R.id.price_detailRealEstate);
+        description = (TextView)findViewById(R.id.descriptionTxt);
+        area = (TextView)findViewById(R.id.areaNu);
+        numOfRooms = (TextView)findViewById(R.id.bedRoomsNum);
+        numOfBathrooms = (TextView)findViewById(R.id.bathRoomsNum);
     }
 
 

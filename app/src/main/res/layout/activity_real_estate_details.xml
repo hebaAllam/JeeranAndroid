@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
-                    android:text="Apartment For Rent " />
+                    android:id="@+id/title_detailsRealEstate"/>
 
                 <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
@@ -51,6 +51,7 @@
                         android:layout_height="wrap_content" />
                     <TextView
                         android:id="@+id/date_text"
+                        android:textColor="@color/album_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </android.support.v7.widget.LinearLayoutCompat>
@@ -66,6 +67,7 @@
 
                     <TextView
                         android:id="@+id/location_text"
+                        android:textColor="@color/album_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </android.support.v7.widget.LinearLayoutCompat>
@@ -80,7 +82,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:id="@+id/price_text"
+                        android:id="@+id/price_detailRealEstate"
+                        android:textColor="@color/album_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </android.support.v7.widget.LinearLayoutCompat>
@@ -93,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
-                    android:text="ay 7aga"/>
+                    />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -161,9 +164,9 @@
                             android:id="@+id/areaNu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/album_title"
                             android:background="@color/dark_cells"
-                            android:padding="5dp"
-                            android:text="23232"
+                            android:padding="2dp"
                             android:layout_weight="1"
                             android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
@@ -190,8 +193,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/dark_cells"
+                            android:textColor="@color/album_title"
                             android:padding="5dp"
-                            android:text="23232"
                             android:layout_weight="1"
                             android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
@@ -201,7 +204,7 @@
                         android:id="@+id/tableRow4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2">
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/bedRooms"
@@ -216,11 +219,10 @@
                         <TextView
                             android:id="@+id/bedRoomsNum"
                             android:layout_width="wrap_content"
+                            android:textColor="@color/album_title"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@color/dark_cells"
-                            android:padding="5dp"
-                            android:text="232"
                             android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
                     </TableRow>

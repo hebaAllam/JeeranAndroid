@@ -46,6 +46,16 @@
         <item name="colorAccent">@color/myColorAccent</item>
     </style>
 
+    <style name="MyAddRealEstate" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/material_blue_grey_950</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/myColorAccent</item>
+        <item name="android:textColorSecondaryInverse">@color/myColorAccent</item>
+
+    </style>
+
     <style name="AppThemeNoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
