@@ -82,4 +82,5 @@
         >
 
     </android.support.v7.widget.RecyclerView>
+    <include layout="@layout/menu_buttons"/>
 </RelativeLayout>

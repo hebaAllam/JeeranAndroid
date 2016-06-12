@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -26,8 +32,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/logo_image"
             android:textAlignment="center"
-            android:layout_weight="
-        .5"
+            android:layout_weight=" .5"
+            android:id="@+id/add_service_logo"
             >
 
         </ImageView>
@@ -42,7 +48,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/takephotos_image"
-            android:textAlignment="center" android:layout_weight=".5"/>
+            android:textAlignment="center" android:layout_weight=".5"
+            android:id="@+id/add_service_images"
+            />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
@@ -89,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title"
-            android:id="@+id/title_addServiceContentActivity"
+            android:id="@+id/add_service_title"
             android:inputType="textWebEditText"
             android:textCursorDrawable="@drawable/cursur_color"
             android:cursorVisible="true"/>
@@ -101,7 +109,7 @@
         android:layout_height="wrap_content">
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/category_addServiceContentActivity"
+            android:id="@+id/choose_service_category"
             android:textCursorDrawable="@drawable/cursur_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,7 +125,7 @@
         android:layout_height="wrap_content">
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/subCategory_addServiceContentActivity"
+            android:id="@+id/choose_service_subCategory"
             android:textCursorDrawable="@drawable/cursur_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,7 +146,20 @@
             android:hint="@string/description"
 
             android:inputType="textWebEmailAddress"
-            android:id="@+id/description_addContentServiceActivity"
+            android:id="@+id/add_service_description"
+            android:textCursorDrawable="@drawable/cursur_color" />
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/location"
+            android:inputType="textWebEmailAddress"
+            android:id="@+id/add_service_location"
             android:textCursorDrawable="@drawable/cursur_color" />
 
     </android.support.design.widget.TextInputLayout>
@@ -151,7 +172,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/phone"
-            android:id="@+id/phone_addContentServiceActivity"
+            android:id="@+id/add_service_phone"
             android:inputType="textWebEmailAddress"
             android:textCursorDrawable="@drawable/cursur_color" />
 
@@ -164,7 +185,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/opening_hours"
-            android:id="@+id/openingHours_addContentServiceActivity"
+            android:id="@+id/add_service_openingHours"
             android:inputType="textWebEmailAddress"
             android:textCursorDrawable="@drawable/cursur_color" />
     </android.support.design.widget.TextInputLayout>
@@ -174,11 +195,14 @@
         android:layout_height="wrap_content"
         android:background="@color/registerWithFbBtn"
         android:text="@string/saveBtn"
-        android:id="@+id/aveBtn_addContentServiceActivity"
+        android:id="@+id/addService_but"
         android:layout_marginTop="24dp"
         android:textColor="@color/white"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:onClick="addService"
+        />
 
 </LinearLayout>
+</ScrollView>

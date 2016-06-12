@@ -53,7 +53,7 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
     SharedPreferences sharedpreferences;
 
 
-    private List<ServicesCategory> servicesCatList ;
+    private static List<ServicesCategory> servicesCatList ;
     public MainServices() {
         // Required empty public constructor
     }
@@ -63,7 +63,7 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
         super.onCreate(savedInstanceState);
         Ion.with(getContext())
                 .load("http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list")
-                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mjk2MDIyLCJleHAiOjE0NjUyOTk2MjIsIm5iZiI6MTQ2NTI5NjAyMiwianRpIjoiMjFiMTM2NmVhOWFhMjVhZjEzNThiZmI0NzBlYmFmN2QifQ.0_oD1thM3vuKJ6fcJ9jUDHNT9SZLXXKvShLUd8jTm04")
+                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NjQ2NDAzLCJleHAiOjE0NjU2NTAwMDMsIm5iZiI6MTQ2NTY0NjQwMywianRpIjoiZDQ4NjFiNzY4YWE0MTBiMmY0MjZhYWFhZTQ2ZTZiNjIifQ.d-jlLWJoUh7QUABjqTE2wT063UiF0kwrZmg3Hzq8T1Q")
                 .setBodyParameter("main_category", "0")
                 .asString()
                 .setCallback(new FutureCallback<String>() {
@@ -186,39 +186,6 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
                             }
 
 
-//        Ion.with(getContext())
-//                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list")
-//                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mjk2MDIyLCJleHAiOjE0NjUyOTk2MjIsIm5iZiI6MTQ2NTI5NjAyMiwianRpIjoiMjFiMTM2NmVhOWFhMjVhZjEzNThiZmI0NzBlYmFmN2QifQ.0_oD1thM3vuKJ6fcJ9jUDHNT9SZLXXKvShLUd8jTm04")
-//                .setBodyParameter("main_category", "0")
-//                .asString()
-//                .setCallback(new FutureCallback<String>() {
-//                    @Override
-//                    public void onCompleted(Exception e, String result) {
-//                        Toast.makeText(getContext(),result,Toast.LENGTH_LONG).show();
-//                        if(result!=null){
-//                            try {
-//                                JSONObject jsonObject=new JSONObject(result);
-//                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_MAIN_CATEGORY);
-//                                for(int i=0;i<jsonArr.length();i++){
-//                                    JSONObject service1=jsonArr.getJSONObject(i);
-//                                    ServicesCategory servicesCategory=new ServicesCategory();
-//                                    servicesCategory.setServiceCatId(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_ID));
-//                                    servicesCategory.setServiceCatName(service1.getString(TAG_SERVICES_MAIN_CATEGORY_TITLE));
-//                                    servicesCategory.setServiceCatLogo(service1.getString(TAG_SERVICES_MAIN_CATEGORY_LOGO));
-//                                    String subCatNum=Integer.toString(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_SUB_CATEGORY));
-//                                    servicesCategory.setServiceSubCatNumber(subCatNum);
-//                                    servicesCatList.add(servicesCategory);
-//                                    myAdapter.notifyDataSetChanged();
-//                                }
-//                            } catch (JSONException e1) {
-//                                e1.printStackTrace();
-//                            }
-//
-//
-//                        }
-//
-//                    }
-//                });
     }
 
 //    private void prepareData() {
@@ -264,10 +231,12 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
 
         void onLongClick(View view, int position);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
+public static List<String> getMainCategoryServices(){
+    List<String> mainCategoryNames=new ArrayList<>();
+    for(ServicesCategory servicesCategory:servicesCatList){
+        mainCategoryNames.add(servicesCategory.getServiceCatName());
     }
+
+    return mainCategoryNames;
+}
 }

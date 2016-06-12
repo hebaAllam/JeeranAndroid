@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.pojo.Service;
 import apps.gn4me.com.jeeran.pojo.ServiceDetailsPojo;
 
 /**
@@ -25,23 +26,23 @@ import apps.gn4me.com.jeeran.pojo.ServiceDetailsPojo;
 public class ServiceDetailsAdapter extends RecyclerView.Adapter<ServiceDetailsAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<ServiceDetailsPojo> serviceDetailsList;
+    private List<Service> serviceDetailsList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView restaurantName, restaurantRates;
-        public ImageView restaurantImage, moreOptions;
+        public TextView serviceName, serviceRates;
+        public ImageView serviceLogo, moreOptions;
 
         public MyViewHolder(View view) {
             super(view);
-            restaurantName= (TextView) view.findViewById(R.id.resName);
-            restaurantRates = (TextView) view.findViewById(R.id.rates);
-            restaurantImage = (ImageView) view.findViewById(R.id.resImage);
+            serviceName= (TextView) view.findViewById(R.id.resName);
+            serviceRates = (TextView) view.findViewById(R.id.rates);
+            serviceLogo = (ImageView) view.findViewById(R.id.resImage);
             moreOptions = (ImageView) view.findViewById(R.id.more_options);
         }
     }
 
 
-    public ServiceDetailsAdapter(Context mContext, List<ServiceDetailsPojo> serviceDetailsList) {
+    public ServiceDetailsAdapter(Context mContext, List<Service> serviceDetailsList) {
         this.mContext = mContext;
         this.serviceDetailsList = serviceDetailsList;
     }
@@ -56,10 +57,10 @@ public class ServiceDetailsAdapter extends RecyclerView.Adapter<ServiceDetailsAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        ServiceDetailsPojo serviceDetails = serviceDetailsList.get(position);
-        holder.restaurantName.setText(serviceDetails.getResName());
-        holder.restaurantRates.setText(serviceDetails.getRates() + "*");
-        Glide.with(mContext).load(serviceDetails.getResLogo()).into(holder.restaurantImage);
+        Service service = serviceDetailsList.get(position);
+        holder.serviceName.setText(service.getName());
+        holder.serviceRates.setText(service.getRates() + "*");
+        Glide.with(mContext).load(service.getLogo()).into(holder.serviceLogo);
         holder.moreOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

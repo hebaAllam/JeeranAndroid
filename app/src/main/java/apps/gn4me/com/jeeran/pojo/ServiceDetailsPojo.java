@@ -9,9 +9,14 @@ package apps.gn4me.com.jeeran.pojo;
  */
 public class ServiceDetailsPojo {
 
+
     private int resLogo;
     private String resName;
     private double rates;
+
+    public ServiceDetailsPojo() {
+
+    }
 
     public ServiceDetailsPojo(int resLogo, String resName, double rates) {
         this.resLogo = resLogo;
