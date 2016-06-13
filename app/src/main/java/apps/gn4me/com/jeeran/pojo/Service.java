@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import apps.gn4me.com.jeeran.activity.Reviews;
@@ -23,6 +24,78 @@ public class Service {
     private String phone1;
     private String phone2;
     private String phone3;
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setOpeningHours(String openingHours) {
+        this.openingHours = openingHours;
+    }
+
+    public void setRates(long rates) {
+        this.rates = rates;
+    }
+
+    public void setImages(ArrayList<String> images) {
+        this.images = images;
+    }
+
+    public void setReviews(ArrayList<Reviews> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void setDiscription(String discription) {
+        this.discription = discription;
+    }
+
+    public void setPhone1(String phone1) {
+        this.phone1 = phone1;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
+    }
+
+    public void setPhone3(String phone3) {
+        this.phone3 = phone3;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getOpeningHours() {
+        return openingHours;
+    }
+
+    public long getRates() {
+        return rates;
+    }
+
+    public ArrayList<String> getImages() {
+        return images;
+    }
+
+    public ArrayList<Reviews> getReviews() {
+        return reviews;
+    }
+
+    public String getDiscription() {
+        return discription;
+    }
+
+    public String getPhone1() {
+        return phone1;
+    }
+
+    public String getPhone2() {
+        return phone2;
+    }
+
+    public String getPhone3() {
+        return phone3;
+    }
 
     public Service() {
     }

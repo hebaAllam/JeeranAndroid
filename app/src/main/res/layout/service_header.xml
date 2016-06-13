@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Addess1:"
-        android:id="@+id/service_address"
+        android:id="@+id/address"
         android:layout_below="@+id/service_title"
         android:layout_alignLeft="@+id/service_title"
         android:layout_alignStart="@+id/service_title" />
@@ -41,10 +41,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="add1"
-        android:id="@+id/restaurantAddress1"
+        android:id="@+id/service_address1"
         android:layout_below="@+id/service_title"
-        android:layout_toRightOf="@+id/service_address"
-        android:layout_toEndOf="@+id/service_address" />
+        android:layout_toRightOf="@+id/address"
+        android:layout_toEndOf="@+id/address" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,9 +52,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Opening Hours:"
         android:id="@+id/textView3"
-        android:layout_below="@+id/service_address"
-        android:layout_alignLeft="@+id/service_address"
-        android:layout_alignStart="@+id/service_address"
+        android:layout_below="@+id/address"
+        android:layout_alignLeft="@+id/address"
+        android:layout_alignStart="@+id/address"
 
         />
 

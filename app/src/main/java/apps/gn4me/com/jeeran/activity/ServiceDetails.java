@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -8,18 +9,34 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.ServiceDetailsAdapter;
@@ -30,12 +47,23 @@ public class ServiceDetails extends BaseActivity {
 
     private RecyclerView recyclerView;
     private ServiceDetailsAdapter adapter;
-    private List<ServiceDetailsPojo> serviceDetailsList;
+    private List<Service> serviceDetailsList;
     int serviceId;
     String serviceName;
     ImageView showLocation,rateService,favoriteService,serviceLogo;
     String serviceSubCat;
     private  TextView activityTitle,serviceTitle,serviceAddress,serviceOpeningHours,serviceNumberOfRates,serviceDiscHeader,serviceDisc;
+    private static final String TAG_SERVICES_DETAILS= "response";
+    private static final String TAG_SERVICES_DATA= "serviceplace";
+    private static final String TAG_SERVICES_ID = "service_place_id";
+    private static final String TAG_SERVICES_LOGO = "logo";
+    private static final String TAG_SERVICES_TITLE = "title";
+    private static final String TAG_SERVICES_ADDRESS = "address";
+    private static final String TAG_SERVICES_DISCRIPTION = "description";
+    private static final String TAG_SERVICES_PHOTOS = "images";
+
+    private static final String TAG="++++++++++";
+    String allServices="";
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -53,7 +81,7 @@ public class ServiceDetails extends BaseActivity {
         favoriteService=(ImageView)findViewById(R.id.favoriteService);
         serviceLogo=(ImageView)findViewById(R.id.service_logo);
        serviceTitle=(TextView)findViewById(R.id.service_title);
-        serviceAddress=(TextView)findViewById(R.id.service_address);
+        serviceAddress=(TextView)findViewById(R.id.service_address1);
         serviceOpeningHours=(TextView)findViewById(R.id.service_opiningHours);
         serviceNumberOfRates=(TextView)findViewById(R.id.service_numberofRates);
         serviceDiscHeader=(TextView)findViewById(R.id.disc_header);
@@ -75,18 +103,10 @@ public class ServiceDetails extends BaseActivity {
         serviceId= i.getExtras().getInt("UniqueServiceId");
         serviceName=i.getExtras().getString("ServiceDetailsName");
             serviceSubCat=i.getExtras().getString("serviceSubCatName");
+            allServices=i.getExtras().getString("allServices");
            setTitle(serviceName+" Details");
 
-       // activityTitle.setText(serviceName);
 
-        /*here i will connect web service and get service details to specific service id
-
-        -----------------
-        ------------
-        --------
-
-        -----
-         */
         }
 
 
@@ -103,8 +123,8 @@ public class ServiceDetails extends BaseActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(1), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-        prepareData();
+        getServiceDetailsData();
+        prepareDataForSimilarServicesList();
 
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
@@ -126,9 +146,82 @@ public class ServiceDetails extends BaseActivity {
         });
     }
 
+    private void getServiceDetailsData() {
 
-    private void prepareData() {
-        int[] logos = new int[]{
+        String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplace/show";
+
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(ServiceDetails.this,response,Toast.LENGTH_LONG).show();
+                Log.d(TAG, response.toString());
+                try {
+
+                    JSONObject jsonObject=new JSONObject(response);
+                    JSONObject jsonObjectResponse=jsonObject.getJSONObject(TAG_SERVICES_DETAILS);
+                    JSONArray jsonArr=jsonObjectResponse.getJSONArray(TAG_SERVICES_DATA);
+                    JSONArray jsonArrPhotos=jsonObjectResponse.getJSONArray(TAG_SERVICES_PHOTOS);
+                    for(int i=0;i<jsonArr.length();i++){
+                        JSONObject service1Obj=jsonArr.getJSONObject(i);
+                        Service service=new Service();
+                        service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
+                        service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
+                        service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
+                        service.setAddress(service1Obj.getString(TAG_SERVICES_ADDRESS));
+                        service.setDiscription(service1Obj.getString(TAG_SERVICES_DISCRIPTION));
+                        serviceDisc.setText(service.getDiscription());
+                        serviceAddress.setText(service.getAddress());
+                        serviceTitle.setText(service.getName());
+                       //  serviceNumberOfRates.setText(service.getRates());
+
+                    }
+
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+
+                pDialog.hide();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("service_place_id", "6");
+
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NzUzMzIwLCJleHAiOjE0NjU3NTY5MjAsIm5iZiI6MTQ2NTc1MzMyMCwianRpIjoiOTM4NmQ3MGFiZjJmOTk4MDhkYjkyZTU4M2QyMzEwZmEifQ.quYU3Qjfi-LO0LUnq1ADum_qcWZEnDNJrmLPOYUxzfU");
+                return headers;
+            }
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+    }
+
+
+    private void prepareDataForSimilarServicesList() {
+/*        int[] logos = new int[]{
                 R.drawable.reslogo
                 };
 
@@ -143,6 +236,24 @@ public class ServiceDetails extends BaseActivity {
         serviceDetailsList.add(a);
         serviceDetailsList.add(a);
         adapter.notifyDataSetChanged();
+        */
+        try {
+
+            JSONObject jsonObject=new JSONObject(allServices);
+            JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_DETAILS);
+            for(int i=0;i<jsonArr.length();i++){
+                JSONObject service1Obj=jsonArr.getJSONObject(i);
+                Service service=new Service();
+                service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
+                service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
+                service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
+                serviceDetailsList.add(service);
+                adapter.notifyDataSetChanged();
+            }
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+
     }
 
 
@@ -203,4 +314,5 @@ public class ServiceDetails extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

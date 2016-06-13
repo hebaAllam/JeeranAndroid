@@ -1,12 +1,16 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -16,13 +20,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,12 +42,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.ServiceAdapter;
 import apps.gn4me.com.jeeran.pojo.Service;
-import apps.gn4me.com.jeeran.pojo.ServicesCategory;
 
 public class ServicesList extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
     private SliderLayout mDemoSlider;
@@ -52,6 +63,9 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
     private static final String TAG_SERVICES_ID = "service_place_id";
     private static final String TAG_SERVICES_LOGO = "logo";
     private static final String TAG_SERVICES_TITLE = "title";
+    private static final String TAG="++++++++++";
+    String allservices="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,22 +100,8 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
             setTitle(ServiceSubName);
         }
         else{
-           ServiceSubName=intent.getExtras().getString("serviceSubCatName");
            setTitle(ServiceSubName);
        }
-
-           /*here I will connect web service and get all services by serviceListIdentifier
-           -------------------------------------------
-           -------------------------
-           ---------------
-           ------------
-           ----
-            */
-//----------------------------------------just dummy data ----------------------------------------------
-        ListAllServices();
-    }
-
-    private void ListAllServices() {
         setSlider();
         servicesList.clear();
         myAdapter=new ServiceAdapter(servicesList,this);
@@ -118,6 +118,7 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
                 serviceDetailes.putExtra("UniqueServiceId",service.getServiceId());
                 serviceDetailes.putExtra("ServiceDetailsName",service.getName());
                 serviceDetailes.putExtra("serviceSubCatName",ServiceSubName);
+                serviceDetailes.putExtra("allServices", allservices);
                 startActivity(serviceDetailes);
 
             }
@@ -127,92 +128,80 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
 
             }
         }));
-        prepareServiceData();
-    }
-
-
-    private void setSpinner(){
-
-        String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
+        requestServices();
 
     }
-    private void setSlider(){
-
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-        url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
-        url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-        url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-
-        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Hannibal", R.drawable.hannibal);
-        file_maps.put("Big Bang Theory", R.drawable.bigbang);
-        file_maps.put("House of Cards", R.drawable.house);
-        file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
-
-        for(String name : file_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(this);
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra",name);
-
-            mDemoSlider.addSlider(textSliderView);
-        }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(4000);
-        mDemoSlider.addOnPageChangeListener(this);
-    }
 
 
-    private void prepareServiceData() {
-//        Service service1=new Service(R.drawable.ic_account_circle_white_64dp,"Hyper 1",3434,343);
-//        servicesList.add(service1);
-//        Service service2=new Service(R.drawable.ic_account_circle_white_64dp,"Mole El3rab",3434,343);
-//        servicesList.add(service2);
-//        myAdapter.notifyDataSetChanged();
-        Ion.with(this)
-                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplace/list")
-                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mzg1ODU3LCJleHAiOjE0NjUzODk0NTcsIm5iZiI6MTQ2NTM4NTg1NywianRpIjoiMDAxN2UwZWRlMGYxZTdjMjhmZDQ2YWZjY2U5MTAyZGMifQ.HKNlXf00trYOOzSkHCHfvFAQnS2cIu9anDTzZVEc-WE")
-                .setBodyParameter("service_sub_category_id","6")
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
-                        if(result!=null){
-                            Toast.makeText(ServicesList.this,result, Toast.LENGTH_SHORT).show();
-                            try {
-                                JSONObject jsonObject=new JSONObject(result);
-                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES);
-                                for(int i=0;i<jsonArr.length();i++){
-                                    JSONObject service1=jsonArr.getJSONObject(i);
-                                    Service service=new Service();
-                                    service.setServiceId(service1.getInt(TAG_SERVICES_ID));
-                                    service.setName(service1.getString(TAG_SERVICES_TITLE));
-                                    service.setLogo(service1.getString(TAG_SERVICES_LOGO));
-                                    servicesList.add(service);
-                                    myAdapter.notifyDataSetChanged();
-                                }
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
 
 
-                        }
 
+
+    private void requestServices() {
+        String  tag_string_req = "string_req";
+
+        String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplace/list";
+
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+      //  pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                   allservices=response;
+                    JSONObject jsonObject=new JSONObject(response);
+                    JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES);
+                    for(int i=0;i<jsonArr.length();i++){
+                        JSONObject service1Obj=jsonArr.getJSONObject(i);
+                        Service service=new Service();
+                        service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
+                        service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
+                        service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
+                        servicesList.add(service);
+                        myAdapter.notifyDataSetChanged();
                     }
-                });
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+
+                pDialog.hide();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("service_sub_category_id", "4");
+
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NzUzMzIwLCJleHAiOjE0NjU3NTY5MjAsIm5iZiI6MTQ2NTc1MzMyMCwianRpIjoiOTM4NmQ3MGFiZjJmOTk4MDhkYjkyZTU4M2QyMzEwZmEifQ.quYU3Qjfi-LO0LUnq1ADum_qcWZEnDNJrmLPOYUxzfU");
+                return headers;
+            }
+
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
     }
 @Override
 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -294,6 +283,62 @@ public void onSliderClick(BaseSliderView slider) {
              finish();
      }
         return super.onOptionsItemSelected(item);
+    }
+    private void setSpinner(){
+
+        String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+
+    }
+    private void setSlider(){
+
+        HashMap<String,String> url_maps = new HashMap<String, String>();
+        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
+        url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
+        url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
+        url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
+
+        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
+        file_maps.put("Hannibal", R.drawable.hannibal);
+        file_maps.put("Big Bang Theory", R.drawable.bigbang);
+        file_maps.put("House of Cards", R.drawable.house);
+        file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
+
+        for(String name : file_maps.keySet()){
+            TextSliderView textSliderView = new TextSliderView(this);
+            // initialize a SliderLayout
+            textSliderView
+                    .description(name)
+                    .image(file_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setOnSliderClickListener(this);
+
+            //add your extra information
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("extra",name);
+
+            mDemoSlider.addSlider(textSliderView);
+        }
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+        mDemoSlider.setDuration(4000);
+        mDemoSlider.addOnPageChangeListener(this);
+    }
+
+  public void addNewService(View view){
+      Intent addServiceIntent=new Intent(ServicesList.this,AddService.class);
+      startActivity(addServiceIntent);
+      finish();
+
+
+  }
+    public void returnTohome(View view){
+        Intent homeIntent=new Intent(ServicesList.this,HomeActivity.class);
+        startActivity(homeIntent);
+        finish();
     }
 }
 
