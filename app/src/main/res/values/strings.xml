@@ -142,4 +142,7 @@
     <string name="cancel">Cancel</string>
     <string name="msg">Add Message: (Optional)</string>
 
+    //edit
+    <string name="done">Done Editing</string>
+
 </resources>

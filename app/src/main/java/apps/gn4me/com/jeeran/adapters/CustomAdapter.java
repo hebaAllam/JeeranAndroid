@@ -73,6 +73,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
                 .placeholder( R.drawable.progress_animation )
                 .into(holder.profilePic);
 
+        
         if ( mList.get(position).getIsOwner() == 1 ){
             holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
             //toolbar.setTitle("Card Toolbar");
@@ -86,7 +87,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
                         if( menuItem.getTitle().equals("Edit") ) {
 
                         }else if( menuItem.getTitle().equals("Delete")){
-                            requestDeteteDiscussionComment(holder.context,mList.get(position).getId());
+                            requestDeleteDiscussionComment(holder.context,mList.get(position).getId());
                         }
                         return true;
                     }
@@ -125,7 +126,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
 
     }
 
-    public void requestDeteteDiscussionComment(final Context context, final Integer discId){
+    public void requestDeleteDiscussionComment(final Context context, final Integer discId){
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussioncomments/delete";
 

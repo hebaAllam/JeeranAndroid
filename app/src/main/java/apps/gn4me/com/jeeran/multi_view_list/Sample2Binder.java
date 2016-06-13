@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
  * Created by cym on 15/5/18.
  */
 public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
+
     private List<DiscussionPostData> mList;
     private int startIndex ;
     private Dialog dialog;
@@ -72,6 +74,10 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
 
         final int index = position - startIndex ;
         createDialog();
+
+        ///editText when loss focus hide keyboard
+
+        ///////////////////////////////////////
         Log.i("Titleeeeeeee2" , mList.get(index).getTitle());
 
         holder.name.setText(mList.get(index).getUser().getUserName());
@@ -106,9 +112,11 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         Log.i("Menu item id = " , "" + menuItem.getTitle() ) ;
                         if( menuItem.getTitle().equals("Edit") ) {
-
+                            holder.details.setVisibility(View.GONE);
+                            holder.editLayout.setVisibility(View.VISIBLE);
+                            holder.editDetails.setText(mList.get(index).getDetails().toString());
                         }else if( menuItem.getTitle().equals("Delete")){
-                            requestDeteteDiscussion(holder.context,mList.get(index).getId());
+                            requestDeleteDiscussion(holder.context,mList.get(index).getId());
                         }
                         return true;
                     }
@@ -163,23 +171,45 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
             public void onClick(View v) {
 
                 if ( startIndex == 0 ) {
-                    requestDeteteFavoriteDiscussion(holder.context, mList.get(index).getFavoriteId());
+                    requestDeleteFavoriteDiscussion(holder.context, mList.get(index).getFavoriteId());
                 }else if (startIndex == 1){
                     requestAddFavoriteDiscussion(holder.context,mList.get(index).getId());
                 }
             }
         });
 
+        holder.doneEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.details.setVisibility(View.VISIBLE);
+                holder.editLayout.setVisibility(View.GONE);
+                String newPost = holder.editDetails.getText().toString();
+                if ( !newPost.isEmpty() ) {
+                    mList.get(index).setDetails(newPost);
+                    notifyDataSetChanged();
+                    //requestEditPost(newPost,mList.get(index).getId());
+                }
+                holder.details.setText(newPost);//mList.get(index).getDetails().toString());
+            }
+        });
+
+        holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.details.setVisibility(View.VISIBLE);
+                holder.editLayout.setVisibility(View.GONE);
+                holder.details.setText(mList.get(index).getDetails().toString());
+            }
+        });
+
     }
-
-
 
     private void createDialog()
     {
         dialog = new Dialog(context);
 
         //SET TITLE
-        dialog.setTitle("Player");
+        dialog.setTitle("Report");
 
         //set content
         dialog.setContentView(R.layout.dialog_custom_layout);
@@ -265,7 +295,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         queue.add(strReq);
     }
 
-    public void requestDeteteDiscussion(final Context context, final Integer discId){
+    public void requestDeleteDiscussion(final Context context, final Integer discId){
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussion/delete";
@@ -328,7 +358,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
     }
 
 
-    public void requestDeteteFavoriteDiscussion(final Context context, final Integer discId){
+    public void requestDeleteFavoriteDiscussion(final Context context, final Integer discId){
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussionfavorite/delete";
@@ -452,10 +482,6 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         queue.add(strReq);
     }
 
-
-
-
-
     @Override
     public int getItemCount() {
         return mList.size() ;
@@ -471,6 +497,10 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         ImageView feedImageView;
         AppCompatButton comment ;
         AppCompatButton favorite ;
+        LinearLayout editLayout;
+        AppCompatButton cancelBtn ;
+        AppCompatButton doneEditBtn ;
+        EditText editDetails ;
         //AppCompatButton report ;
         Toolbar toolbar ;
         Context context ;
@@ -484,6 +514,12 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
             title = (TextView) itemView.findViewById(R.id.title);
             details = (TextView) itemView.findViewById(R.id.details);
 
+            editDetails = (EditText) itemView.findViewById(R.id.editDetails);
+            editLayout = (LinearLayout) itemView.findViewById(R.id.editPostLayout);
+            cancelBtn = (AppCompatButton) itemView.findViewById(R.id.cancelBtn);
+            doneEditBtn = (AppCompatButton) itemView.findViewById(R.id.doneBtn);;
+
+
             profilePic = (ImageView) itemView.findViewById(R.id.profilePic);
             feedImageView = (ImageView) itemView.findViewById(R.id.feedImage1);
 
@@ -491,7 +527,6 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
             comment = (AppCompatButton) itemView.findViewById(R.id.commentBtn);
             favorite = (AppCompatButton) itemView.findViewById(R.id.favoriteBtn);
             //report = (AppCompatButton) itemView.findViewById(R.id.reportBtn);
-
 
             toolbar = (Toolbar) itemView.findViewById(R.id.card_toolbar);
         }

@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,8 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -49,6 +53,8 @@ public class Discussion extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private Context context ;
     private int moreNum = 2;
+
+
 
     public String discussionViewType = "ALL";
     private View view ;
@@ -101,6 +107,7 @@ public class Discussion extends Fragment {
 
         return view ;
     }
+
 
 
     public void initArrayList(){
