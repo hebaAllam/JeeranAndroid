@@ -23,7 +23,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -31,16 +30,12 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +43,6 @@ import java.util.Map;
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.ServiceCategoryAdapter;
-import apps.gn4me.com.jeeran.helper.AppController;
 import apps.gn4me.com.jeeran.pojo.ServicesCategory;
 
 public class SubServices extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
@@ -56,28 +50,28 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
     private RecyclerView recyclerView;
     private ServiceCategoryAdapter myAdapter;
     private TextView serviceTitle;
-    private List<ServicesCategory> subServicesList = new ArrayList<>();
+    private static List<ServicesCategory> subServicesList = new ArrayList<>();
     int serviceSubCatIdentifier=5;
     Spinner dropdown;
     String serviceName;
-    private static final String TAG_SERVICES_MAIN_CATEGORY = "response";
-    private static final String TAG_SERVICES_MAIN_CATEGORY_ID = "service_main_category_Id";
-    private static final String TAG_SERVICES_MAIN_CATEGORY_LOGO = "logo";
-    private static final String TAG_SERVICES_MAIN_CATEGORY_TITLE = "title_en";
-    private static final String TAG_SERVICES_MAIN_CATEGORY_SUB_CATEGORY = "subcats";
+    private static final String TAG_SERVICES_SUB_CATEGORY = "response";
+    private static final String TAG_SERVICES_SUB_CATEGORY_ID = "service_main_category_Id";
+    private static final String TAG_SERVICES_SUB_CATEGORY_LOGO = "logo";
+    private static final String TAG_SERVICES_SUB_CATEGORY_TITLE = "title_en";
+    private static final String TAG_SERVICES_MAIN_CATEGORY_SUB_SERVICES = "services";
     private static final String TAG="++++++++++";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_services_list);
+        setContentView(R.layout.activity_sub_services);
 
         //----------getViews------------------------------
         serviceTitle=(TextView)findViewById(R.id.txt_titile) ;
-        dropdown = (Spinner)findViewById(R.id.spinner1AreaFood);
+        dropdown = (Spinner)findViewById(R.id.subCategory_spinner);
         serviceTitle=(TextView)findViewById(R.id.txt_titile) ;
-        mDemoSlider = (SliderLayout)findViewById(R.id.sliderFood);
+        mDemoSlider = (SliderLayout)findViewById(R.id.subCategory_slider);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) findViewById(R.id.food_recycleView);
+        recyclerView = (RecyclerView) findViewById(R.id.subCategory_recycleView);
 
         //------set tool Bar----------------------------
         if (toolbar != null) {
@@ -117,7 +111,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
                 listServices.putExtra("serviceSubCatName",subService.getServiceCatName());
                 listServices.putExtra("serviceCatName",serviceName);
                 startActivity(listServices);
-                finish();
+
 
             }
 
@@ -127,42 +121,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
             }
         }));
 
-//        Ion.with(this)
-//                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list")
-//                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mzc2NzQ5LCJleHAiOjE0NjUzODAzNDksIm5iZiI6MTQ2NTM3Njc0OSwianRpIjoiNjgwMzM1MDliYjBkNGJkNTAzMWJjZGUxZjkzMzYzYWEifQ.GJENOSy_9JtfbEeqexobcAik7iVPgH8VdGcZ4eTH4ZU")
-//                .setBodyParameter("main_category","5")
-//                .asString()
-//                .setCallback(new FutureCallback<String>() {
-//                    @Override
-//                    public void onCompleted(Exception e, String result) {
-//                        Toast.makeText(SubServices.this,result,Toast.LENGTH_LONG).show();
-//
-//                        if(result!=null){
-//                            Toast.makeText(SubServices.this,result,Toast.LENGTH_LONG).show();
-//
-//                            try {
-//
-//                                JSONObject jsonObject=new JSONObject(result);
-//                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_MAIN_CATEGORY);
-//                                for(int i=0;i<jsonArr.length();i++){
-//                                    JSONObject service1=jsonArr.getJSONObject(i);
-//                                    ServicesCategory servicesCategory=new ServicesCategory();
-//                                    servicesCategory.setServiceCatId(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_ID));
-//                                    servicesCategory.setServiceCatName(service1.getString(TAG_SERVICES_MAIN_CATEGORY_TITLE));
-//                                    servicesCategory.setServiceCatLogo(service1.getString(TAG_SERVICES_MAIN_CATEGORY_LOGO));
-//                                    subServicesList.add(servicesCategory);
-//                                    myAdapter.notifyDataSetChanged();
-//                                }
-//                            } catch (JSONException e1) {
-//                                e1.printStackTrace();
-//                            }
-//
-//
-//                        }
-//
-//                    }
-//                });
-        makeJsonObjReq();
+        requestSubCategoriesData();
 
 
 
@@ -171,28 +130,49 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
 
     }
 
-    private void makeJsonObjReq() {
+    private void requestSubCategoriesData() {
         String  tag_string_req = "string_req";
 
-        String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list";
+        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list";
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
-        pDialog.show();
+       // pDialog.show();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
+                Toast.makeText(SubServices.this,response,Toast.LENGTH_LONG).show();
                 Log.d(TAG, response.toString());
-                pDialog.hide();
+                                            try {
+
+                                JSONObject jsonObject=new JSONObject(response);
+                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_SUB_CATEGORY);
+                                for(int i=0;i<jsonArr.length();i++){
+                                    JSONObject service1=jsonArr.getJSONObject(i);
+                                    ServicesCategory servicesCategory=new ServicesCategory();
+                                    servicesCategory.setServiceCatId(service1.getInt(TAG_SERVICES_SUB_CATEGORY_ID));
+                                    servicesCategory.setServiceCatName(service1.getString(TAG_SERVICES_SUB_CATEGORY_TITLE));
+                                    servicesCategory.setServiceCatLogo(service1.getString(TAG_SERVICES_SUB_CATEGORY_LOGO));
+                                    String subCatNum=Integer.toString(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_SUB_SERVICES));
+                                    servicesCategory.setServiceSubCatNumber(subCatNum);
+                                    subServicesList.add(servicesCategory);
+                                    myAdapter.notifyDataSetChanged();
+                                }
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+
+                pDialog.dismiss();
 
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SubServices.this,error.getMessage(),Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -209,7 +189,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NDE4NDg3LCJleHAiOjE0NjU0MjIwODcsIm5iZiI6MTQ2NTQxODQ4NywianRpIjoiM2JkY2IxOGFkYjcwNGM4OWZlNWM4OTQwN2E5MzAyOTMifQ.Vb4Q-NEQDkG-BMQ3uoKMegfpYSBJnwWrfmeTwXDrar4");
+                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NzUzMzIwLCJleHAiOjE0NjU3NTY5MjAsIm5iZiI6MTQ2NTc1MzMyMCwianRpIjoiOTM4NmQ3MGFiZjJmOTk4MDhkYjkyZTU4M2QyMzEwZmEifQ.quYU3Qjfi-LO0LUnq1ADum_qcWZEnDNJrmLPOYUxzfU");
                 return headers;
             }
 
@@ -266,45 +246,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
     }
 
 
-    private void prepareSubServicesData() {
-        Toast.makeText(getBaseContext(),"get data",Toast.LENGTH_LONG).show();
 
-        Ion.with(getApplicationContext())
-                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list")
-                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1Mzc2NzQ5LCJleHAiOjE0NjUzODAzNDksIm5iZiI6MTQ2NTM3Njc0OSwianRpIjoiNjgwMzM1MDliYjBkNGJkNTAzMWJjZGUxZjkzMzYzYWEifQ.GJENOSy_9JtfbEeqexobcAik7iVPgH8VdGcZ4eTH4ZU")
-                .setBodyParameter("main_category","5")
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
-
-                        if(result!=null){
-                            Toast.makeText(getBaseContext(),result,Toast.LENGTH_LONG).show();
-
-                            try {
-
-                                JSONObject jsonObject=new JSONObject(result);
-                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_MAIN_CATEGORY);
-                                for(int i=0;i<jsonArr.length();i++){
-                                    JSONObject service1=jsonArr.getJSONObject(i);
-                                    ServicesCategory servicesCategory=new ServicesCategory();
-                                    servicesCategory.setServiceCatId(service1.getInt(TAG_SERVICES_MAIN_CATEGORY_ID));
-                                    servicesCategory.setServiceCatName(service1.getString(TAG_SERVICES_MAIN_CATEGORY_TITLE));
-                                    servicesCategory.setServiceCatLogo(service1.getString(TAG_SERVICES_MAIN_CATEGORY_LOGO));
-                                    subServicesList.add(servicesCategory);
-                                    myAdapter.notifyDataSetChanged();
-                                }
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
-
-
-                        }
-
-
-                    }
-                });
-    }
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -375,10 +317,15 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Toast.makeText(getBaseContext(),"onrestater",Toast.LENGTH_LONG).show();
+
+    public static List<String> getSubCategoryServices(){
+        List<String> subCategoryNames=new ArrayList<>();
+        for(ServicesCategory servicecat : subServicesList){
+            subCategoryNames.add(servicecat.getServiceCatName());
+
+        }
+
+        return subCategoryNames;
     }
 }
 

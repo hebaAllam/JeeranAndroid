@@ -23,7 +23,7 @@
         android:required="true" />
 
     <application
-        android:name=".helper.AppController"
+        android:name=".activity.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
@@ -32,6 +32,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,26 +42,37 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".activity.MyFavoritesActivity"
             android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.HomeActivity" />
+        </activity>
         <activity
             android:name=".activity.ModulesActivity"
             android:parentActivityName=".activity.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".activity.CreateAccount"
             android:label="@string/create_account"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".activity.RegisterWithFacebook"
-            android:label="@string/title_activity_register_with_facebook" />
+            android:label="@string/title_activity_register_with_facebook"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
@@ -74,19 +86,25 @@
 
         <activity
             android:name=".activity.CommentsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".activity.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar"></activity>
         <activity
             android:name=".activity.AddService"
             android:label="@string/title_activity_add_service"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.ResetPasswordActivity" />
+        <activity
+            android:name=".activity.ResetPasswordActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AddRealEstate"
             android:label="@string/title_activity_add_real_estate"
             android:parentActivityName=".activity.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAddRealEstate">
 
             <!--
@@ -100,6 +118,7 @@
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:label="@string/title_activity_forgot_password"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -123,32 +142,42 @@
 
         <activity
             android:name=".activity.GetLocation"
-            android:label="@string/title_activity_get_location" />
-        <activity android:name=".activity.RealEstateDetails" android:theme="@style/MyAddRealEstate"/>
+            android:label="@string/title_activity_get_location"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RealEstateDetails"
+            android:theme="@style/MyAddRealEstate" />
 
         <!-- services activities -->
         <activity
             android:name=".activity.ServiceDetails"
             android:parentActivityName=".activity.ServicesList"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".activity.ServicesList"
             android:parentActivityName=".activity.SubServices"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme"></activity>
         <activity
             android:name=".activity.SubServices"
             android:parentActivityName=".activity.ModulesActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme"></activity>
         <activity
             android:name=".activity.ShowServiceLocation"
-            android:label="@string/title_activity_show_service_location" />
+
+            android:label="@string/title_activity_show_service_location"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Reviews"
             android:parentActivityName=".activity.ServiceDetails"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".activity.ShowServicesImages"
             android:parentActivityName=".activity.ServiceDetails"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
 
 

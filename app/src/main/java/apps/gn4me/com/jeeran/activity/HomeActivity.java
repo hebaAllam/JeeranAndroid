@@ -162,6 +162,8 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
                 });
         */
 
+        setTitle("");
+
     }
 
 
@@ -199,6 +201,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
 
     public void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         if (toolbar != null) {
             setSupportActionBar(toolbar);
 //            ((TextView) findViewById(R.id.title)).setText(getTitle());

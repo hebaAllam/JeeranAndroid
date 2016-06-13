@@ -44,7 +44,7 @@
 
 
     //for add service
-    <string name="logo_pic">Logo Picture \n (Optional)</string>
+    <string name="logo_pic">Logo Picture </string>
     <string name="optional">(Optional) </string>
     <string name="take_or_choose_pic">Take Or Choose \n 8 Photos</string>
     <string name="title">Title</string>
