@@ -19,6 +19,8 @@ public class RealEstate {
     double longitude,latitude;
     int language;
     boolean isHide;
+    boolean isOwner;
+    boolean isFav;
     String creationDate;
     String updateDate;
     boolean onHome;
@@ -32,6 +34,21 @@ public class RealEstate {
     String Email;
     RealEstateImages imgs;
 
+    public boolean isOwner() {
+        return isOwner;
+    }
+
+    public void setOwner(boolean owner) {
+        isOwner = owner;
+    }
+
+    public boolean isFav() {
+        return isFav;
+    }
+
+    public void setFav(boolean fav) {
+        isFav = fav;
+    }
 
     public RealEstateImages getImgs() {
         return imgs;

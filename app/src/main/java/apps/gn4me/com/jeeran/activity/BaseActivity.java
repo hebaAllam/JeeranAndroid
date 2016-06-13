@@ -47,7 +47,7 @@ public class BaseActivity extends AppCompatActivity {
     public static final Integer SERVICE_PLACE_REVIEW_REPORT = 2 ;
 
 
-    public static final int EXPIRATION_Duration = 30 * 60 * 1000 ;
+    public static final int EXPIRATION_Duration =  1000 ;
     public static ArrayList<Title> neighborhoods = new ArrayList<>();
     public static ArrayList<Title> discussionTopics = new ArrayList<>();
     public static ArrayList<Title> reportReasons = new ArrayList<>();

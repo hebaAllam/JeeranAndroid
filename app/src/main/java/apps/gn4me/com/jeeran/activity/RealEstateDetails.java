@@ -5,10 +5,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,12 +59,16 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
     //    private ActionBarDrawerToggle mActionBarDrawerToggle;
     private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
     private Toolbar toolbar;
-   TextView title, date, location, price, description, area, numOfBathrooms, numOfRooms;
+   TextView title, date, location, price, description, area, numOfBathrooms, numOfRooms, typeRealEstate;
     ProgressDialog progressDialog;
     private RealEstate mReal;
+    ImageView moreBtn;
+    Button saveBtn;
 
     String activityType;
     ImageView favorite;
+    Intent i;
+    int edit = 0;
 
     private void openDialog() {
 
@@ -78,7 +88,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
         openDialog();
 
-        Intent i = getIntent();
+        i = getIntent();
         activityType = i.getStringExtra("activityType");
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
@@ -92,6 +102,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         mDemoSlider.addOnPageChangeListener(this);
 
         setupToolbar();
+        i = getIntent();
 
         requestJsonObjectForDetails();
 
@@ -132,7 +143,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 //    }
 
     private void assignVlues() {
-        Intent i = getIntent();
+//        Intent i = getIntent();
 
         String typee = "rent";
         if(i.getIntExtra("type",3) == 0)
@@ -179,9 +190,14 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         numOfRooms = (TextView)findViewById(R.id.bedRoomsNum);
         numOfBathrooms = (TextView)findViewById(R.id.bathRoomsNum);
         favorite = (ImageView)findViewById(R.id.favoriteRealEstate);
+        moreBtn = (ImageView)findViewById(R.id.optionsInRealEstate);
+        typeRealEstate = (TextView)findViewById(R.id.type_detailsRealEstate);
+        saveBtn = (Button)findViewById(R.id.saveChangesBtn);
 
-        if(activityType.equals("favoriteRealEstate") )
+        if(activityType.equals("favoriteRealEstate") ) {
             favorite.setBackgroundColor(getResources().getColor(R.color.red));
+            moreBtn.setVisibility(View.INVISIBLE);
+        }
     }
     public void addToRealEstateFavorite(View view){
         clickCount++;
@@ -310,7 +326,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                Intent i = getIntent();
+//                Intent i = getIntent();
                 String id = i.getStringExtra("realestateID");
                 params.put("favorite_id",id );
 //            params.put("start", start.toString());
@@ -413,6 +429,36 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(strReq);
     }
+    /*
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.editRealEstate:
+                editRealEstate();
+                return true;
+            case R.id.deleteRealEstate:
+                deleteRealEstate();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void deleteRealEstate() {
+        Toast.makeText(getApplicationContext(),"in edit",Toast.LENGTH_LONG).show();
+    }
+
+    private void editRealEstate() {
+        Toast.makeText(getApplicationContext(),"in delete",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.real_estate_menu_options, menu);
+        return true;
+    }*/
 
 //    private void sendDataToDetails(RealEstate realEstate){
 ////        Intent i = new Intent(RealEstateActivty.class, RealEstateDetails.class);
@@ -449,12 +495,14 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 //                mReal.setUpdateDate(myRealEstates.getAsJsonPrimitive("owner_name").getAsString());
                 title.setText(myRealEstates.getAsJsonPrimitive("title").getAsString());
 //                mReal.setAddress(myRealEstates.getAsJsonObject().getAsJsonPrimitive("address").getAsString());
-                location.setText(myRealEstates.getAsJsonPrimitive("location").getAsString() + " For "+ myRealEstates.getAsJsonPrimitive("type").getAsInt());
+                location.setText(myRealEstates.getAsJsonPrimitive("location").getAsString() + " For ");
                 numOfRooms.setText(myRealEstates.getAsJsonPrimitive("number_of_rooms").getAsInt()+"");
                 numOfBathrooms.setText(myRealEstates.getAsJsonPrimitive("number_of_bathrooms").getAsInt()+"");
                 price.setText(myRealEstates.getAsJsonPrimitive("price").getAsInt()+"");
                 description.setText(myRealEstates.getAsJsonPrimitive("description").getAsString());
                 area.setText(myRealEstates.getAsJsonPrimitive("area").getAsString());
+                typeRealEstate.setText(myRealEstates.getAsJsonPrimitive("type").getAsInt()+"");
+
 //                mReal.setLanguage(myRealEstates.getAsJsonPrimitive("language").getAsInt());
 //                mReal.setLongitude(myRealEstates.getAsJsonPrimitive("longitude").getAsDouble());
 //                mReal.setLatitude(myRealEstates.getAsJsonPrimitive("latitude").getAsDouble());
@@ -516,6 +564,14 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
             Toast.makeText(getApplicationContext(), "reading Failed", Toast.LENGTH_LONG).show();
         }
     }
+    public void showPopup(View v) {
+        // inflate menu
+        PopupMenu popup = new PopupMenu(this,v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.real_estate_menu_options, popup.getMenu());
+        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
+        popup.show();
+    }
 
 
     @Override
@@ -537,5 +593,204 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
     @Override
     public void onSliderClick(BaseSliderView slider) {
 
+    }
+
+    /**
+     * Click listener for popup menu items
+     */
+    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
+
+        public MyMenuItemClickListener() {
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.editRealEstate:
+                    edit = 1;
+                    preatreGUI();
+//                    Toast.makeText(getApplicationContext(), "edit", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.deleteRealEstate:
+                    deleteRealEstate();
+//                    Toast.makeText(getApplicationContext(), "delete", Toast.LENGTH_SHORT).show();
+                    return true;
+//                case R.id.addRealEstate:
+//                    addRealEstate();
+//                    Toast.makeText(getApplicationContext(), "delete", Toast.LENGTH_SHORT).show();
+//                    return true;
+                default:
+            }
+            return false;
+        }
+    }
+
+    private void addRealEstate() {
+        Intent intent = new Intent(RealEstateDetails.this,AddRealEstate.class);
+        startActivity(intent);
+    }
+
+    private void deleteRealEstate() {
+        String  tag_string_req = "string_req";
+//        final Context context = getContext();
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstate/delete";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Log.i("result in delete ::: ",result.toString());
+                Toast.makeText(getApplicationContext(),result.getAsJsonObject("result").getAsJsonPrimitive("message").getAsString(),Toast.LENGTH_LONG).show();
+//                getRealEstateData(result);
+                onBackPressed();
+            }
+
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                Intent i = getIntent();
+                String id = i.getStringExtra("realestateID");
+                params.put("realstate_id",id );
+//            params.put("start", start.toString());
+//            params.put("count",count.toString());
+
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+    }
+
+    private void editRealEstate() {
+
+        String  tag_string_req = "string_req";
+//        final Context context = getContext();
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstate/edit";
+
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Log.i("result in edit ::: ",result.toString());
+                Toast.makeText(getApplicationContext(),result.getAsJsonObject("result").getAsJsonPrimitive("message").getAsString(),Toast.LENGTH_LONG).show();
+//                getRealEstateData(result);
+                onBackPressed();
+            }
+
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+//                Intent i = getIntent();
+//                prepareGUI();
+                String id = i.getStringExtra("realestateID");
+                params.put("realstate_id",id );
+                params.put("type","1");
+                params.put("title","my title");
+                params.put("description","my description about this real estate");
+
+//            params.put("start", start.toString());
+//            params.put("count",count.toString());
+
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+    }
+
+    private void preatreGUI() {
+        makeTxtViewEditable(location);
+        makeTxtViewEditable(title);
+        makeTxtViewEditable(date);
+        makeTxtViewEditable(price);
+        makeTxtViewEditable(description);
+        makeTxtViewEditable(numOfBathrooms);
+        makeTxtViewEditable(numOfRooms);
+        saveBtn.setVisibility(View.VISIBLE);
+    }
+
+    public void saveChanges(View view){
+        editRealEstate();
+    }
+
+    private void makeTxtViewEditable(TextView textView){
+        textView.setCursorVisible(true);
+//        textView.setFocusableInTouchMode(true);
+        textView.setInputType(InputType.TYPE_CLASS_TEXT);
+        textView.requestFocus();
     }
 }
