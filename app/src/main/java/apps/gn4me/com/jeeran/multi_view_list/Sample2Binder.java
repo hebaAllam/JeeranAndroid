@@ -164,8 +164,11 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
 
                 if ( startIndex == 0 ) {
                     requestDeteteFavoriteDiscussion(holder.context, mList.get(index).getFavoriteId());
+
                 }else if (startIndex == 1){
                     requestAddFavoriteDiscussion(holder.context,mList.get(index).getId());
+                    //
+//                    holder.favorite.setCompoundDrawables(x,null,null,null);
                 }
             }
         });

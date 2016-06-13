@@ -114,4 +114,5 @@
  <color name="seller_type">#e6e6e8</color>
  <color name="dark_cells">#b8c7cf</color>
  <color name="light_cells">#f1f1f3</color>
+ <color name="secondary_text_material_light">#4052b5</color>
 </resources>

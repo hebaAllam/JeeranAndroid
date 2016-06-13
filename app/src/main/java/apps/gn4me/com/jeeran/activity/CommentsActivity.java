@@ -78,7 +78,7 @@ public class CommentsActivity extends BaseActivity {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new CustomAdapter(mList,getApplicationContext());
+        customAdapter = new CustomAdapter(mList,this);
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
