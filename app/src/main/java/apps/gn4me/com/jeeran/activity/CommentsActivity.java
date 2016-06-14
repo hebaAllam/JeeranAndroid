@@ -89,10 +89,6 @@ public class CommentsActivity extends BaseActivity {
 
         addCustomLoaderView();
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
-
-
-
-
         //infinite_Insertlist();
     }
 

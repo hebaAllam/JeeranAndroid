@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
@@ -48,6 +49,7 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
     private Context context ;
     private Title discussionTopic ;
 
+
     public Sample1Binder(UltimateDifferentViewTypeAdapter dataBindAdapter  , Context context) {
         super(dataBindAdapter);
         this.context = context ;
@@ -63,13 +65,15 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
     @Override
     public void bindViewHolder(final ViewHolder holder, int position) {
         //String[] items = new String[]{"Taxs", "Transportation", "Expensive Food"};
-
         ArrayList<String> items = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.context, android.R.layout.simple_spinner_dropdown_item, items);
+        holder.problemSpinner.setAdapter(adapter);
+        items.clear();
+        adapter.notifyDataSetChanged();
         for (int i=0 ; i< BaseActivity.discussionTopics.size() ; i++ ){
             items.add(BaseActivity.discussionTopics.get(i).getTitleEnglish());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.context, android.R.layout.simple_spinner_dropdown_item, items);
-        holder.problemSpinner.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         //String text = holder.problemSpinner.getSelectedItem().toString();
 
         holder.problemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -105,7 +109,6 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
         });
 
     }
-
 
     private void requestAddDiscussionPost(final String postTxt){
         String  tag_string_req = "string_req";

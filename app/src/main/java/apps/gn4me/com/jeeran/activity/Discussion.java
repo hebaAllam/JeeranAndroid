@@ -41,6 +41,7 @@ import java.util.Map;
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DiscussionRecycleViewAdapter;
 import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
+import apps.gn4me.com.jeeran.pojo.Title;
 
 /**
  * Created by acer on 5/17/2016.
@@ -170,11 +171,6 @@ public class Discussion extends Fragment {
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussion/list";
 
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {

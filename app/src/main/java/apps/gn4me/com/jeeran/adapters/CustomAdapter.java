@@ -206,7 +206,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
         okBtn= (TextView) dialog.findViewById(R.id.okTxt);
         cancelBtn= (TextView) dialog.findViewById(R.id.cancelTxt);
         rg = (RadioGroup) dialog.findViewById(R.id.radioReasoons);
-
+        rg.removeAllViews();
         int size = BaseActivity.reportReasons.size() ;
         RadioButton[] rb = new RadioButton[size];
         for(int i=0; i<size; i++){
@@ -223,11 +223,6 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/report/add";
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
