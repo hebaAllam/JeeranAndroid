@@ -76,9 +76,9 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
                 .placeholder( R.drawable.progress_animation )
                 .into(holder.profilePic);
 
-
+        holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
+        holder.toolbar.getMenu().clear();
         if ( mList.get(position).getIsOwner() == 1 ){
-            holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
             //toolbar.setTitle("Card Toolbar");
             if (holder.toolbar != null) {
                 // inflate your menu
@@ -98,7 +98,6 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
             }
         }else{
             if (holder.toolbar != null) {
-                holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
                 holder.toolbar.inflateMenu(R.menu.other_menu);
                 holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                     @Override
@@ -132,12 +131,6 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
     public void requestDeleteDiscussionComment(final Context context, final Integer discId){
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussioncomments/delete";
-
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {

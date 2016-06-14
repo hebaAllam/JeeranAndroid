@@ -335,7 +335,7 @@ public class BaseActivity extends AppCompatActivity {
 
         if ( success ) {
             JsonArray discussionTopicsJson = result.getAsJsonObject("response").getAsJsonArray("topics");
-
+            discussionTopics.clear();
             for ( int i=0 ; i<discussionTopicsJson.size() ; i++ ){
                 Title discussionTopic = new Title();
                 discussionTopic.setId(discussionTopicsJson.get(i).getAsJsonObject().getAsJsonPrimitive("topic_id").getAsInt());
@@ -407,7 +407,7 @@ public class BaseActivity extends AppCompatActivity {
 
         if ( success ) {
             JsonArray reportReasonsJson = result.getAsJsonObject("response").getAsJsonArray("reasons");
-
+            reportReasons.clear();
             for ( int i=0 ; i<reportReasonsJson.size() ; i++ ){
                 Title reportReason = new Title();
                 reportReason.setId(reportReasonsJson.get(i).getAsJsonObject().getAsJsonPrimitive("reason_id").getAsInt());

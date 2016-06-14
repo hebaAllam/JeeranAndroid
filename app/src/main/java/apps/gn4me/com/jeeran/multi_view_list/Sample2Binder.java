@@ -109,8 +109,9 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
             holder.favorite.setCompoundDrawablesWithIntrinsicBounds(myDrawable,null,null,null);
         }
 
+        holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
+        holder.toolbar.getMenu().clear();
         if ( mList.get(index).getIsOwner() == 1 ){
-            holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
             //toolbar.setTitle("Card Toolbar");
             if (holder.toolbar != null) {
                 // inflate your menu
@@ -132,7 +133,6 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
             }
         }else{
             if (holder.toolbar != null) {
-                holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
                 holder.toolbar.inflateMenu(R.menu.other_menu);
                 holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                     @Override
