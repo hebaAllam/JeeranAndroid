@@ -179,7 +179,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
             public void onClick(View v) {
                 if ( startIndex == 0 ) {
                     Log.i("Fav :::::::::: Id Del::",mList.get(index).getFavoriteId()+"");
-                    requestDeleteFavoriteDiscussion(holder.context, mList.get(index).getFavoriteId());
+                    requestDeleteFavoriteDiscussion(holder.context, mList.get(index).getId());
                 }else if (startIndex == 1 && mList.get(index).getIsFav() == 0){
                     requestAddFavoriteDiscussion(holder.context,mList.get(index).getId());
                     Drawable myDrawable = context.getResources().getDrawable(R.drawable.ic_favorite_icon_select);
