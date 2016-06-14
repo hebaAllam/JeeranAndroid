@@ -2,6 +2,7 @@ package apps.gn4me.com.jeeran.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -78,7 +79,7 @@ public class CommentsActivity extends BaseActivity {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new CustomAdapter(mList,getApplicationContext());
+        customAdapter = new CustomAdapter(this);
 
         linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
@@ -88,10 +89,6 @@ public class CommentsActivity extends BaseActivity {
 
         addCustomLoaderView();
         ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
-
-
-
-
         //infinite_Insertlist();
     }
 
@@ -124,11 +121,16 @@ public class CommentsActivity extends BaseActivity {
                     success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                 }
                 if(success){
+                    /*
                     Log.i("comment added" , "true");
                     DiscussionCommentData comment = new DiscussionCommentData();
                     comment.setComment(commentTxt);
                     mList.add(comment);
                     customAdapter.refresh();
+                    */
+                    commentEditTxt.setText("");
+                    finish();
+                    startActivity(getIntent());
                     //customAdapter.insert(comment,customAdapter.getItemCount());
                 }
             }
@@ -195,7 +197,7 @@ public class CommentsActivity extends BaseActivity {
                 msg = comment.getComment();
             }
             Log.i("comments data" , msg);
-            customAdapter.refresh();
+            customAdapter.insertAll(mList);
         }
     }
 

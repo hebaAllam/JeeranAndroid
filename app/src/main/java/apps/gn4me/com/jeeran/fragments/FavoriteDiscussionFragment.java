@@ -52,7 +52,7 @@ public  class FavoriteDiscussionFragment extends Fragment {
 
     public String discussionViewType = "Fav";
     private View view ;
-    private List<DiscussionPostData> mList = new ArrayList<>();
+    private List<DiscussionPostData> mList ;
 
 
     public FavoriteDiscussionFragment() {
@@ -67,8 +67,9 @@ public  class FavoriteDiscussionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.discussion_fragment, container, false) ;
 
+        mList = new ArrayList<>();
         this.view = view ;
-        context = getContext() ;
+        context = getActivity() ;
 
 //        final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.dummyfrag_bg);
 //        frameLayout.setBackgroundColor(color);
@@ -77,7 +78,7 @@ public  class FavoriteDiscussionFragment extends Fragment {
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new DiscussionRecycleViewAdapter(mList,0,context);//getArrayList());
+        customAdapter = new DiscussionRecycleViewAdapter(0,context);//getArrayList());
 
         linearLayoutManager = new LinearLayoutManager(context);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
@@ -115,6 +116,7 @@ public  class FavoriteDiscussionFragment extends Fragment {
 
         if ( success ){
 
+            mList = new ArrayList<>();
             Log.i(":::::::::::::::",result.toString());
             JsonArray discussions = result.getAsJsonArray("response");
 
@@ -142,7 +144,7 @@ public  class FavoriteDiscussionFragment extends Fragment {
                 }
                 mList.add(post);
             }
-            customAdapter.refresh();
+            customAdapter.insertAll(mList);
         }
 
 
@@ -216,20 +218,6 @@ public  class FavoriteDiscussionFragment extends Fragment {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-
-                        /*
-                        DiscussionPostData obj = new DiscussionPostData(moreNum , moreNum++ , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
-                                "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-                        customAdapter.insert(obj , customAdapter.getAdapterItemCount());
-
-                        obj = new DiscussionPostData(moreNum , moreNum++ , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
-                                "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-                        customAdapter.insert(obj , customAdapter.getAdapterItemCount());
-
-                        obj = new DiscussionPostData(moreNum , moreNum++ , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
-                                "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-                        customAdapter.insert(obj , customAdapter.getAdapterItemCount());
-                        */
 
                         requestJsonObject(customAdapter.getAdapterItemCount(),2);
 

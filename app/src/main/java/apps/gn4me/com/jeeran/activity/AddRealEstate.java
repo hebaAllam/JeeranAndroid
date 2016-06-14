@@ -60,7 +60,7 @@ public class AddRealEstate extends BaseActivity
 
 
     //multiple imgs
-    int PICK_IMAGE_MULTIPLE = 1;
+    int PICK_IMAGE_MULTIPLE = 322;
     String imageEncoded;
     List<String> imagesEncodedList;
 
@@ -414,10 +414,7 @@ public class AddRealEstate extends BaseActivity
         } catch (Exception e) {
            e.printStackTrace();
         }
-
-        super.
-
-                onActivityResult(requestCode, resultCode, data);
+        super.      onActivityResult(requestCode, resultCode, data);
 
     }
     private boolean titleIsEmpty(String titleTxt){

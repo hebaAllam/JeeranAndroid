@@ -20,14 +20,14 @@ import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
 public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapter {
 
     private int viewType ;
-
-    public DiscussionRecycleViewAdapter(List<DiscussionPostData> dataSet , int viewType , Context context){
+    private int count = 0 ;
+    public DiscussionRecycleViewAdapter( int viewType , Context context){
         this.viewType = viewType ;
         if ( viewType == 0 ) {
-            putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this, dataSet,0,context));
+            putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this ,0,context));
         }else if (viewType == 1){
-            putBinder(SampleViewType.SAMPLE1, new Sample1Binder(this,dataSet,context));
-            putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this, dataSet ,1,context));
+            putBinder(SampleViewType.SAMPLE1, new Sample1Binder(this,context));
+            putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this ,1,context));
         }
     }
 
@@ -43,7 +43,7 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
 
     @Override
     public int getAdapterItemCount() {
-        return 0 ;
+        return count ;
     }
 
     @Override
@@ -97,17 +97,20 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
     }
 
     public void insert(DiscussionPostData post, int position) {
+        count++ ;
         ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).insert(post,position);
     }
 
+    public void insertAll(List<DiscussionPostData> posts) {
+        count += posts.size();
+        ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).addAll(posts);
+    }
 
     public void refresh() {
         ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).updateList();
     }
 
-    public void insertAll(List<DiscussionPostData> posts) {
-        ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).addAll(posts);
-    }
+
 
     public void remove(int position) {
         ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).remove(position);

@@ -31,6 +31,7 @@ public class MyFavoritesActivity extends BaseActivity {
             setSupportActionBar(toolbar);
             //setTitle("My Favorites");
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.tabanim_viewpager);
         setupViewPager(viewPager);

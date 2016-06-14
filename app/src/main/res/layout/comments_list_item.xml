@@ -31,12 +31,72 @@
                 android:orientation="vertical"
                 android:paddingLeft="10dp" >
 
+
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
+                    android:textColor="@color/text_black_100"
                     android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_black_100"
+                    android:textSize="13dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:id="@+id/editPostLayout"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/editComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_black_100"
+                        android:visibility="gone"
+                        android:textSize="13dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:gravity="center_vertical|end"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <android.support.v7.widget.AppCompatButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="35dp"
+                            android:height="48dp"
+                            android:padding="5dp"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="@string/cancel"
+                            android:textColor="@color/primary_700"
+                            android:id="@+id/doneBtn" />
+
+                        <android.support.v7.widget.AppCompatButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:height="48dp"
+                            android:padding="5dp"
+                            android:minHeight="35dp"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="@string/done"
+                            android:textColor="@color/primary_700"
+                            android:id="@+id/cancelBtn" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/timestamp"
@@ -44,13 +104,6 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/grey_400"
                     android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/cardview_shadow_start_color"
-                    android:textSize="13dp" />
 
             </LinearLayout>
 

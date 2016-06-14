@@ -45,7 +45,7 @@
         <activity
             android:name=".activity.MyFavoritesActivity"
             android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:theme="@style/AppThemeNoActionBar"></activity>
         <activity
             android:name=".activity.ModulesActivity"
             android:parentActivityName=".activity.HomeActivity"
@@ -77,7 +77,7 @@
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:theme="@style/AppThemeNoActionBar"></activity>
         <activity
             android:name=".activity.AddService"
             android:label="@string/title_activity_add_service"
@@ -124,9 +124,7 @@
         <activity
             android:name=".activity.GetLocation"
             android:label="@string/title_activity_get_location" />
-        <activity
-            android:name=".activity.RealEstateDetails"
-            android:theme="@style/MyAddRealEstate" />
+        <activity android:name=".activity.RealEstateDetails" android:theme="@style/MyAddRealEstate"/>
 
         <!-- services activities -->
         <activity
@@ -136,11 +134,11 @@
         <activity
             android:name=".activity.ServicesList"
             android:parentActivityName=".activity.SubServices"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme"></activity>
         <activity
             android:name=".activity.SubServices"
             android:parentActivityName=".activity.ModulesActivity"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme"></activity>
         <activity
             android:name=".activity.ShowServiceLocation"
             android:label="@string/title_activity_show_service_location" />
@@ -153,12 +151,10 @@
             android:parentActivityName=".activity.ServiceDetails"
             android:theme="@style/MyMaterialTheme" />
 
+
         <service
             android:name=".intent_service.ValidateTokenService"
-            android:exported="false" />
-
-        <activity android:name=".activity.RealEstateComments" />
-        <activity android:name=".activity.AddCommentRealEstate"></activity>
+            android:exported="false"></service>
     </application>
 
 </manifest>

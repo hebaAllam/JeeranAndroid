@@ -1,7 +1,9 @@
 package apps.gn4me.com.jeeran.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,14 +16,25 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 
@@ -45,20 +58,22 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         setContentView(R.layout.activity_home);
 
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
-        //String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
 
         ArrayList<String> items = new ArrayList<>();
-        for (int i=0 ; i< BaseActivity.neighborhoods.size() ; i++ ){
-            items.add(BaseActivity.neighborhoods.get(i).getTitleEnglish());
-        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
-
+        items.clear();
+        adapter.notifyDataSetChanged();
+        for (int i=0 ; i< BaseActivity.neighborhoods.size() ; i++ ){
+            items.add(BaseActivity.neighborhoods.get(i).getTitleEnglish());
+        }
+        adapter.notifyDataSetChanged();
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 BaseActivity.currentNeighborhood = BaseActivity.neighborhoods.get(position) ;
+                requestUpdateNeighborhood();
             }
 
             @Override
@@ -138,33 +153,66 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
             }
         });
 
-
-        ///////////////
-
-        /*
-        SharedPreferences settings;
-        String token ;
-        settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-
-        token = settings.getString("token", null);
-
-        Ion.with(getApplicationContext())
-                .load(BASE_URL + "/discussion/list")
-                .setHeader("Authorization",token)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        // do stuff with the result or error
-                        Log.i("::: data discussion", e.getMessage() );
-
-                    }
-                });
-        */
+        setTitle("");
 
     }
 
+    private void requestUpdateNeighborhood() {
 
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/user/updateneighborhood";
+
+        final Integer neighborhoodId = BaseActivity.currentNeighborhood.getId();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Boolean success = false ;
+                if ( result != null ) {
+                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                }
+                if(success){
+                    Log.i("update neighborhood" , "true");
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("neighborhood_id" , neighborhoodId.toString());
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(strReq);
+
+    }
 
 
     private void init_navigator(){
@@ -199,6 +247,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
 
     public void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         if (toolbar != null) {
             setSupportActionBar(toolbar);
 //            ((TextView) findViewById(R.id.title)).setText(getTitle());

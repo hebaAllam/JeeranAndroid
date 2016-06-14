@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,8 +8,11 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -74,6 +78,9 @@ public class BaseActivity extends AppCompatActivity {
         requestHomeSliderImages();
 //        requestRealEstateSliderImages();
     }
+
+
+
 /*
     private void requestRealEstateSliderImages() {
         {
@@ -328,7 +335,7 @@ public class BaseActivity extends AppCompatActivity {
 
         if ( success ) {
             JsonArray discussionTopicsJson = result.getAsJsonObject("response").getAsJsonArray("topics");
-
+            discussionTopics.clear();
             for ( int i=0 ; i<discussionTopicsJson.size() ; i++ ){
                 Title discussionTopic = new Title();
                 discussionTopic.setId(discussionTopicsJson.get(i).getAsJsonObject().getAsJsonPrimitive("topic_id").getAsInt());
@@ -400,7 +407,7 @@ public class BaseActivity extends AppCompatActivity {
 
         if ( success ) {
             JsonArray reportReasonsJson = result.getAsJsonObject("response").getAsJsonArray("reasons");
-
+            reportReasons.clear();
             for ( int i=0 ; i<reportReasonsJson.size() ; i++ ){
                 Title reportReason = new Title();
                 reportReason.setId(reportReasonsJson.get(i).getAsJsonObject().getAsJsonPrimitive("reason_id").getAsInt());

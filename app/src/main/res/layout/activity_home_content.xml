@@ -9,16 +9,15 @@
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="230dp"
         custom:auto_cycle="true"
         custom:indicator_visibility="visible"
         custom:pager_animation="Accordion"
         custom:pager_animation_span="1100" />
 
     <Spinner
-
         android:id="@+id/spinner1"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="40dp"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />

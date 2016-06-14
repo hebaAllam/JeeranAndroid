@@ -1,7 +1,9 @@
 package apps.gn4me.com.jeeran.adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +33,7 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +53,8 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
     private EditText complaintMsg ;
 
 
-    public CustomAdapter(List<DiscussionCommentData> mList , Context context) {
-        this.mList = mList;
+    public CustomAdapter(Context context) {
+        this.mList = new ArrayList<>();
         this.context = context ;
     }
 
@@ -73,8 +76,9 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
                 .placeholder( R.drawable.progress_animation )
                 .into(holder.profilePic);
 
+        holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
+        holder.toolbar.getMenu().clear();
         if ( mList.get(position).getIsOwner() == 1 ){
-            holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
             //toolbar.setTitle("Card Toolbar");
             if (holder.toolbar != null) {
                 // inflate your menu
@@ -86,7 +90,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
                         if( menuItem.getTitle().equals("Edit") ) {
 
                         }else if( menuItem.getTitle().equals("Delete")){
-                            requestDeteteDiscussionComment(holder.context,mList.get(position).getId());
+                            requestDeleteDiscussionComment(holder.context,mList.get(position).getId());
                         }
                         return true;
                     }
@@ -94,7 +98,6 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
             }
         }else{
             if (holder.toolbar != null) {
-                holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
                 holder.toolbar.inflateMenu(R.menu.other_menu);
                 holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                     @Override
@@ -125,15 +128,9 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
 
     }
 
-    public void requestDeteteDiscussionComment(final Context context, final Integer discId){
+    public void requestDeleteDiscussionComment(final Context context, final Integer discId){
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussioncomments/delete";
-
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
@@ -150,7 +147,10 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
                     success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                 }
                 if ( success ) {
-                    Log.i("Discussion :::", result.toString());
+                    Log.i("Discussion Delete:::", result.toString());
+
+                    ((Activity)context).finish();
+                    ((Activity)context).startActivity(((Activity)context).getIntent());
                 }
             }
         }, new Response.ErrorListener() {
@@ -199,7 +199,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
         okBtn= (TextView) dialog.findViewById(R.id.okTxt);
         cancelBtn= (TextView) dialog.findViewById(R.id.cancelTxt);
         rg = (RadioGroup) dialog.findViewById(R.id.radioReasoons);
-
+        rg.removeAllViews();
         int size = BaseActivity.reportReasons.size() ;
         RadioButton[] rb = new RadioButton[size];
         for(int i=0; i<size; i++){
@@ -216,11 +216,6 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/report/add";
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
@@ -298,11 +293,11 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
 
     public void insert(DiscussionCommentData comment, int position) {
         //insertInternal(mList, comment , position);
+        mList.add(comment);
         notifyDataSetChanged();
     }
 
     public void insertAll(List<DiscussionCommentData> comments) {
-        //insertInternal(mList, comment , position);
         mList.addAll(comments);
         notifyDataSetChanged();
     }

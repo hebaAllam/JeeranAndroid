@@ -90,6 +90,8 @@ public class SplashActivity extends BaseActivity {
                 }
             }
         };
+
+        // add logic here
         timerThread.start();
     }
 

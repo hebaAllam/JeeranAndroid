@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.multi_view_list;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
@@ -44,13 +46,12 @@ import apps.gn4me.com.jeeran.pojo.Title;
  */
 public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
 
-    private List<DiscussionPostData> mList;
     private Context context ;
     private Title discussionTopic ;
 
-    public Sample1Binder(UltimateDifferentViewTypeAdapter dataBindAdapter , List<DiscussionPostData> mList  , Context context) {
+
+    public Sample1Binder(UltimateDifferentViewTypeAdapter dataBindAdapter  , Context context) {
         super(dataBindAdapter);
-        this.mList =  mList;
         this.context = context ;
     }
 
@@ -64,13 +65,15 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
     @Override
     public void bindViewHolder(final ViewHolder holder, int position) {
         //String[] items = new String[]{"Taxs", "Transportation", "Expensive Food"};
-
         ArrayList<String> items = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.context, android.R.layout.simple_spinner_dropdown_item, items);
+        holder.problemSpinner.setAdapter(adapter);
+        items.clear();
+        adapter.notifyDataSetChanged();
         for (int i=0 ; i< BaseActivity.discussionTopics.size() ; i++ ){
             items.add(BaseActivity.discussionTopics.get(i).getTitleEnglish());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.context, android.R.layout.simple_spinner_dropdown_item, items);
-        holder.problemSpinner.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         //String text = holder.problemSpinner.getSelectedItem().toString();
 
         holder.problemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -107,7 +110,6 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
 
     }
 
-
     private void requestAddDiscussionPost(final String postTxt){
         String  tag_string_req = "string_req";
 
@@ -137,12 +139,16 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
                     success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                 }
                 if(success){
+                    /*
                     Log.i("post added" , "true");
                     DiscussionPostData post = new DiscussionPostData();
                     post.setTitle( discussionTopic.getTitleEnglish());
                     post.setDetails(postTxt);
                     mList.add(post);
                     notifyDataSetChanged();
+                    */
+                    ((Activity)context).finish();
+                    ((Activity)context).startActivity(((Activity)context).getIntent());
                 }
             }
         }, new Response.ErrorListener() {

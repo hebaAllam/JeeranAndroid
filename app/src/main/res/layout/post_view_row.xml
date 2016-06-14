@@ -3,7 +3,8 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/parent">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
@@ -85,6 +86,8 @@
                     android:id="@+id/title"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text_black_100"
+                    android:textStyle="bold"
                     android:paddingBottom="5dp"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -92,11 +95,61 @@
 
                 <TextView
                     android:id="@+id/details"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text_black_100"
                     android:paddingBottom="10dp"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:id="@+id/editPostLayout"
+                    android:orientation="vertical">
+                    <EditText
+                        android:id="@+id/editDetails"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_black_100"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:gravity="center_vertical|end"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <android.support.v7.widget.AppCompatButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="35dp"
+                            android:height="48dp"
+                            android:padding="5dp"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="@string/cancel"
+                            android:textColor="@color/primary_700"
+                            android:id="@+id/doneBtn" />
+
+                        <android.support.v7.widget.AppCompatButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:height="48dp"
+                            android:padding="5dp"
+                            android:minHeight="35dp"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="@string/done"
+                            android:textColor="@color/primary_700"
+                            android:id="@+id/cancelBtn" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/feedImage1"
