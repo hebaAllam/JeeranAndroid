@@ -1,9 +1,11 @@
 package apps.gn4me.com.jeeran.multi_view_list;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,6 +35,7 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.multiViewTypes.DataBinder;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +50,7 @@ import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
  */
 public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
 
-    private List<DiscussionPostData> mList;
+    private List<DiscussionPostData> mList = new ArrayList<>();
     private int startIndex ;
     private Dialog dialog;
     private TextView okBtn,cancelBtn;
@@ -55,11 +58,10 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
     private RadioGroup rg;
     private EditText complaintMsg ;
 
-    public Sample2Binder(UltimateDifferentViewTypeAdapter dataBindAdapter, List<DiscussionPostData> mList , int startIndex , Context context) {
+    public Sample2Binder(UltimateDifferentViewTypeAdapter dataBindAdapter , int startIndex , Context context) {
         super(dataBindAdapter);
         this.context = context ;
         this.startIndex = startIndex ;
-        this.mList = mList;
     }
 
     @Override
@@ -94,12 +96,18 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
                 .into(holder.profilePic);
 
 
-        Picasso.with( holder.context )
-                .load(mList.get(index).getImage())
-                .error(R.drawable.ic_error )
-                .placeholder( R.drawable.progress_animation )
-                .into(holder.feedImageView);
+        if ( mList.get(index).getImage() != null && !mList.get(index).getImage().isEmpty()) {
+            Picasso.with(holder.context)
+                    .load(mList.get(index).getImage())
+                    .error(R.drawable.ic_error)
+                    .placeholder(R.drawable.progress_animation)
+                    .into(holder.feedImageView);
+        }
 
+        if(mList.get(index).getIsFav() == 1 || startIndex == 0 ){
+            Drawable myDrawable = context.getResources().getDrawable(R.drawable.ic_favorite_icon_select);
+            holder.favorite.setCompoundDrawablesWithIntrinsicBounds(myDrawable,null,null,null);
+        }
 
         if ( mList.get(index).getIsOwner() == 1 ){
             holder.toolbar = (Toolbar) holder.view.findViewById(R.id.card_toolbar);
@@ -169,11 +177,13 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         holder.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if ( startIndex == 0 ) {
+                    Log.i("Fav :::::::::: Id Del::",mList.get(index).getFavoriteId()+"");
                     requestDeleteFavoriteDiscussion(holder.context, mList.get(index).getFavoriteId());
-                }else if (startIndex == 1){
+                }else if (startIndex == 1 && mList.get(index).getIsFav() == 0){
                     requestAddFavoriteDiscussion(holder.context,mList.get(index).getId());
+                    Drawable myDrawable = context.getResources().getDrawable(R.drawable.ic_favorite_icon_select);
+                    holder.favorite.setCompoundDrawablesWithIntrinsicBounds(myDrawable,null,null,null);
                 }
             }
         });
@@ -217,7 +227,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         okBtn= (TextView) dialog.findViewById(R.id.okTxt);
         cancelBtn= (TextView) dialog.findViewById(R.id.cancelTxt);
         rg = (RadioGroup) dialog.findViewById(R.id.radioReasoons);
-
+        rg.removeAllViews();
         int size = BaseActivity.reportReasons.size() ;
         RadioButton[] rb = new RadioButton[size];
         for(int i=0; i<size; i++){
@@ -322,6 +332,8 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
                 }
                 if ( success ) {
                     Log.i("Discussion :::", result.toString());
+                    ((Activity)context).finish();
+                    ((Activity)context).startActivity(((Activity)context).getIntent());
                 }
             }
         }, new Response.ErrorListener() {
@@ -385,6 +397,10 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
                 }
                 if ( success ) {
                     Log.i("Favorite :::", result.toString());
+                    if ( startIndex == 0 ) {
+                        ((Activity) context).finish();
+                        ((Activity) context).startActivity(((Activity) context).getIntent());
+                    }
                 }
             }
         }, new Response.ErrorListener() {

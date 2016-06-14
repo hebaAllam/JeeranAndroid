@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/prompt_comment"
             android:textColorHint="@color/cardview_shadow_start_color"
-            android:textColor="@color/cardview_shadow_start_color"
+            android:textColor="@color/text_black_100"
             android:inputType="text"
             android:maxLines="1"
             android:singleLine="true"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="@string/comment_btn"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_700"
             android:textAllCaps="false"
             android:layout_weight="1" />
     </LinearLayout>

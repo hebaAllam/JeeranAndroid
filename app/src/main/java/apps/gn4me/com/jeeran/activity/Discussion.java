@@ -56,9 +56,8 @@ public class Discussion extends Fragment {
 
 
 
-    public String discussionViewType = "ALL";
     private View view ;
-    private List<DiscussionPostData> mList = new ArrayList<>();
+    private List<DiscussionPostData> mList ;
 
 
     public Discussion() {
@@ -85,13 +84,14 @@ public class Discussion extends Fragment {
         View view = inflater.inflate(R.layout.discussion_fragment, container, false) ;
 
         this.view = view ;
-        context = getContext() ;
+        context = getActivity() ;
 
+        mList = new ArrayList<>();
         ultimateRecyclerView = (UltimateRecyclerView) view.findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new DiscussionRecycleViewAdapter(mList,1,context);//getArrayList());
+        customAdapter = new DiscussionRecycleViewAdapter(1,context);//getArrayList());
 
         linearLayoutManager = new LinearLayoutManager(context);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
@@ -123,7 +123,7 @@ public class Discussion extends Fragment {
 
     private void getDiscussionData(JsonObject result){
         boolean success = false ;
-
+        mList = new ArrayList<>();
         if (result != null ) {
             success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
         }
@@ -159,7 +159,7 @@ public class Discussion extends Fragment {
                 }
                 mList.add(post);
             }
-            customAdapter.refresh();
+            customAdapter.insertAll(mList);
         }
 
 
@@ -237,20 +237,7 @@ public class Discussion extends Fragment {
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         requestJsonObject(customAdapter.getAdapterItemCount(),2);
-
-                        /*
-                        DiscussionPostData obj = new DiscussionPostData(moreNum , moreNum++ , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
-                                "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-                        customAdapter.insert(obj , customAdapter.getAdapterItemCount());
-
-                        obj = new DiscussionPostData(moreNum , moreNum++ , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
-                                "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-                        customAdapter.insert(obj , customAdapter.getAdapterItemCount());
-
-                        obj = new DiscussionPostData(moreNum , moreNum++ , "post" , "http://www.101apps.co.za/images/android/articles/RecyclerView/card.png" ,
-                                "very nice shop , give it a try ^_^", "https://ssl.gstatic.com/images/icons/gplus-32.png", "12-23-2014", "New Shop");
-                        customAdapter.insert(obj , customAdapter.getAdapterItemCount());
-                        */
+                        Log.i("COunt ::::::::::::: " , "" + customAdapter.getAdapterItemCount());
                     }
                 }, 1000);
 

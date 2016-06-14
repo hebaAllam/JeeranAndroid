@@ -152,7 +152,7 @@ public class ValidateTokenService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        refreshToken();
+       refreshToken();
     }
 
 

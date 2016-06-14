@@ -200,8 +200,6 @@ public class LoginActivity extends BaseActivity {
                         requestJsonObject(1,param);
                         /// test login by fb
 
-
-
                     }
                 });
 

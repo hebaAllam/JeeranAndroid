@@ -1,5 +1,6 @@
 package apps.gn4me.com.jeeran.multi_view_list;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,13 +45,11 @@ import apps.gn4me.com.jeeran.pojo.Title;
  */
 public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
 
-    private List<DiscussionPostData> mList;
     private Context context ;
     private Title discussionTopic ;
 
-    public Sample1Binder(UltimateDifferentViewTypeAdapter dataBindAdapter , List<DiscussionPostData> mList  , Context context) {
+    public Sample1Binder(UltimateDifferentViewTypeAdapter dataBindAdapter  , Context context) {
         super(dataBindAdapter);
-        this.mList =  mList;
         this.context = context ;
     }
 
@@ -137,12 +136,16 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
                     success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                 }
                 if(success){
+                    /*
                     Log.i("post added" , "true");
                     DiscussionPostData post = new DiscussionPostData();
                     post.setTitle( discussionTopic.getTitleEnglish());
                     post.setDetails(postTxt);
                     mList.add(post);
                     notifyDataSetChanged();
+                    */
+                    ((Activity)context).finish();
+                    ((Activity)context).startActivity(((Activity)context).getIntent());
                 }
             }
         }, new Response.ErrorListener() {
