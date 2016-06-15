@@ -23,7 +23,6 @@
         android:required="true" />
 
     <application
-        android:name=".helper.AppController"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
@@ -83,6 +82,7 @@
             android:label="@string/title_activity_add_service"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.ResetPasswordActivity" />
+        <activity android:name=".activity.RealEstateComments" />
         <activity
             android:name=".activity.AddRealEstate"
             android:label="@string/title_activity_add_real_estate"

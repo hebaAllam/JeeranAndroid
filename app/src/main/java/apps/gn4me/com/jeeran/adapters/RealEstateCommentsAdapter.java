@@ -132,6 +132,16 @@ class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 //        new RealEstateComments().addComment();
 //    }
 
+//    private int getListItem(View view){
+//        parentRow = (View) view.getParent();
+//        rlistView = (RelativeLayout) parentRow.getParent();
+//        card=(CardView) rlistView.getParent();
+//        list=(RecyclerView) card.getParent();
+//        position = list.getChildAdapterPosition(card);
+
+//        return position;
+//    }
+
     private void editComment() {
 
     }

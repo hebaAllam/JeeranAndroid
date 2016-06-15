@@ -56,6 +56,7 @@ public class SplashActivity extends BaseActivity {
 //                    editor.commit();
 
 
+
                     email = settings.getString("email", null);
                     password = settings.getString("password", null);
                     token = settings.getString("token", null);
