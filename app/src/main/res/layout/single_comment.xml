@@ -98,6 +98,12 @@
                                 android:textSize="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
+                            <EditText
+                                android:visibility="gone"
+                                android:id="@+id/userReviewEdit"
+                                android:textSize="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                         </android.support.v7.widget.LinearLayoutCompat>
                     </LinearLayout>
                 </LinearLayout>

@@ -69,6 +69,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
     ImageView favorite;
     Intent i;
     int edit = 0;
+    Button comments;
 
     private void openDialog() {
 
@@ -108,6 +109,15 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
         bindComponents();
 
+        comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = i.getStringExtra("realestateID");
+                Intent x = new Intent(RealEstateDetails.this,RealEstateComments.class);
+                x.putExtra("realestateID",id);
+                startActivity(x);
+            }
+        });
 //        Intent i = getIntent();
 //        i.getStringExtra("title");
 
@@ -198,6 +208,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
             favorite.setBackgroundColor(getResources().getColor(R.color.red));
             moreBtn.setVisibility(View.INVISIBLE);
         }
+        comments = (Button)findViewById(R.id.comments);
     }
     public void addToRealEstateFavorite(View view){
         clickCount++;
@@ -253,7 +264,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                Intent i = getIntent();
+                i = getIntent();
                 String id = i.getStringExtra("realestateID");
                 params.put("realstate_id",id );
 //            params.put("start", start.toString());
