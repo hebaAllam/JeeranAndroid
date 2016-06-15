@@ -161,7 +161,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
                                     subServicesList.add(servicesCategory);
                                     myAdapter.notifyDataSetChanged();
                                 }
-                            } catch (JSONException e1) {
+                           } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
 
@@ -189,7 +189,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NzUzMzIwLCJleHAiOjE0NjU3NTY5MjAsIm5iZiI6MTQ2NTc1MzMyMCwianRpIjoiOTM4NmQ3MGFiZjJmOTk4MDhkYjkyZTU4M2QyMzEwZmEifQ.quYU3Qjfi-LO0LUnq1ADum_qcWZEnDNJrmLPOYUxzfU");
+                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1OTA5NDA5LCJleHAiOjE0NjU5MTMwMDksIm5iZiI6MTQ2NTkwOTQwOSwianRpIjoiNjkzODA2MGZlZjI2ZTZlZGZkMWEzYWJjMzgzYjVhMGEifQ.syGxZCLQgarw96tiY72hoNcVjdImxNR5-np5yf24Kyc");
                 return headers;
             }
 

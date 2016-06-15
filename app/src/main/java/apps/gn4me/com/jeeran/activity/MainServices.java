@@ -63,7 +63,7 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
         super.onCreate(savedInstanceState);
         Ion.with(getContext())
                 .load("http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list")
-                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NjQ2NDAzLCJleHAiOjE0NjU2NTAwMDMsIm5iZiI6MTQ2NTY0NjQwMywianRpIjoiZDQ4NjFiNzY4YWE0MTBiMmY0MjZhYWFhZTQ2ZTZiNjIifQ.d-jlLWJoUh7QUABjqTE2wT063UiF0kwrZmg3Hzq8T1Q")
+                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NzU3NDY4LCJleHAiOjE0NjU3NjEwNjgsIm5iZiI6MTQ2NTc1NzQ2OCwianRpIjoiYTYwNDkyMjg1ZTg1ODBlMjcwM2YyNDNmMDhiMDQ3NTcifQ.Mjllr6kp00YCPYDpGM15DKkg2fVhXzHUvWJ1aMTjtDk")
                 .setBodyParameter("main_category", "0")
                 .asString()
                 .setCallback(new FutureCallback<String>() {

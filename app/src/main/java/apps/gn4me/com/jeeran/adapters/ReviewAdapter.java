@@ -58,10 +58,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         UserReview userReview = reviewsList.get(position);
-        holder.userName.setText(userReview.getUserName());
+        holder.userName.setText(userReview.getUser().getUserName());
         holder.reviewDate.setText(userReview.getReviewDate());
-        holder.userReview.setText(userReview.getUserReview());
-        Glide.with(mContext).load(userReview.getUserImage()).into(holder.userImage);
+        holder.userReview.setText(userReview.getReviewContent());
+        Glide.with(mContext).load(userReview.getUser().getImage()).into(holder.userImage);
 
     }
 

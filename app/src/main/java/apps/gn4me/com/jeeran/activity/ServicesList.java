@@ -33,6 +33,8 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 
 import org.json.JSONArray;
@@ -128,13 +130,51 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
 
             }
         }));
-        requestServices();
+        requestServicesData();
 
     }
 
 
 
+private void requestServicesData(){
 
+
+    Ion.with(this)
+            .load("http://jeeran.gn4me.com/jeeran_v1/serviceplace/list")
+            .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1OTA5NDA5LCJleHAiOjE0NjU5MTMwMDksIm5iZiI6MTQ2NTkwOTQwOSwianRpIjoiNjkzODA2MGZlZjI2ZTZlZGZkMWEzYWJjMzgzYjVhMGEifQ.syGxZCLQgarw96tiY72hoNcVjdImxNR5-np5yf24Kyc")
+            .setBodyParameter("service_sub_category_id", "4")
+            .asString()
+            .setCallback(new FutureCallback<String>() {
+                @Override
+                public void onCompleted(Exception e, String result) {
+                    if(result!=null){
+                        try {
+
+
+                            Toast.makeText(ServicesList.this,result,Toast.LENGTH_LONG).show();
+                            JSONObject jsonObject=new JSONObject(result);
+                            JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES);
+                            for(int i=0;i<jsonArr.length();i++){
+                                JSONObject service1Obj=jsonArr.getJSONObject(i);
+                                Service service=new Service();
+                                service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
+                                service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
+                                service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
+                                servicesList.add(service);
+                                myAdapter.notifyDataSetChanged();
+                            }
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+
+                    }
+                    else {
+                        Toast.makeText(ServicesList.this,"result null",Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            });
+}
 
 
     private void requestServices() {
@@ -155,6 +195,7 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
                 try {
 
                    allservices=response;
+                    Toast.makeText(ServicesList.this,response,Toast.LENGTH_LONG).show();
                     JSONObject jsonObject=new JSONObject(response);
                     JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES);
                     for(int i=0;i<jsonArr.length();i++){
@@ -193,7 +234,7 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NzUzMzIwLCJleHAiOjE0NjU3NTY5MjAsIm5iZiI6MTQ2NTc1MzMyMCwianRpIjoiOTM4NmQ3MGFiZjJmOTk4MDhkYjkyZTU4M2QyMzEwZmEifQ.quYU3Qjfi-LO0LUnq1ADum_qcWZEnDNJrmLPOYUxzfU");
+                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NzU3NDY4LCJleHAiOjE0NjU3NjEwNjgsIm5iZiI6MTQ2NTc1NzQ2OCwianRpIjoiYTYwNDkyMjg1ZTg1ODBlMjcwM2YyNDNmMDhiMDQ3NTcifQ.Mjllr6kp00YCPYDpGM15DKkg2fVhXzHUvWJ1aMTjtDk");
                 return headers;
             }
 
@@ -328,7 +369,7 @@ public void onSliderClick(BaseSliderView slider) {
         mDemoSlider.addOnPageChangeListener(this);
     }
 
-  public void addNewService(View view){
+  public void addNew(View view){
       Intent addServiceIntent=new Intent(ServicesList.this,AddService.class);
       startActivity(addServiceIntent);
       finish();

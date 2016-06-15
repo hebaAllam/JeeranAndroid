@@ -369,6 +369,9 @@ public class AddRealEstate extends BaseActivity
                 // Get the Image from data
 
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                for (int i=0;i<filePathColumn.length;i++){
+                    Toast.makeText(getApplicationContext(),filePathColumn[i],Toast.LENGTH_SHORT).show();
+                }
                 imagesEncodedList = new ArrayList<String>();
                 if (data.getData() != null) {
 

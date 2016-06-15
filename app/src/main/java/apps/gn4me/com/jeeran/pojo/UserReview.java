@@ -1,80 +1,82 @@
 package apps.gn4me.com.jeeran.pojo;
 
+import java.util.Date;
+
 /**
  * Created by acer on 5/30/2016.
  */
 public class UserReview {
+
+    private int reviewID;
     private int serviceId;
-    private User user;
-    private int userImage;
-    private String username;
-
-    public String getUserName() {
-        return username;
-    }
-
-    public int getUserImage() {
-        return userImage;
-    }
-
-    public void setUserImage(int userImage) {
-        this.userImage = userImage;
-    }
-
-    public void setUserName(String username) {
-        this.username = username;
-    }
-
-    private int numberOfRates;
+    private String reviewContent;
     private String reviewDate;
-    private String userReview;
+    private  String reviewUpdateDate;
+    private int numberOfRates;
+    private User user;
+    private int isHide;
 
-    public UserReview(int restaurantId, int numberOfRates, String reviewDate, String userReview) {
-        this. serviceId = restaurantId;
-        this.numberOfRates = numberOfRates;
-        this.reviewDate = reviewDate;
-        this.userReview = userReview;
+    public void setReviewID(int reviewID) {
+        this.reviewID = reviewID;
     }
 
-    public UserReview(int serviceId, int userImage, String username, int numberOfRates, String reviewDate, String userReview) {
+    public void setServiceId(int serviceId) {
         this.serviceId = serviceId;
-        this.userImage = userImage;
-        this.username = username;
-        this.numberOfRates = numberOfRates;
-        this.reviewDate = reviewDate;
-        this.userReview = userReview;
     }
 
-    public int getRestaurantId() {
-        return  serviceId;
-    }
-
-
-    public int getNumberOfRates() {
-        return numberOfRates;
-    }
-
-    public String getReviewDate() {
-        return reviewDate;
-    }
-
-    public String getUserReview() {
-        return userReview;
-    }
-
-    public void setRestaurantId(int restaurantId) {
-        this. serviceId = restaurantId;
-    }
-
-    public void setNumberOfRates(int numberOfRates) {
-        this.numberOfRates = numberOfRates;
+    public void setReviewContent(String reviewContent) {
+        this.reviewContent = reviewContent;
     }
 
     public void setReviewDate(String reviewDate) {
         this.reviewDate = reviewDate;
     }
 
-    public void setUserReview(String userReview) {
-        this.userReview = userReview;
+    public void setReviewUpdateDate(String reviewUpdateDate) {
+        this.reviewUpdateDate = reviewUpdateDate;
+    }
+
+    public void setNumberOfRates(int numberOfRates) {
+        this.numberOfRates = numberOfRates;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setIsHide(int isHide) {
+        this.isHide = isHide;
+    }
+
+    public int getReviewID() {
+        return reviewID;
+    }
+
+    public int getServiceId() {
+        return serviceId;
+    }
+
+    public String getReviewContent() {
+        return reviewContent;
+    }
+
+    public String getReviewDate() {
+        return reviewDate;
+    }
+
+    public String getReviewUpdateDate() {
+        return reviewUpdateDate;
+    }
+
+    public int getNumberOfRates() {
+        return numberOfRates;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public int getIsHide() {
+        return isHide;
     }
 }
