@@ -17,7 +17,6 @@ import apps.gn4me.com.jeeran.intent_service.ValidateTokenService;
 public class SplashActivity extends BaseActivity {
 
     Spinner selectArea ;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,16 +64,21 @@ public class SplashActivity extends BaseActivity {
                     Log.i("......."," item clicked..." + selectArea.getSelectedItem().toString());
 
                     String selection = selectArea.getSelectedItem().toString();
-                    if (selection != "" || selection != null){
+                    if (!selection.isEmpty()|| selection != null){
                         if ( token != null ) {
                             Log.i("-*-*-* token : ", token);
-
                             //start service to keep token valid
+                            countInitRequest = 0 ;
+                            activeActivity = SplashActivity.this ;
+                            requestMyProfileJsonObject();
+                            requestNeighborhoodsListJson();
+                            requestReportReasonsJson();
+                            requestDiscussionTopicsJson();
+                            requestHomeSliderImages();
+
                             Intent in = new Intent(SplashActivity.this , ValidateTokenService.class);
                             startService(in);
 
-                            Intent intent = new Intent(SplashActivity.this, RealEstateComments.class);
-                            startActivity(intent);
                         }else {
                             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                             startActivity(intent);
@@ -95,6 +99,8 @@ public class SplashActivity extends BaseActivity {
         // add logic here
         timerThread.start();
     }
+
+
 
     @Override
     protected void onPause() {

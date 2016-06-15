@@ -29,6 +29,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -37,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.pojo.Title;
 
 public class HomeActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
@@ -52,15 +54,15 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
     private FrameLayout serviceBtn ;
     private FrameLayout myFavorites;
 
+    private int initReq = 0 ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
-
         ArrayList<String> items = new ArrayList<>();
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
         items.clear();
@@ -155,64 +157,14 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
 
         setTitle("");
 
-    }
-
-    private void requestUpdateNeighborhood() {
-
-        final String TAG = "Volley";
-        String url = BaseActivity.BASE_URL + "/user/updateneighborhood";
-
-        final Integer neighborhoodId = BaseActivity.currentNeighborhood.getId();
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, response.toString());
-                //pDialog.hide();
-                JsonParser parser = new JsonParser();
-                JsonObject result = parser.parse(response).getAsJsonObject();
-                Boolean success = false ;
-                if ( result != null ) {
-                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
-                }
-                if(success){
-                    Log.i("update neighborhood" , "true");
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //pDialog.hide();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("neighborhood_id" , neighborhoodId.toString());
-                return params;
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                SharedPreferences settings;
-                String token ;
-                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                token = settings.getString("token", null);
-                headers.put("Authorization", token);
-                return headers;
-            }
-
-        };
-        // Adding request to request queue
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(strReq);
 
     }
+
+
+    public void initHome(){
+
+    }
+
 
 
     private void init_navigator(){
@@ -242,6 +194,8 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         getSupportActionBar().setTitle(R.string.toolbar_title_home);
 
     }
+
+
 
 
 

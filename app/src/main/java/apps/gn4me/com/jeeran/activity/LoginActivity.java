@@ -6,9 +6,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -46,8 +43,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,6 +56,7 @@ import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.intent_service.ValidateTokenService;
+import apps.gn4me.com.jeeran.pojo.Title;
 import apps.gn4me.com.jeeran.pojo.User;
 
 /**
@@ -67,13 +64,7 @@ import apps.gn4me.com.jeeran.pojo.User;
  */
 public class LoginActivity extends BaseActivity {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -249,8 +240,6 @@ public class LoginActivity extends BaseActivity {
             Intent in = new Intent(LoginActivity.this , ValidateTokenService.class);
             startService(in);
 
-            Intent i = new Intent(LoginActivity.this,HomeActivity.class);
-            startActivity(i);
         } else {
             Log.i( "Login Failed ::: " , result.toString() );
             Snackbar.make(coordinatorLayout, "Login Failed" , Snackbar.LENGTH_LONG).show();
@@ -268,11 +257,7 @@ public class LoginActivity extends BaseActivity {
             url += "/user/loginfb";
         }
 
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
+
 
         final String email = mEmailView.getText().toString();
         final String password = mPasswordView.getText().toString();
@@ -283,9 +268,19 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
+
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getLoginData(result);
+
+                countInitRequest = 0 ;
+                activeActivity = LoginActivity.this ;
+                requestMyProfileJsonObject();
+                requestNeighborhoodsListJson();
+                requestReportReasonsJson();
+                requestDiscussionTopicsJson();
+                requestHomeSliderImages();
+                showProgress(false);
             }
         }, new Response.ErrorListener() {
 
@@ -409,7 +404,7 @@ public class LoginActivity extends BaseActivity {
             editor.putString("email", email );
 
             editor.commit();
-
+            showProgress(true);
             requestJsonObject(0,null);
 
             //Intent i = new Intent(LoginActivity.this,HomeActivity.class);

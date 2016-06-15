@@ -2,6 +2,7 @@ package apps.gn4me.com.jeeran.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -33,6 +34,7 @@ import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.pojo.Title;
+import apps.gn4me.com.jeeran.pojo.User;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -51,16 +53,18 @@ public class BaseActivity extends AppCompatActivity {
     public static final Integer SERVICE_PLACE_REVIEW_REPORT = 2 ;
 
 
-    public static final int EXPIRATION_Duration =  1000 ;
+    public static final int EXPIRATION_Duration = 30 * 60 * 1000 ;
     public static ArrayList<Title> neighborhoods = new ArrayList<>();
     public static ArrayList<Title> discussionTopics = new ArrayList<>();
     public static ArrayList<Title> reportReasons = new ArrayList<>();
 
     public static HashMap<String,String> url_maps = new HashMap<String, String>();
     public static int realEstateCount = 0 , servicePlacesCount = 0 ;
-    public static Title currentNeighborhood ;
+    public static Title currentNeighborhood = new Title();
+    public static User profile = new User();
     public static int realEstateFeatureImgs;
-
+    public int countInitRequest = 0 ;
+    public Activity activeActivity ;
 
     protected View progress;
     String android_id;
@@ -72,10 +76,8 @@ public class BaseActivity extends AppCompatActivity {
         hideKeyboard();
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        requestNeighborhoodsListJson();
-        requestDiscussionTopicsJson();
-        requestReportReasonsJson();
-        requestHomeSliderImages();
+        Log.i("IDDDD" , android_id);
+
 //        requestRealEstateSliderImages();
     }
 
@@ -154,26 +156,66 @@ public class BaseActivity extends AppCompatActivity {
     }
 */
 
-    public void hideKeyboard() {
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getCurrentFocus() != null)
-            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+    public void requestUpdateNeighborhood() {
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/user/updateneighborhood";
+
+        final Integer neighborhoodId = BaseActivity.currentNeighborhood.getId();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Boolean success = false ;
+                if ( result != null ) {
+                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                }
+                if(success){
+                    Log.i("update neighborhood" , "true");
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("neighborhood_id" , neighborhoodId.toString());
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(strReq);
+
     }
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //closing transition animations
-        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
 
 
     private void getHomeSliderData(JsonObject result){
@@ -191,18 +233,16 @@ public class BaseActivity extends AppCompatActivity {
 
             for ( int i=0 ; i<realstates.size() ; i++ ){
                 BaseActivity.url_maps.put( realstates.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString() ,
-                    realstates.get(i).getAsJsonObject().getAsJsonPrimitive("image").getAsString()) ;
+                        realstates.get(i).getAsJsonObject().getAsJsonPrimitive("image").getAsString()) ;
             }
             for ( int i=0 ; i<servicePlaces.size() ; i++ ){
                 BaseActivity.url_maps.put( servicePlaces.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString() ,
                         servicePlaces.get(i).getAsJsonObject().getAsJsonPrimitive("image").getAsString()) ;
             }
         }
-
     }
 
-    private void requestHomeSliderImages(){
-        String  tag_string_req = "string_req";
+    public void requestHomeSliderImages(){
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/application/onhome";
@@ -223,6 +263,8 @@ public class BaseActivity extends AppCompatActivity {
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getHomeSliderData(result);
+                countInitRequest++;
+                gotTwoHomeActivity();
             }
         }, new Response.ErrorListener() {
 
@@ -253,7 +295,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void getNeighborhoods(JsonObject result){
-
         Boolean success = false ;
         if ( result != null ) {
             success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
@@ -269,12 +310,11 @@ public class BaseActivity extends AppCompatActivity {
                 neighborhood.setTitleEnglish(neighborhoodsJson.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
                 neighborhoods.add(neighborhood);
             }
-            currentNeighborhood = neighborhoods.get(0);
+            //currentNeighborhood = neighborhoods.get(0);
         }
     }
 
-    private void requestNeighborhoodsListJson() {
-        String  tag_string_req = "string_req";
+    public void requestNeighborhoodsListJson() {
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/neighborhood/list";
@@ -295,6 +335,8 @@ public class BaseActivity extends AppCompatActivity {
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getNeighborhoods(result);
+                countInitRequest++;
+                gotTwoHomeActivity();
             }
         }, new Response.ErrorListener() {
 
@@ -319,7 +361,7 @@ public class BaseActivity extends AppCompatActivity {
 
         };
 
-// Adding request to request queue
+        // Adding request to request queue
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(strReq);
     }
@@ -327,7 +369,6 @@ public class BaseActivity extends AppCompatActivity {
 
 
     private void getDiscussionTopics(JsonObject result){
-
         Boolean success = false ;
         if ( result != null ) {
             success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
@@ -346,8 +387,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private void requestDiscussionTopicsJson() {
-        String  tag_string_req = "string_req";
+    public void requestDiscussionTopicsJson() {
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussion/topiclist";
@@ -368,6 +408,8 @@ public class BaseActivity extends AppCompatActivity {
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getDiscussionTopics(result);
+                countInitRequest++;
+                gotTwoHomeActivity();
             }
         }, new Response.ErrorListener() {
 
@@ -418,8 +460,8 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private void requestReportReasonsJson() {
-        String  tag_string_req = "string_req";
+    public void requestReportReasonsJson() {
+
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/report/reasonlist";
@@ -440,6 +482,8 @@ public class BaseActivity extends AppCompatActivity {
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getReportReasons(result);
+                countInitRequest++;
+                gotTwoHomeActivity();
             }
         }, new Response.ErrorListener() {
 
@@ -471,6 +515,100 @@ public class BaseActivity extends AppCompatActivity {
 
 
 
+    public void getMyProfile(JsonObject result){
+
+        Boolean success = false ;
+        if ( result != null ) {
+            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+        }
+
+        if ( success ){
+
+            profile.setId(result.getAsJsonObject("response").getAsJsonPrimitive("user_id").getAsInt());
+            profile.setUserName( result.getAsJsonObject("response").getAsJsonPrimitive("fName").getAsString()+
+                    " " + result.getAsJsonObject("response").getAsJsonPrimitive("lName").getAsString());
+            profile.setImage(result.getAsJsonObject("response").getAsJsonPrimitive("image").getAsString());
+            profile.setEmailAddress(result.getAsJsonObject("response").getAsJsonPrimitive("mail").getAsString());
+
+            currentNeighborhood.setId(result.getAsJsonObject("response").getAsJsonPrimitive("neighborhood_id").getAsInt());
+            currentNeighborhood.setTitleArabic(result.getAsJsonObject("response").getAsJsonPrimitive("neighborhood_ar").getAsString());
+            currentNeighborhood.setTitleEnglish(result.getAsJsonObject("response").getAsJsonPrimitive("neighborhood_en").getAsString());
+        }
+    }
+
+    public void requestMyProfileJsonObject() {
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/user/myprofile?device_token=" + android_id ;
+
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                getMyProfile(result);
+                countInitRequest++;
+                gotTwoHomeActivity();
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+            
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(strReq);
+    }
+
+    public void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (getCurrentFocus() != null)
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //closing transition animations
+        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+
+
+    public void gotTwoHomeActivity(){
+        if (countInitRequest == 5 ) {
+            Intent intent = new Intent(activeActivity, HomeActivity.class);
+            startActivity(intent);
+        }
+    }
 
     public void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
