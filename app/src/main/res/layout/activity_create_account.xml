@@ -147,7 +147,7 @@
                 android:layout_marginTop="@dimen/highSeparatorHeight"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_btn"
-                android:text="@string/action_sign_in_fb"
+                android:text="Register By Facebook"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textStyle="bold" />

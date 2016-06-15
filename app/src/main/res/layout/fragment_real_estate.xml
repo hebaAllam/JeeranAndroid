@@ -20,4 +20,12 @@
 
     </android.support.v7.widget.CardView>
 
+    <ImageView
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:id="@+id/notFoundImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/don_t_have"/>
+
 </FrameLayout>
