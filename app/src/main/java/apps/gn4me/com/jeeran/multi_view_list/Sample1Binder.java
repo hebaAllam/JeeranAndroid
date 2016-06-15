@@ -30,6 +30,7 @@ import com.google.gson.JsonParser;
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.multiViewTypes.DataBinder;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +90,13 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
         });
 
 
+        Picasso.with( holder.context )
+                .load( BaseActivity.profile.getImage() )
+                .error(R.drawable.ic_error )
+                .placeholder( R.drawable.progress_animation )
+                .into(holder.profilePic);
+
+
         holder.postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,12 +126,6 @@ public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
 
         final Integer neighborhoodsId = BaseActivity.currentNeighborhood.getId() ;
         final Integer topicId = discussionTopic.getId() ;
-
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {

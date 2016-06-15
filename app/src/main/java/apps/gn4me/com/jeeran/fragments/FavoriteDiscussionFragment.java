@@ -24,8 +24,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
@@ -124,20 +122,23 @@ public  class FavoriteDiscussionFragment extends Fragment {
                 DiscussionPostData post = new DiscussionPostData();
                 post.setFavoriteId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("favorite_discussion_id").getAsInt());
                 post.setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_id").getAsInt());
-                post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comment_no").getAsInt());
-                post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("title").getAsString());
+                post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comments_no").getAsInt());
+                post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
 
-                Log.i("Titleeeeeeee1" ,  discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("title").getAsString());
+                Log.i("Titleeeeeeee1" ,  discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
 
-                post.setDetails( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("details").getAsString());
-                post.setTimeStamp( discussions.get(i).getAsJsonObject().getAsJsonObject("discussion").getAsJsonPrimitive("created_at").getAsString());
-                //post.setCategory( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title_en").getAsString());
-                //topics_id
+                post.setDetails( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("details").getAsString());
+                post.setTimeStamp( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
+
                 JsonArray imgs = discussions.get(i).getAsJsonObject().getAsJsonArray("disc_imgs") ;
 
-                post.getUser().setId( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("user_id").getAsInt());
-                post.getUser().setUserName( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("first_name").getAsString());
-                post.getUser().setImage( discussions.get(i).getAsJsonObject().getAsJsonObject("user").getAsJsonPrimitive("image").getAsString());
+                post.getUser().setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_id").getAsInt());
+                post.getUser().setUserName( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("first_name").getAsString() + " "
+                                            + discussions.get(i).getAsJsonObject().getAsJsonPrimitive("last_name").getAsString() );
+                post.getUser().setImage( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_image").getAsString());
+
+                post.setIsOwner( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("is_owner").getAsInt());
+                post.setIsFav(1);
 
                 if ( imgs != null && imgs.size() > 0 ){
                     post.setImage( imgs.get(0).getAsString() );

@@ -119,7 +119,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
                 holder.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        Log.i("Menu item id = " , "" + menuItem.getTitle() ) ;
+                        Log.i("Menu item id = " , "" + menuItem.getTitle() );
                         if( menuItem.getTitle().equals("Edit") ) {
                             holder.details.setVisibility(View.GONE);
                             holder.editLayout.setVisibility(View.VISIBLE);
