@@ -46,6 +46,7 @@ public class RealEstateComments extends BaseActivity {
 
     RecyclerView reviewsRecyclerView;
     RealEstateCommentsAdapter myAdapter;
+    public static String realestateId;
     private List<RealEstateCommentPojo> reviewList=new ArrayList<>();
     int realEstateId;
     String realEstateName;
@@ -71,6 +72,8 @@ public class RealEstateComments extends BaseActivity {
         setContentView(R.layout.activity_real_estate_comments);
         openDialog();
 
+        Intent i = getIntent();
+        realestateId = i.getStringExtra("realestateID");
         title=(TextView)findViewById(R.id.txt_titile);
         //------------setting toolbar-----------------
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -130,7 +133,7 @@ public class RealEstateComments extends BaseActivity {
 //        });
         prepareData();
     }
-    private void requestJsonObject() {
+    public void requestJsonObject() {
         String  tag_string_req = "string_req";
 
         final String TAG = "Volley";
@@ -166,7 +169,9 @@ public class RealEstateComments extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("realstate_id", "3");
+                Intent i = getIntent();
+                String id = i.getStringExtra("realestateID");
+                params.put("realstate_id", id);
 //                params.put("count",count.toString());
 
                 return params;
@@ -199,7 +204,7 @@ public class RealEstateComments extends BaseActivity {
             int msg = result.getAsJsonObject("result").getAsJsonPrimitive("errorcode").getAsInt();
             if(msg == 1){
                 Toast.makeText(getApplicationContext(),"No Comments Found",Toast.LENGTH_LONG).show();
-                onBackPressed();
+//                onBackPressed();
             }
         }
 
@@ -240,11 +245,10 @@ public class RealEstateComments extends BaseActivity {
     public void addComment(final String data){
 //        Intent intent = new Intent(RealEstateComments.this,AddRealEstate.class);
 //        startActivity(intent);
-        {
-            String  tag_string_req = "string_req";
+        String  tag_string_req = "string_req";
 
-            final String TAG = "Volley";
-            String url = BaseActivity.BASE_URL + "/realstatecomments/add";
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstatecomments/add";
 
         /*
         final ProgressDialog pDialog = new ProgressDialog(context);
@@ -252,60 +256,61 @@ public class RealEstateComments extends BaseActivity {
         pDialog.show();
         */
 
-            StringRequest strReq = new StringRequest(Request.Method.POST,
-                    url, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
 
-                @Override
-                public void onResponse(String response) {
-                    Log.d(TAG, response.toString());
-                    //pDialog.hide();
-                    JsonParser parser = new JsonParser();
-                    JsonObject result = parser.parse(response).getAsJsonObject();
-                    boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
-                    Log.i("result from add :: ",result.toString());
-                    comment.setText(null);
-                    if(success)
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                Log.i("result from add :: ",result.toString());
+                comment.setText(null);
+                if(success)
 //                        requestJsonObject();
-                        appendIntoList(data,result.getAsJsonObject("response").getAsJsonPrimitive("real_estate_ad_comment_id").getAsInt());
-                    else
-                        Toast.makeText(getApplicationContext(),"Error in add",Toast.LENGTH_LONG).show();
-                }
-            }, new Response.ErrorListener() {
+                    appendIntoList(data,result.getAsJsonObject("response").getAsJsonPrimitive("real_estate_ad_comment_id").getAsInt());
+                else
+                    Toast.makeText(getApplicationContext(),"Error in add",Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    VolleyLog.d(TAG, "Error: " + error.getMessage());
-                    //pDialog.hide();
-                }
-            }) {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
 
 
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("realstate_id", "3");
-                    params.put("comment",data);
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                Intent i = getIntent();
+                String id = i.getStringExtra("realestateID");
+                params.put("realstate_id", id);
+                params.put("comment",data);
 //                params.put("count",count.toString());
 
-                    return params;
-                }
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    SharedPreferences settings;
-                    String token ;
-                    settings = getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                    token = settings.getString("token", null);
-                    headers.put("Authorization", token);
-                    return headers;
-                }
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
 
-            };
+        };
 
 // Adding request to request queue
-            RequestQueue queue = Volley.newRequestQueue(this);
-            queue.add(strReq);
-        }
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
     }
 
     private void appendIntoList(String data,int commentId) {

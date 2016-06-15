@@ -42,23 +42,15 @@
             android:layout_marginLeft="10dp"
             >
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_rating_icon"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/rateService"
-                android:onClick="rateService"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rates"
-                android:textSize="10dp"
-                android:id="@+id/service_numberofRates"
-                />
-
-            />
+           <Button
+            android:textAllCaps="false"
+            android:textColor="@color/fontColor"
+            android:background="@drawable/custom_but"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Comments"
+               android:id="@+id/comments"/>
 
         </LinearLayout>
         <View
@@ -103,26 +95,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginLeft="10dp"
-            >
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_photos_icon"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/realEstateImages"
-                android:onClick="showRealEstateImages"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Photos"
-                android:textSize="10dp"
-                />
-
-            />
-
-        </LinearLayout>
+            ></LinearLayout>
 
 
     </LinearLayout>

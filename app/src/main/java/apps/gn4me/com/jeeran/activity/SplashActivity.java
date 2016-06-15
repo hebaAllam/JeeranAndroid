@@ -73,7 +73,7 @@ public class SplashActivity extends BaseActivity {
                             Intent in = new Intent(SplashActivity.this , ValidateTokenService.class);
                             startService(in);
 
-                            Intent intent = new Intent(SplashActivity.this, RealEstateComments.class);
+                            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                             startActivity(intent);
                         }else {
                             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
