@@ -125,7 +125,14 @@ public  class FavoriteDiscussionFragment extends Fragment {
                 post.setCommentsNum( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("comments_no").getAsInt());
                 post.setTitle( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
 
-                Log.i("Titleeeeeeee1" ,  discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());
+
+                String title = discussions.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString();
+                for ( int j=0 ; j< BaseActivity.discussionTopics.size() ; j++ ){
+                    if ( BaseActivity.discussionTopics.get(j).getTitleArabic().equals(title)
+                            || BaseActivity.discussionTopics.get(j).getTitleEnglish().equals(title) ) {
+                        post.setTopic(BaseActivity.discussionTopics.get(j));
+                    }
+                }
 
                 post.setDetails( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("details").getAsString());
                 post.setTimeStamp( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());

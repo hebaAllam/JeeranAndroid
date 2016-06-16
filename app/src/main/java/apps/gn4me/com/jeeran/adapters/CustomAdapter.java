@@ -3,9 +3,9 @@ package apps.gn4me.com.jeeran.adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -88,7 +89,9 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         Log.i("Menu item id = " , "" + menuItem.getTitle() ) ;
                         if( menuItem.getTitle().equals("Edit") ) {
-
+                            holder.comment.setVisibility(View.GONE);
+                            holder.editLayout.setVisibility(View.VISIBLE);
+                            holder.editComment.setText(mList.get(position).getComment().toString());
                         }else if( menuItem.getTitle().equals("Delete")){
                             requestDeleteDiscussionComment(holder.context,mList.get(position).getId());
                         }
@@ -126,6 +129,88 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
             }
         });
 
+        holder.doneEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.comment.setVisibility(View.VISIBLE);
+                holder.editLayout.setVisibility(View.GONE);
+                String newComment = holder.editComment.getText().toString();
+                if ( !newComment.isEmpty() ) {
+                    mList.get(position).setComment(newComment);
+                    notifyDataSetChanged();
+                    requestEditComment(mList.get(position));
+                }
+                holder.comment.setText(newComment);
+            }
+        });
+
+        holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.comment.setVisibility(View.VISIBLE);
+                holder.editLayout.setVisibility(View.GONE);
+                holder.comment.setText(mList.get(position).getComment().toString());
+            }
+        });
+
+
+    }
+
+    private void requestEditComment(final DiscussionCommentData newComment) {
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/discussioncomments/edit";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                boolean success = false ;
+
+                if (result != null ){
+                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                }
+                if ( success ) {
+                    Log.i("Discussion Comments:::", result.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG , "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("discussion_comment_id",newComment.getId().toString());
+                params.put("comment",newComment.getComment());
+                params.put("disc_id", ((Activity)context).getIntent().getStringExtra("disc_id"));
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(strReq);
     }
 
     public void requestDeleteDiscussionComment(final Context context, final Integer discId){
@@ -138,7 +223,6 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
-                //pDialog.hide();
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 boolean success = false ;
@@ -370,6 +454,10 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
         Toolbar toolbar ;
         Context context;
         View view ;
+        LinearLayout editLayout;
+        EditText editComment ;
+        AppCompatButton cancelBtn ;
+        AppCompatButton doneEditBtn ;
         public SimpleAdapterViewHolder(View itemView) {
             super(itemView);
             view = itemView ;
@@ -377,10 +465,13 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
             name = (TextView) itemView.findViewById(R.id.name);
             timeStamp = (TextView) itemView.findViewById(R.id.timestamp);
             comment = (TextView) itemView.findViewById(R.id.comment);
-
             profilePic = (ImageView) itemView.findViewById(R.id.profilePic);
-
             toolbar = (Toolbar) itemView.findViewById(R.id.card_toolbar);
+
+            editComment = (EditText) itemView.findViewById(R.id.editComment);
+            editLayout = (LinearLayout) itemView.findViewById(R.id.editCommentLayout);
+            cancelBtn = (AppCompatButton) itemView.findViewById(R.id.cancelBtn);
+            doneEditBtn = (AppCompatButton) itemView.findViewById(R.id.doneBtn);
         }
         @Override
         public void onItemSelected() {

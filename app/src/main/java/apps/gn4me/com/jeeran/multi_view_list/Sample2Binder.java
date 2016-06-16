@@ -197,7 +197,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
                 if ( !newPost.isEmpty() ) {
                     mList.get(index).setDetails(newPost);
                     notifyDataSetChanged();
-                    //requestEditPost(newPost,mList.get(index).getId());
+                    requestEditPost(mList.get(index));
                 }
                 holder.details.setText(newPost);//mList.get(index).getDetails().toString());
             }
@@ -239,6 +239,66 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         rb[0].setChecked(true);
         complaintMsg = (EditText) dialog.findViewById(R.id.complaintMsg);
     }
+
+    private void requestEditPost(final DiscussionPostData newPost ) {
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/discussion/edit";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                boolean success = false ;
+
+                if (result != null ){
+                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                }
+                if ( success ) {
+                    Log.i("Discussion :::", result.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG , "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("discussion_id",newPost.getId().toString());
+                params.put("title",newPost.getTitle());
+                params.put("details",newPost.getDetails());
+                params.put("topic_id",newPost.getTopic().getId().toString());
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(strReq);
+    }
+
+
 
     public void requestReportDiscussion(final Context context, final Integer discId , final Integer reasonId , final String msg){
 
@@ -514,10 +574,9 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         AppCompatButton comment ;
         AppCompatButton favorite ;
         LinearLayout editLayout;
+        EditText editDetails ;
         AppCompatButton cancelBtn ;
         AppCompatButton doneEditBtn ;
-        EditText editDetails ;
-        //AppCompatButton report ;
         Toolbar toolbar ;
         Context context ;
         View view ;
@@ -533,7 +592,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
             editDetails = (EditText) itemView.findViewById(R.id.editDetails);
             editLayout = (LinearLayout) itemView.findViewById(R.id.editPostLayout);
             cancelBtn = (AppCompatButton) itemView.findViewById(R.id.cancelBtn);
-            doneEditBtn = (AppCompatButton) itemView.findViewById(R.id.doneBtn);;
+            doneEditBtn = (AppCompatButton) itemView.findViewById(R.id.doneBtn);
 
 
             profilePic = (ImageView) itemView.findViewById(R.id.profilePic);

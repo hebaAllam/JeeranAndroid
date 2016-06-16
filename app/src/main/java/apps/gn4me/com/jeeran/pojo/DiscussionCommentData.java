@@ -7,7 +7,7 @@ public class DiscussionCommentData {
 
     private String timeStamp;
     private String comment ;
-    private int id ;
+    private Integer id ;
 
     private int isOwner;
     private User user ;
@@ -38,10 +38,10 @@ public class DiscussionCommentData {
         this.user = user ;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

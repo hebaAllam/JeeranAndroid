@@ -28,8 +28,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
@@ -155,6 +153,11 @@ public class Discussion extends Fragment {
                 post.getUser().setImage( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("user_image").getAsString());
 
 
+                post.getTopic().setId( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("topic_id").getAsInt());
+                post.getTopic().setTitleArabic( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_topic_title_ar").getAsString());
+                post.getTopic().setTitleEnglish( discussions.get(i).getAsJsonObject().getAsJsonPrimitive("discussion_topic_title_en").getAsString());
+
+
                 if ( imgs != null && imgs.size() > 0 ){
                     post.setImage( imgs.get(0).getAsString() );
                 }
@@ -213,7 +216,7 @@ public class Discussion extends Fragment {
 
         };
 
-// Adding request to request queue
+        // Adding request to request queue
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strReq);
     }

@@ -1,14 +1,16 @@
 package apps.gn4me.com.jeeran.pojo;
 
 public class DiscussionPostData {
-    private int id , commentsNum , favoriteId;
+    private Integer id , commentsNum , favoriteId;
     private String  details , image , timeStamp, title , category ;
 
     int isOwner = 0 , isFav = 0 ;
     private User user ;
+    private Title topic ;
 
     public DiscussionPostData() {
         user = new User();
+        topic = new Title();
     }
     public DiscussionPostData(int id , int userId , String name, String image, String details, String profilePic, String timeStamp, String title) {
         user = new User(userId , name , profilePic);
@@ -17,6 +19,7 @@ public class DiscussionPostData {
         this.details = details;
         this.timeStamp = timeStamp;
         this.title = title;
+        topic = new Title();
     }
 
     public int getIsOwner() {
@@ -33,24 +36,24 @@ public class DiscussionPostData {
         this.isFav = isFav;
     }
 
-    public int getCommentsNum() {
+    public Integer getCommentsNum() {
         return commentsNum;
     }
-    public void setCommentsNum(int commentsNum) {
+    public void setCommentsNum(Integer commentsNum) {
         this.commentsNum = commentsNum;
     }
 
-    public int getFavoriteId() {
+    public Integer getFavoriteId() {
         return favoriteId;
     }
-    public void setFavoriteId(int favoriteId) {
+    public void setFavoriteId(Integer favoriteId) {
         this.favoriteId = favoriteId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -60,6 +63,14 @@ public class DiscussionPostData {
     public void setUser(User user) {
         this.user = user ;
     }
+
+    public Title getTopic() {
+        return topic;
+    }
+    public void setTopic(Title topic) {
+        this.topic = topic ;
+    }
+
 
     public String getCategory() {
         return category;

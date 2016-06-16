@@ -53,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:id="@+id/editPostLayout"
+                    android:id="@+id/editCommentLayout"
                     android:orientation="vertical">
 
                     <EditText
@@ -61,8 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_black_100"
-                        android:visibility="gone"
-                        android:textSize="13dp" />
+                        android:textSize="13dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -81,7 +80,7 @@
                             android:gravity="center_vertical|center_horizontal"
                             android:text="@string/cancel"
                             android:textColor="@color/primary_700"
-                            android:id="@+id/doneBtn" />
+                            android:id="@+id/cancelBtn" />
 
                         <android.support.v7.widget.AppCompatButton
                             android:layout_width="wrap_content"
@@ -93,7 +92,7 @@
                             android:gravity="center_vertical|center_horizontal"
                             android:text="@string/done"
                             android:textColor="@color/primary_700"
-                            android:id="@+id/cancelBtn" />
+                            android:id="@+id/doneBtn" />
 
                     </LinearLayout>
                 </LinearLayout>
