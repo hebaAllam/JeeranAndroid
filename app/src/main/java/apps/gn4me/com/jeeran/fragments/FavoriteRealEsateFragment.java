@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -64,6 +65,8 @@ public  class FavoriteRealEsateFragment extends Fragment {
     private String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1";
     FrameLayout favoriteLayout;
 
+    ImageView notFoundImg;
+
     public FavoriteRealEsateFragment() {
     }
     private void openDialog() {
@@ -98,6 +101,8 @@ public  class FavoriteRealEsateFragment extends Fragment {
         openDialog();
         initializeData();
         favoriteLayout = (FrameLayout)view.findViewById(R.id.myFavoriteLayout);
+
+        notFoundImg = (ImageView)view.findViewById(R.id.notFoundImg);
 
         rv.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -218,7 +223,8 @@ public  class FavoriteRealEsateFragment extends Fragment {
             success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
             int msg = result.getAsJsonObject("result").getAsJsonPrimitive("errorcode").getAsInt();
             if(msg == 1)
-                favoriteLayout.setBackground(view.getResources().getDrawable(R.drawable.don_t_have));
+                notFoundImg.setVisibility(View.VISIBLE);
+//                favoriteLayout.setBackground(view.getResources().getDrawable(R.drawable.don_t_have));
         }
 
         if (success) {
