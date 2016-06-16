@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -73,6 +74,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         hideKeyboard();
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -161,9 +163,10 @@ public class BaseActivity extends AppCompatActivity {
     public void requestUpdateNeighborhood() {
 
         final String TAG = "Volley";
-        String url = BaseActivity.BASE_URL + "/user/updateneighborhood";
 
         final Integer neighborhoodId = BaseActivity.currentNeighborhood.getId();
+        String url = BaseActivity.BASE_URL + "/user/updateneighborhood?neighborhood_id=" + neighborhoodId.toString()
+                    + "&device_token=" + android_id;
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
@@ -191,12 +194,7 @@ public class BaseActivity extends AppCompatActivity {
             }
         }) {
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("neighborhood_id" , neighborhoodId.toString());
-                return params;
-            }
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();

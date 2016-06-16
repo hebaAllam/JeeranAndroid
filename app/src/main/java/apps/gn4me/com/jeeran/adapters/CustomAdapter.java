@@ -140,7 +140,7 @@ public class CustomAdapter extends UltimateViewAdapter<CustomAdapter.SimpleAdapt
                     notifyDataSetChanged();
                     requestEditComment(mList.get(position));
                 }
-                holder.comment.setText(newComment);
+                holder.comment.setText(newComment );
             }
         });
 

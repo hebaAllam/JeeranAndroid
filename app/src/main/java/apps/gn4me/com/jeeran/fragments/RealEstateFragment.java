@@ -1,4 +1,4 @@
-package apps.gn4me.com.jeeran.activity;
+package apps.gn4me.com.jeeran.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -44,6 +44,10 @@ import java.util.List;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.activity.AddRealEstate;
+import apps.gn4me.com.jeeran.activity.BaseActivity;
+import apps.gn4me.com.jeeran.activity.HomeActivity;
+import apps.gn4me.com.jeeran.activity.RealEstateDetails;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.RealEstateAdapter;
 import apps.gn4me.com.jeeran.adapters.ViewHolder;
@@ -52,7 +56,7 @@ import apps.gn4me.com.jeeran.pojo.RealEstate;
 /**
  * Created by acer on 5/17/2016.
  */
-public class RealEstateActivty extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class RealEstateFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
     int color;
 
@@ -77,7 +81,7 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
         progressDialog.show();
 
     }
-    public RealEstateActivty() {
+    public RealEstateFragment() {
         // Required empty public constructor
     }
 
@@ -96,7 +100,7 @@ public class RealEstateActivty extends Fragment implements BaseSliderView.OnSlid
 
         Spinner dropdown = (Spinner)view.findViewById(R.id.spinner1frag);
         ArrayList<String> items = new ArrayList<>();
-        for (int i=0 ; i< BaseActivity.neighborhoods.size() ; i++ ){
+        for (int i = 0; i< BaseActivity.neighborhoods.size() ; i++ ){
             items.add(BaseActivity.neighborhoods.get(i).getTitleEnglish());
         }
 

@@ -2,42 +2,42 @@
     <string name="app_name">Jeeran</string>
 
     <!-- Strings related to Home -->
-    <string name="service" translatable="false">Service</string>
-    <string name="realestate" translatable="false">Real Estate</string>
-    <string name="discussion" translatable="false">Discussion</string>
+    <string name="service">Service</string>
+    <string name="realestate">Real Estate</string>
+    <string name="discussion">Discussion</string>
 
     <!-- Strings related to My Favorites -->
-    <string name="myFavorites" translatable="false">My Favorites</string>
+    <string name="myFavorites">My Favorites</string>
 
 
     <string name="user_name" translatable="false">User Name</string>
-    <string name="password" translatable="false">Password</string>
-    <string name="retype_password" translatable="false">Retype Password</string>
-    <string name="email_address" translatable="false">Email Address</string>
-    <string name="register" translatable="false">Register</string>
-    <string name="register_with_fb" translatable="false">Register With Facebook</string>
+    <string name="password">Password</string>
+    <string name="retype_password">Retype Password</string>
+    <string name="email_address">Email Address</string>
+    <string name="register">Register</string>
+    <string name="register_with_fb">Register With Facebook</string>
     <string name="title_activity_register_account" translatable="false">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email" translatable="false">Email</string>
-    <string name="prompt_password" translatable="false">Password </string>
-    <string name="prompt_confirm_password" translatable="false">Confirm Password </string>
-    <string name="action_sign_in" translatable="false">Login</string>
-    <string name="action_sign_in_short" translatable="false">Sign in</string>
-    <string name="error_invalid_email" translatable="false">This email address is invalid</string>
-    <string name="error_invalid_password" translatable="false">This password is too short</string>
-    <string name="error_incorrect_password" translatable="false">This password is incorrect</string>
-    <string name="error_field_required" translatable="false">This field is required</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password </string>
+    <string name="prompt_confirm_password">Confirm Password </string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
     <string name="permission_rationale" translatable="false">"Contacts permissions are needed for providing email
         completions."
     </string>
     <string name="title_activity_register_with_facebook" translatable="false">Register With Facebook</string>
-    <string name="create_account" translatable="false">Create Account</string>
-    <string name="action_sign_in_fb" translatable="false">Login With Facebook</string>
-    <string name="action_forgot_password" translatable="false">Forgot Your Password?!</string>
-    <string name="title_activity_login" translatable="false">Sign in</string>
+    <string name="create_account">Create Account</string>
+    <string name="action_sign_in_fb">Login With Facebook</string>
+    <string name="action_forgot_password">Forgot Your Password?!</string>
+    <string name="title_activity_login">Sign in</string>
     <string name="facebook_app_id" translatable="false">1303282329685203</string>
-    <string name="title_activity_add_service" translatable="false">AddService</string>
+    <string name="title_activity_add_service">AddService</string>
 
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -47,16 +47,16 @@
     <string name="logo_pic" translatable="false">Logo Picture </string>
     <string name="optional" translatable="false">(Optional) </string>
     <string name="take_or_choose_pic" translatable="false">Take Or Choose \n 8 Photos</string>
-    <string name="title" translatable="false">Title</string>
+    <string name="title">Title</string>
     <string name="category" translatable="false">Category</string>
     <string name="sub_category" translatable="false">Sub Category</string>
-    <string name="description" translatable="false">Description</string>
+    <string name="description">Description</string>
     <string name="location" translatable="false">Location</string>
-    <string name="phone" translatable="false">Phone</string>
+    <string name="phone">Phone</string>
     <string name="opening_hours" translatable="false">Opening Hours</string>
-    <string name="saveBtn" translatable="false">Save</string>
+    <string name="saveBtn">Save</string>
 
-    <string name="action_settings" translatable="false">Settings</string>
+    <string name="action_settings">Settings</string>
     //for tabs and navigation drawer
     <string name="drawer_open" translatable="false">Open</string>
     <string name="drawer_close" translatable="false">Close</string>
@@ -72,16 +72,16 @@
         <item>@string/nav_item_notifications</item>
     </string-array>
 
-    <string name="title_messages" translatable="false">Messages</string>
-    <string name="title_friends" translatable="false">Friends</string>
-    <string name="title_home" translatable="false">Home</string>
+    <string name="title_messages">Messages</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_home">Home</string>
 
     <string name="hello_world" translatable="false">Hello world!</string>
     >
 
     <!-- Toolbar titles -->
-    <string name="toolbar_title_home" translatable="false">Home</string>
-    <string name="toolbar_title_explore" translatable="false">Explore</string>
+    <string name="toolbar_title_home">Home</string>
+    <string name="toolbar_title_explore">Explore</string>
     <string name="other_activity" translatable="false">Other Activity</string>
 
     <!-- Navigation Drawer -->
@@ -103,15 +103,15 @@
 
 
     //for real estate
-    <string name="email_real" translatable="false">Email</string>
+    <string name="email_real">Email</string>
     <string name="take_or_choose_pic_real" translatable="false">Take Or Choose 8 Photos</string>
     <string name="location_real" translatable="false">Location</string>
-    <string name="address_real" translatable="false">Address</string>
+    <string name="address_real">Address</string>
     <string name="contact_person_real" translatable="false">Contact Person</string>
     <string name="title_activity_forgot_password" translatable="false">ForgotPasswordActivity</string>
 
     <!-- strings related to restaurants card view -->
-    <string name="action_add_favourite" translatable="false">Add to Favourites</string>
+    <string name="action_add_favourite">Add to Favourites</string>
     <string name="action_play_next" translatable="false">Play Next</string>
     <string name="backdrop_title" translatable="false">LOVE MUSIC</string>
     <string name="backdrop_subtitle" translatable="false">This season top 20 albums</string>
@@ -132,20 +132,20 @@
 
 
     //discussion
-    <string name="prompt_comment" translatable="false">Add Comment</string>
+    <string name="prompt_comment">Add Comment</string>
     <string name="comment_btn" translatable="false"> > </string>
 
     //report
-    <string name="report" translatable="false">Select Report Reason:</string>
-    <string name="ok" translatable="false">Ok</string>
-    <string name="cancel" translatable="false">Cancel</string>
-    <string name="msg" translatable="false">Add Message: (Optional)</string>
+    <string name="report">Select Report Reason</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="msg">Add Message: (Optional)</string>
 
     //edit
-    <string name="done" translatable="false">Done Editing</string>
+    <string name="done">Done Editing</string>
     <string name="hint_name" translatable="false">your review</string>
     <string name="gcm_defaultSenderId" translatable="false">550</string>
-    <string name="select_area_arrays">djfk</string>
+    <string name="select_area_arrays" translatable="false">djfk</string>
     <string name="google_maps_key1">AIzaSyD7ivMSDGU-amq1TBI3O4XLalb0l4Vg6gU</string>
 
 </resources>

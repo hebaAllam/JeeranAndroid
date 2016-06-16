@@ -48,15 +48,11 @@ import com.google.gson.JsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.intent_service.ValidateTokenService;
-import apps.gn4me.com.jeeran.pojo.Title;
 import apps.gn4me.com.jeeran.pojo.User;
 
 /**
@@ -280,7 +276,7 @@ public class LoginActivity extends BaseActivity {
                 requestReportReasonsJson();
                 requestDiscussionTopicsJson();
                 requestHomeSliderImages();
-                showProgress(false);
+                //showProgress(false);
             }
         }, new Response.ErrorListener() {
 

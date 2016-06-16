@@ -29,7 +29,7 @@
 
                 <ImageView
                     android:id="@+id/profile_pic"
-                    android:src="@drawable/ic_favorite_icon"
+                    android:src="@drawable/default_profile_pic"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:scaleType="fitCenter" />

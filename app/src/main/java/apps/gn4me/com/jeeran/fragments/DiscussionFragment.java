@@ -1,4 +1,4 @@
-package apps.gn4me.com.jeeran.activity;
+package apps.gn4me.com.jeeran.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.activity.BaseActivity;
 import apps.gn4me.com.jeeran.adapters.DiscussionRecycleViewAdapter;
 import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
 import apps.gn4me.com.jeeran.pojo.Title;
@@ -44,7 +45,7 @@ import apps.gn4me.com.jeeran.pojo.Title;
 /**
  * Created by acer on 5/17/2016.
  */
-public class Discussion extends Fragment {
+public class DiscussionFragment extends Fragment {
 
     protected static final String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1" ;
     private UltimateRecyclerView ultimateRecyclerView;
@@ -59,7 +60,7 @@ public class Discussion extends Fragment {
     private List<DiscussionPostData> mList ;
 
 
-    public Discussion() {
+    public DiscussionFragment() {
         // Required empty public constructor
     }
 

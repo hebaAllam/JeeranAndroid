@@ -40,11 +40,11 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:theme="@style/AppThemeNoActionBar"/>
         <activity
             android:name=".activity.MyFavoritesActivity"
             android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar"></activity>
+            android:theme="@style/AppThemeNoActionBar"/>
         <activity
             android:name=".activity.ModulesActivity"
             android:parentActivityName=".activity.HomeActivity"
@@ -76,12 +76,13 @@
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar"></activity>
+            android:theme="@style/AppThemeNoActionBar"/>
         <activity
             android:name=".activity.AddService"
             android:label="@string/title_activity_add_service"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.ResetPasswordActivity" />
+        <activity android:name=".activity.ResetPasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.RealEstateComments" />
         <activity
             android:name=".activity.AddRealEstate"
@@ -134,11 +135,11 @@
         <activity
             android:name=".activity.ServicesList"
             android:parentActivityName=".activity.SubServices"
-            android:theme="@style/MyMaterialTheme"></activity>
+            android:theme="@style/MyMaterialTheme"/>
         <activity
             android:name=".activity.SubServices"
             android:parentActivityName=".activity.ModulesActivity"
-            android:theme="@style/MyMaterialTheme"></activity>
+            android:theme="@style/MyMaterialTheme"/>
         <activity
             android:name=".activity.ShowServiceLocation"
             android:label="@string/title_activity_show_service_location" />
@@ -154,7 +155,7 @@
 
         <service
             android:name=".intent_service.ValidateTokenService"
-            android:exported="false"></service>
+            android:exported="false"/>
     </application>
 
 </manifest>

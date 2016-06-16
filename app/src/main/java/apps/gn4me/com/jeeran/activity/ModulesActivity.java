@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.fragments.DiscussionFragment;
+import apps.gn4me.com.jeeran.fragments.RealEstateFragment;
 
 public class ModulesActivity extends BaseActivity {
     private TabLayout tabLayout;
@@ -102,8 +104,8 @@ public class ModulesActivity extends BaseActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MainServices(), "MainServices");
-        adapter.addFragment(new Discussion(), "Discussion");
-        adapter.addFragment(new RealEstateActivty(), "RealEstateActivty");
+        adapter.addFragment(new DiscussionFragment(), "Discussion");
+        adapter.addFragment(new RealEstateFragment(), "RealEstateActivty");
         adapter.addFragment(new Notification(),"Notification");
         viewPager.setAdapter(adapter);
     }

@@ -48,7 +48,7 @@ import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
 /**
  * Created by cym on 15/5/18.
  */
-public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
+public class PostViewBinder extends DataBinder<PostViewBinder.ViewHolder> {
 
     private List<DiscussionPostData> mList = new ArrayList<>();
     private int startIndex ;
@@ -58,7 +58,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
     private RadioGroup rg;
     private EditText complaintMsg ;
 
-    public Sample2Binder(UltimateDifferentViewTypeAdapter dataBindAdapter , int startIndex , Context context) {
+    public PostViewBinder(UltimateDifferentViewTypeAdapter dataBindAdapter , int startIndex , Context context) {
         super(dataBindAdapter);
         this.context = context ;
         this.startIndex = startIndex ;
@@ -228,7 +228,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         cancelBtn= (TextView) dialog.findViewById(R.id.cancelTxt);
         rg = (RadioGroup) dialog.findViewById(R.id.radioReasoons);
         rg.removeAllViews();
-        int size = BaseActivity.reportReasons.size() ;
+        int size = BaseActivity.reportReasons.size();
         RadioButton[] rb = new RadioButton[size];
         for(int i=0; i<size; i++){
             rb[i]  = new RadioButton(context);
@@ -240,7 +240,7 @@ public class Sample2Binder extends DataBinder<Sample2Binder.ViewHolder> {
         complaintMsg = (EditText) dialog.findViewById(R.id.complaintMsg);
     }
 
-    private void requestEditPost(final DiscussionPostData newPost ) {
+    private void requestEditPost(final DiscussionPostData newPost ){
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussion/edit";
 

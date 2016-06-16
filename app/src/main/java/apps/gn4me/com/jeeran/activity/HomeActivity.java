@@ -161,12 +161,6 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
     }
 
 
-    public void initHome(){
-
-    }
-
-
-
     private void init_navigator(){
         setupToolbar();
 

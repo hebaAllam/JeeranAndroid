@@ -2,9 +2,7 @@ package apps.gn4me.com.jeeran.multi_view_list;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +22,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
@@ -34,24 +31,22 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.activity.BaseActivity;
-import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
 import apps.gn4me.com.jeeran.pojo.Title;
 
 /**
  * Created by cym on 15/5/18.
  */
-public class Sample1Binder extends DataBinder<Sample1Binder.ViewHolder> {
+public class AddPostViewBinder extends DataBinder<AddPostViewBinder.ViewHolder> {
 
     private Context context ;
     private Title discussionTopic ;
 
 
-    public Sample1Binder(UltimateDifferentViewTypeAdapter dataBindAdapter  , Context context) {
+    public AddPostViewBinder(UltimateDifferentViewTypeAdapter dataBindAdapter  , Context context) {
         super(dataBindAdapter);
         this.context = context ;
     }

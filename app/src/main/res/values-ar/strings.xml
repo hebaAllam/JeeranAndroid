@@ -2,5 +2,47 @@
 <resources>
     <string name="app_name">جيران</string>
     <string name="select_area_arrays">مينهخميملي</string>
+    <string name="cancel">الغاء</string>
+    <string name="phone">رقم الهاتف</string>
+    <string name="prompt_comment">اضف تعليق</string>
+    <string name="prompt_confirm_password">تاكيد كلمة المرور</string>
+    <string name="prompt_email">البريد الالكتروني</string>
+    <string name="prompt_password">كلمة المرور</string>
+    <string name="realestate">عقارات</string>
+    <string name="register">تسجيل</string>
+    <string name="register_with_fb">Facebook تسجيل عن طريق </string>
+    <string name="report">اختر سبب الابلاغ</string>
+    <string name="retype_password">اعد كتابة كلمة المرور</string>
+    <string name="saveBtn">حفظ</string>
+    <string name="service">خدمه</string>
+    <string name="title">عنوان</string>
+    <string name="title_friends">اصدقاء</string>
+    <string name="title_home">الرئيسية</string>
+    <string name="title_messages">الرسائل</string>
+    <string name="toolbar_title_home">الرئيسية</string>
+    <string name="toolbar_title_explore">استكشاف</string>
+    <string name="title_activity_login">تسجيل الدخول</string>
+    <string name="title_activity_add_service">اضف خدمه</string>
+    <string name="password">كلمة المرور</string>
+    <string name="ok">تم</string>
+    <string name="myFavorites" translatable="false">مفضلاتي</string>
+    <string name="msg">اضف رسالة: اختياري</string>
+    <string name="error_field_required">هذا العنصر مطلوب ادخاله</string>
+    <string name="error_incorrect_password">كلمة المرور غير صحيحه</string>
+    <string name="error_invalid_email">هذا البريد الالكتروني خاطئ</string>
+    <string name="error_invalid_password">كلمة المرور قصيرة</string>
+    <string name="email_real">البريد الالكتروني</string>
+    <string name="email_address">البريد الالكتروني</string>
+    <string name="done">قم بالتعديل</string>
+    <string name="discussion">مناقشه</string>
+    <string name="description">توضيح</string>
+    <string name="create_account">انشاء حساب</string>
+    <string name="address_real">عنوان</string>
+    <string name="action_sign_in_short">تسجيل الدخول</string>
+    <string name="action_sign_in">تسجيل الدخول</string>
+    <string name="action_sign_in_fb">Facebook تسجيل الدخول عن طريق </string>
+    <string name="action_settings">اعدادات</string>
+    <string name="action_forgot_password">نسيت كلمة المرور؟</string>
+    <string name="action_add_favourite" translatable="false">اضف للمفضلة</string>
 
 </resources>

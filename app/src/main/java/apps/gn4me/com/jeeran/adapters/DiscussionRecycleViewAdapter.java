@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateDifferentViewTypeAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import apps.gn4me.com.jeeran.multi_view_list.Sample1Binder;
-import apps.gn4me.com.jeeran.multi_view_list.Sample2Binder;
+import apps.gn4me.com.jeeran.multi_view_list.AddPostViewBinder;
+import apps.gn4me.com.jeeran.multi_view_list.PostViewBinder;
 import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
 
 /**
@@ -24,10 +23,10 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
     public DiscussionRecycleViewAdapter( int viewType , Context context){
         this.viewType = viewType ;
         if ( viewType == 0 ) {
-            putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this ,0,context));
+            putBinder(SampleViewType.SAMPLE2, new PostViewBinder(this ,0,context));
         }else if (viewType == 1){
-            putBinder(SampleViewType.SAMPLE1, new Sample1Binder(this,context));
-            putBinder(SampleViewType.SAMPLE2, new Sample2Binder(this ,1,context));
+            putBinder(SampleViewType.SAMPLE1, new AddPostViewBinder(this,context));
+            putBinder(SampleViewType.SAMPLE2, new PostViewBinder(this ,1,context));
         }
     }
 
@@ -54,12 +53,12 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if ( viewType == 0 ) {
-            ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).bindViewHolder((Sample2Binder.ViewHolder) holder, position);
+            ((PostViewBinder) getDataBinder(SampleViewType.SAMPLE2)).bindViewHolder((PostViewBinder.ViewHolder) holder, position);
         }else if ( viewType == 1 ){
             if (position == 0) {
-                ((Sample1Binder) getDataBinder(SampleViewType.SAMPLE1)).bindViewHolder((Sample1Binder.ViewHolder) holder, position);
+                ((AddPostViewBinder) getDataBinder(SampleViewType.SAMPLE1)).bindViewHolder((AddPostViewBinder.ViewHolder) holder, position);
             } else {
-                ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).bindViewHolder((Sample2Binder.ViewHolder) holder, position);
+                ((PostViewBinder) getDataBinder(SampleViewType.SAMPLE2)).bindViewHolder((PostViewBinder.ViewHolder) holder, position);
             }
         }
     }
@@ -98,21 +97,21 @@ public class DiscussionRecycleViewAdapter extends UltimateDifferentViewTypeAdapt
 
     public void insert(DiscussionPostData post, int position) {
         count++ ;
-        ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).insert(post,position);
+        ((PostViewBinder) getDataBinder(SampleViewType.SAMPLE2)).insert(post,position);
     }
 
     public void insertAll(List<DiscussionPostData> posts) {
         count += posts.size();
-        ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).addAll(posts);
+        ((PostViewBinder) getDataBinder(SampleViewType.SAMPLE2)).addAll(posts);
     }
 
     public void refresh() {
-        ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).updateList();
+        ((PostViewBinder) getDataBinder(SampleViewType.SAMPLE2)).updateList();
     }
 
 
 
     public void remove(int position) {
-        ((Sample2Binder) getDataBinder(SampleViewType.SAMPLE2)).remove(position);
+        ((PostViewBinder) getDataBinder(SampleViewType.SAMPLE2)).remove(position);
     }
 }
