@@ -262,7 +262,7 @@ public class BaseActivity extends AppCompatActivity {
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getHomeSliderData(result);
                 countInitRequest++;
-                gotTwoHomeActivity();
+                gotToHomeActivity();
             }
         }, new Response.ErrorListener() {
 
@@ -334,7 +334,7 @@ public class BaseActivity extends AppCompatActivity {
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getNeighborhoods(result);
                 countInitRequest++;
-                gotTwoHomeActivity();
+                gotToHomeActivity();
             }
         }, new Response.ErrorListener() {
 
@@ -407,7 +407,7 @@ public class BaseActivity extends AppCompatActivity {
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getDiscussionTopics(result);
                 countInitRequest++;
-                gotTwoHomeActivity();
+                gotToHomeActivity();
             }
         }, new Response.ErrorListener() {
 
@@ -481,7 +481,7 @@ public class BaseActivity extends AppCompatActivity {
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getReportReasons(result);
                 countInitRequest++;
-                gotTwoHomeActivity();
+                gotToHomeActivity();
             }
         }, new Response.ErrorListener() {
 
@@ -549,7 +549,7 @@ public class BaseActivity extends AppCompatActivity {
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 getMyProfile(result);
                 countInitRequest++;
-                gotTwoHomeActivity();
+                gotToHomeActivity();
             }
         }, new Response.ErrorListener() {
 
@@ -600,8 +600,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-
-    public void gotTwoHomeActivity(){
+    public void gotToHomeActivity(){
         if (countInitRequest == 5 ) {
             Intent intent = new Intent(activeActivity, HomeActivity.class);
             startActivity(intent);

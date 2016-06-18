@@ -53,6 +53,9 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
 
     private FrameLayout serviceBtn ;
     private FrameLayout myFavorites;
+    private FrameLayout myDiscussion;
+    private FrameLayout signout;
+
 
     private int initReq = 0 ;
 
@@ -121,8 +124,28 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
                 startActivity(in);
             }
         });
+        ///////////// myDiscussion
 
-        /////////////
+        myDiscussion = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_my_discussion);
+        myDiscussion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(HomeActivity.this,MyDiscussion.class);
+                startActivity(in);
+            }
+        });
+
+        ///////////// logout
+
+        signout = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_signout);
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestLogout();
+            }
+        });
+
+        ////////////
         serviceBtn = (FrameLayout) findViewById(R.id.serviceLayout);
         discussionBtn = (FrameLayout) findViewById(R.id.discussionLayout);
         realEstateBtn = (FrameLayout) findViewById(R.id.realEstateLayout);
@@ -158,6 +181,62 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         setTitle("");
 
 
+    }
+
+    private void requestLogout() {
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/user/logout?device_token" + android_id;
+
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+
+                Boolean success = false ;
+                if ( result != null ) {
+                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                }
+
+                if ( success ) {
+                    SharedPreferences settings;
+                    settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.remove("token");
+                    editor.commit();
+                    Intent in = new Intent(HomeActivity.this,LoginActivity.class);
+                    startActivity(in);
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(strReq);
     }
 
 

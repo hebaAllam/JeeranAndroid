@@ -41,7 +41,6 @@ public  class FavoriteDiscussionFragment extends Fragment {
 
     int color;
 
-    protected static final String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1" ;
     private UltimateRecyclerView ultimateRecyclerView;
     private DiscussionRecycleViewAdapter customAdapter = null;
     private LinearLayoutManager linearLayoutManager;

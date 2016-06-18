@@ -62,7 +62,7 @@ public class AddPostViewBinder extends DataBinder<AddPostViewBinder.ViewHolder> 
     public void bindViewHolder(final ViewHolder holder, int position) {
         //String[] items = new String[]{"Taxs", "Transportation", "Expensive Food"};
         ArrayList<String> items = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.context, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(holder.context, R.layout.spinner_item , items);
         holder.problemSpinner.setAdapter(adapter);
         items.clear();
         adapter.notifyDataSetChanged();
@@ -87,7 +87,7 @@ public class AddPostViewBinder extends DataBinder<AddPostViewBinder.ViewHolder> 
 
         Picasso.with( holder.context )
                 .load( BaseActivity.profile.getImage() )
-                .error(R.drawable.ic_error )
+                .error(R.drawable.default_photo )
                 .placeholder( R.drawable.progress_animation )
                 .into(holder.profilePic);
 
@@ -114,7 +114,6 @@ public class AddPostViewBinder extends DataBinder<AddPostViewBinder.ViewHolder> 
     }
 
     private void requestAddDiscussionPost(final String postTxt){
-        String  tag_string_req = "string_req";
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussion/add";

@@ -9,7 +9,7 @@ import java.io.Serializable;
 //class that holds component of user data
 public class User implements Serializable{
 
-    private int id ;
+    private Integer id ;
     private String userName;
     private String password;
     private String emailAddress;
@@ -18,7 +18,7 @@ public class User implements Serializable{
     public User() {
     }
 
-    public User( int id , String name , String image ) {
+    public User( Integer id , String name , String image ) {
         this.userName = name;
         this.image = image;
         this.id = id ;
@@ -32,19 +32,16 @@ public class User implements Serializable{
     }
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
 
     public String getUserName() {
         return userName;
     }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -52,7 +49,6 @@ public class User implements Serializable{
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -60,7 +56,6 @@ public class User implements Serializable{
     public String getEmailAddress() {
         return emailAddress;
     }
-
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
@@ -68,7 +63,6 @@ public class User implements Serializable{
     public String getImage() {
         return image;
     }
-
     public void setImage(String image) {
         this.image = image;
     }

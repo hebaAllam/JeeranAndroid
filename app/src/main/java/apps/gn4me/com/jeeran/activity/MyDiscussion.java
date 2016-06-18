@@ -1,20 +1,17 @@
-package apps.gn4me.com.jeeran.fragments;
+package apps.gn4me.com.jeeran.activity;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,76 +21,51 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
-import apps.gn4me.com.jeeran.activity.BaseActivity;
 import apps.gn4me.com.jeeran.adapters.DiscussionRecycleViewAdapter;
 import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
-import apps.gn4me.com.jeeran.pojo.Title;
 
-/**
- * Created by acer on 5/17/2016.
- */
-public class DiscussionFragment extends Fragment {
+public class MyDiscussion extends BaseActivity {
 
-    protected static final String BASE_URL = "http://jeeran.gn4me.com/jeeran_v1" ;
     private UltimateRecyclerView ultimateRecyclerView;
     private DiscussionRecycleViewAdapter customAdapter = null;
     private LinearLayoutManager linearLayoutManager;
-    private Context context ;
-    private int moreNum = 2;
 
-
-
-    private View view ;
     private List<DiscussionPostData> mList ;
 
 
-    public DiscussionFragment() {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_my_discussion);
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context ;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-        View view = inflater.inflate(R.layout.discussion_fragment, container, false) ;
-
-        this.view = view ;
-        context = getActivity() ;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            //setTitle("My Favorites");
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mList = new ArrayList<>();
-        ultimateRecyclerView = (UltimateRecyclerView) view.findViewById(R.id.ultimate_recycler_view);
+
+        ultimateRecyclerView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
 
 
-        customAdapter = new DiscussionRecycleViewAdapter(1,context);//getArrayList());
+        customAdapter = new DiscussionRecycleViewAdapter(0,this);//getArrayList());
 
-        linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager = new LinearLayoutManager(this);
         ultimateRecyclerView.setLayoutManager(linearLayoutManager);
         ultimateRecyclerView.setAdapter(customAdapter);
 
@@ -103,22 +75,18 @@ public class DiscussionFragment extends Fragment {
         addCustomLoaderView();
         //ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
         infinite_Insertlist();
-
-
-        return view ;
     }
-
 
 
     public void initArrayList(){
-         requestJsonObject(0,4);
+        requestJsonObject(0,4);
     }
+
 
     public void addCustomLoaderView(){
-        customAdapter.setCustomLoadMoreView(LayoutInflater.from(context)
+        customAdapter.setCustomLoadMoreView(LayoutInflater.from(this)
                 .inflate(R.layout.custom_bottom_progressbar, null));
     }
-
 
 
     private void getDiscussionData(JsonObject result){
@@ -131,7 +99,7 @@ public class DiscussionFragment extends Fragment {
         if ( success ){
 
             Log.i(":::::::::::::::",result.toString());
-            JsonArray discussions = result.getAsJsonObject("response").getAsJsonArray("discussionlist");
+            JsonArray discussions = result.getAsJsonObject("response").getAsJsonArray("mydiscussionlist");
 
             for (int i=0 ; i<discussions.size() ; i++) {
                 DiscussionPostData post = new DiscussionPostData();
@@ -167,12 +135,17 @@ public class DiscussionFragment extends Fragment {
             customAdapter.insertAll(mList);
         }
     }
-
     private void requestJsonObject(final Integer start , final Integer count) {
+        String  tag_string_req = "string_req";
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussion/list";
 
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
@@ -199,7 +172,7 @@ public class DiscussionFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("start", start.toString());
                 params.put("count",count.toString());
-
+                params.put("user_id",profile.getId().toString());
                 return params;
             }
             @Override
@@ -207,7 +180,7 @@ public class DiscussionFragment extends Fragment {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 SharedPreferences settings;
                 String token ;
-                settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE);
                 token = settings.getString("token", null);
                 headers.put("Authorization", token);
                 return headers;
@@ -215,11 +188,10 @@ public class DiscussionFragment extends Fragment {
 
         };
 
-        // Adding request to request queue
-        RequestQueue queue = Volley.newRequestQueue(context);
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(strReq);
     }
-
 
 
 
@@ -228,19 +200,15 @@ public class DiscussionFragment extends Fragment {
         ultimateRecyclerView.setOnLoadMoreListener(new UltimateRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
-
-
                 Handler handler = new Handler();
-
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         requestJsonObject(customAdapter.getAdapterItemCount(),2);
-                        Log.i("COunt ::::::::::::: " , "" + customAdapter.getAdapterItemCount());
                     }
                 }, 1000);
-
             }
         });
-
     }
+
+
 }
