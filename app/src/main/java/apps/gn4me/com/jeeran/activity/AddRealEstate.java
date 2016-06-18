@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -31,6 +32,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
@@ -57,8 +62,9 @@ public class AddRealEstate extends BaseActivity
     Button save;
     RealEstate realEstate;
     ProgressDialog progressDialog;
+    private static final   int PLACE_PICKER_REQUEST = 111;
     String typee;
-
+    EditText loc;
 
     //multiple imgs
     int PICK_IMAGE_MULTIPLE = 322;
@@ -96,7 +102,7 @@ public class AddRealEstate extends BaseActivity
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+////                Snackbar.make(getac, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
 //            }
 //        });
@@ -111,6 +117,24 @@ public class AddRealEstate extends BaseActivity
 //        navigationView.setNavigationItemSelectedListener(this);
 
         bindComponents();
+
+        loc = (EditText)findViewById(R.id.location_addRealEstateActivity);
+
+        loc.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    try {
+                        startActivityForResult(builder.build(AddRealEstate.this), PLACE_PICKER_REQUEST);
+                    } catch (GooglePlayServicesRepairableException e) {
+                        e.printStackTrace();
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,12 +228,13 @@ public class AddRealEstate extends BaseActivity
                 params.put("owner_name", contactPerson.getText().toString());
                 params.put("owner_mobile", phone.getText().toString());
                 params.put("owner_email", email.getText().toString());
-                params.put("neighbarhood_id", "2");
+                params.put("neighbarhood_id", BaseActivity.currentNeighborhood.getId().toString());
                 params.put("unit_type_id", "2");
                 params.put("amenities_id", "2");
                 params.put("area", area.getText().toString());
                 params.put("amenities", "2");
 
+                Log.i("my params::::",params.toString());
 
                 return params;
             }
@@ -289,6 +314,17 @@ public class AddRealEstate extends BaseActivity
 //        } else {
             super.onBackPressed();
 //        }
+    }
+
+    private void openMap(View v){
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try {
+            startActivityForResult(builder.build(AddRealEstate.this), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -373,8 +409,16 @@ public class AddRealEstate extends BaseActivity
         try
 
         {
+            if (requestCode == PLACE_PICKER_REQUEST) {
+                if (resultCode == RESULT_OK) {
+                    Place place = PlacePicker.getPlace(data, this);
+                    String toastMsg = String.format("Place: %s", place.getAddress());
+                    Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+//                    Log.i()
+                }
+            }
             // When an Image is picked
-            if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
+            else if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
                     && null != data) {
                 // Get the Image from data
 

@@ -153,7 +153,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/address_real"
-
+            android:editable="false"
             android:inputType="textWebEmailAddress"
             android:id="@+id/address_addRealEstateActivity"
             android:textCursorDrawable="@drawable/cursur_color" />
@@ -238,7 +238,7 @@
     <android.support.v7.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_btn"
+        android:background="@drawable/rounded"
         android:text="@string/saveBtn"
         android:id="@+id/saveBtn_addRealEstateActivity"
         android:layout_marginTop="24dp"

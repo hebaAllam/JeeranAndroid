@@ -132,7 +132,7 @@
             android:textColor="@color/fontColor"
             android:background="@drawable/custom_but"
             android:layout_marginTop="10dp"
-            android:id="@+id/locationOnMap"
+            android:id="@+id/locationOnMap_add"
             />
         <Button
             android:layout_width="wrap_content"
@@ -202,12 +202,29 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:id="@+id/title_detailsRealEstate"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:text=" For "/>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/title_edit"
+                        android:text="mlxsmlxkmsklmxk"
+                        android:visibility="gone"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:id="@+id/type_detailsRealEstate"/>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/type_edit"
+                        android:text="mlxsmlxkmsklmxk"
+                        android:visibility="gone"/>
                     </LinearLayout>
                 <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
@@ -222,6 +239,12 @@
                         android:textColor="@color/album_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/date_edit"
+                        android:text="mlxsmlxkmsklmxk"
+                        android:visibility="gone"/>
                 </android.support.v7.widget.LinearLayoutCompat>
                 <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
@@ -238,6 +261,12 @@
                         android:textColor="@color/album_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/location_edit"
+                        android:text="mlxsmlxkmsklmxk"
+                        android:visibility="gone"/>
                 </android.support.v7.widget.LinearLayoutCompat>
 
                 <android.support.v7.widget.LinearLayoutCompat
@@ -254,6 +283,12 @@
                         android:textColor="@color/album_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/price_edit"
+                        android:text="mlxsmlxkmsklmxk"
+                        android:visibility="gone"/>
                 </android.support.v7.widget.LinearLayoutCompat>
                 <Button
                     android:layout_width="match_parent"
@@ -266,6 +301,12 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
                     />
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/description_edit"
+                    android:text="mlxsmlxkmsklmxk"
+                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -338,6 +379,12 @@
                             android:padding="2dp"
                             android:layout_weight="1"
                             android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/area_edit"
+                            android:text="mlxsmlxkmsklmxk"
+                            android:visibility="gone"/>
 
                     </TableRow>
 
@@ -367,6 +414,12 @@
                             android:layout_weight="1"
                             android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/bathroomsNum_edit"
+                            android:text="mlxsmlxkmsklmxk"
+                            android:visibility="gone"/>
                     </TableRow>
 
                     <TableRow
@@ -393,6 +446,12 @@
                             android:layout_weight="1"
                             android:background="@color/dark_cells"
                             android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/bedroomsNum_edit"
+                            android:text="mlxsmlxkmsklmxk"
+                            android:visibility="gone"/>
 
                     </TableRow>
 

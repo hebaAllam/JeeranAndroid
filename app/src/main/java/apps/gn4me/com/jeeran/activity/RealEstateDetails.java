@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,14 +70,16 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
     ProgressDialog progressDialog;
     private RealEstate mReal;
     ImageView moreBtn;
-    Button saveBtn, callUs;
+    Button saveBtn, changes, callUs;
     String phone;
+    EditText areaEdit, bathroomEdit, bedroomEdit, typeEdit, titleEdit, descEdit, locEdit, dateEdit, priceEdit;
 
     String activityType;
     ImageView favorite, favoriteActive;
     Intent i;
     int edit = 0;
-    Button comments;
+    Button comments, locationOnMap;
+    private java.lang.String address="";
 
     private void openDialog() {
 
@@ -106,7 +110,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         mDemoSlider.addOnPageChangeListener(this);
 
         setupToolbar();
-        i = getIntent();
+//        i = getIntent();
 
         requestJsonObjectForDetails();
 
@@ -221,7 +225,28 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
 //        boolean isFav = i.getBooleanExtra("isFav",false);
 
+        locationOnMap = (Button)findViewById(R.id.locationOnMap_add);
+
+        locationOnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"inside",Toast.LENGTH_LONG).show();
+                openMap(v);
+            }
+        });
+
         comments = (Button) findViewById(R.id.comments);
+
+        areaEdit = (EditText)findViewById(R.id.area_edit);
+        bedroomEdit = (EditText)findViewById(R.id.bedroomsNum_edit);
+        bathroomEdit = (EditText)findViewById(R.id.bathroomsNum_edit);
+        locEdit = (EditText)findViewById(R.id.location_edit);
+        typeEdit = (EditText)findViewById(R.id.type_edit);
+        titleEdit = (EditText)findViewById(R.id.title_edit);
+        priceEdit = (EditText)findViewById(R.id.price_edit);
+        dateEdit = (EditText)findViewById(R.id.date_edit);
+        descEdit = (EditText)findViewById(R.id.description_edit);
+        changes = (Button) findViewById(R.id.saveChangesBtn);
 
         callUs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,6 +334,20 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         else {
             addRealEstateToFavorite();
         }
+    }
+
+    private void openMap(View v){
+        startActivity(viewOnMap(address));
+    }
+    public static Intent viewOnMap(String address) {
+        return new Intent(Intent.ACTION_VIEW,
+                Uri.parse(String.format("geo:0,0?q=%s",
+                        URLEncoder.encode(address))));
+    }
+
+    public static Intent viewOnMap(String lat, String lng) {
+        return new Intent(Intent.ACTION_VIEW,
+                Uri.parse(String.format("geo:%s,%s", lat, lng)));
     }
 
     private void addRealEstateToFavorite() {
@@ -599,6 +638,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
                 RealEstateImages images;
 
                 mReal.setPhone(myRealEstates.getAsJsonPrimitive("owner_mobile").getAsString()+"");
+                address = mReal.getAddress();
                 phone = mReal.getPhone();
 //                mReal.setEmail(myRealEstates.getAsJsonPrimitive("owner_email").getAsString());
 //                mReal.setContactPerson(myRealEstates.getAsJsonPrimitive("owner_name").getAsString());
@@ -615,7 +655,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
                     favoriteActive.setVisibility(View.INVISIBLE);
                 }
 //                mReal.setUpdateDate(myRealEstates.getAsJsonPrimitive("owner_name").getAsString());
-                title.setText(myRealEstates.getAsJsonPrimitive("title").getAsString()+ " For ");
+                title.setText(myRealEstates.getAsJsonPrimitive("title").getAsString()+ "");
                 typeRealEstate.setText(myRealEstates.getAsJsonPrimitive("type").getAsInt()+"");
 //                mReal.setAddress(myRealEstates.getAsJsonObject().getAsJsonPrimitive("address").getAsString());
                 location.setText(myRealEstates.getAsJsonPrimitive("location").getAsString() );
@@ -731,8 +771,10 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
             switch (menuItem.getItemId()) {
                 case R.id.editRealEstate:
                     edit = 1;
-                    preatreGUI();
-                    editRealEstate();
+//                    preatreGUI();
+//                    editRealEstateCode();
+//                    editRealEstate();
+                    openEditTexts();
 //                    Toast.makeText(getApplicationContext(), "edit", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.deleteRealEstate:
@@ -747,6 +789,52 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
             }
             return false;
         }
+    }
+
+    private void openEditTexts() {
+        changes.setVisibility(View.VISIBLE);
+        area.setVisibility(View.INVISIBLE);
+        typeRealEstate.setVisibility((View.INVISIBLE));
+        numOfBathrooms.setVisibility(View.INVISIBLE);
+        numOfRooms.setVisibility(View.INVISIBLE);
+        title.setVisibility(View.INVISIBLE);
+        date.setVisibility(View.INVISIBLE);
+        location.setVisibility(View.INVISIBLE);
+        description.setVisibility(View.INVISIBLE);
+        price.setVisibility(View.INVISIBLE);
+
+        //open edittexts
+
+        areaEdit.setText(area.getText().toString()+"");
+        typeEdit.setText(typeRealEstate.getText().toString()+"");
+        bathroomEdit.setText(numOfBathrooms.getText().toString()+"");
+        bedroomEdit.setText(numOfRooms.getText().toString()+"");
+        titleEdit.setText(title.getText().toString()+"");
+        dateEdit.setText(date.getText().toString()+"");
+        locEdit.setText(location.getText().toString()+"");
+        descEdit.setText(description.getText().toString()+"");
+        priceEdit.setText(price.getText().toString());
+
+        //make them visible
+        areaEdit.setVisibility(View.VISIBLE);
+        typeEdit.setVisibility((View.VISIBLE));
+        bathroomEdit.setVisibility(View.VISIBLE);
+        bedroomEdit.setVisibility(View.VISIBLE);
+        titleEdit.setVisibility(View.VISIBLE);
+        dateEdit.setVisibility(View.VISIBLE);
+        locEdit.setVisibility(View.VISIBLE);
+        descEdit.setVisibility(View.VISIBLE);
+        priceEdit.setVisibility(View.VISIBLE);
+
+    }
+
+    private void editRealEstateCode() {
+//        Intent i = new Intent(RealEstateDetails.this,AddRealEstate.class);
+//        RealEstate.myRealEstateObj.setAddress(mReal.getAddress());
+//        RealEstate.myRealEstateObj.setFav(mReal.isFav());
+//        RealEstate.myRealEstateObj.setTitle(mReal.getTitle());
+//        RealEstate.myRealEstateObj.setType(mReal.getType());
+//        RealEstate.myRealEstateObj.
     }
 
     private void addRealEstate() {
@@ -868,9 +956,18 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 //                prepareGUI();
                 String id = i.getStringExtra("realestateID");
                 params.put("realstate_id",id );
-                params.put("type","1");
-                params.put("title","my title");
-                params.put("description","my description about this real estate");
+                params.put("type",typeEdit.getText().toString());
+                params.put("title",titleEdit.getText().toString());
+                params.put("description",descEdit.getText().toString());
+                params.put("location",locEdit.getText().toString());
+                params.put("number_of_rooms",bedroomEdit.getText().toString());
+                params.put("number_of_bathrooms",bathroomEdit.getText().toString());
+                params.put("area",areaEdit.getText().toString());
+                params.put("price",priceEdit.getText().toString());
+                params.put("amenites","amenities");
+                params.put("longitude","12");
+                params.put("latitude","20");
+
 
 //            params.put("start", start.toString());
 //            params.put("count",count.toString());

@@ -7,6 +7,8 @@ import java.util.Date;
  */
 public class RealEstate {
 
+    public static RealEstate myRealEstateObj;
+
     String title;
     int id;
     String description;

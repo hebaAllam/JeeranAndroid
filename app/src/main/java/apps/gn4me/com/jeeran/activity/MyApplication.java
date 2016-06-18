@@ -21,6 +21,8 @@ public class MyApplication extends Application {
                 .setFontAttrId(R.attr.fontPath)
                 .build());
 
+        MultiDex.install(this);
+
     }
     @Override
     protected void attachBaseContext(Context base) {
