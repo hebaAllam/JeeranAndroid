@@ -53,10 +53,11 @@ public class AddRealEstate extends BaseActivity
 
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 1;
     private Uri outputFileUri;
-    EditText title, location, description, address, contactPerson, phone, email;
+    EditText title, location, description, address, contactPerson, phone, email, numOfRooms, numOfBathrooms, area, price, type;
     Button save;
     RealEstate realEstate;
     ProgressDialog progressDialog;
+    String typee;
 
 
     //multiple imgs
@@ -186,23 +187,27 @@ public class AddRealEstate extends BaseActivity
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("title", "title");
-                params.put("description", "desc");
-                params.put("location", "location");
-                params.put("type", "rent");
-                params.put("number_of_rooms", "5");
-                params.put("number_of_bathrooms", "2");
-                params.put("price", "10000000");
+                params.put("title", title.getText().toString());
+                params.put("description", description.getText().toString());
+                params.put("location", location.getText().toString());
+                typee = type.getText().toString();
+                if(typee.equals("rent"))
+                    params.put("type", "0");
+                else
+                    params.put("type", "1");
+                params.put("number_of_rooms", numOfRooms.getText().toString());
+                params.put("number_of_bathrooms", numOfBathrooms.getText().toString());
+                params.put("price", price.getText().toString()+"");
                 params.put("longitude", "30");
                 params.put("latitude", "35");
                 params.put("language", "1");
-                params.put("owner_name", "heba");
-                params.put("owner_mobile", "2365656");
-                params.put("owner_email", "my email");
+                params.put("owner_name", contactPerson.getText().toString());
+                params.put("owner_mobile", phone.getText().toString());
+                params.put("owner_email", email.getText().toString());
                 params.put("neighbarhood_id", "2");
                 params.put("unit_type_id", "2");
                 params.put("amenities_id", "2");
-                params.put("area", "200");
+                params.put("area", area.getText().toString());
                 params.put("amenities", "2");
 
 
@@ -262,6 +267,11 @@ public class AddRealEstate extends BaseActivity
         address = (EditText) findViewById(R.id.address_addRealEstateActivity);
         contactPerson = (EditText) findViewById(R.id.contactPerson_addRealEstateActivity);
         phone = (EditText) findViewById(R.id.phone_addRealEstateActivity);
+        area = (EditText)findViewById(R.id.area_addRealEstateActivity);
+        numOfBathrooms = (EditText)findViewById(R.id.numOfBatreooms_addRealEstateActivity);
+        numOfRooms = (EditText)findViewById(R.id.numOfRomms_addRealEstateActivity);
+        type = (EditText)findViewById(R.id.type_addRealEstateActivity);
+        price = (EditText)findViewById(R.id.price_addRealEstateActivity);
 
         save = (Button) findViewById(R.id.saveBtn_addRealEstateActivity);
         preview = (ImageView) findViewById(R.id.preview_addrealestate);
@@ -274,11 +284,11 @@ public class AddRealEstate extends BaseActivity
     @Override
     public void onBackPressed() {
         android.support.v4.widget.DrawerLayout drawer = (android.support.v4.widget.DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(android.support.v4.view.GravityCompat.START)) {
-            drawer.closeDrawer(android.support.v4.view.GravityCompat.START);
-        } else {
+//        if (drawer.isDrawerOpen(android.support.v4.view.GravityCompat.START)) {
+//            drawer.closeDrawer(android.support.v4.view.GravityCompat.START);
+//        } else {
             super.onBackPressed();
-        }
+//        }
     }
 
     @Override

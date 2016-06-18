@@ -9,9 +9,9 @@
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../android_studio_with_sdk/sdk/extras/android/m2repository/com/android/support/design/23.3.0/design-23.3.0-sources.jar!/" />
       <root url="jar://$USER_HOME$/AppData/Local/Android/sdk1/extras/android/m2repository/com/android/support/design/23.3.0/design-23.3.0-sources.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../And2sdk/extras/android/m2repository/com/android/support/design/23.3.0/design-23.3.0-sources.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../android_studio_with_sdk/sdk/extras/android/m2repository/com/android/support/design/23.3.0/design-23.3.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -84,7 +84,34 @@
             android:cursorVisible="true"/>
 
     </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/type"
+                    android:id="@+id/type_addRealEstateActivity"
+                    android:inputType="textWebEditText"
+                    android:textCursorDrawable="@drawable/cursur_color"
+                    android:cursorVisible="true"/>
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/price"
+                    android:id="@+id/price_addRealEstateActivity"
+                    android:inputType="textWebEditText"
+                    android:textCursorDrawable="@drawable/cursur_color"
+                    android:cursorVisible="true"/>
+
+            </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -175,6 +202,39 @@
             android:textCursorDrawable="@drawable/cursur_color" />
     </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/numOfRooms"
+                    android:id="@+id/numOfRomms_addRealEstateActivity"
+                    android:inputType="textWebEmailAddress"
+                    android:textCursorDrawable="@drawable/cursur_color" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/numOfBathrooms"
+                    android:id="@+id/numOfBatreooms_addRealEstateActivity"
+                    android:inputType="textWebEmailAddress"
+                    android:textCursorDrawable="@drawable/cursur_color" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/area"
+                    android:id="@+id/area_addRealEstateActivity"
+                    android:inputType="textWebEmailAddress"
+                    android:textCursorDrawable="@drawable/cursur_color" />
+            </android.support.design.widget.TextInputLayout>
     <android.support.v7.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

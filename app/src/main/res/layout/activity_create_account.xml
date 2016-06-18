@@ -33,7 +33,7 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="130dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/default_profile_pic" />
@@ -53,6 +53,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="10dp"
                 android:textColorHint="@color/white">
 
                 <EditText
@@ -71,8 +72,8 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                style="@style/editTxtBorder"
                 android:layout_width="match_parent"
+                android:minHeight="10dp"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/white">
 
@@ -93,6 +94,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="10dp"
                 android:textColorHint="@color/white">
 
                 <EditText
@@ -111,6 +113,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="10dp"
                 android:textColorHint="@color/white">
 
                 <EditText
@@ -144,7 +147,7 @@
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/highSeparatorHeight"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_btn"
                 android:text="Register By Facebook"

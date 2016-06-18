@@ -394,8 +394,9 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
 //                            editor.putString("email", emailEditTxt.getText().toString());
 //                            editor.commit();
                             progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Success, Please validate your email",Toast.LENGTH_LONG).show();
 
-                            Intent i = new Intent(CreateAccount.this,HomeActivity.class);
+                            Intent i = new Intent(CreateAccount.this,LoginActivity.class);
                             startActivity(i);
                         } else {
                             progressDialog.dismiss();

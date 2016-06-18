@@ -79,7 +79,7 @@ public class RVAdapter extends RecyclerView.Adapter<ViewHolder>{
                     .into(holder.img);
 
             holder.location.setText(mRealEstates.get(position).getMyRealEstate().getLocation());
-            holder.price.setText(mRealEstates.get(position).getMyRealEstate().getPhone());
+            holder.price.setText(mRealEstates.get(position).getMyRealEstate().getPrice()+"");
             holder.date.setText(mRealEstates.get(position).getMyRealEstate().getCreationDate().toString());
         }
 
