@@ -150,6 +150,7 @@ public class RealEstateFragment extends Fragment implements BaseSliderView.OnSli
 
                         Intent i = new Intent(view.getContext(),RealEstateDetails.class);
                         i.putExtra("realestateID",realEstates.get(position).getId()+"");
+                        i.putExtra("fav",realEstates.get(position).isFav()+"");
                         i.putExtra("activityType","realEstateActivity");
                         i.putExtra("realestateID",realEstates.get(position).getId()+"");
                         i.putExtra("title",realEstates.get(position).getTitle());
@@ -485,6 +486,7 @@ public class RealEstateFragment extends Fragment implements BaseSliderView.OnSli
                     //mReal.setPhone(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
                     //mReal.setEmail(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
                     mReal.setContactPerson(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+                    mReal.setFav(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("is_fav").getAsBoolean());
                     mReal.setCreationDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
                     mReal.setUpdateDate(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
                     mReal.setTitle(myRealEstates.get(i).getAsJsonObject().getAsJsonPrimitive("title").getAsString());

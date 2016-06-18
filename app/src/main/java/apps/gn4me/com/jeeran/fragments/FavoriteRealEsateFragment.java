@@ -116,6 +116,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
                         Intent i = new Intent(view.getContext(),RealEstateDetails.class);
                         i.putExtra("realestateID",realEstates.get(position).getFavoriteRealEstateId()+"");
                         i.putExtra("activityType","favoriteRealEstate");
+//                        i.putExtra("fav",realEstates.get(position).getMyRealEstate().isFav());
 //                        i.putExtra("title",realEstates.get(position).getTitle());
 //                        i.putExtra("type",realEstates.get(position).getType());
 //                        i.putExtra("language",realEstates.get(position).getLanguage());
@@ -244,10 +245,13 @@ public  class FavoriteRealEsateFragment extends Fragment {
 
                 JsonObject myRealEstates = myFavoriteRealEstates.get(i).getAsJsonObject().getAsJsonObject("real_estate_ad");
 
+
                 mRealEstate.setId(myRealEstates.getAsJsonObject().getAsJsonPrimitive("real_estate_ad_id").getAsInt());
-                mRealEstate.setPhone(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
-                mRealEstate.setEmail(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
+//                mRealEstate.setPhone(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_mobile").getAsString());
+//                mRealEstate.setEmail(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_email").getAsString());
                 mRealEstate.setContactPerson(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
+//                mRealEstate.setPrice(myRealEstates.getAsJsonObject().getAsJsonPrimitive("price").getAsInt());
+//                mRealEstate.setContactPerson(myRealEstates.getAsJsonObject().getAsJsonPrimitive("is_fav").getAsString());
                 mRealEstate.setCreationDate(myRealEstates.getAsJsonObject().getAsJsonPrimitive("created_at").getAsString());
                 mRealEstate.setUpdateDate(myRealEstates.getAsJsonObject().getAsJsonPrimitive("owner_name").getAsString());
                 mRealEstate.setTitle(myRealEstates.getAsJsonObject().getAsJsonPrimitive("title").getAsString());

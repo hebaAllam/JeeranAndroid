@@ -48,6 +48,8 @@
     <string name="optional" translatable="false">(Optional) </string>
     <string name="take_or_choose_pic" translatable="false">Take Or Choose \n 8 Photos</string>
     <string name="title">Title</string>
+    <string name="type">Type</string>
+    <string name="price">Price</string>
     <string name="category" translatable="false">Category</string>
     <string name="sub_category" translatable="false">Sub Category</string>
     <string name="description">Description</string>
@@ -104,6 +106,9 @@
 
     //for real estate
     <string name="email_real">Email</string>
+    <string name="numOfRooms">Number Of Rooms</string>
+    <string name="numOfBathrooms">Number Of Bathrooms</string>
+    <string name="area">Area</string>
     <string name="take_or_choose_pic_real" translatable="false">Take Or Choose 8 Photos</string>
     <string name="location_real" translatable="false">Location</string>
     <string name="address_real">Address</string>

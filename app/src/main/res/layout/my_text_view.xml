@@ -37,8 +37,8 @@
 
                 <ImageView
                     android:id="@+id/superMarketImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="16dp"
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/price_text"
+                android:id="@+id/price_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             </android.support.v7.widget.LinearLayoutCompat>

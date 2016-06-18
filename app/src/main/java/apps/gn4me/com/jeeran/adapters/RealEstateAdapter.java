@@ -68,13 +68,18 @@ public class RealEstateAdapter extends RecyclerView.Adapter<ViewHolder> {
                 typee = "rent";
             holder.title_realEstate.setText(mRealEstates.get(position).getTitle()
                     + " For " + typee);
+//            Picasso.with(view.getContext())
+//                    .load(mRealEstates.get(position).getImg())
+//                    .error(R.drawable.ic_error )
+//                    .placeholder( R.drawable.progress_animation )
+//                    .into(holder.img);
             Picasso.with(view.getContext())
                     .load(mRealEstates.get(position).getImg())
                     .error(R.drawable.ic_error )
                     .placeholder( R.drawable.progress_animation )
                     .into(holder.img);
             holder.location.setText(mRealEstates.get(position).getLocation());
-            holder.price.setText(mRealEstates.get(position).getPhone());
+            holder.price.setText(mRealEstates.get(position).getPrice()+"");
             holder.date.setText(mRealEstates.get(position).getTitle());
         }
 

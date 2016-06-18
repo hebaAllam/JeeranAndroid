@@ -22,7 +22,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     public ViewHolder(View view) {
         super(view);
         this.date = (TextView) view.findViewById(R.id.date_text);
-        this.price = (TextView) view.findViewById(R.id.price_text);
+        this.price = (TextView) view.findViewById(R.id.price_textView);
         this.location = (TextView) view.findViewById(R.id.location_text);
         this.next = (ImageView)view.findViewById(R.id.next);
         this.title_realEstate = (TextView)view.findViewById(R.id.title_txtView_real);
