@@ -83,7 +83,6 @@
                 android:src="@drawable/ic_favorites_icon"
                 android:layout_marginLeft="5dp"
                 android:id="@+id/favoriteRealEstate"
-                android:visibility="gone"
                 android:onClick="addToRealEstateFavorite"
                 />
             <ImageView

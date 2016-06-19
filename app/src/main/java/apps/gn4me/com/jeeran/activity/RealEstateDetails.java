@@ -329,10 +329,15 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         clickCount++;
         if(clickCount >= 2)
             clickCount=0;
-        if(activityType.equals("favoriteRealEstate") )
+        if(activityType.equals("favoriteRealEstate") ) {
             deleteRealEstateFromFavorites();
+            favoriteActive.setVisibility(View.VISIBLE);
+            favorite.setVisibility(View.GONE);
+        }
         else {
             addRealEstateToFavorite();
+            favorite.setVisibility(View.GONE);
+            favoriteActive.setVisibility(View.VISIBLE);
         }
     }
 
@@ -646,13 +651,16 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
                 Log.i("Fav ::: ", myRealEstates.getAsJsonPrimitive("is_fav")+"");
                 mReal.setFav(myRealEstates.getAsJsonPrimitive("is_fav").getAsBoolean());
-                boolean fav = mReal.isFav();
-                if(fav){
-                    favorite.setVisibility(View.INVISIBLE);
+
+                int fav = myRealEstates.getAsJsonPrimitive("is_fav").getAsInt();
+
+                Log.i("Fav ::: ", fav+"");
+                if(fav == 1){
+                    favorite.setVisibility(View.GONE);
                     favoriteActive.setVisibility(View.VISIBLE);
                 }else {
                     favorite.setVisibility(View.VISIBLE);
-                    favoriteActive.setVisibility(View.INVISIBLE);
+                    favoriteActive.setVisibility(View.GONE);
                 }
 //                mReal.setUpdateDate(myRealEstates.getAsJsonPrimitive("owner_name").getAsString());
                 title.setText(myRealEstates.getAsJsonPrimitive("title").getAsString()+ "");
