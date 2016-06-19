@@ -395,10 +395,10 @@ public class RealEstateFragment extends Fragment implements BaseSliderView.OnSli
 
     private void requestJsonObject(final Integer start , final Integer count) {
         String  tag_string_req = "string_req";
-    final Context context = getContext();
+        final Context context = getContext();
 
-    final String TAG = "Volley";
-    String url = BaseActivity.BASE_URL + "/realstate/list";
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstate/list";
 
         /*
         final ProgressDialog pDialog = new ProgressDialog(context);
@@ -406,55 +406,55 @@ public class RealEstateFragment extends Fragment implements BaseSliderView.OnSli
         pDialog.show();
         */
 
-    StringRequest strReq = new StringRequest(Request.Method.POST,
-            url, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
 
-        @Override
-        public void onResponse(String response) {
-            Log.d(TAG, response.toString());
-            //pDialog.hide();
-            JsonParser parser = new JsonParser();
-            JsonObject result = parser.parse(response).getAsJsonObject();
-            getRealEstateData(result);
-        }
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                getRealEstateData(result);
+            }
 
 
-    }, new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
 
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            VolleyLog.d(TAG, "Error: " + error.getMessage());
-            //pDialog.hide();
-        }
-    }) {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
 
-        @Override
-        protected Map<String, String> getParams() {
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("type","");
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("type","");
 //            params.put("start", start.toString());
 //            params.put("count",count.toString());
 
 
-            return params;
-        }
-        @Override
-        public Map<String, String> getHeaders() throws AuthFailureError {
-            HashMap<String, String> headers = new HashMap<String, String>();
-            SharedPreferences settings;
-            String token ;
-            settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-            token = settings.getString("token", null);
-            headers.put("Authorization", token);
-            return headers;
-        }
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = context.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
 
-    };
+        };
 
-    // Adding request to request queue
-    RequestQueue queue = Volley.newRequestQueue(context);
-    queue.add(strReq);
-}
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(strReq);
+    }
 
 //    private void sendDataToDetails(RealEstate realEstate){
 ////        Intent i = new Intent(RealEstateActivty.class, RealEstateDetails.class);

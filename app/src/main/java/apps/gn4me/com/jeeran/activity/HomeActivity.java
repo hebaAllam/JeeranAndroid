@@ -53,6 +53,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
 
     private FrameLayout serviceBtn ;
     private FrameLayout myFavorites;
+    private FrameLayout myRealEstates;
     private FrameLayout myDiscussion;
     private FrameLayout signout;
 
@@ -124,6 +125,17 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
                 startActivity(in);
             }
         });
+
+        ///////////////myRealEstates
+        myRealEstates = (FrameLayout)findViewById(R.id.navigation_drawer_items_list_linearLayout_real_estate);
+        myRealEstates.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this,MyRealEstates.class);
+                startActivity(intent);
+            }
+        });
+
         ///////////// myDiscussion
 
         myDiscussion = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_my_discussion);

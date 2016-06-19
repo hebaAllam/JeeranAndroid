@@ -967,7 +967,13 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
                 params.put("amenites","amenities");
                 params.put("longitude","12");
                 params.put("latitude","20");
-
+                params.put("language","1");
+                params.put("owner_name","heba");
+                params.put("owner_mobile","012025651212");
+                params.put("owner_email","hdjhjcj@jkj");
+                params.put("neighbarhood_id","1");
+                params.put("unit_type_id","1");
+                params.put("amenities_id","1");
 
 //            params.put("start", start.toString());
 //            params.put("count",count.toString());

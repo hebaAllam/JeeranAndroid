@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="apps.gn4me.com.jeeran">
 
+    <uses-sdk android:minSdkVersion="10" />
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -12,9 +14,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-sdk android:minSdkVersion="10" />
-
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <permission
         android:name="com.example.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -163,9 +164,11 @@
             android:name=".intent_service.ValidateTokenService"
             android:exported="false" />
 
-        <activity android:name=".activity.MyDiscussion"
+        <activity
+            android:name=".activity.MyDiscussion"
             android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/MyMaterialTheme"/>
+            android:theme="@style/MyMaterialTheme" />
+        <activity android:name=".activity.MyRealEstates" android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
