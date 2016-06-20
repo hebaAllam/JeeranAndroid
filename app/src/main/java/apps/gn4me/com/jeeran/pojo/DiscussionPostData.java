@@ -4,7 +4,7 @@ public class DiscussionPostData {
     private Integer id , commentsNum , favoriteId;
     private String  details , image , timeStamp, title , category ;
 
-    int isOwner = 0 , isFav = 0 ;
+    Integer isOwner = 0 , isFav = 0 ;
     private User user ;
     private Title topic ;
 
@@ -22,17 +22,17 @@ public class DiscussionPostData {
         topic = new Title();
     }
 
-    public int getIsOwner() {
+    public Integer getIsOwner() {
         return isOwner;
     }
-    public void setIsOwner(int isOwner) {
+    public void setIsOwner(Integer isOwner) {
         this.isOwner = isOwner;
     }
 
-    public int getIsFav() {
+    public Integer getIsFav() {
         return isFav;
     }
-    public void setIsFav(int isFav) {
+    public void setIsFav(Integer isFav) {
         this.isFav = isFav;
     }
 

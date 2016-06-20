@@ -104,7 +104,7 @@ public class PostViewBinder extends DataBinder<PostViewBinder.ViewHolder> {
                     .into(holder.feedImageView);
         }
 
-        if(mList.get(index).getIsFav() == 1 || startIndex == 0 ){
+        if(mList.get(index).getIsFav() == 1 || (mList.get(index).getIsFav() == null && startIndex == 0) ){
             Drawable myDrawable = context.getResources().getDrawable(R.drawable.ic_favorite_icon_select);
             holder.favorite.setCompoundDrawablesWithIntrinsicBounds(myDrawable,null,null,null);
         }

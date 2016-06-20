@@ -76,8 +76,7 @@ public class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         hideKeyboard();
-        android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+        android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.i("IDDDD" , android_id);
 
 //        requestRealEstateSliderImages();
@@ -537,7 +536,7 @@ public class BaseActivity extends AppCompatActivity {
     public void requestMyProfileJsonObject() {
 
         final String TAG = "Volley";
-        String url = BaseActivity.BASE_URL + "/user/myprofile?device_token=" + "bbbbbbdnssbbsxbxb" ; //android_id ;
+        String url = BaseActivity.BASE_URL + "/user/myprofile?device_token=" + android_id ;
 
         StringRequest strReq = new StringRequest(Request.Method.GET,
                 url, new Response.Listener<String>() {
