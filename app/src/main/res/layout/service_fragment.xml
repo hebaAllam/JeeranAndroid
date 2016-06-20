@@ -17,15 +17,27 @@
         custom:pager_animation_span="1100"
         android:layout_height="170dp"/>
 
-    <Spinner
-        android:id="@+id/spinner1frag"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
-        android:layout_marginLeft="100dp"
-
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1.5"/>
+        <Spinner
+            android:id="@+id/spinner1frag"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_weight="7"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1.5"/>
+    </LinearLayout>
 
 
     <FrameLayout
