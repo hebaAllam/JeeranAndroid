@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,7 +41,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
+import apps.gn4me.com.jeeran.pojo.Image;
 import apps.gn4me.com.jeeran.pojo.Title;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
@@ -59,7 +62,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
     private FrameLayout myDiscussion;
     private FrameLayout myServices;
     private FrameLayout signout;
-    private de.hdodenhof.circleimageview.CircleImageView accountImage;
+    private ImageView accountImage;
     private TextView userName;
 
 
@@ -71,7 +74,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         setContentView(R.layout.activity_home);
 
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
-        accountImage=(de.hdodenhof.circleimageview.CircleImageView)findViewById(R.id.navigation_drawer_items_list_icon_account);
+        accountImage=(ImageView)findViewById(R.id.navigation_drawer_items_list_icon_account);
         userName=(TextView)findViewById(R.id.navigation_drawer_account_information_display_name) ;
         setupUserAccount();
         ArrayList<String> items = new ArrayList<>();
