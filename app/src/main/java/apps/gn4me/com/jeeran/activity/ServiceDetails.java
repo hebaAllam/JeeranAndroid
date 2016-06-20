@@ -106,15 +106,15 @@ public class ServiceDetails extends BaseActivity {
         //-----------------------------
         //------------get service ID-------------
         Intent i=getIntent();
-
+      if(i.hasExtra("fromMyService")){
+          serviceId= i.getExtras().getInt("UniqueServiceId");
+      }
         serviceId= i.getExtras().getInt("UniqueServiceId");
         serviceName=i.getExtras().getString("ServiceDetailsName");
             serviceSubCatName=i.getExtras().getString("serviceSubCatName");
             serviceSubCatId=i.getExtras().getInt("serviceSubCatId");
         serviceCatName=i.getExtras().getString("serviceCatName");
                 serviceCatId=i.getExtras().getInt("serviceCatId");
-
-
 
 
            setTitle(serviceName+" Details");
@@ -292,7 +292,7 @@ public class ServiceDetails extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("service_sub_category_id","4");
+                params.put("service_sub_category_id",serviceSubCatId+"");
                 params.put("count","4");
 
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,24 +32,17 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.ServiceAdapter;
 import apps.gn4me.com.jeeran.pojo.Service;
-import apps.gn4me.com.jeeran.pojo.ServicesCategory;
 
 public class ServicesList extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
     private SliderLayout mDemoSlider;
@@ -61,7 +53,7 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
     Spinner dropdown;
     String serviceSubName;
     String serviceCatName;
-    int serviceSubId,serviceCatId=4;
+    int serviceSubId,serviceCatId;
     private static final String TAG_SERVICES= "response";
     private static final String TAG_SERVICES_ID = "service_place_id";
     private static final String TAG_SERVICES_LOGO = "logo";
@@ -78,7 +70,6 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
         //----------getViews------------------------------
         serviceTitle=(TextView)findViewById(R.id.txt_titile) ;
         dropdown = (Spinner)findViewById(R.id.spinner1AreaFood);
-        serviceTitle=(TextView)findViewById(R.id.txt_titile) ;
         mDemoSlider = (SliderLayout)findViewById(R.id.sliderFood);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.food_recycleView);
@@ -96,6 +87,7 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
 
         //------------------Check which service should listed--------------
         Intent intent=getIntent();
+
            serviceSubId  = intent.getExtras().getInt("serviceSubCatId");
            serviceSubName=intent.getExtras().getString("serviceSubCatName");
            serviceCatName=intent.getExtras().getString("serviceCatName");
@@ -311,7 +303,7 @@ public void onSliderClick(BaseSliderView slider) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("service_sub_category_id","4");
+                params.put("service_sub_category_id",serviceSubId+"");
 
 
                 return params;

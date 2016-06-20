@@ -15,6 +15,16 @@ public class UserReview {
     private int numberOfRates;
     private User user;
     private int isHide;
+    private int isOwner;
+
+    public void setIsOwner(int isOwner) {
+        this.isOwner = isOwner;
+    }
+
+    public int getIsOwner() {
+
+        return isOwner;
+    }
 
     public void setReviewID(int reviewID) {
         this.reviewID = reviewID;

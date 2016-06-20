@@ -74,7 +74,10 @@ public class MyServices extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new MyTouchListener(this, recyclerView, new MyClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(getApplicationContext(),servicesList.get(position).getName(),Toast.LENGTH_LONG).show();
+                Intent i=new Intent(MyServices.this,ServiceDetails.class);
+                i.putExtra("fromMyService","ok");
+                i.putExtra("UniqueServiceId",servicesList.get(position).getServiceId());
+               // Toast.makeText(getApplicationContext(),servicesList.get(position).getName(),Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -89,9 +92,10 @@ public class MyServices extends AppCompatActivity {
     }
 
     private void requestMyServicesData() {
+      int userId=  BaseActivity.profile.getId();
 
 
-        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/list?user_id=1";
+        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/list?user_id="+userId;
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");

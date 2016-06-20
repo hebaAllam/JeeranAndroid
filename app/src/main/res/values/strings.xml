@@ -154,5 +154,6 @@
     <string name="google_maps_key1">AIzaSyD7ivMSDGU-amq1TBI3O4XLalb0l4Vg6gU</string>
     <string name="edit_service">edit</string>
     <string name="delete_service">delete</string>
+    <string name="report_review">report</string>
 
 </resources>
