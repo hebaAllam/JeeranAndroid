@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -55,7 +57,10 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
     private FrameLayout myFavorites;
     private FrameLayout myRealEstates;
     private FrameLayout myDiscussion;
+    private FrameLayout myServices;
     private FrameLayout signout;
+    private de.hdodenhof.circleimageview.CircleImageView accountImage;
+    private TextView userName;
 
 
     private int initReq = 0 ;
@@ -66,6 +71,9 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         setContentView(R.layout.activity_home);
 
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
+        accountImage=(de.hdodenhof.circleimageview.CircleImageView)findViewById(R.id.navigation_drawer_items_list_icon_account);
+        userName=(TextView)findViewById(R.id.navigation_drawer_account_information_display_name) ;
+        setupUserAccount();
         ArrayList<String> items = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
@@ -135,6 +143,15 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
                 startActivity(intent);
             }
         });
+        // myservices
+        myServices=(FrameLayout)findViewById(R.id.navigation_drawer_items_list_linearLayout_services);
+        myServices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(HomeActivity.this,MyServices.class);
+                startActivity(i);
+            }
+        });
 
         ///////////// myDiscussion
 
@@ -161,6 +178,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         serviceBtn = (FrameLayout) findViewById(R.id.serviceLayout);
         discussionBtn = (FrameLayout) findViewById(R.id.discussionLayout);
         realEstateBtn = (FrameLayout) findViewById(R.id.realEstateLayout);
+
 
         serviceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,6 +210,12 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
 
         setTitle("");
 
+
+    }
+
+    private void setupUserAccount() {
+        Glide.with(this).load(BaseActivity.profile.getImage()).into(accountImage);
+        userName.setText(BaseActivity.profile.getUserName());
 
     }
 

@@ -106,22 +106,20 @@ public class Reviews extends BaseActivity {
     }
 
     private void prepareData() {
-        SharedPreferences settings;
-        settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-        String mtoken = settings.getString("token", null);
-        Ion.with(this)
-                .load("http://jeeran.gn4me.com/jeeran_v1/servicereview/list?service_place_id="+serviceid)
-                .setHeader("Authorization",mtoken)
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
+        String url ="http://jeeran.gn4me.com/jeeran_v1/servicereview/list?service_place_id="+serviceid;
 
-                        if(result!=null){
-                            Toast.makeText(Reviews.this,result,Toast.LENGTH_LONG).show();
-                            try {
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        // pDialog.show();
 
-                                JSONObject jsonObject=new JSONObject(result);
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                                JSONObject jsonObject=new JSONObject(response);
                                 JSONObject jsonObjectResponse=jsonObject.getJSONObject(TAG_SERVICES_DETAILS);
                                 JSONArray jsonArr=jsonObjectResponse.getJSONArray(TAG_SERVICES_REVIEW);
                                 for(int i=0;i<jsonArr.length();i++){
@@ -151,13 +149,34 @@ public class Reviews extends BaseActivity {
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
-                        }
-                        else {
-                            Toast.makeText(Reviews.this,"result null",Toast.LENGTH_LONG).show();
-                        }
 
-                    }
-                });
+                pDialog.dismiss();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(Reviews.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                String mtoken = settings.getString("token", null);
+                headers.put("Authorization", mtoken);
+                return headers;
+            }
+
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
 
 
     }
