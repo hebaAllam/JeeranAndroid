@@ -178,7 +178,7 @@ public class AddRealEstate extends BaseActivity
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/realstate/add";
-
+        Log.i("inside","::::::");
         /*
         final ProgressDialog pDialog = new ProgressDialog(context);
         pDialog.setMessage("Loading...");
@@ -194,7 +194,7 @@ public class AddRealEstate extends BaseActivity
                 //pDialog.hide();
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
-                Log.i("result :::::", result.toString());
+                Log.i("result in add :::::", result.toString());
                 progressDialog.dismiss();
             }
 
@@ -213,7 +213,9 @@ public class AddRealEstate extends BaseActivity
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("title", title.getText().toString());
                 params.put("description", description.getText().toString());
-                params.put("location", location.getText().toString());
+                params.put("location", "Maadi");
+                params.put("images","");
+                params.put("address","1A, Maadi Star Towers, Corniche El Maadi, Floor #22, Flat #1, Nile Corniche");
                 typee = type.getText().toString();
                 if(typee.equals("rent"))
                     params.put("type", "0");
@@ -229,10 +231,10 @@ public class AddRealEstate extends BaseActivity
                 params.put("owner_mobile", phone.getText().toString());
                 params.put("owner_email", email.getText().toString());
                 params.put("neighbarhood_id", BaseActivity.currentNeighborhood.getId().toString());
-                params.put("unit_type_id", "2");
-                params.put("amenities_id", "2");
+                params.put("unit_type_id", "3");
+                params.put("amenities_id", "3");
                 params.put("area", area.getText().toString());
-                params.put("amenities", "2");
+                params.put("amenities", "3");
 
                 Log.i("my params::::",params.toString());
 
