@@ -537,7 +537,7 @@ public class BaseActivity extends AppCompatActivity {
     public void requestMyProfileJsonObject() {
 
         final String TAG = "Volley";
-        String url = BaseActivity.BASE_URL + "/user/myprofile?device_token=" + android_id ;
+        String url = BaseActivity.BASE_URL + "/user/myprofile?device_token=" + "bbbbbbdnssbbsxbxb" ; //android_id ;
 
         StringRequest strReq = new StringRequest(Request.Method.GET,
                 url, new Response.Listener<String>() {

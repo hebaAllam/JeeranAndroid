@@ -141,11 +141,6 @@ public class MyDiscussion extends BaseActivity {
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/discussion/list";
 
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
@@ -163,7 +158,6 @@ public class MyDiscussion extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //pDialog.hide();
             }
         }) {
 
@@ -188,7 +182,7 @@ public class MyDiscussion extends BaseActivity {
 
         };
 
-// Adding request to request queue
+        // Adding request to request queue
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(strReq);
     }

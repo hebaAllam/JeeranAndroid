@@ -236,7 +236,8 @@ public class PostViewBinder extends DataBinder<PostViewBinder.ViewHolder> {
             rb[i].setId(i+1);
             rg.addView(rb[i]);
         }
-        rb[0].setChecked(true);
+        if ( size > 0 )
+            rb[0].setChecked(true);
         complaintMsg = (EditText) dialog.findViewById(R.id.complaintMsg);
     }
 
