@@ -1,12 +1,16 @@
 package apps.gn4me.com.jeeran.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.koushikdutta.async.future.FutureCallback;
@@ -52,6 +57,7 @@ public class ServiceDetails extends BaseActivity {
     private RecyclerView recyclerView;
     private ServiceDetailsAdapter adapter;
     private List<Service> serviceDetailsList;
+    private Button CallUsBut;
     int serviceId,serviceSubCatId,serviceCatId;
     String serviceName;
     ImageView showLocation,rateService,favoriteService,serviceLogo;
@@ -93,6 +99,7 @@ public class ServiceDetails extends BaseActivity {
         serviceNumberOfRates=(TextView)findViewById(R.id.service_numberofRates);
         serviceDiscHeader=(TextView)findViewById(R.id.disc_header);
         serviceDisc=(TextView)findViewById(R.id.service_disc);
+        CallUsBut=(Button)findViewById(R.id.callUs) ;
         //------------setting tool bar-----
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -153,6 +160,12 @@ public class ServiceDetails extends BaseActivity {
 
 
                 startActivity(allReviewsIntent);
+            }
+        });
+        CallUsBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callServiceOwner();
             }
         });
         showLocation.setOnClickListener(new View.OnClickListener() {
@@ -315,6 +328,46 @@ public class ServiceDetails extends BaseActivity {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ServiceDetails Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://apps.gn4me.com.jeeran.activity/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ServiceDetails Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://apps.gn4me.com.jeeran.activity/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
+
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
@@ -445,5 +498,17 @@ public class ServiceDetails extends BaseActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(strReq);
     }
+
+
+    private void callServiceOwner() {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:01113812798"));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            Log.i("premisssion :::::::: ","");
+            return;
+        }
+        startActivity(callIntent);
+    }
+
 }
 

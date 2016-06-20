@@ -47,11 +47,14 @@
                 android:gravity="center"
 
                 >
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/navigation_drawer_user_account_picture_profile"
                     android:layout_width="@dimen/navigation_drawer_profile_image_size"
                     android:layout_height="@dimen/navigation_drawer_profile_image_size"
-                    android:src="@drawable/ic_account_circle_white_64dp" />
+                    android:src="@drawable/my_image"
+
+
+                    />
 
                      <ImageView
                          android:layout_width="25dp"
