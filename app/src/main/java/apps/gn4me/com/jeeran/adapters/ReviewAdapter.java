@@ -24,7 +24,8 @@ import apps.gn4me.com.jeeran.pojo.UserReview;
  * Created by acer on 5/30/2016.
  */
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHolder> {
-
+    int curPos;
+    int isOwner;
     private Context mContext;
     private List<UserReview> reviewsList;
 
@@ -64,6 +65,18 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
         holder.userReview.setText(userReview.getReviewContent());
         holder.moreReviewOptions.setTag(position);
         Glide.with(mContext).load(userReview.getUser().getImage()).into(holder.userImage);
+        isOwner=reviewsList.get(position).getIsOwner();
+        holder.moreReviewOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isOwner==1){
+                showPopupMenu(holder.moreReviewOptions);}
+                else {
+
+                    showPopupMenuReport(holder.moreReviewOptions);
+                }
+            }
+        });
 
     }
 
@@ -74,14 +87,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
         // inflate menu
         PopupMenu popup = new PopupMenu(mContext, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_restaurant, popup.getMenu());
+        inflater.inflate(R.menu.my_own_menu, popup.getMenu());
         popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
         popup.show();
     }
+    private void showPopupMenuReport(View view) {
+        // inflate menu
+        PopupMenu popup = new PopupMenu(mContext, view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.report_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new MyMenuItemReportClickListener());
+        popup.show();
+    }
 
-    /**
-     * Click listener for popup menu items
-     */
     class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
         public MyMenuItemClickListener() {
@@ -89,14 +107,31 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
 
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
-            MyViewHolder holder = null;
             switch (menuItem.getItemId()) {
-                case R.id.action_add_favourite:
-
-                    Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
+                case R.id.action_reportReview:
+                    requestReportReview();
+                    Toast.makeText(mContext, "report", Toast.LENGTH_SHORT).show();
                     return true;
-                case R.id.action_play_next:
-                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
+                default:
+            }
+            return false;
+        }
+
+
+    }
+    class MyMenuItemReportClickListener implements PopupMenu.OnMenuItemClickListener {
+
+        public MyMenuItemReportClickListener() {
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.action_delete_service:
+                    requestDeleteReview();
+                    return true;
+                case R.id.action_edit_service:
+                    requestEditReview();
                     return true;
                 default:
             }
@@ -104,8 +139,25 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
         }
     }
 
+
+
     @Override
     public int getItemCount() {
         return reviewsList.size();
+    }
+
+    private void requestReportReview() {
+        Toast.makeText(mContext, "report", Toast.LENGTH_SHORT).show();
+
+
+    }
+    private void requestDeleteReview() {
+        Toast.makeText(mContext, "delete", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void requestEditReview() {
+        Toast.makeText(mContext, "edit", Toast.LENGTH_SHORT).show();
+
     }
 }

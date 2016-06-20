@@ -63,6 +63,7 @@ public class Reviews extends BaseActivity {
     private static final String TAG_USER= "user";
     private static final String TAG_IS_HIDE = "is_hide";
     private static final String TAG_REVIEW_UPDATED_DATE="updated_at";
+    private static final String TAG_IS_OWNER="is_owner";
 
 
     @Override
@@ -109,7 +110,7 @@ public class Reviews extends BaseActivity {
         settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
         String mtoken = settings.getString("token", null);
         Ion.with(this)
-                .load("http://jeeran.gn4me.com/jeeran_v1/servicereview/list?service_place_id=4")
+                .load("http://jeeran.gn4me.com/jeeran_v1/servicereview/list?service_place_id="+serviceid)
                 .setHeader("Authorization",mtoken)
                 .asString()
                 .setCallback(new FutureCallback<String>() {
@@ -133,6 +134,7 @@ public class Reviews extends BaseActivity {
                                     userReview.setReviewDate(reviewObj.getString(TAG_REVIEW_DATE));
                                     userReview.setReviewUpdateDate(reviewObj.getString(TAG_REVIEW_UPDATED_DATE));
                                     userReview.setIsHide(reviewObj.getInt(TAG_IS_HIDE));
+                                    userReview.setIsOwner(reviewObj.getInt(TAG_IS_OWNER));
                                    JSONObject userObj= reviewObj.getJSONObject(TAG_USER);
                                     User user=new User();
                                     user.setId(userObj.getInt("user_id"));
@@ -162,7 +164,6 @@ public class Reviews extends BaseActivity {
     public void addNew(View view){
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_review_dialog);
-        // Custom Android Allert Dialog Title
         dialog.setTitle("Write Review");
 
         Button dialogButtonCancel = (Button) dialog.findViewById(R.id.customDialogCancel);
@@ -195,7 +196,7 @@ public class Reviews extends BaseActivity {
                 String review=reviewText.getText().toString();
 
                 if(!review.equals("")){
-                    Toast.makeText(Reviews.this,"you success add review with rates "+txtRates.getText().toString(),Toast.LENGTH_LONG).show();
+                   // Toast.makeText(Reviews.this,"you success add review with rates "+txtRates.getText().toString(),Toast.LENGTH_LONG).show();
                     addReview();
                     dialog.dismiss();
                 }
@@ -216,7 +217,7 @@ public class Reviews extends BaseActivity {
 
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(Reviews.this,response,Toast.LENGTH_LONG).show();
+                            Toast.makeText(Reviews.this,"this is response "+response,Toast.LENGTH_LONG).show();
 
                             pDialog.hide();
 
