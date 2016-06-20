@@ -28,12 +28,12 @@
                 android:orientation="horizontal">
 
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_pic"
                     android:src="@drawable/default_photo"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:scaleType="fitCenter" />
+                     />
 
                 <EditText
                     android:id="@+id/post_edit_text"
