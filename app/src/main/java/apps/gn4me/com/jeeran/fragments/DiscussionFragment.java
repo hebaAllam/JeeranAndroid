@@ -55,7 +55,6 @@ public class DiscussionFragment extends Fragment {
     private DiscussionRecycleViewAdapter customAdapter = null;
     private LinearLayoutManager linearLayoutManager;
     private Context context ;
-    private int moreNum = 2;
     FloatingActionButton addDiscussion, home;
 
 
@@ -89,16 +88,6 @@ public class DiscussionFragment extends Fragment {
         this.view = view ;
         context = getActivity() ;
 
-
-        home = (FloatingActionButton) view.findViewById(R.id.fab34);
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(),HomeActivity.class);
-                startActivity(i);
-            }
-        });
-
         mList = new ArrayList<>();
         ultimateRecyclerView = (UltimateRecyclerView) view.findViewById(R.id.ultimate_recycler_view);
         ultimateRecyclerView.setHasFixedSize(false);
@@ -112,6 +101,24 @@ public class DiscussionFragment extends Fragment {
 
         initArrayList();
         ultimateRecyclerView.enableLoadmore();
+
+        home = (FloatingActionButton) view.findViewById(R.id.fab34);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(),HomeActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+        addDiscussion = (FloatingActionButton) view.findViewById(R.id.fab);
+        addDiscussion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ultimateRecyclerView.scrollVerticallyToPosition(0);
+            }
+        });
 
         addCustomLoaderView();
         //ultimateRecyclerView.setRecylerViewBackgroundColor(Color.parseColor("#ffffff"));
