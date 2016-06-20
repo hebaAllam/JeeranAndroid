@@ -39,35 +39,6 @@
             android:layout_weight="1.5"/>
     </LinearLayout>
 
-
-    <com.daimajia.slider.library.Indicators.PagerIndicator
-        android:id="@+id/custom_indicatorfrag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        custom:selected_color="#0095BF"
-        custom:unselected_color="#55333333"
-        custom:selected_drawable="@drawable/bird"
-        custom:shape="oval"
-        custom:selected_padding_left="5dp"
-        custom:selected_padding_right="5dp"
-        custom:unselected_padding_left="5dp"
-        custom:unselected_padding_right="5dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        custom:selected_width="6dp"
-        custom:selected_height="6dp"
-        custom:unselected_width="6dp"
-        custom:unselected_height="6dp"
-        android:layout_marginBottom="20dp"
-        />
-    <com.daimajia.slider.library.Indicators.PagerIndicator
-        android:id="@+id/custom_indicator2frag"
-        style="@style/AndroidImageSlider_Corner_Oval_Orange"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        />
     <FrameLayout
         android:layout_below="@+id/slider"
         android:layout_width="match_parent"

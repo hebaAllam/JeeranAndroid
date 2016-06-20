@@ -3,6 +3,7 @@ package apps.gn4me.com.jeeran.fragments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -38,6 +40,7 @@ import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.activity.BaseActivity;
+import apps.gn4me.com.jeeran.activity.HomeActivity;
 import apps.gn4me.com.jeeran.adapters.DiscussionRecycleViewAdapter;
 import apps.gn4me.com.jeeran.pojo.DiscussionPostData;
 import apps.gn4me.com.jeeran.pojo.Title;
@@ -53,7 +56,7 @@ public class DiscussionFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private Context context ;
     private int moreNum = 2;
-
+    FloatingActionButton addDiscussion, home;
 
 
     private View view ;
@@ -85,6 +88,16 @@ public class DiscussionFragment extends Fragment {
 
         this.view = view ;
         context = getActivity() ;
+
+
+        home = (FloatingActionButton) view.findViewById(R.id.fab34);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(),HomeActivity.class);
+                startActivity(i);
+            }
+        });
 
         mList = new ArrayList<>();
         ultimateRecyclerView = (UltimateRecyclerView) view.findViewById(R.id.ultimate_recycler_view);

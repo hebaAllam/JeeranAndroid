@@ -54,9 +54,7 @@
             app:fabSize="mini"
             android:src="@mipmap/ic_search_icon"
             android:background="@color/orange"
-
-
-
+            android:visibility="gone"
             app:fab_size="mini"
             app:fab_shadowColor="#000"
             app:fab_showShadow="true"
