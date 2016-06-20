@@ -45,6 +45,7 @@
                 android:paddingStart="@dimen/nav_drawer_vertical_keyline_icon_left"
                 android:orientation="vertical"
                 android:gravity="center"
+
                 >
                 <ImageView
                     android:id="@+id/navigation_drawer_user_account_picture_profile"
@@ -64,6 +65,8 @@
                         android:text="@string/tools_text_account_information_username"
                         tools:fontFamily="sans-serif-medium"
                         android:textColor="@color/textColorPrimary"
+                        android:textSize="17dp"
+
                         />
 
 
@@ -79,7 +82,8 @@
             android:clipToPadding="false"
             android:paddingBottom="@dimen/nav_drawer_vertical_spacing_listing"
             android:paddingTop="@dimen/nav_drawer_vertical_spacing_listing"
-            android:background="@color/navigationItemsColor2">
+            android:background="@color/navigationItemsColor2"
+            >
 
             <LinearLayout
                 android:id="@+id/navigation_drawer_linearLayout_entries_root_view"
@@ -109,7 +113,7 @@
                         style="@style/NavDrawerRowItemText"
                         android:text="My account"
                         tools:fontFamily="sans-serif-medium"
-                        tools:textColor="@color/textColorPrimary"
+                        android:textColor="@color/textColorPrimary"
 
                         />
 
@@ -160,7 +164,6 @@
                         style="@style/NavDrawerRowItemText"
                         android:text="My Real Estate"
                         tools:fontFamily="sans-serif-medium"
-
                         android:textColor="@color/textColorPrimary"
                         />
 

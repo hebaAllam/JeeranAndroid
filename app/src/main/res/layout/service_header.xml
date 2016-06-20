@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="2dp"/>
+        android:layout_marginLeft="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +23,8 @@
         android:layout_toRightOf="@+id/service_logo"
         android:layout_toEndOf="@+id/service_logo"
         android:textColor="@color/titlecolor"
-        android:textSize="18dp"
+        android:textSize="16dp"
+
         />
 
     <TextView
@@ -34,7 +35,9 @@
         android:id="@+id/address"
         android:layout_below="@+id/service_title"
         android:layout_alignLeft="@+id/service_title"
-        android:layout_alignStart="@+id/service_title" />
+        android:layout_alignStart="@+id/service_title"
+        android:textSize="12dp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,7 +47,9 @@
         android:id="@+id/service_address1"
         android:layout_below="@+id/service_title"
         android:layout_toRightOf="@+id/address"
-        android:layout_toEndOf="@+id/address" />
+        android:layout_toEndOf="@+id/address"
+        android:textSize="12dp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,6 +60,7 @@
         android:layout_below="@+id/address"
         android:layout_alignLeft="@+id/address"
         android:layout_alignStart="@+id/address"
+        android:textSize="12dp"
 
         />
 
@@ -66,7 +72,9 @@
         android:id="@+id/service_opiningHours"
         android:layout_alignTop="@+id/textView3"
         android:layout_toRightOf="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3" />
+        android:layout_toEndOf="@+id/textView3"
+        android:textSize="12dp"
+        />
     <View
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -86,6 +94,7 @@
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignStart="@+id/textView3"
         android:id="@+id/iconsContainer"
+
 
         >
         <LinearLayout
@@ -116,7 +125,7 @@
             android:layout_width="1dp"
             android:layout_height="38dp"
             android:background="@color/drawerItemSperator"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -132,6 +141,7 @@
                 android:layout_marginLeft="5dp"
                 android:id="@+id/rateService"
                 android:onClick="rateService"
+                android:layout_marginStart="0dp"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -148,7 +158,7 @@
             android:layout_width="1dp"
             android:layout_height="38dp"
             android:background="@color/drawerItemSperator"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -164,6 +174,7 @@
                 android:layout_marginLeft="5dp"
                 android:id="@+id/favoriteService"
                 android:onClick="addServiceToFavorites"
+
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -179,7 +190,7 @@
             android:layout_width="1dp"
             android:layout_height="38dp"
             android:background="@color/drawerItemSperator"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -230,6 +241,7 @@
             android:id="@+id/allReviews"
 
 
+
             />
         <Button
             android:layout_width="wrap_content"
@@ -239,7 +251,7 @@
             android:textAllCaps="false"
             android:textColor="@color/fontColor"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="25dp"
             android:background="@drawable/custom_but"
             android:id="@+id/callUs"
             />
@@ -268,6 +280,7 @@
         android:layout_alignStart="@+id/view2"
         android:textColor="@color/titlecolor"
         android:textSize="14dp"
+        android:layout_marginTop="2dp"
         />
 
     <TextView

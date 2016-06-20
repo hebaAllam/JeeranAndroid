@@ -152,5 +152,7 @@
     <string name="gcm_defaultSenderId" translatable="false">550</string>
     <string name="select_area_arrays" translatable="false">djfk</string>
     <string name="google_maps_key1">AIzaSyD7ivMSDGU-amq1TBI3O4XLalb0l4Vg6gU</string>
+    <string name="edit_service">edit</string>
+    <string name="delete_service">delete</string>
 
 </resources>

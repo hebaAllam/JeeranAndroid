@@ -16,7 +16,7 @@
     <dimen name="nav_drawer_width">260dp</dimen>
     <dimen name="navigation_drawer_max_width">288dp</dimen>
 
-    <dimen name="navigation_drawer_profile_image_size">100dp</dimen>
+    <dimen name="navigation_drawer_profile_image_size">90dp</dimen>
     <dimen name="navigation_drawer_item_height">48dp</dimen>
     <dimen name="navigation_drawer_account_section_default_height">150dp</dimen>
     <dimen name="navigation_drawer_account_information_height">56dp</dimen>
@@ -25,7 +25,7 @@
     <dimen name="nav_drawer_vertical_keyline_right">16dp</dimen>
     <dimen name="nav_drawer_item_row_height">42dp</dimen>
     <dimen name="nav_drawer_item_row_icon_size">35dp</dimen>
-    <dimen name="nav_drawer_vertical_spacing_listing">8dp</dimen>
+    <dimen name="nav_drawer_vertical_spacing_listing">12dp</dimen>
     <dimen name="nav_drawer_vertical_spacing_listing_divider_top">7dp</dimen>
     <dimen name="nav_drawer_vertical_spacing_listing_divider_bottom">8dp</dimen>
     <dimen name="nav_drawer_subheader_height">48dp</dimen>

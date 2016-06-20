@@ -1,7 +1,9 @@
 package apps.gn4me.com.jeeran.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -28,6 +30,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,17 +45,17 @@ import java.util.Map;
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.ServiceDetailsAdapter;
 import apps.gn4me.com.jeeran.pojo.Service;
-import apps.gn4me.com.jeeran.pojo.ServiceDetailsPojo;
+
 
 public class ServiceDetails extends BaseActivity {
 
     private RecyclerView recyclerView;
     private ServiceDetailsAdapter adapter;
     private List<Service> serviceDetailsList;
-    int serviceId;
+    int serviceId,serviceSubCatId,serviceCatId;
     String serviceName;
     ImageView showLocation,rateService,favoriteService,serviceLogo;
-    String serviceSubCat;
+    String serviceSubCatName,serviceCatName;
     private  TextView activityTitle,serviceTitle,serviceAddress,serviceOpeningHours,serviceNumberOfRates,serviceDiscHeader,serviceDisc;
     private static final String TAG_SERVICES_DETAILS= "response";
     private static final String TAG_SERVICES_DATA= "serviceplace";
@@ -60,10 +64,13 @@ public class ServiceDetails extends BaseActivity {
     private static final String TAG_SERVICES_TITLE = "title";
     private static final String TAG_SERVICES_ADDRESS = "address";
     private static final String TAG_SERVICES_DISCRIPTION = "description";
+    private static final String TAG_SERVICES_LONGITUDE = "longitude";
+    private static final String TAG_SERVICES_LATITUDE= "latitude";
+    private static final String TAG_SERVICES_PHONE1= "mobile_1";
     private static final String TAG_SERVICES_PHOTOS = "images";
 
     private static final String TAG="++++++++++";
-    String allServices="";
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -80,7 +87,7 @@ public class ServiceDetails extends BaseActivity {
         rateService=(ImageView)findViewById(R.id.rateService);
         favoriteService=(ImageView)findViewById(R.id.favoriteService);
         serviceLogo=(ImageView)findViewById(R.id.service_logo);
-       serviceTitle=(TextView)findViewById(R.id.service_title);
+        serviceTitle=(TextView)findViewById(R.id.service_title);
         serviceAddress=(TextView)findViewById(R.id.service_address1);
         serviceOpeningHours=(TextView)findViewById(R.id.service_opiningHours);
         serviceNumberOfRates=(TextView)findViewById(R.id.service_numberofRates);
@@ -99,15 +106,20 @@ public class ServiceDetails extends BaseActivity {
         //-----------------------------
         //------------get service ID-------------
         Intent i=getIntent();
-        if(i.hasExtra("UniqueServiceId")){
+
         serviceId= i.getExtras().getInt("UniqueServiceId");
         serviceName=i.getExtras().getString("ServiceDetailsName");
-            serviceSubCat=i.getExtras().getString("serviceSubCatName");
-            allServices=i.getExtras().getString("allServices");
+            serviceSubCatName=i.getExtras().getString("serviceSubCatName");
+            serviceSubCatId=i.getExtras().getInt("serviceSubCatId");
+        serviceCatName=i.getExtras().getString("serviceCatName");
+                serviceCatId=i.getExtras().getInt("serviceCatId");
+
+
+
+
            setTitle(serviceName+" Details");
 
 
-        }
 
 
         final Button allReviews=(Button)findViewById(R.id.allReviews);
@@ -123,7 +135,7 @@ public class ServiceDetails extends BaseActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(1), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        getServiceDetailsData();
+        requestServicesDetailsData() ;
         prepareDataForSimilarServicesList();
 
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -134,6 +146,12 @@ public class ServiceDetails extends BaseActivity {
                 Intent allReviewsIntent=new Intent(ServiceDetails.this,Reviews.class);
                 allReviewsIntent.putExtra("serviceId",serviceId);
                 allReviewsIntent.putExtra("serviceName",serviceName);
+                allReviewsIntent.putExtra("serviceSubCatName",serviceSubCatName);
+                allReviewsIntent.putExtra("serviceSubCatId",serviceSubCatId);
+               allReviewsIntent.putExtra("serviceCatName",serviceCatName);
+                allReviewsIntent.putExtra("serviceCatId",serviceCatId);
+
+
                 startActivity(allReviewsIntent);
             }
         });
@@ -146,21 +164,21 @@ public class ServiceDetails extends BaseActivity {
         });
     }
 
-    private void getServiceDetailsData() {
 
-        String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplace/show";
+    private void requestServicesDetailsData() {
+        String  tag_string_req = "string_req";
+
+        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/show";
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
-        pDialog.show();
+       // pDialog.show();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Toast.makeText(ServiceDetails.this,response,Toast.LENGTH_LONG).show();
-                Log.d(TAG, response.toString());
                 try {
 
                     JSONObject jsonObject=new JSONObject(response);
@@ -174,10 +192,12 @@ public class ServiceDetails extends BaseActivity {
                         service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
                         service.setAddress(service1Obj.getString(TAG_SERVICES_ADDRESS));
                         service.setDiscription(service1Obj.getString(TAG_SERVICES_DISCRIPTION));
+                       // service.setLang(service1Obj.getDouble(TAG_SERVICES_LONGITUDE));
+                        service.setPhone1(service1Obj.getString(TAG_SERVICES_PHONE1));
                         serviceDisc.setText(service.getDiscription());
                         serviceAddress.setText(service.getAddress());
                         serviceTitle.setText(service.getName());
-                       //  serviceNumberOfRates.setText(service.getRates());
+                        //  serviceNumberOfRates.setText(service.getRates());
 
                     }
 
@@ -185,13 +205,15 @@ public class ServiceDetails extends BaseActivity {
                     e1.printStackTrace();
                 }
 
-                pDialog.hide();
+
+                pDialog.dismiss();
 
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ServiceDetails.this,error.getMessage(),Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -200,7 +222,7 @@ public class ServiceDetails extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("service_place_id", "6");
+                params.put("service_place_id",serviceId+"");
 
 
                 return params;
@@ -208,9 +230,13 @@ public class ServiceDetails extends BaseActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1OTA5NDA5LCJleHAiOjE0NjU5MTMwMDksIm5iZiI6MTQ2NTkwOTQwOSwianRpIjoiNjkzODA2MGZlZjI2ZTZlZGZkMWEzYWJjMzgzYjVhMGEifQ.syGxZCLQgarw96tiY72hoNcVjdImxNR5-np5yf24Kyc");
+                SharedPreferences settings;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                String mtoken = settings.getString("token", null);
+                headers.put("Authorization", mtoken);
                 return headers;
             }
+
         };
 
 // Adding request to request queue
@@ -218,40 +244,74 @@ public class ServiceDetails extends BaseActivity {
         queue.add(strReq);
     }
 
-
     private void prepareDataForSimilarServicesList() {
-/*        int[] logos = new int[]{
-                R.drawable.reslogo
-                };
 
-        ServiceDetailsPojo a= new ServiceDetailsPojo( logos[0],"Coupa", 13.6);
-        serviceDetailsList.add(a);
-        serviceDetailsList.add(a);
-        serviceDetailsList.add(a);
-        serviceDetailsList.add(a);
-        serviceDetailsList.add(a);
-        serviceDetailsList.add(a);
-        serviceDetailsList.add(a);
-        serviceDetailsList.add(a);
-        serviceDetailsList.add(a);
-        adapter.notifyDataSetChanged();
-        */
-        try {
+        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/list";
 
-            JSONObject jsonObject=new JSONObject(allServices);
-            JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_DETAILS);
-            for(int i=0;i<jsonArr.length();i++){
-                JSONObject service1Obj=jsonArr.getJSONObject(i);
-                Service service=new Service();
-                service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
-                service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
-                service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
-                serviceDetailsList.add(service);
-                adapter.notifyDataSetChanged();
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        // pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+
+
+                    Toast.makeText(ServiceDetails.this,response,Toast.LENGTH_LONG).show();
+                    JSONObject jsonObject=new JSONObject(response);
+                    JSONArray jsonArr=jsonObject.getJSONArray("response");
+                    for(int i=0;i<jsonArr.length();i++){
+                        JSONObject service1Obj=jsonArr.getJSONObject(i);
+                        Service service=new Service();
+                        service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
+                        service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
+                        service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
+                        serviceDetailsList.add(service);
+                        adapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+
+                pDialog.dismiss();
+
             }
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ServiceDetails.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("service_sub_category_id","4");
+                params.put("count","4");
+
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+
+                SharedPreferences settings;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                String mtoken = settings.getString("token", null);
+                headers.put("Authorization", mtoken);
+                return headers;
+            }
+
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
 
     }
 
@@ -302,16 +362,88 @@ public class ServiceDetails extends BaseActivity {
      Intent intent=new Intent(ServiceDetails.this,ShowServicesImages.class);
         startActivity(intent);
     }
+    public void addServiceToFavorites(View view){
+        favoriteService();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
                 Intent i=new Intent(ServiceDetails.this,ServicesList.class);
-                i.putExtra("serviceSubCatName",serviceSubCat);
+                i.putExtra("serviceSubCatName",serviceSubCatName);
+                i.putExtra("serviceSubCatId",serviceSubCatId);
+                i.putExtra("serviceCatName",serviceCatName);
+                i.putExtra("serviceCatId",serviceCatId);
                 startActivity(i);
                 finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void favoriteService() {
+        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplacefavorite/add";
+
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        // pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    Toast.makeText(ServiceDetails.this,response,Toast.LENGTH_LONG).show();
+                    JSONObject jsonObject=new JSONObject(response);
+                    JSONObject resultObj=jsonObject.getJSONObject("result");
+                    int errCode=resultObj.getInt("errorcode");
+                    if(errCode==0){
+                       favoriteService.setImageResource(R.drawable.ic_favorites_icon_active);
+                    }
+
+
+                }
+                catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+
+                pDialog.dismiss();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ServiceDetails.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                VolleyLog.d("********************", "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("service_places_id", "6");
+
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                String mtoken = settings.getString("token", null);
+                headers.put("Authorization", mtoken);
+                return headers;
+            }
+
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+    }
 }
+

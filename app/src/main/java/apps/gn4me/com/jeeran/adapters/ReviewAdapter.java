@@ -1,6 +1,7 @@
 package apps.gn4me.com.jeeran.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView userName, userReview,reviewDate;
-        public ImageView userImage, moreReviewOptions;
+        public ImageView userImage,moreReviewOptions;
 
         public MyViewHolder(View view) {
             super(view);
@@ -61,6 +62,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
         holder.userName.setText(userReview.getUser().getUserName());
         holder.reviewDate.setText(userReview.getReviewDate());
         holder.userReview.setText(userReview.getReviewContent());
+        holder.moreReviewOptions.setTag(position);
         Glide.with(mContext).load(userReview.getUser().getImage()).into(holder.userImage);
 
     }
@@ -87,8 +89,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
 
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
+            MyViewHolder holder = null;
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
+
                     Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_play_next:
