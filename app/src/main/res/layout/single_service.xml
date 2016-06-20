@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/superMarketImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
@@ -54,7 +54,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_next_icon" />
+                android:src="@drawable/ic_next_icon"
+                android:id="@+id/serviceIcone"
+                />
         </RelativeLayout>
 
     </RelativeLayout>

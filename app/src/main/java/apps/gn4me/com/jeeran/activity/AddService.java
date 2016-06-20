@@ -207,7 +207,7 @@ public class AddService extends BaseActivity
 
                 Ion.with(AddService.this)
                         .load("http://jeeran.gn4me.com/jeeran_v1/serviceplace/add")
-                        .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1NzU3NDY4LCJleHAiOjE0NjU3NjEwNjgsIm5iZiI6MTQ2NTc1NzQ2OCwianRpIjoiYTYwNDkyMjg1ZTg1ODBlMjcwM2YyNDNmMDhiMDQ3NTcifQ.Mjllr6kp00YCPYDpGM15DKkg2fVhXzHUvWJ1aMTjtDk")
+                        .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY2MDE2NTk4LCJleHAiOjE0NjYwMjAxOTgsIm5iZiI6MTQ2NjAxNjU5OCwianRpIjoiODQyZDJkMTJkYzFmYzgzYTUwOWE2OTUzMzgzOTQ2ODgifQ.LlPyzFqc3WZD_KVHF4XLbDL2RBxmVpElhRIAwUr5oGg")
                         .setMultipartParameter("service_main_category_id", "5")
                         .setMultipartParameter("service_sub _category_id", "7")
                         .setMultipartParameter("title", serviceTitle.getText().toString())

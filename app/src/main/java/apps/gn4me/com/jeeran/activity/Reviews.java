@@ -1,6 +1,7 @@
 package apps.gn4me.com.jeeran.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +19,14 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -24,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
@@ -37,8 +50,8 @@ public class Reviews extends BaseActivity {
     RecyclerView reviewsRecyclerView;
     ReviewAdapter myAdapter;
     private List<UserReview> reviewList=new ArrayList<>();
-    int serviceid;
-    String serviceName;
+    int serviceid,serviceSubCatId,serviceCatId;
+    String serviceName,serviceSubCatName,serviceCatName;
     TextView title;
     private static final String TAG_SERVICES_DETAILS= "response";
     private static final String TAG_SERVICES_REVIEW= "review";
@@ -57,6 +70,7 @@ public class Reviews extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviews);
         title=(TextView)findViewById(R.id.txt_titile);
+
         //------------setting toolbar-----------------
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -70,6 +84,12 @@ public class Reviews extends BaseActivity {
         Intent intent=getIntent();
         serviceid=intent.getExtras().getInt("serviceId");
         serviceName=intent.getExtras().getString("serviceName");
+        serviceCatId=intent.getExtras().getInt("serviceCatId");
+        serviceCatName=intent.getExtras().getString("serviceCatName");
+        serviceSubCatId=intent.getExtras().getInt("serviceSubCatId");
+        serviceSubCatName=intent.getExtras().getString("serviceSubCatName");
+
+
         title.setText(serviceName+" Reviews");
 
         reviewsRecyclerView = (RecyclerView) findViewById(R.id.recycle_reviews);
@@ -85,15 +105,19 @@ public class Reviews extends BaseActivity {
     }
 
     private void prepareData() {
+        SharedPreferences settings;
+        settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+        String mtoken = settings.getString("token", null);
         Ion.with(this)
-                .load("http://jeeran.gn4me.com/jeeran_v1/serviceplace/show")
-                .setHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY1OTA5NDA5LCJleHAiOjE0NjU5MTMwMDksIm5iZiI6MTQ2NTkwOTQwOSwianRpIjoiNjkzODA2MGZlZjI2ZTZlZGZkMWEzYWJjMzgzYjVhMGEifQ.syGxZCLQgarw96tiY72hoNcVjdImxNR5-np5yf24Kyc")
-                .setBodyParameter("service_place_id", "6")
+                .load("http://jeeran.gn4me.com/jeeran_v1/servicereview/list?service_place_id=4")
+                .setHeader("Authorization",mtoken)
                 .asString()
                 .setCallback(new FutureCallback<String>() {
                     @Override
                     public void onCompleted(Exception e, String result) {
+
                         if(result!=null){
+                            Toast.makeText(Reviews.this,result,Toast.LENGTH_LONG).show();
                             try {
 
                                 JSONObject jsonObject=new JSONObject(result);
@@ -126,17 +150,13 @@ public class Reviews extends BaseActivity {
                                 e1.printStackTrace();
                             }
                         }
+                        else {
+                            Toast.makeText(Reviews.this,"result null",Toast.LENGTH_LONG).show();
+                        }
 
                     }
                 });
-//        UserReview userReview=new UserReview(1, R.drawable.ic_account_circle_white_64dp,"Mohamed Ali",5,"01/6/2016","Absolutely Amazing ,The menu offers a wide variety of mouth-watering starters,All the products were fresh and the dishes had the warmth of home-made food.");
-//        reviewList.add(userReview);
-//        reviewList.add(userReview);
-//        reviewList.add(userReview);
-//        reviewList.add(userReview);
-//        reviewList.add(userReview);
-//        reviewList.add(userReview);
-//        myAdapter.notifyDataSetChanged();
+
 
     }
     public void addNew(View view){
@@ -148,7 +168,7 @@ public class Reviews extends BaseActivity {
         Button dialogButtonCancel = (Button) dialog.findViewById(R.id.customDialogCancel);
         Button dialogButtonOk = (Button) dialog.findViewById(R.id.customDialogOk);
         final EditText reviewText=(EditText)dialog.findViewById(R.id.review_text);
-        final RatingBar reviewRates=(RatingBar)dialog.findViewById(R.id.reviewRatingBar) ;
+        RatingBar reviewRates=(RatingBar)dialog.findViewById(R.id.reviewRatingBar) ;
         final  TextView txtRates=(TextView)dialog.findViewById(R.id.txt_rate);
         // Click cancel to dismiss android custom dialog box
         dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +184,7 @@ public class Reviews extends BaseActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
 
+
              txtRates.setText(String.valueOf(rating));
 
             }
@@ -175,14 +196,69 @@ public class Reviews extends BaseActivity {
 
                 if(!review.equals("")){
                     Toast.makeText(Reviews.this,"you success add review with rates "+txtRates.getText().toString(),Toast.LENGTH_LONG).show();
+                    addReview();
                     dialog.dismiss();
                 }
 
             }
+
+            private void addReview() {
+
+
+                    String url = "http://jeeran.gn4me.com/jeeran_v1/servicereview/add";
+
+                    final ProgressDialog pDialog = new ProgressDialog(Reviews.this);
+                    pDialog.setMessage("Loading...");
+                    pDialog.show();
+
+                    StringRequest strReq = new StringRequest(Request.Method.POST,
+                            url, new Response.Listener<String>() {
+
+                        @Override
+                        public void onResponse(String response) {
+                            Toast.makeText(Reviews.this,response,Toast.LENGTH_LONG).show();
+
+                            pDialog.hide();
+
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(Reviews.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                            pDialog.hide();
+                        }
+                    }) {
+
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("service_place_id", serviceid+"");
+                            params.put("review",reviewText.getText().toString());
+                            params.put("rating",txtRates.getText().toString());
+
+
+                            return params;
+                        }
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            SharedPreferences settings;
+                            settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                            String mtoken = settings.getString("token", null);
+                            headers.put("Authorization", mtoken);
+                            return headers;
+                        }
+                    };
+
+// Adding request to request queue
+                    RequestQueue queue = Volley.newRequestQueue(Reviews.this);
+                    queue.add(strReq);
+                }
+
         });
 
         dialog.show();
-
 
 
     }
@@ -191,4 +267,27 @@ public class Reviews extends BaseActivity {
         startActivity(homeIntent);
         finish();
     }
+   private void  reportReview(){
+
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent i=new Intent(Reviews.this,ServiceDetails.class);
+                i.putExtra("serviceSubCatName",serviceSubCatName);
+                i.putExtra("serviceSubCatId",serviceSubCatId);
+                i.putExtra("serviceCatName",serviceCatName);
+                i.putExtra("serviceCatId",serviceCatId);
+                i.putExtra("UniqueServiceId",serviceid);
+                i.putExtra("ServiceDetailsName",serviceName);
+                startActivity(i);
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 }

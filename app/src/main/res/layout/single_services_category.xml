@@ -29,14 +29,14 @@
     android:paddingRight="10dp"
     android:layout_alignParentTop="true">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:id="@+id/serviceCatImg"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
                 android:src="@drawable/ic_help_icon"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
 
 
                 />
@@ -50,14 +50,14 @@
                 android:textSize="15sp"
                 android:text="hello"
                 android:textColor="@color/serviceCategoryFontColor"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
 
 
                 />
 
             <Button
                 android:layout_width="45dp"
-                android:layout_height="10dp"
+                android:layout_height="20dp"
                 android:textColor="#fff"
                 android:id="@+id/servicesNumber"
                 android:background="@drawable/custom_but"
@@ -65,7 +65,10 @@
                 android:layout_toLeftOf="@+id/imageView2"
                 android:layout_toStartOf="@+id/imageView2"
                 android:layout_alignBottom="@+id/serviceCatName"
-                android:layout_alignTop="@+id/serviceCatImg" />
+                android:layout_alignTop="@+id/serviceCatImg"
+                android:layout_marginTop="5dp"
+
+                />
      <ImageView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
