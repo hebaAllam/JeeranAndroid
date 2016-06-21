@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,6 +27,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,10 +48,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = mEmailView.getText().toString();
-                Intent in = new Intent(ForgotPasswordActivity.this,ResetPasswordActivity.class);
-                in.putExtra("email",email);
-                startActivity(in);
+                attemptReset();
             }
         });
 
@@ -79,6 +78,7 @@ public class ForgotPasswordActivity extends BaseActivity {
             focusView.requestFocus();
         } else {
 
+            requestForgotPassword();
         }
 
     }
@@ -92,59 +92,47 @@ public class ForgotPasswordActivity extends BaseActivity {
     }
 
 
-    private void makeJsonObjReq() {
-        String  tag_string_req = "string_req";
+    private void requestForgotPassword() {
 
         final String TAG = "Volley";
         final String emailText = mEmailView.getText().toString();
 
-        String url = BaseActivity.BASE_URL + "/user/forgetpassword";
+        String url = BaseActivity.BASE_URL + "/user/forgetpassword?email=" + emailText;
 
-        /*
-        final ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        */
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
+        StringRequest strReq = new StringRequest(Request.Method.GET,
                 url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
-                //pDialog.hide();
-                JsonObject result = new JsonObject();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Boolean success = false ;
+                if ( result != null ) {
+                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                }
+
+                if ( success ) {
+                    String email = mEmailView.getText().toString();
+                    Intent in = new Intent(ForgotPasswordActivity.this,LoginActivity.class);
+                    in.putExtra("email",email);
+                    startActivity(in);
+                    Toast.makeText(getApplicationContext(),"Message sent to your email",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //pDialog.hide();
+                Toast.makeText(getApplicationContext(),"Error",
+                        Toast.LENGTH_SHORT).show();
             }
-        }) {
+        });
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", emailText);
-
-                return params;
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                SharedPreferences settings;
-                String token ;
-                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                token = settings.getString("token", null);
-                headers.put("Authorization", token);
-                return headers;
-            }
-
-        };
-
-// Adding request to request queue
+        // Adding request to request queue
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(strReq);
     }

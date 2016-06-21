@@ -20,13 +20,14 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 
-public class ResetPasswordActivity extends BaseActivity {
+public class  ResetPasswordActivity extends BaseActivity {
 
     AppCompatButton resetPassword ;
     EditText mPasswordView ;
@@ -42,8 +43,7 @@ public class ResetPasswordActivity extends BaseActivity {
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(ResetPasswordActivity.this,LoginActivity.class);
-                startActivity(in);
+                attemptReset();
             }
         });
 
@@ -93,7 +93,7 @@ public class ResetPasswordActivity extends BaseActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-
+            requestResetPassword();
         }
 
     }
@@ -104,8 +104,7 @@ public class ResetPasswordActivity extends BaseActivity {
     }
 
 
-    private void makeJsonObjReq() {
-        String  tag_string_req = "string_req";
+    private void requestResetPassword() {
 
         final String TAG = "Volley";
 
@@ -128,15 +127,23 @@ public class ResetPasswordActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
-                //pDialog.hide();
-                JsonObject result = new JsonObject();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Boolean success = false ;
+                if ( result != null ) {
+                    success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+                }
+
+                if ( success ) {
+                    Intent in = new Intent(ResetPasswordActivity.this, LoginActivity.class);
+                    startActivity(in);
+                }
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //pDialog.hide();
             }
         }) {
 
@@ -149,20 +156,11 @@ public class ResetPasswordActivity extends BaseActivity {
                 params.put("code", code);
                 return params;
             }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                SharedPreferences settings;
-                String token ;
-                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                token = settings.getString("token", null);
-                headers.put("Authorization", token);
-                return headers;
-            }
+
 
         };
 
-// Adding request to request queue
+        // Adding request to request queue
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(strReq);
     }

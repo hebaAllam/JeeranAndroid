@@ -66,6 +66,7 @@
                     android:spinnerMode="dropdown"
                     android:paddingTop="0dp"
                     android:layout_weight="2.1"
+                    android:scaleType="fitCenter"
                     android:layout_marginRight="2dp"/>
 
                 <android.support.v7.widget.AppCompatButton
@@ -73,13 +74,15 @@
                     android:layout_width="0dp"
                     android:layout_height="25dp"
                     android:minHeight="25dp"
+                    android:scaleType="fitCenter"
                     android:drawableLeft="@drawable/ic_photo_icon"
                     android:background="@color/cardview_dark_background"
-                    android:text="Photo"
+                    android:text="@string/photo"
                     android:paddingRight="2dp"
                     android:paddingLeft="2dp"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
+                    android:onClick="onPickPhoto"
                     android:layout_weight="1.7"/>
 
                 <View
@@ -92,8 +95,9 @@
                     android:layout_width="0dp"
                     android:layout_height="25dp"
                     android:minHeight="25dp"
+                    android:scaleType="fitCenter"
                     android:background="@color/colorPrimaryDark"
-                    android:text="Post"
+                    android:text="@string/post"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:layout_weight="1"/>

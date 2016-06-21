@@ -156,4 +156,9 @@
     <string name="delete_service">delete</string>
     <string name="report_review">report</string>
 
+    //add post
+    <string name="post">post</string>
+    <string name="photo">photo</string>
+
+
 </resources>

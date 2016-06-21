@@ -107,9 +107,6 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
                         fbUser.setEmailAddress(user.optString("email"));
                         fbUser.setUserName(user.optString("name"));
                         fbUser.setPassword(user.optString("id"));
-                        //fbUser.setImage(user.optString("picture"));
-                        //Snackbar.make(coordinatorLayout, "Login Success " + fbUser.getUserName() , Snackbar.LENGTH_LONG).show();
-
                     }
                 });
 

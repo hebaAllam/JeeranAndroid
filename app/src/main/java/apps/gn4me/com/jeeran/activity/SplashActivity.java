@@ -29,13 +29,6 @@ public class SplashActivity extends BaseActivity {
         selectArea.setAdapter(adapter);
 
 
-//        selectArea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.i("......."," item clicked..." + parent.getItemAtPosition(position).toString());
-//            }
-//        });
-
         Thread timerThread = new Thread(){
             public void run(){
                 try{
@@ -106,13 +99,4 @@ public class SplashActivity extends BaseActivity {
 
     }
 
-//    @Override
-//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        Log.i("......."," item clicked..." + parent.getItemAtPosition(position).toString());
-//    }
-//
-//    @Override
-//    public void onNothingSelected(AdapterView<?> parent) {
-//
-//    }
 }

@@ -2,6 +2,7 @@ package apps.gn4me.com.jeeran.multi_view_list;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class AddPostViewBinder extends DataBinder<AddPostViewBinder.ViewHolder> 
 
     private Context context ;
     private Title discussionTopic ;
+    private int PICK_IMAGE_REQUEST = 1;
 
 
     public AddPostViewBinder(UltimateDifferentViewTypeAdapter dataBindAdapter  , Context context) {
@@ -111,6 +113,14 @@ public class AddPostViewBinder extends DataBinder<AddPostViewBinder.ViewHolder> 
             }
         });
 
+    }
+
+
+    public void onPickPhoto(View view) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        ((Activity)context).startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     private void requestAddDiscussionPost(final String postTxt){

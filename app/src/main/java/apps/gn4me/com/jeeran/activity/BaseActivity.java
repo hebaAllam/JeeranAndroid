@@ -601,7 +601,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void gotToHomeActivity(){
         if (countInitRequest == 5 ) {
-            Intent intent = new Intent(activeActivity, HomeActivity.class);
+            Intent intent = new Intent(activeActivity, ForgotPasswordActivity.class);
             startActivity(intent);
         }
     }
