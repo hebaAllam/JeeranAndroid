@@ -22,6 +22,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -238,7 +239,9 @@ public class LoginActivity extends BaseActivity {
 
         } else {
             Log.i( "Login Failed ::: " , result.toString() );
-            Snackbar.make(coordinatorLayout, "Login Failed" , Snackbar.LENGTH_LONG).show();
+            showProgress(false);
+            Toast.makeText(getApplicationContext(),"Login Fail",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -160,5 +160,8 @@
     <string name="post">post</string>
     <string name="photo">photo</string>
 
+    //forgot password
+    <string name="reset">Reset Password</string>
+
 
 </resources>
