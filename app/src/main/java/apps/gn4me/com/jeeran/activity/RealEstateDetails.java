@@ -216,11 +216,11 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
         if (activityType.equals("favoriteRealEstate")) {
 //            favorite.setBackgroundColor(getResources().getColor(R.color.red));
-            favorite.setVisibility(View.INVISIBLE);
+            favorite.setVisibility(View.GONE);
             favoriteActive.setVisibility(View.VISIBLE);
 
 //            favorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_active));
-            moreBtn.setVisibility(View.INVISIBLE);
+            moreBtn.setVisibility(View.GONE);
         }
 
 //        boolean isFav = i.getBooleanExtra("isFav",false);
@@ -310,7 +310,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
     private void callOwner() {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:01113812798"));
+        callIntent.setData(Uri.parse("tel:01090340886"));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -347,7 +347,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
     public static Intent viewOnMap(String address) {
         return new Intent(Intent.ACTION_VIEW,
                 Uri.parse(String.format("geo:0,0?q=%s",
-                        URLEncoder.encode(address))));
+                        URLEncoder.encode("1A, Maadi Star Towers, Corniche El Maadi, Floor #22, Flat #1, Nile Corniche"))));
     }
 
     public static Intent viewOnMap(String lat, String lng) {
@@ -651,9 +651,15 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
                 Log.i("Fav ::: ", myRealEstates.getAsJsonPrimitive("is_fav")+"");
                 mReal.setFav(myRealEstates.getAsJsonPrimitive("is_fav").getAsBoolean());
+                mReal.setOwner(myRealEstates.getAsJsonPrimitive("is_owner").getAsBoolean());
 
                 int fav = myRealEstates.getAsJsonPrimitive("is_fav").getAsInt();
 
+                int owner = myRealEstates.getAsJsonPrimitive("is_owner").getAsInt();
+                if(owner == 1)
+                    moreBtn.setVisibility(View.VISIBLE);
+                else
+                    moreBtn.setVisibility(View.GONE);
                 Log.i("Fav ::: ", fav+"");
                 if(fav == 1){
                     favorite.setVisibility(View.GONE);
@@ -801,15 +807,15 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
     private void openEditTexts() {
         changes.setVisibility(View.VISIBLE);
-        area.setVisibility(View.INVISIBLE);
-        typeRealEstate.setVisibility((View.INVISIBLE));
-        numOfBathrooms.setVisibility(View.INVISIBLE);
-        numOfRooms.setVisibility(View.INVISIBLE);
-        title.setVisibility(View.INVISIBLE);
-        date.setVisibility(View.INVISIBLE);
-        location.setVisibility(View.INVISIBLE);
-        description.setVisibility(View.INVISIBLE);
-        price.setVisibility(View.INVISIBLE);
+        area.setVisibility(View.GONE);
+        typeRealEstate.setVisibility((View.GONE));
+        numOfBathrooms.setVisibility(View.GONE);
+        numOfRooms.setVisibility(View.GONE);
+        title.setVisibility(View.GONE);
+        date.setVisibility(View.GONE);
+        location.setVisibility(View.GONE);
+        description.setVisibility(View.GONE);
+        price.setVisibility(View.GONE);
 
         //open edittexts
 

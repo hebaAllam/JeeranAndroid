@@ -149,36 +149,14 @@ public class AddRealEstate extends BaseActivity
         });
     }
 
-    private boolean sendRealEstateData(RealEstate myRealEstate) {
-        Toast.makeText(getApplicationContext(), "sending....", Toast.LENGTH_SHORT).show();
-//        try {
+    private void sendRealEstateData(RealEstate myRealEstate) {
 
-        sendData();
-//            progressDialog.dismiss();
-        Toast.makeText(getApplicationContext(), title.getText().toString(), Toast.LENGTH_LONG).show();
-//        } catch (JSONException e) {
-//            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-//        }
-        return false;
-    }
-
-    private void openDialog() {
-        progressDialog = new ProgressDialog(AddRealEstate.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Adding...");
-        progressDialog.show();
-
-    }
-
-    private void sendData() {
-
-
-        String tag_string_req = "string_req";
+        String  tag_string_req = "string_req";
+//        final Context context = getContext();
 
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/realstate/add";
-        Log.i("inside","::::::");
+
         /*
         final ProgressDialog pDialog = new ProgressDialog(context);
         pDialog.setMessage("Loading...");
@@ -194,7 +172,117 @@ public class AddRealEstate extends BaseActivity
                 //pDialog.hide();
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
-                Log.i("result in add :::::", result.toString());
+                Log.i("result in add ::: ",result.toString());
+                Toast.makeText(getApplicationContext(),"result:::: : " + result.toString(),Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+            }
+
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("title", "Title1");
+                params.put("description", "desc");
+                params.put("location", "Maadi Star Towers");
+//                params.put("images","");
+//                params.put("address","1A, Maadi Star Towers, Corniche El Maadi, Floor #22, Flat #1, Nile Corniche");
+                typee = type.getText().toString();
+                if(typee.equals("rent"))
+                    params.put("type", "0");
+                else
+                    params.put("type", "1");
+                params.put("number_of_rooms", "2");
+                params.put("number_of_bathrooms", "1");
+                params.put("price", "20101");
+                params.put("longitude", "36");
+                params.put("latitude", "35");
+                params.put("language", "1");
+                params.put("owner_name", "heba");
+                params.put("owner_mobile", "012355425801");
+                params.put("owner_email", "heba.mamdouhfcih@gmail.com");
+                params.put("neighbarhood_id", "1");
+                params.put("unit_type_id", "3");
+                params.put("amenities_id", "3");
+                params.put("area", "200");
+
+                Log.i("my params::::",params.toString());
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(strReq);
+
+//        Toast.makeText(getApplicationContext(), "sending....", Toast.LENGTH_SHORT).show();
+//        try {
+
+//        sendData();
+//            progressDialog.dismiss();
+//        Toast.makeText(getApplicationContext(), title.getText().toString(), Toast.LENGTH_LONG).show();
+//        } catch (JSONException e) {
+//            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+//        }
+//        return false;
+    }
+
+    private void openDialog() {
+        progressDialog = new ProgressDialog(AddRealEstate.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Adding...");
+        progressDialog.show();
+
+    }
+
+    private void sendData() {
+
+
+
+        /*
+        String tag_string_req = "string_req";
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/realstate/add";
+        Log.i("inside","::::::");
+        /*
+        final ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        */
+/*
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                //pDialog.hide();
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                Log.i("result:::::", result.toString());
+                Toast.makeText(getApplicationContext(),"result:::: : " + result.toString(),Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
 
@@ -211,30 +299,32 @@ public class AddRealEstate extends BaseActivity
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("title", title.getText().toString());
-                params.put("description", description.getText().toString());
-                params.put("location", "Maadi");
-                params.put("images","");
-                params.put("address","1A, Maadi Star Towers, Corniche El Maadi, Floor #22, Flat #1, Nile Corniche");
+
+                Log.i("here in params::::","ok");
+
+                params.put("title", "Title1");
+                params.put("description", "desc");
+                params.put("location", "Maadi Star Towers");
+//                params.put("images","");
+//                params.put("address","1A, Maadi Star Towers, Corniche El Maadi, Floor #22, Flat #1, Nile Corniche");
                 typee = type.getText().toString();
                 if(typee.equals("rent"))
                     params.put("type", "0");
                 else
                     params.put("type", "1");
-                params.put("number_of_rooms", numOfRooms.getText().toString());
-                params.put("number_of_bathrooms", numOfBathrooms.getText().toString());
-                params.put("price", price.getText().toString()+"");
-                params.put("longitude", "30");
+                params.put("number_of_rooms", "2");
+                params.put("number_of_bathrooms", "1");
+                params.put("price", "20101");
+                params.put("longitude", "36");
                 params.put("latitude", "35");
                 params.put("language", "1");
-                params.put("owner_name", contactPerson.getText().toString());
-                params.put("owner_mobile", phone.getText().toString());
-                params.put("owner_email", email.getText().toString());
-                params.put("neighbarhood_id", BaseActivity.currentNeighborhood.getId().toString());
+                params.put("owner_name", "heba");
+                params.put("owner_mobile", "012355425801");
+                params.put("owner_email", "heba.mamdouhfcih@gmail.com");
+                params.put("neighbarhood_id", "1");
                 params.put("unit_type_id", "3");
                 params.put("amenities_id", "3");
-                params.put("area", area.getText().toString());
-                params.put("amenities", "3");
+                params.put("area", "200");
 
                 Log.i("my params::::",params.toString());
 
@@ -257,32 +347,62 @@ public class AddRealEstate extends BaseActivity
 // Adding request to request queue
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(strReq);
+        */
 
 
-//        Ion.with(getApplicationContext())
-//                .load(BaseActivity.BASE_URL + "/realstate/add")
-////                .setHeader("Authorization",token)
-//                .asJsonObject()
-//                .setCallback(new FutureCallback<JsonObject>() {
-//                    @Override
-//                    public void onCompleted(Exception e, JsonObject result) {
-//                        if(result==null){
-//                            Toast.makeText(getApplicationContext(),"Check Your Internet Acess Please",Toast.LENGTH_SHORT).show();
-//                            progressDialog.dismiss();
-//                        }
-//                        else{
-//                            String status=(result.get("status")).toString();
-//                            Toast.makeText(getBaseContext(),status,Toast.LENGTH_SHORT).show();
-//                            if(status.equals("\"SUCCESS\""))
-//                            {
-//                                progressDialog.dismiss();
-//                                Toast.makeText(getApplicationContext(), "Saved..", Toast.LENGTH_LONG).show();
-//                            }
-//                            else {
-//                                Toast.makeText(getBaseContext(),"Error...",Toast.LENGTH_SHORT).show();
-//                            }
-//                        }}
-//                });
+
+
+        /*
+        typee = type.getText().toString();
+        int t;
+        if(typee.equals("rent"))
+            t = 0;
+        else
+            t = 1;
+        SharedPreferences settings;
+        String token = null;
+        settings = getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+        Ion.with(getApplicationContext())
+                .load(BaseActivity.BASE_URL + "/realstate/add")
+                .setHeader("Authorization",token)
+                .setMultipartParameter("title", "my Title")
+                .setMultipartParameter("description", "desc")
+                .setMultipartParameter("location", "Maadi Star Towers")
+                .setMultipartParameter("address","1A, Maadi Star Towers, Corniche El Maadi, Floor #22, Flat #1, Nile Corniche")
+                .setMultipartParameter("type", t + "")
+                .setMultipartParameter("number_of_rooms", "2")
+                .setMultipartParameter("number_of_bathrooms", "1")
+                .setMultipartParameter("price", "20101")
+                .setMultipartParameter("longitude", "30")
+                .setMultipartParameter("language", "1")
+                .setMultipartParameter("owner_name", "heba")
+                .setMultipartParameter("owner_mobile", "012355425801")
+                .setMultipartParameter("owner_email", "heba.mamdouhfcih@gmail.com")
+                .setMultipartParameter("neighbarhood_id", "1")
+                .setMultipartParameter("unit_type_id", "3")
+                .setMultipartParameter("amenities_id", "3")
+                .setMultipartParameter("area", "200")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if(result==null){
+                            Toast.makeText(getApplicationContext(),"Check Your Internet Acess Please",Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }
+                        else{
+                            String status=(result.get("status")).toString();
+                            Toast.makeText(getBaseContext(),status,Toast.LENGTH_SHORT).show();
+                            if(status.equals("\"SUCCESS\""))
+                            {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Saved..", Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                Toast.makeText(getBaseContext(),"Error...",Toast.LENGTH_SHORT).show();
+                            }
+                        }}
+                });*/
     }
 
 
