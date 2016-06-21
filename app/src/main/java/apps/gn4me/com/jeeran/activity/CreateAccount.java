@@ -358,10 +358,6 @@ public class CreateAccount extends BaseActivity implements View.OnClickListener{
 
      //   requestJsonObject();
 
-
-
-
-
         Ion.with(getApplicationContext())
                 .load(BASE_URL + "/user/register")
                 .setMultipartFile("image",f)

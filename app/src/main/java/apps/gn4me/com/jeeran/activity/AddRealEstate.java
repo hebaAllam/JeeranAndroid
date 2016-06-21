@@ -151,9 +151,7 @@ public class AddRealEstate extends BaseActivity
 
     private void sendRealEstateData(RealEstate myRealEstate) {
 
-        String  tag_string_req = "string_req";
 //        final Context context = getContext();
-
         final String TAG = "Volley";
         String url = BaseActivity.BASE_URL + "/realstate/add";
 
@@ -172,7 +170,7 @@ public class AddRealEstate extends BaseActivity
                 //pDialog.hide();
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
-                Log.i("result in add ::: ",result.toString());
+                Log.i("ADD REAL ESTATE",result.toString());
                 Toast.makeText(getApplicationContext(),"result:::: : " + result.toString(),Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
@@ -182,7 +180,7 @@ public class AddRealEstate extends BaseActivity
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(TAG, "Error: " + error.getMessage());
+                Log.i(TAG, "ADD REAL ESTATE Error: " + error.getMessage());
                 //pDialog.hide();
             }
         }) {
@@ -190,25 +188,26 @@ public class AddRealEstate extends BaseActivity
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("title", "Title1");
+                params.put("title", "Amazing Flat");
                 params.put("description", "desc");
                 params.put("location", "Maadi Star Towers");
 //                params.put("images","");
 //                params.put("address","1A, Maadi Star Towers, Corniche El Maadi, Floor #22, Flat #1, Nile Corniche");
                 typee = type.getText().toString();
-                if(typee.equals("rent"))
+                if(typee.equals("rent")) {
                     params.put("type", "0");
-                else
+                }else {
                     params.put("type", "1");
+                }
                 params.put("number_of_rooms", "2");
                 params.put("number_of_bathrooms", "1");
                 params.put("price", "20101");
                 params.put("longitude", "36");
                 params.put("latitude", "35");
                 params.put("language", "1");
-                params.put("owner_name", "heba");
-                params.put("owner_mobile", "012355425801");
-                params.put("owner_email", "heba.mamdouhfcih@gmail.com");
+                params.put("owner_name", "menna");
+                params.put("owner_mobile", "0578789787");
+                params.put("owner_email", "mennafcih@gmail.com");
                 params.put("neighbarhood_id", "1");
                 params.put("unit_type_id", "3");
                 params.put("amenities_id", "3");

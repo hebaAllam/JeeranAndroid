@@ -77,7 +77,6 @@ public class ForgotPasswordActivity extends BaseActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-
             requestForgotPassword();
         }
 
@@ -119,6 +118,9 @@ public class ForgotPasswordActivity extends BaseActivity {
                     in.putExtra("email",email);
                     startActivity(in);
                     Toast.makeText(getApplicationContext(),"Message sent to your email",
+                            Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Error Message already sent to your email",
                             Toast.LENGTH_SHORT).show();
                 }
             }

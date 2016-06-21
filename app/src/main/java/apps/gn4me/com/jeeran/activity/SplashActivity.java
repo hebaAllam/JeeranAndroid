@@ -40,9 +40,9 @@ public class SplashActivity extends BaseActivity {
                     String email , password  , token ;
                     settings = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
 
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.remove("token");
-                    editor.commit();
+//                    SharedPreferences.Editor editor = settings.edit();
+//                    editor.remove("token");
+//                    editor.commit();
 
                     email = settings.getString("email", null);
                     password = settings.getString("password", null);

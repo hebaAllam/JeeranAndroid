@@ -54,27 +54,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:minHeight="40dp"
                 android:padding="5dp"
                 android:weightSum="7">
 
                 <Spinner
                     android:id="@+id/spinner"
                     android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:minHeight="25dp"
+                    android:layout_height="match_parent"
                     android:background="@color/cardview_dark_background"
                     android:spinnerMode="dropdown"
                     android:paddingTop="0dp"
                     android:layout_weight="2.1"
-                    android:scaleType="fitCenter"
                     android:layout_marginRight="2dp"/>
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/photo_btn"
                     android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:minHeight="25dp"
-                    android:scaleType="fitCenter"
+                    android:layout_height="match_parent"
                     android:drawableLeft="@drawable/ic_photo_icon"
                     android:background="@color/cardview_dark_background"
                     android:text="@string/photo"
@@ -93,9 +90,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/add_btn"
                     android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:minHeight="25dp"
-                    android:scaleType="fitCenter"
+                    android:layout_height="match_parent"
                     android:background="@color/colorPrimaryDark"
                     android:text="@string/post"
                     android:textAllCaps="false"
