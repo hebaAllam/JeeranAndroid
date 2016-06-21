@@ -1,6 +1,7 @@
 package apps.gn4me.com.jeeran.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
@@ -55,6 +57,7 @@ import java.util.Map;
 
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.pojo.FavoriteRealEstate;
+import apps.gn4me.com.jeeran.pojo.Image;
 import apps.gn4me.com.jeeran.pojo.RealEstate;
 import apps.gn4me.com.jeeran.pojo.RealEstateImages;
 
@@ -69,7 +72,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
     TextView title, date, location, price, description, area, numOfBathrooms, numOfRooms, typeRealEstate;
     ProgressDialog progressDialog;
     private RealEstate mReal;
-    ImageView moreBtn;
+    ImageView moreBtn, locationOnMap, locationActive;
     Button saveBtn, changes, callUs;
     String phone;
     EditText areaEdit, bathroomEdit, bedroomEdit, typeEdit, titleEdit, descEdit, locEdit, dateEdit, priceEdit;
@@ -78,7 +81,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
     ImageView favorite, favoriteActive;
     Intent i;
     int edit = 0;
-    Button comments, locationOnMap;
+    Button comments;
     private java.lang.String address="";
 
     private void openDialog() {
@@ -213,6 +216,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         saveBtn = (Button) findViewById(R.id.saveChangesBtn);
         callUs = (Button) findViewById(R.id.callUs);
         favoriteActive = (ImageView) findViewById(R.id.favoriteRealEstateActive);
+        locationActive = (ImageView)findViewById(R.id.locationOnMapActive_addRealEstate);
 
         if (activityType.equals("favoriteRealEstate")) {
 //            favorite.setBackgroundColor(getResources().getColor(R.color.red));
@@ -225,12 +229,14 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
 //        boolean isFav = i.getBooleanExtra("isFav",false);
 
-        locationOnMap = (Button)findViewById(R.id.locationOnMap_add);
+        locationOnMap = (ImageView) findViewById(R.id.locationOnMap_addRealEstate);
 
         locationOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"inside",Toast.LENGTH_LONG).show();
+                locationOnMap.setVisibility(View.GONE);
+                locationActive.setVisibility(View.VISIBLE);
+//                Toast.makeText(getApplicationContext(),"inside",Toast.LENGTH_LONG).show();
                 openMap(v);
             }
         });
@@ -343,11 +349,15 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
     private void openMap(View v){
         startActivity(viewOnMap(address));
+        locationActive.setVisibility(View.GONE);
+        locationOnMap.setVisibility(View.VISIBLE);
     }
     public static Intent viewOnMap(String address) {
+//        address = "1A Maadi Star Towers Corniche El Maadi Floor #22 Flat #1 Nile Corniche";
         return new Intent(Intent.ACTION_VIEW,
                 Uri.parse(String.format("geo:0,0?q=%s",
-                        URLEncoder.encode("1A, Maadi Star Towers, Corniche El Maadi, Floor #22, Flat #1, Nile Corniche"))));
+                        URLEncoder.encode("1A Maadi Star Towers Corniche El Maadi Floor #22 Flat #1 Nile Corniche"))));
+
     }
 
     public static Intent viewOnMap(String lat, String lng) {
@@ -381,7 +391,8 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
                 boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                 int errorCode = result.getAsJsonObject("result").getAsJsonPrimitive("errorcode").getAsInt();
                 if(success) {
-                    Toast.makeText(getApplicationContext(), result.getAsJsonObject("result").getAsJsonPrimitive("message").getAsString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Put on Your Favorites.." , Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), result.getAsJsonObject("result").getAsJsonPrimitive("message").getAsString(), Toast.LENGTH_LONG).show();
 //                    favorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_icon_active));
 //                }
 //                else if(errorCode == 3) {
@@ -389,7 +400,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 //                    Toast.makeText(getApplicationContext(), result.getAsJsonObject("result").getAsJsonPrimitive("message").getAsString(), Toast.LENGTH_LONG).show();
 //
                 }else
-                    Toast.makeText(getApplicationContext(),"error...",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Sorry, You already added it.",Toast.LENGTH_LONG).show();
             }
 
 
@@ -432,6 +443,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         queue.add(strReq);
     }
 
+
     private void deleteRealEstateFromFavorites() {
             String  tag_string_req = "string_req";
 //        final Context context = getContext();
@@ -457,14 +469,19 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
                 Log.i("result in details ::: ",result.toString());
                 boolean success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                 if(success) {
-                    Toast.makeText(getApplicationContext(), result.getAsJsonObject("result").getAsJsonPrimitive("message").getAsString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Done.." , Toast.LENGTH_LONG).show();
 //                    Intent i = new Intent(this, HomeActivity.class);
 //                    favorite.setBackgroundColor(getResources().getColor(R.color.white));
                     favorite.setVisibility(View.VISIBLE);
                     favoriteActive.setVisibility(View.INVISIBLE);
                     onBackPressed();
+
+//                    ((Activity)context).finish();
+//                    ((Activity)context).startActivity(((Activity)context).getIntent());
+
+
                 }else
-                    Toast.makeText(getApplicationContext(),"error...",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Check Internet Connection...",Toast.LENGTH_LONG).show();
             }
 
 
@@ -505,6 +522,25 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
         // Adding request to request queue
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(strReq);
+    }
+
+    /*
+    private final static String TAG_FRAGMENT = "TAG_FRAGMENT";
+
+    private void showFragment() {
+        final FavoriteRealEstate fragment = new FavoriteRealEstate();
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment, fragment, TAG_FRAGMENT);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }*/
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+        finish();
+//        startActivity(((MyFavoritesActivity)getApplicationContext()).getIntent());
     }
 
     public void setupToolbar() {
@@ -560,6 +596,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
                 Intent i = getIntent();
                 String id = i.getStringExtra("realestateID");
                 params.put("realstate_id",id );
+                Log.i("id ::: ", id + "");
 //            params.put("start", start.toString());
 //            params.put("count",count.toString());
 
@@ -638,12 +675,13 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 //                                JsonObject realEstateAd = myRealEstates.getAsJsonObject();
 
                 mReal = new RealEstate();
+
                 JsonArray myImgArray = myRealEstates.getAsJsonArray("images");
                 List<RealEstateImages> imgs = new ArrayList<>();
                 RealEstateImages images;
 
                 mReal.setPhone(myRealEstates.getAsJsonPrimitive("owner_mobile").getAsString()+"");
-                address = mReal.getAddress();
+                address = mReal.getLocation();
                 phone = mReal.getPhone();
 //                mReal.setEmail(myRealEstates.getAsJsonPrimitive("owner_email").getAsString());
 //                mReal.setContactPerson(myRealEstates.getAsJsonPrimitive("owner_name").getAsString());
@@ -655,8 +693,10 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
 
                 int fav = myRealEstates.getAsJsonPrimitive("is_fav").getAsInt();
 
-                int owner = myRealEstates.getAsJsonPrimitive("is_owner").getAsInt();
-                if(owner == 1)
+                boolean owner = myRealEstates.getAsJsonPrimitive("is_owner").getAsBoolean();
+
+                Log.i("owner ::: ", owner +"");
+                if(owner)
                     moreBtn.setVisibility(View.VISIBLE);
                 else
                     moreBtn.setVisibility(View.GONE);
@@ -670,7 +710,11 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
                 }
 //                mReal.setUpdateDate(myRealEstates.getAsJsonPrimitive("owner_name").getAsString());
                 title.setText(myRealEstates.getAsJsonPrimitive("title").getAsString()+ "");
-                typeRealEstate.setText(myRealEstates.getAsJsonPrimitive("type").getAsInt()+"");
+                String t = myRealEstates.getAsJsonPrimitive("type").getAsString();
+                if(t.equals(0))
+                    typeRealEstate.setText("rent");
+                else
+                    typeRealEstate.setText("sale");
 //                mReal.setAddress(myRealEstates.getAsJsonObject().getAsJsonPrimitive("address").getAsString());
                 location.setText(myRealEstates.getAsJsonPrimitive("location").getAsString() );
                 numOfRooms.setText(myRealEstates.getAsJsonPrimitive("number_of_rooms").getAsInt()+"");

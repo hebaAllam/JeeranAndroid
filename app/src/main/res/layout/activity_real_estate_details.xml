@@ -53,16 +53,41 @@
             android:orientation="vertical"
             android:layout_marginLeft="10dp"
             >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                >
 
-           <Button
-            android:textAllCaps="false"
-            android:textColor="@color/fontColor"
-            android:background="@drawable/custom_but"
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="Comments"
-               android:id="@+id/comments"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:text="Location On Map"
+                    android:src="@drawable/ic_location_icon"
+                    android:textAllCaps="false"
+                    android:textColor="@color/fontColor"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/locationOnMap_addRealEstate"
+                    />
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:text="Location On Map"
+                    android:src="@drawable/location_icon_active"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    android:textColor="@color/fontColor"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/locationOnMapActive_addRealEstate"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:textSize="10dp"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
         <View
@@ -118,21 +143,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingLeft="10dp"
         android:layout_below="@+id/iconsContainer"
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignStart="@+id/textView3"
         android:id="@+id/buttonsContainer"
         >
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:text="Location On Map"
-            android:drawableLeft="@drawable/ic_allreviews_icon"
             android:textAllCaps="false"
+            android:drawableLeft="@drawable/ic_allreviews_icon"
             android:textColor="@color/fontColor"
             android:background="@drawable/custom_but"
             android:layout_marginTop="10dp"
-            android:id="@+id/locationOnMap_add"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Comments"
+            android:id="@+id/comments"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="38dp"
+            android:background="@color/drawerItemSperator"
+            android:layout_marginLeft="15dp"
             />
         <Button
             android:layout_width="wrap_content"

@@ -188,6 +188,30 @@ public class AddRealEstate extends BaseActivity
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
+                //17 params
+                params.put("title", title.getText().toString());
+                params.put("description", description.getText().toString());
+                params.put("location", location.getText().toString());
+                typee = type.getText().toString();
+                if(typee.equals("rent")) {
+                    params.put("type", "0");
+                }else {
+                    params.put("type", "1");
+                }
+                params.put("number_of_rooms", numOfRooms.getText().toString());
+                params.put("number_of_bathrooms", numOfBathrooms.getText().toString());
+                params.put("price", price.getText().toString());
+                params.put("owner_name", contactPerson.getText().toString());
+                params.put("owner_mobile", phone.getText().toString());
+                params.put("owner_email", email.getText().toString());
+                params.put("area", area.getText().toString());
+                params.put("neighbarhood_id", BaseActivity.currentNeighborhood.getId()+"");
+                params.put("unit_type_id", "2");
+                params.put("amenities_id", "2");
+                params.put("longitude", "30");
+                params.put("latitude", "35");
+                params.put("language", "1");
+                /*
                 params.put("title", "Amazing Flat");
                 params.put("description", "desc");
                 params.put("location", "Maadi Star Towers");
@@ -212,6 +236,7 @@ public class AddRealEstate extends BaseActivity
                 params.put("unit_type_id", "3");
                 params.put("amenities_id", "3");
                 params.put("area", "200");
+                */
 
                 Log.i("my params::::",params.toString());
 
@@ -534,6 +559,7 @@ public class AddRealEstate extends BaseActivity
                 if (resultCode == RESULT_OK) {
                     Place place = PlacePicker.getPlace(data, this);
                     String toastMsg = String.format("Place: %s", place.getAddress());
+                    location.setText(toastMsg);
                     Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
 //                    Log.i()
                 }

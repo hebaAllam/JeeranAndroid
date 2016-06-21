@@ -69,7 +69,14 @@ public class BaseActivity extends AppCompatActivity {
 
     protected View progress;
     String android_id;
-
+/*
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        startActivity(((AppCompatActivity)getApplicationContext()).getIntent());
+    }
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

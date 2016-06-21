@@ -88,7 +88,6 @@ public  class FavoriteRealEsateFragment extends Fragment {
         //openDialog();
         view = inflater.inflate(R.layout.fragment_real_estate, container, false);
 
-
 //        final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.dummyfrag_bg);
 //        frameLayout.setBackgroundColor(color);
 
@@ -281,7 +280,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
         } else {
             progressDialog.dismiss();
 //                              Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
-            Toast.makeText(view.getContext(), "reading Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(), "Error in Loading.. please, check internet connection", Toast.LENGTH_LONG).show();
         }
     }
 

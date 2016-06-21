@@ -50,7 +50,7 @@ public class MyFavoritesActivity extends BaseActivity {
                         showToast("One");
                         break;
                     case 1:
-                        showToast("Two");
+//                        showToast("Two");
 
                         break;
                     case 2:

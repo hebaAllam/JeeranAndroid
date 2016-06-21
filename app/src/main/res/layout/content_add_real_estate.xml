@@ -138,7 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/location_real"
-
+            android:editable="false"
             android:inputType="textWebEmailAddress"
             android:id="@+id/location_addRealEstateActivity"
             android:textCursorDrawable="@drawable/cursur_color" />
