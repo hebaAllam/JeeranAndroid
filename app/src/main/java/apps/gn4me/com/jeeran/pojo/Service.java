@@ -15,8 +15,8 @@ public class Service {
     private String Name;
     private  String address;
     private  String openingHours;
-    private long lat;
-    private long lang;
+    private double lat;
+    private double lang;
     private long rates;
     private ArrayList<String> images;
     private ArrayList<Reviews> reviews;
@@ -24,6 +24,24 @@ public class Service {
     private String phone1;
     private String phone2;
     private String phone3;
+    private int isReview;
+    private int isFavorite;
+
+    public void setIsReview(int isReview) {
+        this.isReview = isReview;
+    }
+
+    public void setIsFavorite(int isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    public int getIsReview() {
+        return isReview;
+    }
+
+    public int getIsFavorite() {
+        return isFavorite;
+    }
 
     public void setAddress(String address) {
         this.address = address;
@@ -140,11 +158,11 @@ public class Service {
         return Name;
     }
 
-    public long getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public long getLang() {
+    public double getLang() {
         return lang;
     }
 
@@ -156,11 +174,11 @@ public class Service {
         Name = name;
     }
 
-    public void setLat(long lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public void setLang(long lang) {
+    public void setLang(double lang) {
         this.lang = lang;
     }
 }

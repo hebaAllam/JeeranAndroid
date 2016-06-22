@@ -17,12 +17,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -32,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -74,8 +76,12 @@ public class ServiceDetails extends BaseActivity {
     private static final String TAG_SERVICES_LATITUDE= "latitude";
     private static final String TAG_SERVICES_PHONE1= "mobile_1";
     private static final String TAG_SERVICES_PHOTOS = "images";
+    private static final String TAG_ISFAVORITE="is_favorite";
+    private static final String TAQ_ISREVIEW="is_review";
+    private static final String TAG_TOTALRATES="total_rate";
 
     private static final String TAG="++++++++++";
+    Service service;
 
 
     /**
@@ -100,6 +106,7 @@ public class ServiceDetails extends BaseActivity {
         serviceDiscHeader=(TextView)findViewById(R.id.disc_header);
         serviceDisc=(TextView)findViewById(R.id.service_disc);
         CallUsBut=(Button)findViewById(R.id.callUs) ;
+       service=new Service();
         //------------setting tool bar-----
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -137,11 +144,25 @@ public class ServiceDetails extends BaseActivity {
         serviceDetailsList = new ArrayList<>();
         adapter = new ServiceDetailsAdapter(this, serviceDetailsList);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 3);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(1), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(new MyTouchListener(getApplicationContext(), recyclerView, new  MyClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Service service=serviceDetailsList.get(position);
+                serviceId=service.getServiceId();
+                requestServicesDetailsData();
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
         requestServicesDetailsData() ;
         prepareDataForSimilarServicesList();
 
@@ -172,6 +193,8 @@ public class ServiceDetails extends BaseActivity {
             @Override
             public void onClick(View v) {
              Intent intent=new Intent(ServiceDetails.this,ShowServiceLocation.class);
+                intent.putExtra("lang",service.getLang());
+                intent.putExtra("lat",service.getLat());
                 startActivity(intent);
             }
         });
@@ -185,7 +208,7 @@ public class ServiceDetails extends BaseActivity {
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
-       // pDialog.show();
+        pDialog.show();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
@@ -199,18 +222,33 @@ public class ServiceDetails extends BaseActivity {
                     JSONArray jsonArr=jsonObjectResponse.getJSONArray(TAG_SERVICES_DATA);
                     for(int i=0;i<jsonArr.length();i++){
                         JSONObject service1Obj=jsonArr.getJSONObject(i);
-                        Service service=new Service();
+
                         service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
                         service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
                         service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
                         service.setAddress(service1Obj.getString(TAG_SERVICES_ADDRESS));
                         service.setDiscription(service1Obj.getString(TAG_SERVICES_DISCRIPTION));
-                       // service.setLang(service1Obj.getDouble(TAG_SERVICES_LONGITUDE));
+                       service.setLang(service1Obj.getDouble(TAG_SERVICES_LONGITUDE));
+                        service.setLat(service1Obj.getDouble(TAG_SERVICES_LATITUDE));
+                        service.setIsFavorite(service1Obj.getInt(TAG_ISFAVORITE));
+                        service.setIsReview(service1Obj.getInt(TAQ_ISREVIEW));
+                        service.setRates(service1Obj.getInt(TAG_TOTALRATES));
                         service.setPhone1(service1Obj.getString(TAG_SERVICES_PHONE1));
+                        Glide.with(ServiceDetails.this).load(service.getLogo()).into(serviceLogo);
                         serviceDisc.setText(service.getDiscription());
                         serviceAddress.setText(service.getAddress());
                         serviceTitle.setText(service.getName());
-                        //  serviceNumberOfRates.setText(service.getRates());
+                        serviceNumberOfRates.setText(service.getRates()+"");
+                        if(service.getIsFavorite()==0){
+                            favoriteService.setImageResource(R.drawable.ic_favorites_icon_active);
+                            favoriteService.setClickable(false);
+                        }
+                        if(service.getIsReview()==0){
+                            rateService.setImageResource(R.drawable.ic_rate_icon_active);
+                            rateService.setClickable(false);
+                        }
+                        serviceTitle.setText("About "+service.getName());
+
 
                     }
 
@@ -226,7 +264,6 @@ public class ServiceDetails extends BaseActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ServiceDetails.this,error.getMessage(),Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -272,8 +309,6 @@ public class ServiceDetails extends BaseActivity {
             public void onResponse(String response) {
                 try {
 
-
-                    Toast.makeText(ServiceDetails.this,response,Toast.LENGTH_LONG).show();
                     JSONObject jsonObject=new JSONObject(response);
                     JSONArray jsonArr=jsonObject.getJSONArray("response");
                     for(int i=0;i<jsonArr.length();i++){
@@ -296,7 +331,6 @@ public class ServiceDetails extends BaseActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ServiceDetails.this,error.getMessage(),Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -345,7 +379,7 @@ public class ServiceDetails extends BaseActivity {
                 // TODO: Make sure this auto-generated app URL is correct.
                 Uri.parse("android-app://apps.gn4me.com.jeeran.activity/http/host/path")
         );
-        AppIndex.AppIndexApi.start(client, viewAction);
+      //  AppIndex.AppIndexApi.start(client, viewAction);
     }
 
     @Override
@@ -364,7 +398,7 @@ public class ServiceDetails extends BaseActivity {
                 // TODO: Make sure this auto-generated app URL is correct.
                 Uri.parse("android-app://apps.gn4me.com.jeeran.activity/http/host/path")
         );
-        AppIndex.AppIndexApi.end(client, viewAction);
+      //  AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
 
@@ -447,7 +481,6 @@ public class ServiceDetails extends BaseActivity {
             public void onResponse(String response) {
                 try {
 
-                    Toast.makeText(ServiceDetails.this,response,Toast.LENGTH_LONG).show();
                     JSONObject jsonObject=new JSONObject(response);
                     JSONObject resultObj=jsonObject.getJSONObject("result");
                     int errCode=resultObj.getInt("errorcode");
@@ -468,7 +501,6 @@ public class ServiceDetails extends BaseActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ServiceDetails.this,error.getMessage(),Toast.LENGTH_LONG).show();
                 VolleyLog.d("********************", "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -508,6 +540,54 @@ public class ServiceDetails extends BaseActivity {
             return;
         }
         startActivity(callIntent);
+    }
+    public interface MyClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
+    }
+
+    public static class MyTouchListener implements RecyclerView.OnItemTouchListener {
+
+        private GestureDetector gestureDetector;
+        private ServiceDetails.MyClickListener clickListener;
+
+        public MyTouchListener (Context context, final RecyclerView recyclerView, final ServiceDetails.MyClickListener clickListener) {
+            this.clickListener = clickListener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clickListener != null) {
+                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+                clickListener.onClick(child, rv.getChildPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
     }
 
 }

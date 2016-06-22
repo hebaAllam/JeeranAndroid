@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -87,7 +86,6 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
 
         //------------------Check which service should listed--------------
         Intent intent=getIntent();
-
            serviceSubId  = intent.getExtras().getInt("serviceSubCatId");
            serviceSubName=intent.getExtras().getString("serviceSubCatName");
            serviceCatName=intent.getExtras().getString("serviceCatName");
@@ -210,14 +208,18 @@ public void onSliderClick(BaseSliderView slider) {
      switch (item.getItemId()){
          case android.R.id.home:
              Intent i=new Intent(ServicesList.this,SubServices.class);
-             i.putExtra("serviceCatName",serviceCatName);
              i.putExtra("serviceCatId",serviceCatId);
-
+             i.putExtra("serviceCatName",serviceCatName);
              startActivity(i);
-             finish();
+
+         default:
+                 return super.onOptionsItemSelected(item);
      }
-        return super.onOptionsItemSelected(item);
+
     }
+
+
+
     private void setSpinner(){
 
         String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
@@ -271,7 +273,6 @@ public void onSliderClick(BaseSliderView slider) {
                 try {
 
                     allservices=response;
-                    Toast.makeText(ServicesList.this,response,Toast.LENGTH_LONG).show();
                     JSONObject jsonObject=new JSONObject(response);
                     JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES);
                     for(int i=0;i<jsonArr.length();i++){
@@ -294,7 +295,6 @@ public void onSliderClick(BaseSliderView slider) {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ServicesList.this,error.getMessage(),Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -340,7 +340,8 @@ public void onSliderClick(BaseSliderView slider) {
 
             @Override
             public void onResponse(String response) {
-                Toast.makeText(ServicesList.this,response,Toast.LENGTH_LONG).show();
+
+
                 Log.d(TAG, response.toString());
                 try {
                     JSONObject responseObj=new JSONObject(response);

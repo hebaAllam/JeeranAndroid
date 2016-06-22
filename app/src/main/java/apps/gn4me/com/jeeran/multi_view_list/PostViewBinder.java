@@ -345,7 +345,7 @@ public class PostViewBinder extends DataBinder<PostViewBinder.ViewHolder> {
                 params.put("reported_type_id",BaseActivity.DISCUSSION_REPORT.toString());
                 params.put("reported_id",discId.toString());
                 if (!msg.isEmpty())
-                    params.put("report_message",BaseActivity.DISCUSSION_REPORT.toString());
+                    params.put("report_message",msg);
                 return params;
             }
             @Override

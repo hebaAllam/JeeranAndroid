@@ -41,9 +41,9 @@
             android:id="@+id/reviewRatingBar"
             android:layout_gravity="center_horizontal"
             style="?android:attr/ratingBarStyleIndicator"
-            android:rating="0"
-
-
+            android:rating="1"
+            android:clickable="true"
+            android:isIndicator="false"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/customDialogCancel"
             android:text="Cancel"
             android:layout_alignParentTop="true"
@@ -71,12 +71,14 @@
             android:textAllCaps="false"
             android:textColor="@color/colorAccent"
             android:background="@drawable/custom_but"
+            android:layout_marginBottom="10dp"
+
             />
 
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/customDialogOk"
             android:text="OK"
             android:textAllCaps="false"
@@ -87,6 +89,7 @@
             android:layout_marginStart="50dp"
             android:textColor="@color/colorAccent"
            android:background="@drawable/custom_but"
+            android:layout_marginBottom="10dp"
             />
     </RelativeLayout>
 

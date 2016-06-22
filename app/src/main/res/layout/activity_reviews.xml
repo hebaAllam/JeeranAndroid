@@ -17,14 +17,25 @@
         android:id="@+id/recycle_reviews"
         android:layout_below="@+id/toolbarArea"
 
-        >
+        android:layout_alignParentBottom="true">
 
     </android.support.v7.widget.RecyclerView>
 
+    <!--<include layout="@layout/menu_buttons"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentRight="true"-->
+
+
+        <!--/>-->
     <include layout="@layout/menu_buttons"
-        android:layout_below="@+id/recycle_reviews"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 
 
 </RelativeLayout>

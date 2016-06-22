@@ -1,169 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="apps.gn4me.com.jeeran">
+<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="apps.gn4me.com.jeeran">
 
-    <uses-sdk android:minSdkVersion="10" />
+<uses-sdk android:minSdkVersion="10" />
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+<!-- To auto-complete the email text field in the login form with the user's emails -->
+<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+<uses-permission android:name="android.permission.READ_PROFILE" />
+<uses-permission android:name="android.permission.READ_CONTACTS" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<uses-permission android:name="android.permission.CALL_PHONE" />
+
+<permission android:name="com.example.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
+
+<uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
+
+<uses-feature android:glEsVersion="0x00020000" android:required="true" />
+
+<application android:name=".activity.MyApplication" android:allowBackup="true" android:icon="@drawable/ic_logo"
+    android:label="@string/app_name" android:largeHeap="true" android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity android:name=".activity.SplashActivity" android:theme="@style/AppThemeNoActionBar">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
+    </activity>
+    <activity android:name=".activity.LoginActivity" android:theme="@style/AppThemeNoActionBar"
+
+    >
+
+    </activity>
+    <activity android:name=".activity.MyFavoritesActivity" android:parentActivityName=".activity.HomeActivity"
+        android:theme="@style/AppThemeNoActionBar" />
+    <activity android:name=".activity.ModulesActivity" android:parentActivityName=".activity.HomeActivity"
+        android:theme="@style/MyMaterialTheme" />
+    <activity android:name=".activity.CreateAccount" android:label="@string/create_account"
+        android:theme="@style/AppThemeNoActionBar" />
+    <activity android:name=".activity.RegisterWithFacebook" android:label="@string/title_activity_register_with_facebook" />
+    <activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        android:label="@string/app_name" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+
+    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- if you want to load images from a file OR from the internet -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
 
-    <permission
-        android:name="com.example.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
+    <activity android:name=".activity.CommentsActivity" android:theme="@style/AppThemeNoActionBar" />
+    <activity android:name=".activity.HomeActivity" android:theme="@style/AppThemeNoActionBar">
 
-    <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
 
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
+    </activity>
+    <activity android:name=".activity.AddService" android:label="@string/title_activity_add_service"
+        android:theme="@style/AppTheme.NoActionBar" />
+    <activity android:name=".activity.ResetPasswordActivity" android:theme="@style/AppTheme.NoActionBar" />
+    <activity android:name=".activity.RealEstateComments" />
+    <activity android:name=".activity.AddRealEstate" android:label="@string/title_activity_add_real_estate"
+        android:parentActivityName=".activity.HomeActivity" android:theme="@style/MyAddRealEstate"></activity>
+    <activity android:name=".activity.ForgotPasswordActivity" android:label="@string/title_activity_forgot_password"
+        android:theme="@style/AppTheme.NoActionBar" />
 
-    <application
-        android:name=".activity.MyApplication"
-        android:allowBackup="true"
-        android:icon="@drawable/ic_logo"
-        android:label="@string/app_name"
-        android:largeHeap="true"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.SplashActivity"
-            android:theme="@style/AppThemeNoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+    <activity android:name=".activity.MyServices" android:parentActivityName=".activity.HomeActivity"
+        android:theme="@style/MyMaterialTheme" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/AppThemeNoActionBar" />
-        <activity
-            android:name=".activity.MyFavoritesActivity"
-            android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar" />
-        <activity
-            android:name=".activity.ModulesActivity"
-            android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name=".activity.CreateAccount"
-            android:label="@string/create_account"
-            android:theme="@style/AppThemeNoActionBar" />
-        <activity
-            android:name=".activity.RegisterWithFacebook"
-            android:label="@string/title_activity_register_with_facebook" />
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
-        <uses-permission android:name="android.permission.INTERNET" />
-
-        <!-- if you want to load images from a file OR from the internet -->
-        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-        <activity
-            android:name=".activity.CommentsActivity"
-            android:theme="@style/AppThemeNoActionBar" />
-        <activity
-            android:name=".activity.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar" />
-        <activity
-            android:name=".activity.AddService"
-            android:label="@string/title_activity_add_service"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.ResetPasswordActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.RealEstateComments" />
-        <activity
-            android:name=".activity.AddRealEstate"
-            android:label="@string/title_activity_add_real_estate"
-            android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/MyAddRealEstate"></activity>
-        <activity
-            android:name=".activity.ForgotPasswordActivity"
-            android:label="@string/title_activity_forgot_password"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <!--
+    <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+    <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 
-        <!--
+    <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key1" />
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/google_maps_key1" />
 
-        <activity
-            android:name=".activity.GetLocation"
-            android:label="@string/title_activity_get_location" />
-        <activity
-            android:name=".activity.RealEstateDetails"
-            android:theme="@style/MyAddRealEstate" />
+    <activity android:name=".activity.GetLocation" android:label="@string/title_activity_get_location" />
+    <activity android:name=".activity.RealEstateDetails" android:theme="@style/MyAddRealEstate" />
 
-        <!-- services activities -->
-        <activity
-            android:name=".activity.ServiceDetails"
-            android:parentActivityName=".activity.ServicesList"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name=".activity.ServicesList"
-            android:parentActivityName=".activity.SubServices"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name=".activity.SubServices"
-            android:parentActivityName=".activity.ModulesActivity"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name=".activity.ShowServiceLocation"
-            android:label="@string/title_activity_show_service_location" />
-        <activity
-            android:name=".activity.Reviews"
-            android:parentActivityName=".activity.ServiceDetails"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name=".activity.ShowServicesImages"
-            android:parentActivityName=".activity.ServiceDetails"
-            android:theme="@style/MyMaterialTheme" />
+    <!-- services activities -->
+    <activity android:name=".activity.ServiceDetails" android:parentActivityName=".activity.ServicesList"
+        android:theme="@style/MyMaterialTheme" />
+    <activity android:name=".activity.ServicesList" android:parentActivityName=".activity.SubServices"
+        android:theme="@style/MyMaterialTheme" />
+    <activity android:name=".activity.SubServices"
+        android:parentActivityName=".activity.ModulesActivity"
+        android:theme="@style/MyMaterialTheme" />
+    <activity android:name=".activity.ShowServiceLocation" android:label="@string/title_activity_show_service_location" />
+    <activity android:name=".activity.Reviews" android:parentActivityName=".activity.ServiceDetails"
+        android:theme="@style/MyMaterialTheme" />
+    <activity android:name=".activity.ShowServicesImages" android:parentActivityName=".activity.ServiceDetails"
+        android:theme="@style/MyMaterialTheme" />
 
-        <service
-            android:name=".intent_service.ValidateTokenService"
-            android:exported="false" />
+    <service android:name=".intent_service.ValidateTokenService" android:exported="false" />
 
-        <activity
-            android:name=".activity.MyDiscussion"
-            android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name=".activity.MyRealEstates"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.MyProfile" android:theme="@style/MyAddRealEstate"></activity>
-    </application>
+    <activity android:name=".activity.MyDiscussion" android:parentActivityName=".activity.HomeActivity"
+        android:theme="@style/MyMaterialTheme" />
+    <activity android:name=".activity.MyRealEstates" android:theme="@style/AppTheme.NoActionBar"></activity>
+</application>
+
 
 </manifest>

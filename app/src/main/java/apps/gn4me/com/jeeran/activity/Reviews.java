@@ -53,15 +53,13 @@ public class Reviews extends BaseActivity {
     int serviceid,serviceSubCatId,serviceCatId;
     String serviceName,serviceSubCatName,serviceCatName;
     TextView title;
-    private static final String TAG_SERVICES_DETAILS= "response";
-    private static final String TAG_SERVICES_REVIEW= "review";
+    private static final String TAG_SERVICES_REVIEWS= "response";
     private static final String TAG_REVIEW_CONTENT="review";
     private static final String TAG_REVIEW_ID = "service_place_review_id";
     private static final String TAG_SERVICE_ID = "service_place_id";
     private static final String TAG_REVIEW_DATE= "created_at";
     private static final String TAG_REVIEW_RATINGS = "rating";
     private static final String TAG_USER= "user";
-    private static final String TAG_IS_HIDE = "is_hide";
     private static final String TAG_REVIEW_UPDATED_DATE="updated_at";
     private static final String TAG_IS_OWNER="is_owner";
 
@@ -118,11 +116,11 @@ public class Reviews extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 try {
-
                                 JSONObject jsonObject=new JSONObject(response);
-                                JSONObject jsonObjectResponse=jsonObject.getJSONObject(TAG_SERVICES_DETAILS);
-                                JSONArray jsonArr=jsonObjectResponse.getJSONArray(TAG_SERVICES_REVIEW);
-                                for(int i=0;i<jsonArr.length();i++){
+                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_REVIEWS);
+
+                            for(int i=0;i<jsonArr.length();i++){
+
                                     JSONObject reviewObj=jsonArr.getJSONObject(i);
                                     UserReview userReview=new UserReview();
                                     userReview.setReviewID(reviewObj.getInt(TAG_REVIEW_ID));
@@ -131,7 +129,6 @@ public class Reviews extends BaseActivity {
                                     userReview.setNumberOfRates(reviewObj.getInt(TAG_REVIEW_RATINGS));
                                     userReview.setReviewDate(reviewObj.getString(TAG_REVIEW_DATE));
                                     userReview.setReviewUpdateDate(reviewObj.getString(TAG_REVIEW_UPDATED_DATE));
-                                    userReview.setIsHide(reviewObj.getInt(TAG_IS_HIDE));
                                     userReview.setIsOwner(reviewObj.getInt(TAG_IS_OWNER));
                                    JSONObject userObj= reviewObj.getJSONObject(TAG_USER);
                                     User user=new User();
@@ -203,6 +200,7 @@ public class Reviews extends BaseActivity {
         reviewRates.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
+                Toast.makeText(Reviews.this, "in action ", Toast.LENGTH_SHORT).show();
 
 
              txtRates.setText(String.valueOf(rating));
@@ -218,6 +216,8 @@ public class Reviews extends BaseActivity {
                    // Toast.makeText(Reviews.this,"you success add review with rates "+txtRates.getText().toString(),Toast.LENGTH_LONG).show();
                     addReview();
                     dialog.dismiss();
+                    finish();
+                    startActivity(getIntent());
                 }
 
             }
@@ -229,6 +229,7 @@ public class Reviews extends BaseActivity {
 
                     final ProgressDialog pDialog = new ProgressDialog(Reviews.this);
                     pDialog.setMessage("Loading...");
+                     pDialog.setCancelable(true);
                     pDialog.show();
 
                     StringRequest strReq = new StringRequest(Request.Method.POST,

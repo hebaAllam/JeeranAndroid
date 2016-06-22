@@ -87,8 +87,9 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
         setSpinner();
         //------------------Check which service should listed--------------
         Intent intent=getIntent();
-             serviceCatIdentifier = intent.getExtras().getInt("serviceCatId");
-             serviceName = intent.getExtras().getString("serviceCatName");
+            serviceCatIdentifier = intent.getExtras().getInt("serviceCatId");
+            serviceName = intent.getExtras().getString("serviceCatName");
+
              setTitle(serviceName);
 
         setSlider();
@@ -109,7 +110,6 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
                 listServices.putExtra("serviceCatName",serviceName);
                 listServices.putExtra("serviceCatId",serviceCatIdentifier);
                 startActivity(listServices);
-
 
             }
 
@@ -142,7 +142,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
 
             @Override
             public void onResponse(String response) {
-                Toast.makeText(SubServices.this,response,Toast.LENGTH_LONG).show();
+
                 Log.d(TAG, response.toString());
                                             try {
 
@@ -170,7 +170,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SubServices.this,error.getMessage(),Toast.LENGTH_LONG).show();
+
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -309,7 +309,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
 
             @Override
             public void onResponse(String response) {
-                Toast.makeText(SubServices.this,response,Toast.LENGTH_LONG).show();
+
                 Log.d(TAG, response.toString());
                 try {
                     JSONObject responseObj=new JSONObject(response);

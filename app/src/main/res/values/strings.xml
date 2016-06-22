@@ -100,7 +100,7 @@
     <string name="navigation_drawer_closed" translatable="false">The navigation drawer is closed</string>
     <string name="tag_nav_drawer_main_entry" translatable="false">nav_drawer_main_entry</string>
     <string name="tag_nav_drawer_special_entry" translatable="false">nav_drawer_special_entry</string>
-    <string name="tools_text_account_information_username" translatable="false">Username</string>
+    <string name="tools_text_account_information_username" translatable="false">Asmaa Ali</string>
     <string name="tools_text_account_information_email" translatable="false">user@mail.com</string>
 
     <!-- Typeface names -->
@@ -160,6 +160,7 @@
     <string name="edit_service">edit</string>
     <string name="delete_service">delete</string>
     <string name="report_review">report</string>
+    <string name="title_activity_my_service_location">Map</string>
 
     //add post
     <string name="post">post</string>

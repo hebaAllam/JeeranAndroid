@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -171,7 +170,7 @@ public class MainServices extends Fragment implements BaseSliderView.OnSliderCli
 
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getContext(),response,Toast.LENGTH_LONG).show();
+
                 Log.d(TAG, response.toString());
                 try {
                     JSONObject responseObj=new JSONObject(response);

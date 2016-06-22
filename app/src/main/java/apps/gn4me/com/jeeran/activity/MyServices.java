@@ -95,7 +95,7 @@ public class MyServices extends AppCompatActivity {
       int userId=  BaseActivity.profile.getId();
 
 
-        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/list?user_id="+userId;
+        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/list?user_id=63";
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");

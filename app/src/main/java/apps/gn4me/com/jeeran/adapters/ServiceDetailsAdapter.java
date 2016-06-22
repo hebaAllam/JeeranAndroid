@@ -132,7 +132,8 @@ public class ServiceDetailsAdapter extends RecyclerView.Adapter<ServiceDetailsAd
 
             final ProgressDialog pDialog = new ProgressDialog(mContext);
             pDialog.setMessage("Loading...");
-            // pDialog.show();
+            pDialog.setCancelable(true);
+             pDialog.show();
 
             StringRequest strReq = new StringRequest(Request.Method.POST,
                     url, new Response.Listener<String>() {
