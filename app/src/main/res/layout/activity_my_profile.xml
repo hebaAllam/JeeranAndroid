@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".activity.CreateAccount">
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="onPickPhoto"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgView_profile"
+                    android:layout_width="120dp"
+                    android:layout_height="130dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/default_profile_pic" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:capitalize="sentences"
+                    android:text="UserName"
+                    android:id="@+id/userName_profile"
+                    android:clickable="false"
+                     />
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="10dp">
+
+                <EditText
+                    android:id="@+id/fname_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/fname"
+                    android:inputType="textWebEditText"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/fname_profile_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:inputType="textWebEditText"
+                />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:minHeight="10dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/lname_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/lname"
+                    android:inputType="textWebEditText"
+                     />
+
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:visibility="gone"
+                android:paddingBottom="10dp"
+                android:id="@+id/lname_profile_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebEditText"
+                />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="10dp">
+
+                <EditText
+                    android:id="@+id/email_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:paddingBottom="10dp"
+                android:visibility="gone"
+                android:id="@+id/email_profile_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebEditText"
+                />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="10dp"
+>
+                <EditText
+                    android:id="@+id/dateOfBirth_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/dateOfBirth"
+                    android:inputType="textWebEditText"
+/>
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:visibility="gone"
+                android:paddingBottom="10dp"
+                android:id="@+id/date_profile_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebEditText"
+                />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="10dp"
+                >
+                <EditText
+                    android:id="@+id/mobileNumber_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/mobileNum"
+
+                    android:inputType="number"
+                    />
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:paddingBottom="10dp"
+                android:id="@+id/phone_profile_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:inputType="textWebEditText"
+                />
+            <Button
+                android:id="@+id/edit_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="35dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_btn"
+                android:text="Edit"
+                android:textAllCaps="false"
+                android:textColor="@color/wallet_bright_foreground_holo_light"
+                />
+            <Button
+                android:id="@+id/save_profile"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="35dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_btn"
+                android:text="@string/saveBtn"
+                android:textAllCaps="false"
+                android:textColor="@color/wallet_bright_foreground_holo_light"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

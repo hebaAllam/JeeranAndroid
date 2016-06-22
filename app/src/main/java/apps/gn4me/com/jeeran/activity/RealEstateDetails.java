@@ -696,7 +696,7 @@ public class RealEstateDetails extends BaseActivity implements BaseSliderView.On
                 boolean owner = myRealEstates.getAsJsonPrimitive("is_owner").getAsBoolean();
 
                 Log.i("owner ::: ", owner +"");
-                if(owner)
+                if(!owner)
                     moreBtn.setVisibility(View.VISIBLE);
                 else
                     moreBtn.setVisibility(View.GONE);

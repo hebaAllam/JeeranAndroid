@@ -527,10 +527,15 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         if ( success ){
+            profile.setFname(result.getAsJsonObject("response").getAsJsonPrimitive("fName").getAsString());
+            profile.setLname(result.getAsJsonObject("response").getAsJsonPrimitive("lName").getAsString());
+            profile.setMobile(result.getAsJsonObject("response").getAsJsonPrimitive("mobile_number").getAsString()+"");
+            profile.setDateOfBirth(result.getAsJsonObject("response").getAsJsonPrimitive("dateOfBirth").getAsString()+"");
 
             profile.setId(result.getAsJsonObject("response").getAsJsonPrimitive("user_id").getAsInt());
             profile.setUserName( result.getAsJsonObject("response").getAsJsonPrimitive("fName").getAsString()+
                     " " + result.getAsJsonObject("response").getAsJsonPrimitive("lName").getAsString());
+
             profile.setImage(result.getAsJsonObject("response").getAsJsonPrimitive("image").getAsString());
             profile.setEmailAddress(result.getAsJsonObject("response").getAsJsonPrimitive("mail").getAsString());
 

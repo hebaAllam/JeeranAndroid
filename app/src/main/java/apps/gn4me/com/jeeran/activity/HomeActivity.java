@@ -56,7 +56,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
     private FrameLayout discussionBtn ;
     private FrameLayout realEstateBtn ;
 
-    private FrameLayout serviceBtn ;
+    private FrameLayout serviceBtn, myAccount ;
     private FrameLayout myFavorites;
     private FrameLayout myRealEstates;
     private FrameLayout myDiscussion;
@@ -134,6 +134,16 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
             public void onClick(View v) {
                 Intent in = new Intent(HomeActivity.this,MyFavoritesActivity.class);
                 startActivity(in);
+            }
+        });
+
+        ///////////////myAccount
+        myAccount = (FrameLayout)findViewById(R.id.navigation_drawer_items_list_linearLayout_account);
+        myAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this,MyProfile.class);
+                startActivity(intent);
             }
         });
 
@@ -278,6 +288,11 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         queue.add(strReq);
     }
 
+
+    public void loadData(View view){
+        Intent intent = new Intent(HomeActivity.this,MyProfile.class);
+        startActivity(intent);
+    }
 
     private void init_navigator(){
         setupToolbar();

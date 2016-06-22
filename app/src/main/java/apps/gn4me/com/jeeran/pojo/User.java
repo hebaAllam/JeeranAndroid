@@ -14,6 +14,10 @@ public class User implements Serializable{
     private String password;
     private String emailAddress;
     private String image;
+    private String lname;
+    private String fname;
+    private String mobile;
+    private String dateOfBirth;
 
     public User() {
     }
@@ -31,6 +35,38 @@ public class User implements Serializable{
         this.image = image;
     }
 
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public Integer getId() {
         return id;

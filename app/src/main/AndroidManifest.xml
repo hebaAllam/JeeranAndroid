@@ -94,8 +94,7 @@
             android:name=".activity.AddRealEstate"
             android:label="@string/title_activity_add_real_estate"
             android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/MyAddRealEstate">
-        </activity>
+            android:theme="@style/MyAddRealEstate"></activity>
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:label="@string/title_activity_forgot_password"
@@ -161,7 +160,10 @@
             android:name=".activity.MyDiscussion"
             android:parentActivityName=".activity.HomeActivity"
             android:theme="@style/MyMaterialTheme" />
-        <activity android:name=".activity.MyRealEstates" android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.MyRealEstates"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.MyProfile" android:theme="@style/MyAddRealEstate"></activity>
     </application>
 
 </manifest>
