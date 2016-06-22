@@ -47,6 +47,7 @@ public class RVAdapter extends RecyclerView.Adapter<ViewHolder>{
     }
 
     public void insertAll(List<FavoriteRealEstate> real){
+        mRealEstates=new ArrayList<>();
         mRealEstates.addAll(real);
 //        Log.i("inside adapter -*-*-* ", mRealEstates.get(0).getMyRealEstate().getTitle() + " " + mRealEstates.get(1).getMyRealEstate().getTitle()+ " " + mRealEstates.get(2).getMyRealEstate().getTitle() );
         size = real.size();

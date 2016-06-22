@@ -31,19 +31,22 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import apps.gn4me.com.jeeran.R;
 import apps.gn4me.com.jeeran.adapters.DividerItemDecoration;
 import apps.gn4me.com.jeeran.adapters.ServiceAdapter;
 import apps.gn4me.com.jeeran.pojo.Service;
 
-public class ServicesList extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class ServicesList extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     private SliderLayout mDemoSlider;
     private RecyclerView recyclerView;
     private ServiceAdapter myAdapter;
@@ -52,14 +55,14 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
     Spinner dropdown;
     String serviceSubName;
     String serviceCatName;
-    int serviceSubId,serviceCatId;
-    private static final String TAG_SERVICES= "response";
+    int serviceSubId, serviceCatId;
+    private static final String TAG_SERVICES = "response";
     private static final String TAG_SERVICES_ID = "service_place_id";
     private static final String TAG_SERVICES_LOGO = "logo";
     private static final String TAG_SERVICES_TITLE = "title";
-    private static final String TAG="++++++++++";
-    String allservices="";
-    HashMap<String,String> file_maps;
+    private static final String TAG = "++++++++++";
+    String allservices = "";
+    HashMap<String, String> file_maps;
 
 
     @Override
@@ -67,9 +70,9 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_services_list);
         //----------getViews------------------------------
-        serviceTitle=(TextView)findViewById(R.id.txt_titile) ;
-        dropdown = (Spinner)findViewById(R.id.spinner1AreaFood);
-        mDemoSlider = (SliderLayout)findViewById(R.id.sliderFood);
+        serviceTitle = (TextView) findViewById(R.id.txt_titile);
+        dropdown = (Spinner) findViewById(R.id.spinner1AreaFood);
+        mDemoSlider = (SliderLayout) findViewById(R.id.sliderFood);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.food_recycleView);
 
@@ -78,39 +81,40 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
             setSupportActionBar(toolbar);
             setTitle("");
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         //-------set  Spinner------------------------
-         setSpinner();
+        setSpinner();
 
         //------------------Check which service should listed--------------
-        Intent intent=getIntent();
-           serviceSubId  = intent.getExtras().getInt("serviceSubCatId");
-           serviceSubName=intent.getExtras().getString("serviceSubCatName");
-           serviceCatName=intent.getExtras().getString("serviceCatName");
-           serviceCatId=intent.getExtras().getInt("serviceCatId");
-            setTitle(serviceSubName);
+        Intent intent = getIntent();
+        serviceSubId = intent.getExtras().getInt("serviceSubCatId");
+        serviceSubName = intent.getExtras().getString("serviceSubCatName");
+        serviceCatName = intent.getExtras().getString("serviceCatName");
+        serviceCatId = intent.getExtras().getInt("serviceCatId");
+        setTitle(serviceSubName);
 
         setSlider();
         servicesList.clear();
-        myAdapter=new ServiceAdapter(servicesList,this);
+        myAdapter = new ServiceAdapter(servicesList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        final Intent serviceDetailes=new Intent(ServicesList.this,ServiceDetails.class);
-        recyclerView.addOnItemTouchListener(new MyTouchListener(getApplicationContext(), recyclerView, new  MyClickListener() {
+        final Intent serviceDetailes = new Intent(ServicesList.this, ServiceDetails.class);
+        recyclerView.addOnItemTouchListener(new MyTouchListener(getApplicationContext(), recyclerView, new MyClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Service service=servicesList.get(position);
-                serviceDetailes.putExtra("UniqueServiceId",service.getServiceId());
-                serviceDetailes.putExtra("ServiceDetailsName",service.getName());
-                serviceDetailes.putExtra("serviceSubCatName",serviceSubName);
-                serviceDetailes.putExtra("serviceSubCatId",serviceSubId);
-                serviceDetailes.putExtra("serviceCatName",serviceCatName);
-                serviceDetailes.putExtra("serviceCatId",serviceCatId);
+                Service service = servicesList.get(position);
+                serviceDetailes.putExtra("UniqueServiceId", service.getServiceId());
+                serviceDetailes.putExtra("ServiceDetailsName", service.getName());
+                serviceDetailes.putExtra("serviceSubCatName", serviceSubName);
+                serviceDetailes.putExtra("serviceSubCatId", serviceSubId);
+                serviceDetailes.putExtra("serviceCatName", serviceCatName);
+                serviceDetailes.putExtra("serviceCatId", serviceCatId);
                 serviceDetailes.putExtra("allServices", allservices);
 
                 startActivity(serviceDetailes);
@@ -125,34 +129,29 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
         requestServicesData();
 
 
+    }
+
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
     }
 
 
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
 
-
-
-
-@Override
-public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-@Override
-public void onPageSelected(int position) {
-
-        }
-
-@Override
-public void onPageScrollStateChanged(int state) {
-
-        }
-
-
-@Override
-public void onSliderClick(BaseSliderView slider) {
-
-        }
+    }
 
     public interface MyClickListener {
         void onClick(View view, int position);
@@ -165,7 +164,7 @@ public void onSliderClick(BaseSliderView slider) {
         private GestureDetector gestureDetector;
         private ServicesList.MyClickListener clickListener;
 
-        public MyTouchListener (Context context, final RecyclerView recyclerView, final ServicesList.MyClickListener clickListener) {
+        public MyTouchListener(Context context, final RecyclerView recyclerView, final ServicesList.MyClickListener clickListener) {
             this.clickListener = clickListener;
             gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                 @Override
@@ -205,29 +204,31 @@ public void onSliderClick(BaseSliderView slider) {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-     switch (item.getItemId()){
-         case android.R.id.home:
-             Intent i=new Intent(ServicesList.this,SubServices.class);
-             i.putExtra("serviceCatId",serviceCatId);
-             i.putExtra("serviceCatName",serviceCatName);
-             startActivity(i);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
 
-         default:
-                 return super.onOptionsItemSelected(item);
-     }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
-
-    private void setSpinner(){
+    private void setSpinner() {
 
         String[] items = new String[]{"El-Rehab", "October", "El-Maady"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
     }
-    private void setSlider(){
+
+    private void setSlider() {
 
         requestServicesImages();
 
@@ -239,15 +240,16 @@ public void onSliderClick(BaseSliderView slider) {
     }
 
 
-    public void addNew(View view){
-      Intent addServiceIntent=new Intent(ServicesList.this,AddService.class);
-      startActivity(addServiceIntent);
-      finish();
+    public void addNew(View view) {
+        Intent addServiceIntent = new Intent(ServicesList.this, AddService.class);
+        startActivity(addServiceIntent);
+        finish();
 
 
-  }
-    public void returnTohome(View view){
-        Intent homeIntent=new Intent(ServicesList.this,HomeActivity.class);
+    }
+
+    public void returnTohome(View view) {
+        Intent homeIntent = new Intent(ServicesList.this, HomeActivity.class);
         startActivity(homeIntent);
         finish();
     }
@@ -257,9 +259,10 @@ public void onSliderClick(BaseSliderView slider) {
         super.onRestart();
         requestServicesData();
     }
+
     private void requestServicesData() {
 
-        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/list";
+        String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplace/list";
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -272,12 +275,12 @@ public void onSliderClick(BaseSliderView slider) {
             public void onResponse(String response) {
                 try {
 
-                    allservices=response;
-                    JSONObject jsonObject=new JSONObject(response);
-                    JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES);
-                    for(int i=0;i<jsonArr.length();i++){
-                        JSONObject service1Obj=jsonArr.getJSONObject(i);
-                        Service service=new Service();
+                    allservices = response;
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArr = jsonObject.getJSONArray(TAG_SERVICES);
+                    for (int i = 0; i < jsonArr.length(); i++) {
+                        JSONObject service1Obj = jsonArr.getJSONObject(i);
+                        Service service = new Service();
                         service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
                         service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
                         service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
@@ -303,11 +306,12 @@ public void onSliderClick(BaseSliderView slider) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("service_sub_category_id",serviceSubId+"");
+                params.put("service_sub_category_id", serviceSubId + "");
 
 
                 return params;
             }
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -324,6 +328,7 @@ public void onSliderClick(BaseSliderView slider) {
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(strReq);
     }
+
     private void requestServicesImages() {
         file_maps = new HashMap<String, String>();
         final String TAG = "*************************";
@@ -344,12 +349,12 @@ public void onSliderClick(BaseSliderView slider) {
 
                 Log.d(TAG, response.toString());
                 try {
-                    JSONObject responseObj=new JSONObject(response);
-                    JSONArray responseArr=responseObj.getJSONArray("response");
-                    for(int i=0;i<responseArr.length();i++){
-                        JSONObject imageObj=responseArr.getJSONObject(i);
-                        file_maps.put(imageObj.getString("title"),imageObj.getString("cover_image"));
-                        for(String name : file_maps.keySet()){
+                    JSONObject responseObj = new JSONObject(response);
+                    JSONArray responseArr = responseObj.getJSONArray("response");
+                    for (int i = 0; i < responseArr.length(); i++) {
+                        JSONObject imageObj = responseArr.getJSONObject(i);
+                        file_maps.put(imageObj.getString("title"), imageObj.getString("cover_image"));
+                        for (String name : file_maps.keySet()) {
                             TextSliderView textSliderView = new TextSliderView(ServicesList.this);
                             // initialize a SliderLayout
                             textSliderView
@@ -361,7 +366,7 @@ public void onSliderClick(BaseSliderView slider) {
                             //add your extra information
                             textSliderView.bundle(new Bundle());
                             textSliderView.getBundle()
-                                    .putString("extra",name);
+                                    .putString("extra", name);
 
                             mDemoSlider.addSlider(textSliderView);
                         }

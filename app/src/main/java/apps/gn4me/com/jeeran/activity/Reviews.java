@@ -49,26 +49,26 @@ import apps.gn4me.com.jeeran.pojo.UserReview;
 public class Reviews extends BaseActivity {
     RecyclerView reviewsRecyclerView;
     ReviewAdapter myAdapter;
-    private List<UserReview> reviewList=new ArrayList<>();
-    int serviceid,serviceSubCatId,serviceCatId;
-    String serviceName,serviceSubCatName,serviceCatName;
+    private List<UserReview> reviewList = new ArrayList<>();
+    int serviceid, serviceSubCatId, serviceCatId;
+    String serviceName, serviceSubCatName, serviceCatName;
     TextView title;
-    private static final String TAG_SERVICES_REVIEWS= "response";
-    private static final String TAG_REVIEW_CONTENT="review";
+    private static final String TAG_SERVICES_REVIEWS = "response";
+    private static final String TAG_REVIEW_CONTENT = "review";
     private static final String TAG_REVIEW_ID = "service_place_review_id";
     private static final String TAG_SERVICE_ID = "service_place_id";
-    private static final String TAG_REVIEW_DATE= "created_at";
+    private static final String TAG_REVIEW_DATE = "created_at";
     private static final String TAG_REVIEW_RATINGS = "rating";
-    private static final String TAG_USER= "user";
-    private static final String TAG_REVIEW_UPDATED_DATE="updated_at";
-    private static final String TAG_IS_OWNER="is_owner";
+    private static final String TAG_USER = "user";
+    private static final String TAG_REVIEW_UPDATED_DATE = "updated_at";
+    private static final String TAG_IS_OWNER = "is_owner";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviews);
-        title=(TextView)findViewById(R.id.txt_titile);
+        title = (TextView) findViewById(R.id.txt_titile);
 
         //------------setting toolbar-----------------
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -80,20 +80,20 @@ public class Reviews extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //---------------------------------------------------------
-        Intent intent=getIntent();
-        serviceid=intent.getExtras().getInt("serviceId");
-        serviceName=intent.getExtras().getString("serviceName");
-        serviceCatId=intent.getExtras().getInt("serviceCatId");
-        serviceCatName=intent.getExtras().getString("serviceCatName");
-        serviceSubCatId=intent.getExtras().getInt("serviceSubCatId");
-        serviceSubCatName=intent.getExtras().getString("serviceSubCatName");
+        Intent intent = getIntent();
+        serviceid = intent.getExtras().getInt("serviceId");
+        serviceName = intent.getExtras().getString("serviceName");
+        serviceCatId = intent.getExtras().getInt("serviceCatId");
+        serviceCatName = intent.getExtras().getString("serviceCatName");
+        serviceSubCatId = intent.getExtras().getInt("serviceSubCatId");
+        serviceSubCatName = intent.getExtras().getString("serviceSubCatName");
 
 
-        title.setText(serviceName+" Reviews");
+        title.setText(serviceName + " Reviews");
 
         reviewsRecyclerView = (RecyclerView) findViewById(R.id.recycle_reviews);
         reviewList.clear();
-        myAdapter=new ReviewAdapter(this,reviewList);
+        myAdapter = new ReviewAdapter(this, reviewList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         reviewsRecyclerView.setLayoutManager(mLayoutManager);
         reviewsRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -104,7 +104,7 @@ public class Reviews extends BaseActivity {
     }
 
     private void prepareData() {
-        String url ="http://jeeran.gn4me.com/jeeran_v1/servicereview/list?service_place_id="+serviceid;
+        String url = "http://jeeran.gn4me.com/jeeran_v1/servicereview/list?service_place_id=" + serviceid;
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -116,36 +116,36 @@ public class Reviews extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                                JSONObject jsonObject=new JSONObject(response);
-                                JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES_REVIEWS);
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArr = jsonObject.getJSONArray(TAG_SERVICES_REVIEWS);
 
-                            for(int i=0;i<jsonArr.length();i++){
+                    for (int i = 0; i < jsonArr.length(); i++) {
 
-                                    JSONObject reviewObj=jsonArr.getJSONObject(i);
-                                    UserReview userReview=new UserReview();
-                                    userReview.setReviewID(reviewObj.getInt(TAG_REVIEW_ID));
-                                    userReview.setServiceId(reviewObj.getInt(TAG_SERVICE_ID));
-                                    userReview.setReviewContent(reviewObj.getString(TAG_REVIEW_CONTENT));
-                                    userReview.setNumberOfRates(reviewObj.getInt(TAG_REVIEW_RATINGS));
-                                    userReview.setReviewDate(reviewObj.getString(TAG_REVIEW_DATE));
-                                    userReview.setReviewUpdateDate(reviewObj.getString(TAG_REVIEW_UPDATED_DATE));
-                                    userReview.setIsOwner(reviewObj.getInt(TAG_IS_OWNER));
-                                   JSONObject userObj= reviewObj.getJSONObject(TAG_USER);
-                                    User user=new User();
-                                    user.setId(userObj.getInt("user_id"));
-                                    String s=userObj.getString("first_name");
-                                    s+=" ";
-                                    s+=userObj.getString("last_name");
-                                    user.setUserName(s);
-                                    user.setImage(userObj.getString("image"));
-                                   userReview.setUser(user);
-                                    reviewList.add(userReview);
-                                    myAdapter.notifyDataSetChanged();
-                                }
+                        JSONObject reviewObj = jsonArr.getJSONObject(i);
+                        UserReview userReview = new UserReview();
+                        userReview.setReviewID(reviewObj.getInt(TAG_REVIEW_ID));
+                        userReview.setServiceId(reviewObj.getInt(TAG_SERVICE_ID));
+                        userReview.setReviewContent(reviewObj.getString(TAG_REVIEW_CONTENT));
+                        userReview.setNumberOfRates(reviewObj.getInt(TAG_REVIEW_RATINGS));
+                        userReview.setReviewDate(reviewObj.getString(TAG_REVIEW_DATE));
+                        userReview.setReviewUpdateDate(reviewObj.getString(TAG_REVIEW_UPDATED_DATE));
+                        userReview.setIsOwner(reviewObj.getInt(TAG_IS_OWNER));
+                        JSONObject userObj = reviewObj.getJSONObject(TAG_USER);
+                        User user = new User();
+                        user.setId(userObj.getInt("user_id"));
+                        String s = userObj.getString("first_name");
+                        s += " ";
+                        s += userObj.getString("last_name");
+                        user.setUserName(s);
+                        user.setImage(userObj.getString("image"));
+                        userReview.setUser(user);
+                        reviewList.add(userReview);
+                        myAdapter.notifyDataSetChanged();
+                    }
 
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
 
                 pDialog.dismiss();
 
@@ -154,7 +154,7 @@ public class Reviews extends BaseActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Reviews.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(Reviews.this, error.getMessage(), Toast.LENGTH_LONG).show();
                 pDialog.hide();
             }
         }) {
@@ -177,16 +177,17 @@ public class Reviews extends BaseActivity {
 
 
     }
-    public void addNew(View view){
+
+    public void addNew(View view) {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_review_dialog);
         dialog.setTitle("Write Review");
 
         Button dialogButtonCancel = (Button) dialog.findViewById(R.id.customDialogCancel);
         Button dialogButtonOk = (Button) dialog.findViewById(R.id.customDialogOk);
-        final EditText reviewText=(EditText)dialog.findViewById(R.id.review_text);
-        RatingBar reviewRates=(RatingBar)dialog.findViewById(R.id.reviewRatingBar) ;
-        final  TextView txtRates=(TextView)dialog.findViewById(R.id.txt_rate);
+        final EditText reviewText = (EditText) dialog.findViewById(R.id.review_text);
+        RatingBar reviewRates = (RatingBar) dialog.findViewById(R.id.reviewRatingBar);
+        final TextView txtRates = (TextView) dialog.findViewById(R.id.txt_rate);
         // Click cancel to dismiss android custom dialog box
         dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,17 +204,17 @@ public class Reviews extends BaseActivity {
                 Toast.makeText(Reviews.this, "in action ", Toast.LENGTH_SHORT).show();
 
 
-             txtRates.setText(String.valueOf(rating));
+                txtRates.setText(String.valueOf(rating));
 
             }
         });
         dialogButtonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String review=reviewText.getText().toString();
+                String review = reviewText.getText().toString();
 
-                if(!review.equals("")){
-                   // Toast.makeText(Reviews.this,"you success add review with rates "+txtRates.getText().toString(),Toast.LENGTH_LONG).show();
+                if (!review.equals("")) {
+                    // Toast.makeText(Reviews.this,"you success add review with rates "+txtRates.getText().toString(),Toast.LENGTH_LONG).show();
                     addReview();
                     dialog.dismiss();
                     finish();
@@ -225,57 +226,58 @@ public class Reviews extends BaseActivity {
             private void addReview() {
 
 
-                    String url = "http://jeeran.gn4me.com/jeeran_v1/servicereview/add";
+                String url = "http://jeeran.gn4me.com/jeeran_v1/servicereview/add";
 
-                    final ProgressDialog pDialog = new ProgressDialog(Reviews.this);
-                    pDialog.setMessage("Loading...");
-                     pDialog.setCancelable(true);
-                    pDialog.show();
+                final ProgressDialog pDialog = new ProgressDialog(Reviews.this);
+                pDialog.setMessage("Loading...");
+                pDialog.setCancelable(true);
+                pDialog.show();
 
-                    StringRequest strReq = new StringRequest(Request.Method.POST,
-                            url, new Response.Listener<String>() {
+                StringRequest strReq = new StringRequest(Request.Method.POST,
+                        url, new Response.Listener<String>() {
 
-                        @Override
-                        public void onResponse(String response) {
-                            Toast.makeText(Reviews.this,"this is response "+response,Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(Reviews.this, "this is response " + response, Toast.LENGTH_LONG).show();
 
-                            pDialog.hide();
+                        pDialog.hide();
 
-                        }
-                    }, new Response.ErrorListener() {
+                    }
+                }, new Response.ErrorListener() {
 
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(Reviews.this,error.getMessage(),Toast.LENGTH_LONG).show();
-                            pDialog.hide();
-                        }
-                    }) {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Reviews.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        pDialog.hide();
+                    }
+                }) {
 
-                        @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put("service_place_id", serviceid+"");
-                            params.put("review",reviewText.getText().toString());
-                            params.put("rating",txtRates.getText().toString());
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("service_place_id", serviceid + "");
+                        params.put("review", reviewText.getText().toString());
+                        params.put("rating", txtRates.getText().toString());
 
 
-                            return params;
-                        }
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            HashMap<String, String> headers = new HashMap<String, String>();
-                            SharedPreferences settings;
-                            settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
-                            String mtoken = settings.getString("token", null);
-                            headers.put("Authorization", mtoken);
-                            return headers;
-                        }
-                    };
+                        return params;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        SharedPreferences settings;
+                        settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                        String mtoken = settings.getString("token", null);
+                        headers.put("Authorization", mtoken);
+                        return headers;
+                    }
+                };
 
 // Adding request to request queue
-                    RequestQueue queue = Volley.newRequestQueue(Reviews.this);
-                    queue.add(strReq);
-                }
+                RequestQueue queue = Volley.newRequestQueue(Reviews.this);
+                queue.add(strReq);
+            }
 
         });
 
@@ -283,32 +285,27 @@ public class Reviews extends BaseActivity {
 
 
     }
-    public void returnTohome(View view){
-        Intent homeIntent=new Intent(Reviews.this,HomeActivity.class);
+
+    public void returnTohome(View view) {
+        Intent homeIntent = new Intent(Reviews.this, HomeActivity.class);
         startActivity(homeIntent);
         finish();
     }
-   private void  reportReview(){
+
+    private void reportReview() {
 
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
-                Intent i=new Intent(Reviews.this,ServiceDetails.class);
-                i.putExtra("serviceSubCatName",serviceSubCatName);
-                i.putExtra("serviceSubCatId",serviceSubCatId);
-                i.putExtra("serviceCatName",serviceCatName);
-                i.putExtra("serviceCatId",serviceCatId);
-                i.putExtra("UniqueServiceId",serviceid);
-                i.putExtra("ServiceDetailsName",serviceName);
-                startActivity(i);
                 finish();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

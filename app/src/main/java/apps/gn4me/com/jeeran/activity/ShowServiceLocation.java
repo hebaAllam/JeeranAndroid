@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import android.location.Address;
+
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,13 +34,18 @@ private  GoogleMap mMap;
         setContentView(R.layout.activity_show_service_location);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
           mapFragment.getMapAsync( this);
 //        Intent i=getIntent();
 //       lang=  i.getExtras().getDouble("lang");
 //       lat=   i.getExtras().getDouble("lat");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 
     /**
      * Manipulates the map once available.
@@ -57,5 +64,7 @@ private  GoogleMap mMap;
         LatLng servicePlace = new LatLng(30.077024, 31.020114);
         mMap.addMarker(new MarkerOptions().position(servicePlace).title("service Place"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(servicePlace));
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(servicePlace, 10);
+        mMap.animateCamera(cameraUpdate);
     }
 }

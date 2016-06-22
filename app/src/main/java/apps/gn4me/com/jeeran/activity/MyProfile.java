@@ -104,7 +104,7 @@ public class MyProfile extends BaseActivity {
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 Log.i("result in profile ::: ",result.toString());
-                Toast.makeText(getApplicationContext(),result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean()+"",Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(),result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean()+"",Toast.LENGTH_LONG).show();
 //                getRealEstateData(result);
                 onBackPressed();
             }

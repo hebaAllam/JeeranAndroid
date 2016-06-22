@@ -120,6 +120,7 @@ public class LoginActivity extends BaseActivity {
             mEmailSignInButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    hideKeyboard();
                     attemptLogin();
                 }
             });
@@ -129,6 +130,7 @@ public class LoginActivity extends BaseActivity {
         createAccountButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard();
                 Intent in = new Intent(LoginActivity.this,CreateAccount.class);
                 startActivity(in);
             }
@@ -139,6 +141,7 @@ public class LoginActivity extends BaseActivity {
         forgotPasswordButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+              hideKeyboard();
                 Intent in = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
                 startActivity(in);
             }

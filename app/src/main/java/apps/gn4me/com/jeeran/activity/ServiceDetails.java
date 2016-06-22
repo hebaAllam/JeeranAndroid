@@ -60,27 +60,27 @@ public class ServiceDetails extends BaseActivity {
     private ServiceDetailsAdapter adapter;
     private List<Service> serviceDetailsList;
     private Button CallUsBut;
-    int serviceId,serviceSubCatId,serviceCatId;
+    int serviceId, serviceSubCatId, serviceCatId;
     String serviceName;
-    ImageView showLocation,rateService,favoriteService,serviceLogo;
-    String serviceSubCatName,serviceCatName;
-    private  TextView activityTitle,serviceTitle,serviceAddress,serviceOpeningHours,serviceNumberOfRates,serviceDiscHeader,serviceDisc;
-    private static final String TAG_SERVICES_DETAILS= "response";
-    private static final String TAG_SERVICES_DATA= "serviceplace";
+    ImageView showLocation, rateService, favoriteService, serviceLogo;
+    String serviceSubCatName, serviceCatName;
+    private TextView activityTitle, serviceTitle, serviceAddress, serviceOpeningHours, serviceNumberOfRates, serviceDiscHeader, serviceDisc;
+    private static final String TAG_SERVICES_DETAILS = "response";
+    private static final String TAG_SERVICES_DATA = "serviceplace";
     private static final String TAG_SERVICES_ID = "service_place_id";
     private static final String TAG_SERVICES_LOGO = "logo";
     private static final String TAG_SERVICES_TITLE = "title";
     private static final String TAG_SERVICES_ADDRESS = "address";
     private static final String TAG_SERVICES_DISCRIPTION = "description";
     private static final String TAG_SERVICES_LONGITUDE = "longitude";
-    private static final String TAG_SERVICES_LATITUDE= "latitude";
-    private static final String TAG_SERVICES_PHONE1= "mobile_1";
+    private static final String TAG_SERVICES_LATITUDE = "latitude";
+    private static final String TAG_SERVICES_PHONE1 = "mobile_1";
     private static final String TAG_SERVICES_PHOTOS = "images";
-    private static final String TAG_ISFAVORITE="is_favorite";
-    private static final String TAQ_ISREVIEW="is_review";
-    private static final String TAG_TOTALRATES="total_rate";
+    private static final String TAG_ISFAVORITE = "is_favorite";
+    private static final String TAQ_ISREVIEW = "is_review";
+    private static final String TAG_TOTALRATES = "total_rate";
 
-    private static final String TAG="++++++++++";
+    private static final String TAG = "++++++++++";
     Service service;
 
 
@@ -95,23 +95,23 @@ public class ServiceDetails extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_detailes);
 
-        showLocation=(ImageView)findViewById(R.id.showLocation) ;
-        rateService=(ImageView)findViewById(R.id.rateService);
-        favoriteService=(ImageView)findViewById(R.id.favoriteService);
-        serviceLogo=(ImageView)findViewById(R.id.service_logo);
-        serviceTitle=(TextView)findViewById(R.id.service_title);
-        serviceAddress=(TextView)findViewById(R.id.service_address1);
-        serviceOpeningHours=(TextView)findViewById(R.id.service_opiningHours);
-        serviceNumberOfRates=(TextView)findViewById(R.id.service_numberofRates);
-        serviceDiscHeader=(TextView)findViewById(R.id.disc_header);
-        serviceDisc=(TextView)findViewById(R.id.service_disc);
-        CallUsBut=(Button)findViewById(R.id.callUs) ;
-       service=new Service();
+        showLocation = (ImageView) findViewById(R.id.showLocation);
+        rateService = (ImageView) findViewById(R.id.rateService);
+        favoriteService = (ImageView) findViewById(R.id.favoriteService);
+        serviceLogo = (ImageView) findViewById(R.id.service_logo);
+        serviceTitle = (TextView) findViewById(R.id.service_title);
+        serviceAddress = (TextView) findViewById(R.id.service_address1);
+        serviceOpeningHours = (TextView) findViewById(R.id.service_opiningHours);
+        serviceNumberOfRates = (TextView) findViewById(R.id.service_numberofRates);
+        serviceDiscHeader = (TextView) findViewById(R.id.disc_header);
+        serviceDisc = (TextView) findViewById(R.id.service_disc);
+        CallUsBut = (Button) findViewById(R.id.callUs);
+        service = new Service();
         //------------setting tool bar-----
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            activityTitle=(TextView)findViewById(R.id.txt_titile);
+            activityTitle = (TextView) findViewById(R.id.txt_titile);
             setTitle("");
 
         }
@@ -119,24 +119,22 @@ public class ServiceDetails extends BaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //-----------------------------
         //------------get service ID-------------
-        Intent i=getIntent();
-      if(i.hasExtra("fromMyService")){
-          serviceId= i.getExtras().getInt("UniqueServiceId");
-      }
-        serviceId= i.getExtras().getInt("UniqueServiceId");
-        serviceName=i.getExtras().getString("ServiceDetailsName");
-            serviceSubCatName=i.getExtras().getString("serviceSubCatName");
-            serviceSubCatId=i.getExtras().getInt("serviceSubCatId");
-        serviceCatName=i.getExtras().getString("serviceCatName");
-                serviceCatId=i.getExtras().getInt("serviceCatId");
+        Intent i = getIntent();
+        if (i.hasExtra("fromMyService")) {
+            serviceId = i.getExtras().getInt("UniqueServiceId");
+        }
+        serviceId = i.getExtras().getInt("UniqueServiceId");
+        serviceName = i.getExtras().getString("ServiceDetailsName");
+        serviceSubCatName = i.getExtras().getString("serviceSubCatName");
+        serviceSubCatId = i.getExtras().getInt("serviceSubCatId");
+        serviceCatName = i.getExtras().getString("serviceCatName");
+        serviceCatId = i.getExtras().getInt("serviceCatId");
 
 
-           setTitle(serviceName+" Details");
+        setTitle(serviceName + " Details");
 
 
-
-
-        final Button allReviews=(Button)findViewById(R.id.allReviews);
+        final Button allReviews = (Button) findViewById(R.id.allReviews);
 
 
         recyclerView = (RecyclerView) findViewById(R.id.restaurant_recycleView);
@@ -149,11 +147,11 @@ public class ServiceDetails extends BaseActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(1), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnItemTouchListener(new MyTouchListener(getApplicationContext(), recyclerView, new  MyClickListener() {
+        recyclerView.addOnItemTouchListener(new MyTouchListener(getApplicationContext(), recyclerView, new MyClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Service service=serviceDetailsList.get(position);
-                serviceId=service.getServiceId();
+                Service service = serviceDetailsList.get(position);
+                serviceId = service.getServiceId();
                 requestServicesDetailsData();
 
             }
@@ -163,7 +161,7 @@ public class ServiceDetails extends BaseActivity {
 
             }
         }));
-        requestServicesDetailsData() ;
+        requestServicesDetailsData();
         prepareDataForSimilarServicesList();
 
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -171,13 +169,13 @@ public class ServiceDetails extends BaseActivity {
         allReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent allReviewsIntent=new Intent(ServiceDetails.this,Reviews.class);
-                allReviewsIntent.putExtra("serviceId",serviceId);
-                allReviewsIntent.putExtra("serviceName",serviceName);
-                allReviewsIntent.putExtra("serviceSubCatName",serviceSubCatName);
-                allReviewsIntent.putExtra("serviceSubCatId",serviceSubCatId);
-               allReviewsIntent.putExtra("serviceCatName",serviceCatName);
-                allReviewsIntent.putExtra("serviceCatId",serviceCatId);
+                Intent allReviewsIntent = new Intent(ServiceDetails.this, Reviews.class);
+                allReviewsIntent.putExtra("serviceId", serviceId);
+                allReviewsIntent.putExtra("serviceName", serviceName);
+                allReviewsIntent.putExtra("serviceSubCatName", serviceSubCatName);
+                allReviewsIntent.putExtra("serviceSubCatId", serviceSubCatId);
+                allReviewsIntent.putExtra("serviceCatName", serviceCatName);
+                allReviewsIntent.putExtra("serviceCatId", serviceCatId);
 
 
                 startActivity(allReviewsIntent);
@@ -192,9 +190,9 @@ public class ServiceDetails extends BaseActivity {
         showLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             Intent intent=new Intent(ServiceDetails.this,ShowServiceLocation.class);
-                intent.putExtra("lang",service.getLang());
-                intent.putExtra("lat",service.getLat());
+                Intent intent = new Intent(ServiceDetails.this, ShowServiceLocation.class);
+                intent.putExtra("lang", service.getLang());
+                intent.putExtra("lat", service.getLat());
                 startActivity(intent);
             }
         });
@@ -202,9 +200,9 @@ public class ServiceDetails extends BaseActivity {
 
 
     private void requestServicesDetailsData() {
-        String  tag_string_req = "string_req";
+        String tag_string_req = "string_req";
 
-        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/show";
+        String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplace/show";
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -217,18 +215,18 @@ public class ServiceDetails extends BaseActivity {
             public void onResponse(String response) {
                 try {
 
-                    JSONObject jsonObject=new JSONObject(response);
-                    JSONObject jsonObjectResponse=jsonObject.getJSONObject(TAG_SERVICES_DETAILS);
-                    JSONArray jsonArr=jsonObjectResponse.getJSONArray(TAG_SERVICES_DATA);
-                    for(int i=0;i<jsonArr.length();i++){
-                        JSONObject service1Obj=jsonArr.getJSONObject(i);
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONObject jsonObjectResponse = jsonObject.getJSONObject(TAG_SERVICES_DETAILS);
+                    JSONArray jsonArr = jsonObjectResponse.getJSONArray(TAG_SERVICES_DATA);
+                    for (int i = 0; i < jsonArr.length(); i++) {
+                        JSONObject service1Obj = jsonArr.getJSONObject(i);
 
                         service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
                         service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
                         service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
                         service.setAddress(service1Obj.getString(TAG_SERVICES_ADDRESS));
                         service.setDiscription(service1Obj.getString(TAG_SERVICES_DISCRIPTION));
-                       service.setLang(service1Obj.getDouble(TAG_SERVICES_LONGITUDE));
+                        service.setLang(service1Obj.getDouble(TAG_SERVICES_LONGITUDE));
                         service.setLat(service1Obj.getDouble(TAG_SERVICES_LATITUDE));
                         service.setIsFavorite(service1Obj.getInt(TAG_ISFAVORITE));
                         service.setIsReview(service1Obj.getInt(TAQ_ISREVIEW));
@@ -238,16 +236,16 @@ public class ServiceDetails extends BaseActivity {
                         serviceDisc.setText(service.getDiscription());
                         serviceAddress.setText(service.getAddress());
                         serviceTitle.setText(service.getName());
-                        serviceNumberOfRates.setText(service.getRates()+"");
-                        if(service.getIsFavorite()==0){
+                        serviceNumberOfRates.setText(service.getRates() + "");
+                        if (service.getIsFavorite() == 0) {
                             favoriteService.setImageResource(R.drawable.ic_favorites_icon_active);
                             favoriteService.setClickable(false);
                         }
-                        if(service.getIsReview()==0){
+                        if (service.getIsReview() == 0) {
                             rateService.setImageResource(R.drawable.ic_rate_icon_active);
                             rateService.setClickable(false);
                         }
-                        serviceTitle.setText("About "+service.getName());
+                        serviceTitle.setText("About " + service.getName());
 
 
                     }
@@ -272,11 +270,12 @@ public class ServiceDetails extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("service_place_id",serviceId+"");
+                params.put("service_place_id", serviceId + "");
 
 
                 return params;
             }
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -294,9 +293,10 @@ public class ServiceDetails extends BaseActivity {
         queue.add(strReq);
     }
 
+
     private void prepareDataForSimilarServicesList() {
 
-        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/list";
+        String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplace/list";
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -309,11 +309,11 @@ public class ServiceDetails extends BaseActivity {
             public void onResponse(String response) {
                 try {
 
-                    JSONObject jsonObject=new JSONObject(response);
-                    JSONArray jsonArr=jsonObject.getJSONArray("response");
-                    for(int i=0;i<jsonArr.length();i++){
-                        JSONObject service1Obj=jsonArr.getJSONObject(i);
-                        Service service=new Service();
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArr = jsonObject.getJSONArray("response");
+                    for (int i = 0; i < jsonArr.length(); i++) {
+                        JSONObject service1Obj = jsonArr.getJSONObject(i);
+                        Service service = new Service();
                         service.setServiceId(service1Obj.getInt(TAG_SERVICES_ID));
                         service.setName(service1Obj.getString(TAG_SERVICES_TITLE));
                         service.setLogo(service1Obj.getString(TAG_SERVICES_LOGO));
@@ -339,12 +339,13 @@ public class ServiceDetails extends BaseActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("service_sub_category_id",serviceSubCatId+"");
-                params.put("count","4");
+                params.put("service_sub_category_id", serviceSubCatId + "");
+                params.put("count", "4");
 
 
                 return params;
             }
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -379,7 +380,7 @@ public class ServiceDetails extends BaseActivity {
                 // TODO: Make sure this auto-generated app URL is correct.
                 Uri.parse("android-app://apps.gn4me.com.jeeran.activity/http/host/path")
         );
-      //  AppIndex.AppIndexApi.start(client, viewAction);
+        //  AppIndex.AppIndexApi.start(client, viewAction);
     }
 
     @Override
@@ -398,7 +399,7 @@ public class ServiceDetails extends BaseActivity {
                 // TODO: Make sure this auto-generated app URL is correct.
                 Uri.parse("android-app://apps.gn4me.com.jeeran.activity/http/host/path")
         );
-      //  AppIndex.AppIndexApi.end(client, viewAction);
+        //  AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
 
@@ -445,30 +446,33 @@ public class ServiceDetails extends BaseActivity {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
-    public  void showServiceImages(View view){
-     Intent intent=new Intent(ServiceDetails.this,ShowServicesImages.class);
+
+    public void showServiceImages(View view) {
+        Intent intent = new Intent(ServiceDetails.this, ShowServicesImages.class);
         startActivity(intent);
     }
-    public void addServiceToFavorites(View view){
+
+    public void addServiceToFavorites(View view) {
         favoriteService();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
-                Intent i=new Intent(ServiceDetails.this,ServicesList.class);
-                i.putExtra("serviceSubCatName",serviceSubCatName);
-                i.putExtra("serviceSubCatId",serviceSubCatId);
-                i.putExtra("serviceCatName",serviceCatName);
-                i.putExtra("serviceCatId",serviceCatId);
-                startActivity(i);
-                finish();
+                onBackPressed();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     private void favoriteService() {
-        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplacefavorite/add";
+        String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplacefavorite/add";
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -481,16 +485,15 @@ public class ServiceDetails extends BaseActivity {
             public void onResponse(String response) {
                 try {
 
-                    JSONObject jsonObject=new JSONObject(response);
-                    JSONObject resultObj=jsonObject.getJSONObject("result");
-                    int errCode=resultObj.getInt("errorcode");
-                    if(errCode==0){
-                       favoriteService.setImageResource(R.drawable.ic_favorites_icon_active);
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONObject resultObj = jsonObject.getJSONObject("result");
+                    int errCode = resultObj.getInt("errorcode");
+                    if (errCode == 0) {
+                        favoriteService.setImageResource(R.drawable.ic_favorites_icon_active);
                     }
 
 
-                }
-                catch (JSONException e1) {
+                } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
 
@@ -514,6 +517,7 @@ public class ServiceDetails extends BaseActivity {
 
                 return params;
             }
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -536,11 +540,12 @@ public class ServiceDetails extends BaseActivity {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:01113812798"));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            Log.i("premisssion :::::::: ","");
+            Log.i("premisssion :::::::: ", "");
             return;
         }
         startActivity(callIntent);
     }
+
     public interface MyClickListener {
         void onClick(View view, int position);
 
@@ -552,7 +557,7 @@ public class ServiceDetails extends BaseActivity {
         private GestureDetector gestureDetector;
         private ServiceDetails.MyClickListener clickListener;
 
-        public MyTouchListener (Context context, final RecyclerView recyclerView, final ServiceDetails.MyClickListener clickListener) {
+        public MyTouchListener(Context context, final RecyclerView recyclerView, final ServiceDetails.MyClickListener clickListener) {
             this.clickListener = clickListener;
             gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                 @Override

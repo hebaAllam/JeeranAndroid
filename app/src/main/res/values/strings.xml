@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"    tools:ignore="MissingTranslation" >
     <string name="app_name">Jeeran</string>
 
     <!-- Strings related to Home -->
@@ -42,7 +42,7 @@
     <string name="action_forgot_password">Forgot Your Password?!</string>
     <string name="title_activity_login">Sign in</string>
     <string name="facebook_app_id" translatable="false">1303282329685203</string>
-    <string name="title_activity_add_service">AddService</string>
+    <string name="title_activity_add_service">Add Service</string>
 
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -156,7 +156,8 @@
     <string name="hint_name" translatable="false">your review</string>
     <string name="gcm_defaultSenderId" translatable="false">550</string>
     <string name="select_area_arrays" translatable="false">djfk</string>
-    <string name="google_maps_key1">AIzaSyD7ivMSDGU-amq1TBI3O4XLalb0l4Vg6gU</string>
+    <string name="google_maps_key1">AIzaSyAdh4bgsf0vghd2WiuLVzSm5Sf9gznRYuo</string>
+
     <string name="edit_service">edit</string>
     <string name="delete_service">delete</string>
     <string name="report_review">report</string>

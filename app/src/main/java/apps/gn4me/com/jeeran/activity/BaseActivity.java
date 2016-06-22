@@ -529,8 +529,8 @@ public class BaseActivity extends AppCompatActivity {
         if ( success ){
             profile.setFname(result.getAsJsonObject("response").getAsJsonPrimitive("fName").getAsString());
             profile.setLname(result.getAsJsonObject("response").getAsJsonPrimitive("lName").getAsString());
-            profile.setMobile(result.getAsJsonObject("response").getAsJsonPrimitive("mobile_number").getAsString()+"");
-            profile.setDateOfBirth(result.getAsJsonObject("response").getAsJsonPrimitive("dateOfBirth").getAsString()+"");
+            profile.setMobile("");
+            profile.setDateOfBirth("");
 
             profile.setId(result.getAsJsonObject("response").getAsJsonPrimitive("user_id").getAsInt());
             profile.setUserName( result.getAsJsonObject("response").getAsJsonPrimitive("fName").getAsString()+
@@ -627,4 +627,5 @@ public class BaseActivity extends AppCompatActivity {
         }
 
     }
+
 }

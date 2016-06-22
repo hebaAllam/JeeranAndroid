@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"    tools:ignore="MissingTranslation" >
     <string name="app_name">جيران</string>
-    <string name="select_area_arrays">مينهخميملي</string>
     <string name="cancel">الغاء</string>
     <string name="phone">رقم الهاتف</string>
     <string name="prompt_comment">اضف تعليق</string>
@@ -25,7 +24,7 @@
     <string name="title_activity_add_service">اضف خدمه</string>
     <string name="password">كلمة المرور</string>
     <string name="ok">تم</string>
-    <string name="myFavorites" translatable="false">مفضلاتي</string>
+    <string name="myFavorites">مفضلاتي</string>
     <string name="msg">اضف رسالة: اختياري</string>
     <string name="error_field_required">هذا العنصر مطلوب ادخاله</string>
     <string name="error_incorrect_password">كلمة المرور غير صحيحه</string>
@@ -43,6 +42,6 @@
     <string name="action_sign_in_fb">Facebook تسجيل الدخول عن طريق </string>
     <string name="action_settings">اعدادات</string>
     <string name="action_forgot_password">نسيت كلمة المرور؟</string>
-    <string name="action_add_favourite" translatable="false">اضف للمفضلة</string>
+    <string name="action_add_favourite" >اضف للمفضلة</string>
 
 </resources>

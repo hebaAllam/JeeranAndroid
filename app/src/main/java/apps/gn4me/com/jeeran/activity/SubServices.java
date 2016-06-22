@@ -81,15 +81,15 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
             setTitle("");
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //-------set  Spinner------------------------
         setSpinner();
         //------------------Check which service should listed--------------
         Intent intent=getIntent();
+        if(intent.hasExtra("serviceCatId")) {
             serviceCatIdentifier = intent.getExtras().getInt("serviceCatId");
             serviceName = intent.getExtras().getString("serviceCatName");
-
+        }
              setTitle(serviceName);
 
         setSlider();
