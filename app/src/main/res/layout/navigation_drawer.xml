@@ -60,12 +60,11 @@
                          android:layout_width="25dp"
                          android:layout_height="25dp"
                          android:src="@drawable/ic_edit_icon"
-                         />
+                         android:id="@+id/editIcon"/>
 
                     <TextView
                         android:id="@+id/navigation_drawer_account_information_display_name"
                         style="@style/NavDrawerAccountInfoText"
-                        android:text="@string/tools_text_account_information_username"
                         tools:fontFamily="sans-serif-medium"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="17dp"
@@ -214,72 +213,74 @@
                         />
 
                 </FrameLayout>
-                <include
-                    layout="@layout/navigation_drawer_divider"/>
-                <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_settings"
-                    style="@style/NavDrawerRowLayout.Secondary"
-                    android:background="@color/navigationItemsColor2">
+                <!--<include-->
+                    <!--layout="@layout/navigation_drawer_divider"-->
+                    <!--/>-->
+                <!--<FrameLayout-->
+                    <!--android:visibility="gone"-->
+                    <!--android:id="@+id/navigation_drawer_items_list_linearLayout_settings"-->
+                    <!--style="@style/NavDrawerRowLayout.Secondary"-->
+                    <!--android:background="@color/navigationItemsColor2">-->
 
-                    <apps.gn4me.com.jeeran.activity.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_settings"
-                        style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_setting_icon"
-                        tools:ignore="ContentDescription" />
+                    <!--<apps.gn4me.com.jeeran.activity.TintOnStateImageView-->
+                        <!--android:id="@+id/navigation_drawer_items_list_icon_settings"-->
+                        <!--style="@style/NavDrawerRowItemIcon"-->
+                        <!--android:src="@drawable/ic_setting_icon"-->
+                        <!--tools:ignore="ContentDescription" />-->
 
-                    <TextView
-                        android:id="@+id/navigation_drawer_items_textView_settings"
-                        style="@style/NavDrawerRowItemText"
-                        android:text="Settings"
-                        tools:fontFamily="sans-serif-medium"
-                        android:textColor="@color/textColorPrimary"
-                        />
+                    <!--<TextView-->
+                        <!--android:id="@+id/navigation_drawer_items_textView_settings"-->
+                        <!--style="@style/NavDrawerRowItemText"-->
+                        <!--android:text="Settings"-->
+                        <!--tools:fontFamily="sans-serif-medium"-->
+                        <!--android:textColor="@color/textColorPrimary"-->
+                        <!--/>-->
 
-                </FrameLayout>
-                <include
-                    layout="@layout/navigation_drawer_divider"/>
-                <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_notifications"
-                    style="@style/NavDrawerRowLayout.Secondary"
-                    android:background="@color/navigationItemsColor2">
+                <!--</FrameLayout>-->
+                <!--<include-->
+                    <!--layout="@layout/navigation_drawer_divider"/>-->
+                <!--<FrameLayout-->
+                    <!--android:id="@+id/navigation_drawer_items_list_linearLayout_notifications"-->
+                    <!--style="@style/NavDrawerRowLayout.Secondary"-->
+                    <!--android:background="@color/navigationItemsColor2">-->
 
-                    <apps.gn4me.com.jeeran.activity.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_notifications"
-                        style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_notification_icon"
-                        tools:ignore="ContentDescription" />
+                    <!--<apps.gn4me.com.jeeran.activity.TintOnStateImageView-->
+                        <!--android:id="@+id/navigation_drawer_items_list_icon_notifications"-->
+                        <!--style="@style/NavDrawerRowItemIcon"-->
+                        <!--android:src="@drawable/ic_notification_icon"-->
+                        <!--tools:ignore="ContentDescription" />-->
 
-                    <TextView
-                        android:id="@+id/navigation_drawer_items_textView_notifications"
-                        style="@style/NavDrawerRowItemText"
-                        android:text="Notifications"
-                        tools:fontFamily="sans-serif-medium"
-                        android:textColor="@color/textColorPrimary"
-                        />
+                    <!--<TextView-->
+                        <!--android:id="@+id/navigation_drawer_items_textView_notifications"-->
+                        <!--style="@style/NavDrawerRowItemText"-->
+                        <!--android:text="Notifications"-->
+                        <!--tools:fontFamily="sans-serif-medium"-->
+                        <!--android:textColor="@color/textColorPrimary"-->
+                        <!--/>-->
 
-                </FrameLayout>
-                <include
-                    layout="@layout/navigation_drawer_divider"/>
-                <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_help"
-                    style="@style/NavDrawerRowLayout.Secondary"
-                    android:background="@color/navigationItemsColor2">
+                <!--</FrameLayout>-->
+                <!--<include-->
+                    <!--layout="@layout/navigation_drawer_divider"/>-->
+                <!--<FrameLayout-->
+                    <!--android:id="@+id/navigation_drawer_items_list_linearLayout_help"-->
+                    <!--style="@style/NavDrawerRowLayout.Secondary"-->
+                    <!--android:background="@color/navigationItemsColor2">-->
 
-                    <apps.gn4me.com.jeeran.activity.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_help"
-                        style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_help_icon"
-                        tools:ignore="ContentDescription" />
+                    <!--<apps.gn4me.com.jeeran.activity.TintOnStateImageView-->
+                        <!--android:id="@+id/navigation_drawer_items_list_icon_help"-->
+                        <!--style="@style/NavDrawerRowItemIcon"-->
+                        <!--android:src="@drawable/ic_help_icon"-->
+                        <!--tools:ignore="ContentDescription" />-->
 
-                    <TextView
-                        android:id="@+id/navigation_drawer_items_textView_help"
-                        style="@style/NavDrawerRowItemText"
-                        android:text="Help"
-                        tools:fontFamily="sans-serif-medium"
-                        android:textColor="@color/textColorPrimary"
-                        />
+                    <!--<TextView-->
+                        <!--android:id="@+id/navigation_drawer_items_textView_help"-->
+                        <!--style="@style/NavDrawerRowItemText"-->
+                        <!--android:text="Help"-->
+                        <!--tools:fontFamily="sans-serif-medium"-->
+                        <!--android:textColor="@color/textColorPrimary"-->
+                        <!--/>-->
 
-                </FrameLayout>
+                <!--</FrameLayout>-->
                 <include
                     layout="@layout/navigation_drawer_divider"/>
                 <FrameLayout

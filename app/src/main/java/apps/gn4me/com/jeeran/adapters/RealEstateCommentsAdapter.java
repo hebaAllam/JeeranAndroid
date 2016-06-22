@@ -153,7 +153,7 @@ private List<RealEstateCommentPojo> reviewsList;
         final EditText input = new EditText(mContext);
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setBackgroundColor(mContext.getColor(R.color.grey_200));
+//        input.setBackgroundColor(mContext.getColor(R.color.grey_200));
         builder.setView(input);
 
 // Set up the buttons

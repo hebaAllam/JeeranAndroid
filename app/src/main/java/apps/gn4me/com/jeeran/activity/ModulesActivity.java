@@ -33,7 +33,7 @@ public class ModulesActivity extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            setTitle("MainServices");
+            setTitle("Main Services");
 
             // ((TextView) findViewById(R.id.title)).setText(getTitle());
 
@@ -70,16 +70,16 @@ public class ModulesActivity extends BaseActivity {
     }
     private void setupTabIcons() {
 
-        TextView tabNotification = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabNotification.setText("Notifications");
-        tabNotification.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_notification_icon, 0, 0);
-        tabNotification.setBackgroundColor(getResources().getColor(R.color.notificationsColor));
-        tabNotification.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        tabLayout.getTabAt(3).setCustomView(tabNotification);
+//        TextView tabNotification = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+//        tabNotification.setText("Notifications");
+//        tabNotification.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_notification_icon, 0, 0);
+//        tabNotification.setBackgroundColor(getResources().getColor(R.color.notificationsColor));
+//        tabNotification.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//
+//        tabLayout.getTabAt(3).setCustomView(tabNotification);
 
         TextView tabServices = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabServices.setText("MainServices");
+        tabServices.setText("Main Services");
         tabServices.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_service_icon, 0, 0);
         tabServices.setBackgroundColor(getResources().getColor(R.color.servicesColor));
 
@@ -95,7 +95,7 @@ public class ModulesActivity extends BaseActivity {
 
         tabLayout.getTabAt(1).setCustomView(tabDiscussion);
         TextView tabRealEstate = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabRealEstate.setText("RealEstateActivty");
+        tabRealEstate.setText("RealEstate Activty");
         tabRealEstate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_real_estate_icon, 0, 0);
         tabRealEstate.setBackgroundColor(getResources().getColor(R.color.realEstateColor));
         tabRealEstate.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -103,10 +103,10 @@ public class ModulesActivity extends BaseActivity {
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MainServices(), "MainServices");
+        adapter.addFragment(new MainServices(), "Main Services");
         adapter.addFragment(new DiscussionFragment(), "Discussion");
-        adapter.addFragment(new RealEstateFragment(), "RealEstateActivty");
-        adapter.addFragment(new Notification(),"Notification");
+        adapter.addFragment(new RealEstateFragment(), "RealEstate Activty");
+//        adapter.addFragment(new Notification(),"Notification");
         viewPager.setAdapter(adapter);
     }
     class ViewPagerAdapter extends FragmentPagerAdapter {

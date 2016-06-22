@@ -1,6 +1,7 @@
 package apps.gn4me.com.jeeran.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +39,7 @@ public class MyProfile extends BaseActivity {
     Button save, edit;
     User profile;
     ImageView img;
+    Intent i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,29 +51,15 @@ public class MyProfile extends BaseActivity {
 
         assignValues();
 
+        String check = i.getStringExtra("fromEdit");
+        if(check.equals("yes") ){
+            editProfile();
+        }
+
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                save.setVisibility(View.VISIBLE);
-                fnameEdit.setVisibility(View.VISIBLE);
-                lnameEdit.setVisibility(View.VISIBLE);
-//                fnameEdit.setVisibility(View.VISIBLE);
-                mobileEdit.setVisibility(View.VISIBLE);
-                dateEdit.setVisibility(View.VISIBLE);
-                emailEdit.setVisibility(View.VISIBLE);
-
-                fname.setVisibility(View.GONE);
-                lname.setVisibility(View.GONE);
-                mobile.setVisibility(View.GONE);
-                dateOfBirth.setVisibility(View.GONE);
-                edit.setVisibility(View.GONE);
-                email.setVisibility(View.GONE);
-
-                fnameEdit.setText(fname.getText().toString());
-                lnameEdit.setText(lname.getText().toString());
-                mobileEdit.setText(mobile.getText().toString());
-                dateEdit.setText(dateOfBirth.getText().toString());
-                emailEdit.setText(email.getText().toString());
+                editProfile();
             }
         });
         save.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +68,29 @@ public class MyProfile extends BaseActivity {
                 updateProfile();
             }
         });
+    }
+
+    private void editProfile() {
+        save.setVisibility(View.VISIBLE);
+        fnameEdit.setVisibility(View.VISIBLE);
+        lnameEdit.setVisibility(View.VISIBLE);
+//                fnameEdit.setVisibility(View.VISIBLE);
+        mobileEdit.setVisibility(View.VISIBLE);
+        dateEdit.setVisibility(View.VISIBLE);
+        emailEdit.setVisibility(View.VISIBLE);
+
+        fname.setVisibility(View.GONE);
+        lname.setVisibility(View.GONE);
+        mobile.setVisibility(View.GONE);
+        dateOfBirth.setVisibility(View.GONE);
+        edit.setVisibility(View.GONE);
+        email.setVisibility(View.GONE);
+
+        fnameEdit.setText(fname.getText().toString());
+        lnameEdit.setText(lname.getText().toString());
+        mobileEdit.setText(mobile.getText().toString());
+        dateEdit.setText(dateOfBirth.getText().toString());
+        emailEdit.setText(email.getText().toString());
     }
 
     private void updateProfile() {
@@ -157,6 +169,7 @@ public class MyProfile extends BaseActivity {
 
     private void assignValues() {
 
+        i = getIntent();
         fname.setVisibility(View.VISIBLE);
         lname.setVisibility(View.VISIBLE);
         mobile.setVisibility(View.VISIBLE);
@@ -183,6 +196,7 @@ public class MyProfile extends BaseActivity {
         mobile.setText(profile.getMobile());
         dateOfBirth.setText(profile.getDateOfBirth());
         email.setText(profile.getEmailAddress());
+        Picasso.with(this).load(profile.getImage()).placeholder(R.drawable.my_image).into(img);
     }
 
     private void bindComponents() {

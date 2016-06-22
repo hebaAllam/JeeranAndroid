@@ -35,6 +35,7 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +63,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
     private FrameLayout myDiscussion;
     private FrameLayout myServices;
     private FrameLayout signout;
-    private ImageView accountImage;
+    private ImageView accountImage, profileImg, editIcon;
     private TextView userName;
 
 
@@ -75,7 +76,20 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
 
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
         accountImage=(ImageView)findViewById(R.id.navigation_drawer_items_list_icon_account);
+        profileImg = (ImageView)findViewById(R.id.navigation_drawer_user_account_picture_profile) ;
         userName=(TextView)findViewById(R.id.navigation_drawer_account_information_display_name) ;
+        editIcon = (ImageView)findViewById(R.id.editIcon);
+        userName.setText(BaseActivity.profile.getUserName()+"");
+
+        editIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeActivity.this,MyProfile.class);
+                i.putExtra("fromEdit","yes");
+                startActivity(i);
+            }
+        });
+
         setupUserAccount();
         ArrayList<String> items = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -228,6 +242,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
 
     private void setupUserAccount() {
         Glide.with(this).load(BaseActivity.profile.getImage()).into(accountImage);
+        Picasso.with(this).load(BaseActivity.profile.getImage()).placeholder(R.drawable.my_image).into(profileImg);
         userName.setText(BaseActivity.profile.getUserName());
 
     }
