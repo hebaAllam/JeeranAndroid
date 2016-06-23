@@ -51,10 +51,10 @@ public class MyProfile extends BaseActivity {
 
         assignValues();
 
-        String check = i.getStringExtra("fromEdit");
-        if(check.equals("yes") ){
-            editProfile();
-        }
+//        String check = i.getStringExtra("fromEdit");
+//        if(check.equals("yes") ){
+//            editProfile();
+//        }
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +118,11 @@ public class MyProfile extends BaseActivity {
                 Log.i("result in profile ::: ",result.toString());
 //                Toast.makeText(getApplicationContext(),result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean()+"",Toast.LENGTH_LONG).show();
 //                getRealEstateData(result);
+//                new BaseActivity().requestMyProfileJsonObject();
+               BaseActivity.profile.setFname(fnameEdit.getText().toString());
+                BaseActivity.profile.setLname(lnameEdit.getText().toString());
+                BaseActivity.profile.setMobile(mobileEdit.getText().toString()+"");
+                BaseActivity.profile.setUserName(fnameEdit.getText().toString()+lnameEdit.getText().toString());
                 onBackPressed();
             }
 
@@ -139,9 +144,11 @@ public class MyProfile extends BaseActivity {
 //                String id = i.getStringExtra("realestateID");
                 params.put("fName",fnameEdit.getText().toString());
                 params.put("lName",lnameEdit.getText().toString());
-                params.put("mobile_number",mobileEdit.getText().toString());
-                params.put("dateOfBirth",dateEdit.getText().toString());
-                params.put("image","");
+//                params.put("location","Maadi");
+
+//                params.put("mobile_number",mobileEdit.getText().toString());
+//                params.put("dateOfBirth",dateEdit.getText().toString());
+//                params.put("image","");
 
 //            params.put("start", start.toString());
 //            params.put("count",count.toString());
@@ -166,6 +173,77 @@ public class MyProfile extends BaseActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(strReq);
     }
+
+    public void requestMyProfileJsonObject() {
+
+        final String TAG = "Volley";
+        String url = BaseActivity.BASE_URL + "/user/myprofile?device_token=" + android_id ;
+
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                JsonParser parser = new JsonParser();
+                JsonObject result = parser.parse(response).getAsJsonObject();
+                getMyProfile(result);
+                countInitRequest++;
+                gotToHomeActivity();
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                String token ;
+                settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                token = settings.getString("token", null);
+                headers.put("Authorization", token);
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(strReq);
+    }
+
+    public void getMyProfile(JsonObject result){
+
+        Boolean success = false ;
+        if ( result != null ) {
+            success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
+        }
+
+        if ( success ){
+            BaseActivity.profile.setFname(result.getAsJsonObject("response").getAsJsonPrimitive("fName").getAsString());
+            BaseActivity.profile.setLname(result.getAsJsonObject("response").getAsJsonPrimitive("lName").getAsString());
+            BaseActivity.profile.setMobile("");
+            BaseActivity.profile.setDateOfBirth("");
+
+            BaseActivity.profile.setId(result.getAsJsonObject("response").getAsJsonPrimitive("user_id").getAsInt());
+            BaseActivity.profile.setUserName( result.getAsJsonObject("response").getAsJsonPrimitive("fName").getAsString()+
+                    " " + result.getAsJsonObject("response").getAsJsonPrimitive("lName").getAsString());
+
+            BaseActivity.profile.setImage(result.getAsJsonObject("response").getAsJsonPrimitive("image").getAsString());
+            BaseActivity.profile.setEmailAddress(result.getAsJsonObject("response").getAsJsonPrimitive("mail").getAsString());
+
+            BaseActivity. currentNeighborhood.setId(result.getAsJsonObject("response").getAsJsonPrimitive("neighborhood_id").getAsInt());
+            BaseActivity.currentNeighborhood.setTitleArabic(result.getAsJsonObject("response").getAsJsonPrimitive("neighborhood_ar").getAsString());
+            BaseActivity.currentNeighborhood.setTitleEnglish(result.getAsJsonObject("response").getAsJsonPrimitive("neighborhood_en").getAsString());
+        }
+    }
+
 
     private void assignValues() {
 

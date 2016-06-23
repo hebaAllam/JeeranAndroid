@@ -167,6 +167,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this,MyRealEstates.class);
+                intent.putExtra("fromEdit","no");
                 startActivity(intent);
             }
         });

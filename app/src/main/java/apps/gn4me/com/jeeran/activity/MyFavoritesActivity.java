@@ -47,14 +47,14 @@ public class MyFavoritesActivity extends BaseActivity {
 
                 switch (tab.getPosition()) {
                     case 0:
-                        showToast("One");
+//                        showToast("One");
                         break;
                     case 1:
 //                        showToast("Two");
 
                         break;
                     case 2:
-                        showToast("Three");
+//                        showToast("Three");
                         break;
                 }
             }

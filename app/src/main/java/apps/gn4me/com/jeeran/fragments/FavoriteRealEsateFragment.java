@@ -280,7 +280,7 @@ public  class FavoriteRealEsateFragment extends Fragment {
         } else {
             progressDialog.dismiss();
 //                              Snackbar.make(coordinatorLayout, "Login Failed", Snackbar.LENGTH_LONG).show();
-            Toast.makeText(view.getContext(), "Error in Loading.. please, check internet connection", Toast.LENGTH_LONG).show();
+//            Toast.makeText(view.getContext(), "Error in Loading.. please, check internet connection", Toast.LENGTH_LONG).show();
         }
     }
 

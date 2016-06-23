@@ -83,6 +83,8 @@ public class ServiceDetails extends BaseActivity {
     private static final String TAG = "++++++++++";
     Service service;
 
+    Intent i;
+    int serviceIdIntent;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -107,6 +109,7 @@ public class ServiceDetails extends BaseActivity {
         serviceDisc = (TextView) findViewById(R.id.service_disc);
         CallUsBut = (Button) findViewById(R.id.callUs);
         service = new Service();
+        i = getIntent();
         //------------setting tool bar-----
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
