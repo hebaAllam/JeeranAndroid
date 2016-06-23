@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +57,7 @@ public class RealEstateComments extends BaseActivity {
     ProgressDialog progressDialog;
     AppCompatButton sendComment;
     EditText comment;
-
+    ImageView moreBtn;
     FloatingActionButton addComment, home;
     private void openDialog() {
         progressDialog = new ProgressDialog(this,
@@ -70,6 +71,18 @@ public class RealEstateComments extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_real_estate_comments);
+        title = (TextView) findViewById(R.id.txt_titile);
+
+        //------------setting toolbar-----------------
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+//            setSupportActionBar(toolbar);
+            setTitle("");
+
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //---------------------------------------------------------
         openDialog();
 
         Intent i = getIntent();
@@ -79,7 +92,7 @@ public class RealEstateComments extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
 //            setSupportActionBar(toolbar);
-            setTitle("");
+            setTitle("Comments");
 
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -99,6 +112,7 @@ public class RealEstateComments extends BaseActivity {
         reviewsRecyclerView.setAdapter(myAdapter);
         reviewsRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
+        moreBtn = (ImageView)findViewById(R.id.optionsInRealEstate);
         comment = (EditText)findViewById(R.id.comment_comments);
         sendComment = (AppCompatButton)findViewById(R.id.send_comments);
 
@@ -316,12 +330,14 @@ public class RealEstateComments extends BaseActivity {
     private void appendIntoList(String data,int commentId) {
         mReal = new RealEstateCommentPojo();
         mReal.setRealEstateAdCommentId(commentId);
+//        moreBtn.setVisibility(View.VISIBLE);
         mReal.setUserComment(data);
         mReal.setCommentDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()));
         mReal.setIsHide(1);
         mReal.setRealEstateAdId(3);
         realEstates.add(mReal);
         myAdapter.insertItem(mReal);
+
     }
 
     private void prepareData() {

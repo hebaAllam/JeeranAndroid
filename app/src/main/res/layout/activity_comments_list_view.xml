@@ -6,12 +6,16 @@
     android:orientation="vertical"
     android:id="@+id/comments_list"
     android:weightSum="10">
+    <include
 
+        layout="@layout/tool_bar"
+        android:id="@+id/toolbarArea"
+        />
 
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
         android:id="@+id/comments_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:scrollbars="vertical"
         android:layout_weight="9"/>
 
@@ -27,7 +31,7 @@
         <EditText
             android:id="@+id/comment"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:background="@color/white"
             android:hint="@string/prompt_comment"
             android:textColorHint="@color/wallet_hint_foreground_holo_light"

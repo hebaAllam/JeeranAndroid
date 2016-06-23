@@ -63,7 +63,6 @@ public class Reviews extends BaseActivity {
     private static final String TAG_REVIEW_UPDATED_DATE = "updated_at";
     private static final String TAG_IS_OWNER = "is_owner";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

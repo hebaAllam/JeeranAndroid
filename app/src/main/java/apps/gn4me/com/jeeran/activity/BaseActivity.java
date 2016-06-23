@@ -65,6 +65,7 @@ public class BaseActivity extends AppCompatActivity {
     public static User profile = new User();
     public static int realEstateFeatureImgs;
     public int countInitRequest = 0 ;
+    public static String uname="";
     public Activity activeActivity ;
 
     protected View progress;

@@ -106,7 +106,7 @@ private List<RealEstateCommentPojo> reviewsList;
         holder.userName.setText(userReview.getUsername());
         holder.reviewDate.setText(userReview.getCommentDate());
         holder.userReview.setText(userReview.getUserComment());
-        Glide.with(mContext).load(userReview.getUserImage()).into(holder.userImage);
+//        Glide.with(mContext).load(userReview.getUserImage()).into(holder.userImage);
 
         if(reviewsList.get(position).getIsOwner() == 1)
             holder.moreReviewOptions.setVisibility(View.VISIBLE);

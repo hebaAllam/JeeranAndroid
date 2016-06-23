@@ -8,10 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -41,13 +43,14 @@ import apps.gn4me.com.jeeran.adapters.RealEstateAdapter;
 import apps.gn4me.com.jeeran.pojo.FavoriteRealEstate;
 import apps.gn4me.com.jeeran.pojo.RealEstate;
 
-public class MyRealEstates extends AppCompatActivity {
+public class MyRealEstates extends BaseActivity {
 
     private List<apps.gn4me.com.jeeran.pojo.RealEstate> realEstates;
     apps.gn4me.com.jeeran.pojo.RealEstate mReal;
 
     private RealEstateAdapter adapter = new RealEstateAdapter();
     RecyclerView rv;
+    TextView title;
 //    View view;
     LinearLayoutManager llm;
     ProgressDialog progressDialog;
@@ -69,7 +72,17 @@ public class MyRealEstates extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_real_estates);
+        title=(TextView)findViewById(R.id.txt_titile);
+        //------------setting toolbar-----------------
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+//            setSupportActionBar(toolbar);
+            setTitle("My Real Estates");
 
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //---------------------------------------------------------
         rv = (RecyclerView)findViewById(R.id.rv);
 
 //        rv.setHasFixedSize(true);

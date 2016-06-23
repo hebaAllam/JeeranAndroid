@@ -79,7 +79,8 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         profileImg = (ImageView)findViewById(R.id.navigation_drawer_user_account_picture_profile) ;
         userName=(TextView)findViewById(R.id.navigation_drawer_account_information_display_name) ;
         editIcon = (ImageView)findViewById(R.id.editIcon);
-        userName.setText(BaseActivity.profile.getUserName()+"");
+        BaseActivity.uname = BaseActivity.profile.getUserName();
+        userName.setText(BaseActivity.uname);
 
         editIcon.setOnClickListener(new View.OnClickListener() {
             @Override
