@@ -62,7 +62,10 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
     private static final String TAG_SERVICES_TITLE = "title";
     private static final String TAG = "++++++++++";
     String allservices = "";
+    SharedPreferences sharedpreferences;
+
     HashMap<String, String> file_maps;
+
 
 
     @Override
@@ -254,19 +257,15 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
         finish();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        requestServicesData();
-    }
+
 
     private void requestServicesData() {
 
         String url = "http://jeeran.gn4me.com/jeeran_v1/serviceplace/list";
-
         final ProgressDialog pDialog = new ProgressDialog(this);
+
         pDialog.setMessage("Loading...");
-        // pDialog.show();
+         pDialog.show();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
@@ -403,6 +402,8 @@ public class ServicesList extends BaseActivity implements BaseSliderView.OnSlide
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(strReq);
     }
+
+
 }
 
 

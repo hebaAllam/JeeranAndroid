@@ -62,6 +62,11 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
     private static final String TAG_SERVICES_SUB_CATEGORY_TITLE = "title_en";
     private static final String TAG_SERVICES_MAIN_CATEGORY_SUB_SERVICES = "services";
     private static final String TAG="++++++++++";
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,11 +90,23 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
         //-------set  Spinner------------------------
         setSpinner();
         //------------------Check which service should listed--------------
+        sharedpreferences = this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
         Intent intent=getIntent();
+
         if(intent.hasExtra("serviceCatId")) {
             serviceCatIdentifier = intent.getExtras().getInt("serviceCatId");
             serviceName = intent.getExtras().getString("serviceCatName");
+            editor.putInt("serviceCatId",serviceCatIdentifier);
+            editor.putString("serviceCatName",serviceName);
+            editor.commit();
         }
+        else {
+            SharedPreferences prefs = this.getSharedPreferences(MyPREFERENCES,0);
+            serviceCatIdentifier= prefs.getInt("serviceCatId",0);
+            serviceName=prefs.getString("serviceCatName"," All Services");
+        }
+
              setTitle(serviceName);
 
         setSlider();
@@ -110,6 +127,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
                 listServices.putExtra("serviceCatName",serviceName);
                 listServices.putExtra("serviceCatId",serviceCatIdentifier);
                 startActivity(listServices);
+                finish();
 
             }
 
@@ -129,13 +147,14 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
     }
 
     private void requestSubCategoriesData() {
+
         String  tag_string_req = "string_req";
 
         String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplacecategory/list";
-
         final ProgressDialog pDialog = new ProgressDialog(this);
+
         pDialog.setMessage("Loading...");
-       // pDialog.show();
+        pDialog.show();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
@@ -366,6 +385,7 @@ public class SubServices extends BaseActivity implements BaseSliderView.OnSlider
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(strReq);
     }
+
 
 }
 

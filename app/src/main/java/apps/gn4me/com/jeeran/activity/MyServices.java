@@ -50,12 +50,15 @@ public class MyServices extends AppCompatActivity {
     private static final String TAG_SERVICES_TITLE = "title";
     private static final String TAG="++++++++++";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_services);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.myService_recycleView);
+
 
         //------set tool Bar----------------------------
         if (toolbar != null) {
@@ -77,7 +80,8 @@ public class MyServices extends AppCompatActivity {
                 Intent i=new Intent(MyServices.this,ServiceDetails.class);
                 i.putExtra("fromMyService","ok");
                 i.putExtra("UniqueServiceId",servicesList.get(position).getServiceId());
-               // Toast.makeText(getApplicationContext(),servicesList.get(position).getName(),Toast.LENGTH_LONG).show();
+                i.putExtra("ServiceDetailsName",servicesList.get(position).getName());
+                startActivity(i);
             }
 
             @Override
@@ -95,20 +99,19 @@ public class MyServices extends AppCompatActivity {
       int userId=  BaseActivity.profile.getId();
 
 
-        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/list?user_id=63";
-
+        String url ="http://jeeran.gn4me.com/jeeran_v1/serviceplace/list";
         final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        // pDialog.show();
 
-        StringRequest strReq = new StringRequest(Request.Method.GET,
+        pDialog.setMessage("Loading...");
+         pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
                 try {
 
-                    Toast.makeText(MyServices.this,response,Toast.LENGTH_LONG).show();
                     JSONObject jsonObject=new JSONObject(response);
                     JSONArray jsonArr=jsonObject.getJSONArray(TAG_SERVICES);
                     for(int i=0;i<jsonArr.length();i++){
@@ -146,6 +149,15 @@ public class MyServices extends AppCompatActivity {
                 String mtoken = settings.getString("token", null);
                 headers.put("Authorization", mtoken);
                 return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id", BaseActivity.profile.getId()+"");
+
+
+
+                return params;
             }
 
         };

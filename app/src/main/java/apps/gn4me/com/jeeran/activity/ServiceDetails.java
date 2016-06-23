@@ -125,6 +125,7 @@ public class ServiceDetails extends BaseActivity {
         Intent i = getIntent();
         if (i.hasExtra("fromMyService")) {
             serviceId = i.getExtras().getInt("UniqueServiceId");
+            serviceName = i.getExtras().getString("ServiceDetailsName");
         }
         serviceId = i.getExtras().getInt("UniqueServiceId");
         serviceName = i.getExtras().getString("ServiceDetailsName");
@@ -193,10 +194,11 @@ public class ServiceDetails extends BaseActivity {
         showLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ServiceDetails.this, ShowServiceLocation.class);
-                intent.putExtra("lang", service.getLang());
-                intent.putExtra("lat", service.getLat());
-                startActivity(intent);
+                startActivity(viewOnMap(30.077024+"",31.020114+""));
+//                Intent intent = new Intent(ServiceDetails.this, ShowServiceLocation.class);
+//                intent.putExtra("lang", service.getLang());
+//                intent.putExtra("lat", service.getLat());
+//                startActivity(intent);
             }
         });
     }
@@ -248,7 +250,7 @@ public class ServiceDetails extends BaseActivity {
                             rateService.setImageResource(R.drawable.ic_rate_icon_active);
                             rateService.setClickable(false);
                         }
-                        serviceTitle.setText("About " + service.getName());
+                        serviceDiscHeader.setText("About " + service.getName());
 
 
                     }
@@ -596,6 +598,10 @@ public class ServiceDetails extends BaseActivity {
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
         }
+    }
+    public static Intent viewOnMap(String lat, String lng) {
+        return new Intent(Intent.ACTION_VIEW,
+                Uri.parse(String.format("geo:%s,%s", lat, lng)));
     }
 
 }

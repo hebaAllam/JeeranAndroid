@@ -119,9 +119,7 @@ public class ServiceDetailsAdapter extends RecyclerView.Adapter<ServiceDetailsAd
                     Toast.makeText(mContext, serviceDetailsList.get(curPos).getName()+" "+serviceDetailsList.get(curPos).getServiceId(), Toast.LENGTH_SHORT).show();
                     favoriteService();
                     return true;
-                case R.id.action_play_next:
-                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
-                    return true;
+
                 default:
             }
             return false;

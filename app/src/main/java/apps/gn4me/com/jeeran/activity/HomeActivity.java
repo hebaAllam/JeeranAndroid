@@ -75,7 +75,6 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
         setContentView(R.layout.activity_home);
 
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
-        accountImage=(ImageView)findViewById(R.id.navigation_drawer_items_list_icon_account);
         profileImg = (ImageView)findViewById(R.id.navigation_drawer_user_account_picture_profile) ;
         userName=(TextView)findViewById(R.id.navigation_drawer_account_information_display_name) ;
         editIcon = (ImageView)findViewById(R.id.editIcon);
@@ -243,7 +242,7 @@ public class HomeActivity extends BaseActivity implements BaseSliderView.OnSlide
     }
 
     private void setupUserAccount() {
-        Glide.with(this).load(BaseActivity.profile.getImage()).into(accountImage);
+
         Picasso.with(this).load(BaseActivity.profile.getImage()).placeholder(R.drawable.my_image).into(profileImg);
         userName.setText(BaseActivity.profile.getUserName());
 

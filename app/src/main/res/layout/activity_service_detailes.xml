@@ -27,7 +27,7 @@
     android:layout_height="wrap_content"
     android:layout_below="@+id/mycard"
     android:id="@+id/txt_resut"
-    android:text="Simillar Restaurants"
+    android:text="Simillar Services"
     android:textColor="@color/titlecolor"
     android:layout_marginLeft="12dp"
     />

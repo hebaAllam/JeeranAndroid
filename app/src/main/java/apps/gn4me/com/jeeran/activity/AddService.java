@@ -3,7 +3,9 @@ package apps.gn4me.com.jeeran.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -209,15 +211,18 @@ public class AddService extends BaseActivity {
         for (int i = 0; i < allImageFiles.size(); i++) {
             files.add(new FilePart("UploadForm[" + i + "]", allImageFiles.get(i)));
         }
+        SharedPreferences settings;
+        settings = getApplicationContext().getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+        String mtoken = settings.getString("token", null);
 
         Ion.with(AddService.this)
                 .load("http://jeeran.gn4me.com/jeeran_v1/serviceplace/add")
-                .setHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOlwvXC9qZWVyYW4uZ240bWUuY29tXC9qZWVyYW5fdjFcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNDY2MDE2NTk4LCJleHAiOjE0NjYwMjAxOTgsIm5iZiI6MTQ2NjAxNjU5OCwianRpIjoiODQyZDJkMTJkYzFmYzgzYTUwOWE2OTUzMzgzOTQ2ODgifQ.LlPyzFqc3WZD_KVHF4XLbDL2RBxmVpElhRIAwUr5oGg")
+                .setHeader("Authorization",mtoken)
                 .setMultipartParameter("service_main_category_id", "5")
                 .setMultipartParameter("service_sub _category_id", "7")
                 .setMultipartParameter("title", serviceTitle.getText().toString())
                 .setMultipartParameter("description", serviceDescription.getText().toString())
-           //     .addMultipartParts(files)
+                 .addMultipartParts(files)
                 .setMultipartParameter("mobile1", servicePhone.getText().toString())
                 .setMultipartFile("logo", logoUploadFile)
                 .setMultipartParameter("neighbarhood_id", "1")

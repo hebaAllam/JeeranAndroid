@@ -231,7 +231,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
 
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(mContext,"this is response "+response,Toast.LENGTH_LONG).show();
+
 
                             pDialog.hide();
 
@@ -240,7 +240,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+
                             pDialog.hide();
                         }
                     }) {
@@ -304,9 +304,74 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
 
 
     private void requestDeleteReview() {
-        Toast.makeText(mContext, "delete", Toast.LENGTH_SHORT).show();
+        String url = "http://jeeran.gn4me.com/jeeran_v1/servicereview/delete";
 
+        final ProgressDialog pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(true);
+        pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                   JSONObject result= jsonObject.getJSONObject("result");
+
+                    if(result.getInt("errorcode")==0){
+                        Toast.makeText(mContext,"Deleted ",Toast.LENGTH_LONG).show();
+                        reviewsList.remove(curPos);
+
+                    }
+                    else
+                    {
+                        Toast.makeText(mContext,"deleted error "+response,Toast.LENGTH_LONG).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                pDialog.hide();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("service_place_review_id", reviewsList.get(curPos).getReviewID()+"");
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                SharedPreferences settings;
+                settings = mContext.getSharedPreferences(BaseActivity.PREFS_NAME, Context.MODE_PRIVATE); //1
+                String mtoken = settings.getString("token", null);
+                headers.put("Authorization", mtoken);
+                return headers;
+            }
+        };
+
+// Adding request to request queue
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        queue.add(strReq);
     }
+
+
+
 
 
 
@@ -353,7 +418,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
-                //pDialog.hide();
+                pDialog.hide();
                 JsonParser parser = new JsonParser();
                 JsonObject result = parser.parse(response).getAsJsonObject();
                 boolean success = false ;
@@ -362,7 +427,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
                     success = result.getAsJsonObject("result").getAsJsonPrimitive("success").getAsBoolean();
                 }
                 if ( success ) {
-                    Log.i("Report review :::", result.toString());
+                   Toast.makeText(mContext,"report sucess",Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -370,7 +435,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG , "Error: " + error.getMessage());
-                //pDialog.hide();
+                pDialog.hide();
             }
         }) {
 

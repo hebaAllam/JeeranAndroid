@@ -68,11 +68,13 @@ public class ShowServicesImages extends AppCompatActivity {
         Image img1=new Image(R.drawable.img1);
         Image img2=new Image(R.drawable.img2);
         Image img3=new Image(R.drawable.img3);
-        Image img4=new Image(R.drawable.reslogo);
+        Image img4=new Image(R.drawable.img4);
+        Image img5=new Image(R.drawable.img5);
         images.add(img1);
         images.add(img2);
         images.add(img3);
         images.add(img4);
+        images.add(img5);
         mAdapter.notifyDataSetChanged();
     }
 }
