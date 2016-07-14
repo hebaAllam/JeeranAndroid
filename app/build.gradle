@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'gn4me'
             keyPassword 'goodnews4me'
-            storeFile file('/src/main/res/newKeyStore.jks')
+            storeFile file('./src/main/res/newKeyStore.jks')
             storePassword 'goodnews4me'
         }
     }
